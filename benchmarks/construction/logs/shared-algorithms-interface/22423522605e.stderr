@@ -1,0 +1,3 @@
+File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/benchmarks/proof-interface/v1/rocq/BranchTargets.v", line 7, characters 0-60:
+Warning: Notation "let* _ := _ in _" was already used.
+[notation-overridden,parsing,default]

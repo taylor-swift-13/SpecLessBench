@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "revision_id": "5ce4bb16dc72",
+  "group_id": "shared-systems",
+  "started_utc": "2026-11-04T02:13:07.706646+00:00",
+  "reason": "Generated Lean runner referred to the earlier helper iz. Bind it to word in this tranche.",
+  "status": "committed-tests-invalidated",
+  "files": [
+    {
+      "path": "scripts/construction/prepare_systems.py",
+      "before_sha256": "8254b7ece036d1a2d551a30d71583c5f4f84263b080d45277a055b56097903ec",
+      "snapshot": "benchmarks/construction/repairs/5ce4bb16dc72/0.before",
+      "after_sha256": "595874555fdc32a4af8b26344c905a2e3b19af35aa6f5c609c601ad273113645"
+    },
+    {
+      "path": "scripts/construction/systems_common.py",
+      "before_sha256": "f02241a77830a60eb90533ebcefba2e6b1fcf39411c7b0cb279f107603420e26",
+      "snapshot": "benchmarks/construction/repairs/5ce4bb16dc72/1.before",
+      "after_sha256": "1454d65edd0fa5b4780d605b4fa7b6fecf848aed7b77a21813e8ba0200551185"
+    },
+    {
+      "path": "benchmarks/tasks/systems-core/lean/SystemsRunner.lean",
+      "before_sha256": "4d855084b85d6c1e99a01963df3e577017293a890212705819edebdc695d23e2",
+      "snapshot": "benchmarks/construction/repairs/5ce4bb16dc72/2.before",
+      "after_sha256": "4d855084b85d6c1e99a01963df3e577017293a890212705819edebdc695d23e2"
+    }
+  ],
+  "new_revision": "design-v0.6.2",
+  "affected_contexts": [
+    "G-INVALIDATE-WORKLIST",
+    "G-INVALIDATE-DIRTY",
+    "N-SCOPE-OVERLAY",
+    "N-SCOPE-TOMBSTONE",
+    "T-LEASE-WHEEL",
+    "T-LEASE-STALE",
+    "A-ALIGN-MINIMA",
+    "A-ALIGN-TIES",
+    "A-RESAMPLE-PHASE",
+    "A-RESAMPLE-HALF"
+  ],
+  "ended_utc": "2026-11-04T02:13:45.352185+00:00",
+  "retest_required": true,
+  "label_revalidation_required": true
+}

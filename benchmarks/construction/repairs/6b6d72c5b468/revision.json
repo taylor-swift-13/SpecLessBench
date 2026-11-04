@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "revision_id": "6b6d72c5b468",
+  "group_id": "shared-classics",
+  "started_utc": "2026-11-04T02:48:46.184534+00:00",
+  "reason": "Rocq requires an explicit boolean type for the sorting direction.",
+  "status": "committed-tests-invalidated",
+  "files": [
+    {
+      "path": "benchmarks/tasks/classics-core/rocq/ClassicsNative.v",
+      "before_sha256": "35fc9b59ecbe5ca5276a9efedd91147f21f949af932b1649d1e1c86c8571e6d4",
+      "snapshot": "benchmarks/construction/repairs/6b6d72c5b468/0.before",
+      "after_sha256": "0715e8ad32fa89f7c2a75471a3f07bdfa4883740982c6129bb867eedefaa458f"
+    },
+    {
+      "path": "scripts/construction/classics_common.py",
+      "before_sha256": "c98b8de08f51fd5ea5753cc754102a5695a45e3698a62cdf307edc396b9ae459",
+      "snapshot": "benchmarks/construction/repairs/6b6d72c5b468/1.before",
+      "after_sha256": "fb59ca5a342d323389faa51435817b2ecdfc83678a035d221b5db52c13a9d823"
+    }
+  ],
+  "new_revision": "design-v0.8.1",
+  "affected_contexts": [
+    "MST-TIED-WEIGHT",
+    "MST-UNIQUE-EDGES",
+    "MST-MAX-COUNTEREXAMPLE",
+    "SORT-MERGE",
+    "SORT-UNSTABLE"
+  ],
+  "ended_utc": "2026-11-04T02:49:11.594717+00:00",
+  "retest_required": true,
+  "label_revalidation_required": true
+}

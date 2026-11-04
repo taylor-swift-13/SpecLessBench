@@ -1,0 +1,9 @@
+{
+  "valid_counterexample_packages": 9,
+  "rejected_malformed_packages": 63,
+  "unproved_obligations_checked": 9,
+  "tranche": "stateful",
+  "final_target_proofs_attempted": false,
+  "gate_proofs_supplied": false,
+  "scope": "stateful tranche validator/generated obligation types; no final proofs or complete isolated grader"
+}

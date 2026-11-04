@@ -1,0 +1,28 @@
+import Domain
+namespace EqualBench
+-- Checked proposition declarations, no theorem proofs.
+def C_BST_SUCCESSOR : Prop := Equivalent BST.valid (fun x => bst 0 (BST.encode x)) (fun x => bst 1 (BST.encode x))
+def C_BST_SUCCESSOR_certificate : Prop := Certificate BST.valid (fun x => bst 0 (BST.encode x)) (fun x => bst 1 (BST.encode x))
+def C_BST_ROTATE : Prop := Equivalent BST.valid (fun x => bst 0 (BST.encode x)) (fun x => bst 2 (BST.encode x))
+def C_BST_ROTATE_certificate : Prop := Certificate BST.valid (fun x => bst 0 (BST.encode x)) (fun x => bst 2 (BST.encode x))
+def C_BST_VALUE : Prop := Counterexample BST.valid (fun x => bst 0 (BST.encode x)) (fun x => bst 3 (BST.encode x))
+def C_BST_VALUE_certificate : Prop := Certificate BST.valid (fun x => bst 0 (BST.encode x)) (fun x => bst 3 (BST.encode x))
+def C_AVL_STACK : Prop := Equivalent AVL.valid (fun x => avl 0 (AVL.encode x)) (fun x => avl 1 (AVL.encode x))
+def C_AVL_STACK_certificate : Prop := Certificate AVL.valid (fun x => avl 0 (AVL.encode x)) (fun x => avl 1 (AVL.encode x))
+def C_AVL_FACTOR : Prop := Equivalent AVL.valid (fun x => avl 0 (AVL.encode x)) (fun x => avl 2 (AVL.encode x))
+def C_AVL_FACTOR_certificate : Prop := Certificate AVL.valid (fun x => avl 0 (AVL.encode x)) (fun x => avl 2 (AVL.encode x))
+def C_AVL_MIDDLE : Prop := Counterexample AVL.valid (fun x => avl 0 (AVL.encode x)) (fun x => avl 3 (AVL.encode x))
+def C_AVL_MIDDLE_certificate : Prop := Certificate AVL.valid (fun x => avl 0 (AVL.encode x)) (fun x => avl 3 (AVL.encode x))
+def C_RING_COPY : Prop := Equivalent Ring.valid (fun x => ring 0 (Ring.encode x)) (fun x => ring 1 (Ring.encode x))
+def C_RING_COPY_certificate : Prop := Certificate Ring.valid (fun x => ring 0 (Ring.encode x)) (fun x => ring 1 (Ring.encode x))
+def C_RING_REP : Prop := Equivalent Ring.valid (fun x => ring 0 (Ring.encode x)) (fun x => ring 2 (Ring.encode x))
+def C_RING_REP_certificate : Prop := Certificate Ring.valid (fun x => ring 0 (Ring.encode x)) (fun x => ring 2 (Ring.encode x))
+def C_RING_FULL : Prop := Counterexample Ring.valid (fun x => ring 0 (Ring.encode x)) (fun x => ring 3 (Ring.encode x))
+def C_RING_FULL_certificate : Prop := Certificate Ring.valid (fun x => ring 0 (Ring.encode x)) (fun x => ring 3 (Ring.encode x))
+def C_DIJK_SCAN : Prop := Equivalent Dijkstra.valid (fun x => dijkstra 0 (Dijkstra.encode x)) (fun x => dijkstra 1 (Dijkstra.encode x))
+def C_DIJK_SCAN_certificate : Prop := Certificate Dijkstra.valid (fun x => dijkstra 0 (Dijkstra.encode x)) (fun x => dijkstra 1 (Dijkstra.encode x))
+def C_DIJK_HEAP : Prop := Equivalent Dijkstra.valid (fun x => dijkstra 0 (Dijkstra.encode x)) (fun x => dijkstra 2 (Dijkstra.encode x))
+def C_DIJK_HEAP_certificate : Prop := Certificate Dijkstra.valid (fun x => dijkstra 0 (Dijkstra.encode x)) (fun x => dijkstra 2 (Dijkstra.encode x))
+def C_DIJK_SEEN : Prop := Counterexample Dijkstra.valid (fun x => dijkstra 0 (Dijkstra.encode x)) (fun x => dijkstra 3 (Dijkstra.encode x))
+def C_DIJK_SEEN_certificate : Prop := Certificate Dijkstra.valid (fun x => dijkstra 0 (Dijkstra.encode x)) (fun x => dijkstra 3 (Dijkstra.encode x))
+end EqualBench

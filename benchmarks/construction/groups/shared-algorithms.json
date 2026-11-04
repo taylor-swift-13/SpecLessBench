@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "group_id": "shared-algorithms",
+  "attempt_ids": [
+    "89448896ad77",
+    "c54270d733ad",
+    "1e3bb9d501e4",
+    "ea2df04ae3d7",
+    "f558b6064241",
+    "80abd55b2247",
+    "925c3ca5a4b7",
+    "f62519801c00"
+  ],
+  "tool_wall_seconds": 88.315611662023,
+  "cpu_user_seconds": 5.23,
+  "cpu_system_seconds": 14.749999999999998,
+  "max_process_rss_bytes": 1670545408,
+  "exact_process_tree_peak_bytes": null,
+  "model_tokens": null,
+  "model_tokens_reason": "shared authoring session usage is recorded once in the referenced batch",
+  "shared_batch_id": "algorithms-v0.3",
+  "historical_cost_complete": false,
+  "failed_attempts": 1,
+  "latest_updated_utc": "2026-11-03T12:36:23.555218+00:00"
+}

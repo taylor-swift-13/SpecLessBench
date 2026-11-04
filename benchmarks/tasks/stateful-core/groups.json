@@ -1,0 +1,334 @@
+{
+  "schema_version": 1,
+  "revision": "design-v0.5.1",
+  "curator_only": true,
+  "required_platforms": [
+    "lean",
+    "rocq",
+    "compcert"
+  ],
+  "final_target_proofs_required": false,
+  "groups": [
+    {
+      "group_id": "incremental-frame-stream",
+      "family": "frames",
+      "family_index": 0,
+      "proof_level": "L3-L4",
+      "revision": "design-v0.5.1",
+      "cost_batch": "stateful-v0.5",
+      "tasks": [
+        {
+          "id": "S-FRAME-RING",
+          "left": 0,
+          "right": 1,
+          "domain_index": 0,
+          "expected_polarity": "EQ",
+          "label_status": "provisional; not proved",
+          "theorem": "S_FRAME_RING",
+          "lean_goal": "lean/pending/S_FRAME_RING.lean.goal",
+          "rocq_goal": "rocq/StatefulGoals.v::S_FRAME_RING",
+          "compcert_goal": "compcert/FRAMESGoals.v::S_FRAME_RING",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "id": "S-FRAME-EMPTY",
+          "left": 0,
+          "right": 2,
+          "domain_index": 0,
+          "expected_polarity": "CEX",
+          "label_status": "provisional; not proved",
+          "theorem": "S_FRAME_EMPTY",
+          "lean_goal": "lean/pending/S_FRAME_EMPTY.lean.goal",
+          "rocq_goal": "rocq/StatefulGoals.v::S_FRAME_EMPTY",
+          "compcert_goal": "compcert/FRAMESGoals.v::S_FRAME_EMPTY",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        }
+      ],
+      "variants": [
+        {
+          "id": "FRAMES_V0",
+          "c": "c/frames/v0.c",
+          "lean": "StatefulNative.entry 0 0",
+          "rocq": "StatefulNative.entry 0 0",
+          "ast": "compcert/ast/FRAMES_V0.v"
+        },
+        {
+          "id": "FRAMES_V1",
+          "c": "c/frames/v1.c",
+          "lean": "StatefulNative.entry 0 1",
+          "rocq": "StatefulNative.entry 0 1",
+          "ast": "compcert/ast/FRAMES_V1.v"
+        },
+        {
+          "id": "FRAMES_V2",
+          "c": "c/frames/v2.c",
+          "lean": "StatefulNative.entry 0 2",
+          "rocq": "StatefulNative.entry 0 2",
+          "ast": "compcert/ast/FRAMES_V2.v"
+        }
+      ]
+    },
+    {
+      "group_id": "nested-transaction-store",
+      "family": "transactions",
+      "family_index": 1,
+      "proof_level": "L3-L4",
+      "revision": "design-v0.5.1",
+      "cost_batch": "stateful-v0.5",
+      "tasks": [
+        {
+          "id": "S-TX-JOURNAL",
+          "left": 0,
+          "right": 1,
+          "domain_index": 1,
+          "expected_polarity": "EQ",
+          "label_status": "provisional; not proved",
+          "theorem": "S_TX_JOURNAL",
+          "lean_goal": "lean/pending/S_TX_JOURNAL.lean.goal",
+          "rocq_goal": "rocq/StatefulGoals.v::S_TX_JOURNAL",
+          "compcert_goal": "compcert/TRANSACTIONSGoals.v::S_TX_JOURNAL",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "id": "S-TX-COMMIT",
+          "left": 0,
+          "right": 2,
+          "domain_index": 1,
+          "expected_polarity": "CEX",
+          "label_status": "provisional; not proved",
+          "theorem": "S_TX_COMMIT",
+          "lean_goal": "lean/pending/S_TX_COMMIT.lean.goal",
+          "rocq_goal": "rocq/StatefulGoals.v::S_TX_COMMIT",
+          "compcert_goal": "compcert/TRANSACTIONSGoals.v::S_TX_COMMIT",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        }
+      ],
+      "variants": [
+        {
+          "id": "TRANSACTIONS_V0",
+          "c": "c/transactions/v0.c",
+          "lean": "StatefulNative.entry 1 0",
+          "rocq": "StatefulNative.entry 1 0",
+          "ast": "compcert/ast/TRANSACTIONS_V0.v"
+        },
+        {
+          "id": "TRANSACTIONS_V1",
+          "c": "c/transactions/v1.c",
+          "lean": "StatefulNative.entry 1 1",
+          "rocq": "StatefulNative.entry 1 1",
+          "ast": "compcert/ast/TRANSACTIONS_V1.v"
+        },
+        {
+          "id": "TRANSACTIONS_V2",
+          "c": "c/transactions/v2.c",
+          "lean": "StatefulNative.entry 1 2",
+          "rocq": "StatefulNative.entry 1 2",
+          "ast": "compcert/ast/TRANSACTIONS_V2.v"
+        }
+      ]
+    },
+    {
+      "group_id": "intrusive-lru-cache",
+      "family": "lru",
+      "family_index": 2,
+      "proof_level": "L3-L4",
+      "revision": "design-v0.5.1",
+      "cost_batch": "stateful-v0.5",
+      "tasks": [
+        {
+          "id": "S-LRU-LINKS",
+          "left": 0,
+          "right": 1,
+          "domain_index": 2,
+          "expected_polarity": "EQ",
+          "label_status": "provisional; not proved",
+          "theorem": "S_LRU_LINKS",
+          "lean_goal": "lean/pending/S_LRU_LINKS.lean.goal",
+          "rocq_goal": "rocq/StatefulGoals.v::S_LRU_LINKS",
+          "compcert_goal": "compcert/LRUGoals.v::S_LRU_LINKS",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "id": "S-LRU-TOUCH",
+          "left": 0,
+          "right": 2,
+          "domain_index": 2,
+          "expected_polarity": "CEX",
+          "label_status": "provisional; not proved",
+          "theorem": "S_LRU_TOUCH",
+          "lean_goal": "lean/pending/S_LRU_TOUCH.lean.goal",
+          "rocq_goal": "rocq/StatefulGoals.v::S_LRU_TOUCH",
+          "compcert_goal": "compcert/LRUGoals.v::S_LRU_TOUCH",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        }
+      ],
+      "variants": [
+        {
+          "id": "LRU_V0",
+          "c": "c/lru/v0.c",
+          "lean": "StatefulNative.entry 2 0",
+          "rocq": "StatefulNative.entry 2 0",
+          "ast": "compcert/ast/LRU_V0.v"
+        },
+        {
+          "id": "LRU_V1",
+          "c": "c/lru/v1.c",
+          "lean": "StatefulNative.entry 2 1",
+          "rocq": "StatefulNative.entry 2 1",
+          "ast": "compcert/ast/LRU_V1.v"
+        },
+        {
+          "id": "LRU_V2",
+          "c": "c/lru/v2.c",
+          "lean": "StatefulNative.entry 2 2",
+          "rocq": "StatefulNative.entry 2 2",
+          "ast": "compcert/ast/LRU_V2.v"
+        }
+      ]
+    }
+  ],
+  "protected_files": [
+    {
+      "path": "c/Stateful.h",
+      "sha256": "c3167808ccf9589ad155c6355f8333771b44d77dc0189f0340deb2c577618cbd"
+    },
+    {
+      "path": "c/frames/v0.c",
+      "sha256": "696338ac2d60f8b084da1b43c07fab2e92562c88b8606977d624db9bb877d59b"
+    },
+    {
+      "path": "c/frames/v1.c",
+      "sha256": "21f232854a338116f2a419530ca4d203144894d8ba3dead7f0791e37f0c8775e"
+    },
+    {
+      "path": "c/frames/v2.c",
+      "sha256": "a751d969c1bd9734c1282358c1e3f41802934d9b943072dd8e4e10ffa251f570"
+    },
+    {
+      "path": "c/lru/v0.c",
+      "sha256": "7bd640424cc351771fbc9cc1c80732e0df31f09fedb278293834d5ba9d4a78bd"
+    },
+    {
+      "path": "c/lru/v1.c",
+      "sha256": "15f1af2afe980dad5a9b999399416d84e3279ae42b4c36af03a5e972c43057d4"
+    },
+    {
+      "path": "c/lru/v2.c",
+      "sha256": "1465c20761e4a3f6d5f333e6f08a18f4be061475d57c187abf0644dcd6130dc0"
+    },
+    {
+      "path": "c/transactions/v0.c",
+      "sha256": "0642df7ccb46d6b1144fc49d45463dc119c221f805c2f920ae812dee8f2625d7"
+    },
+    {
+      "path": "c/transactions/v1.c",
+      "sha256": "0dd17630c326645ac6df7468258aaf1c6b17180d75d4848e9db0250873d6a105"
+    },
+    {
+      "path": "c/transactions/v2.c",
+      "sha256": "9e1a224d3e0526d33f1911323d552313946ed78e223e2294126ad87572965f40"
+    },
+    {
+      "path": "lean/StatefulDomain.lean",
+      "sha256": "ba9a4eac6b3a4711cadeafb8d3942487257ef3e38cd18169e65eb2a6a3e20374"
+    },
+    {
+      "path": "lean/StatefulGoals.lean",
+      "sha256": "e195b579bac151747b9405d468d6b8710283f007e58a127d4b92edbfea94a9ed"
+    },
+    {
+      "path": "lean/StatefulNative.lean",
+      "sha256": "b51ee6f5347487b1039d92519dda6c3a9f7c6379bf54bf53caf3ebf85e67e891"
+    },
+    {
+      "path": "lean/StatefulRunner.lean",
+      "sha256": "af1fc023bef83fa458eaf9aad2b4b3baf2b43f94ba41b1d30957bcf587120815"
+    },
+    {
+      "path": "lean/pending/S_FRAME_EMPTY.lean.goal",
+      "sha256": "ada60f2021ccb226c0712c9a387866d2e1439e2a9e6a27872a56ce654eab6462"
+    },
+    {
+      "path": "lean/pending/S_FRAME_RING.lean.goal",
+      "sha256": "d8c91f5455e832b923fad0a2cba7443f16883df3776ed8bec25f3e700476b535"
+    },
+    {
+      "path": "lean/pending/S_LRU_LINKS.lean.goal",
+      "sha256": "8239259057e060ba41e10b6762926e9ab5bd358cef4f68a557a46127bf156d5e"
+    },
+    {
+      "path": "lean/pending/S_LRU_TOUCH.lean.goal",
+      "sha256": "dfc80c7d4b37bcba441b28d83bda4d97bd3f6807bdb5774adb4ea94c78a021e3"
+    },
+    {
+      "path": "lean/pending/S_TX_COMMIT.lean.goal",
+      "sha256": "aa1701761e3ac9868a1031be13805d3c264fc3141b1bc72498f175f2e8d55e3e"
+    },
+    {
+      "path": "lean/pending/S_TX_JOURNAL.lean.goal",
+      "sha256": "bab87c11e35bc2918046a9b0564bed3b19d8073051ec05b093699ce13ca08cd3"
+    },
+    {
+      "path": "rocq/StatefulDomain.v",
+      "sha256": "ee777cbc17b118b09759cb98b707d70ceafe569e6ad8a0fefadfb0aca378b41b"
+    },
+    {
+      "path": "rocq/StatefulExtract.v",
+      "sha256": "89448e9e3ef248bfdb68a0c92b75b70933a2598e07d66f119afae859cec47b5d"
+    },
+    {
+      "path": "rocq/StatefulGoals.v",
+      "sha256": "83a53d377e74a6ac1d680e76d1fc086ad224a61fc739c27a4c752fff7d6b5f64"
+    },
+    {
+      "path": "rocq/StatefulNative.v",
+      "sha256": "1232dd11cc6743a4a266d9fad7c2a3a368eab78af0ae42824e1bd9f9b03b62e7"
+    },
+    {
+      "path": "compcert/Execution.v",
+      "sha256": "d81e3e6d5dd762af0c447d635ad1c84d8a413f6bb37da4c64167860798264a44"
+    },
+    {
+      "path": "compcert/FRAMESGoals.v",
+      "sha256": "8f91d3d9a26f6d4598c21df27752db2b75cb3aac0d5b33796bf9f678efb17109"
+    },
+    {
+      "path": "compcert/LRUGoals.v",
+      "sha256": "897284bf699283ab1056195f01201893e640a69d66165103ae62503ab0f9c51f"
+    },
+    {
+      "path": "compcert/StatefulDomain.v",
+      "sha256": "c03d43e99bfa4d2e18f07c63f63b586e9fead6beb0caaa8e7e65107d5037fa06"
+    },
+    {
+      "path": "compcert/TRANSACTIONSGoals.v",
+      "sha256": "776f0634efd4f5842008bc1f8c25656ab02d27935c72eebb5b9e55b25a6e0109"
+    }
+  ],
+  "c_environment_header": "../qcip-core/common/io.h",
+  "io_header_sha256": "ed3054989c3045aa35852ebe9d788f9927dbcf5b57a628723fc882d7e57dd43e"
+}

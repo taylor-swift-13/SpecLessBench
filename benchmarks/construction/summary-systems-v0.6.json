@@ -1,0 +1,175 @@
+{
+  "schema_version": 1,
+  "revision": "design-v0.6.2",
+  "timestamp_utc": "2026-11-04T02:28:56.162619+00:00",
+  "implementation_groups": 5,
+  "semantic_contexts": 10,
+  "platform_instances": 30,
+  "clight_ast_count": 15,
+  "groups": [
+    {
+      "group_id": "dependency-invalidation",
+      "family": "graph",
+      "unique_inputs": 14967,
+      "program_executions": 134703,
+      "validity_evaluations": 29944,
+      "duplicates_removed": 234,
+      "negative_inputs": 3889,
+      "source_derived_inputs": 1,
+      "reference_event_counts": {
+        "multi-node-propagation": 13880,
+        "edge-edit-after-dirty": 142938,
+        "repeat-dirty-root": 39672,
+        "clear-dirty": 19514
+      },
+      "unexpected_disagreements": 0,
+      "tool_wall_seconds": 152.19089874603378,
+      "max_process_rss_bytes": 1651617792,
+      "cost_record": "benchmarks/construction/groups/dependency-invalidation.json"
+    },
+    {
+      "group_id": "scoped-bindings",
+      "family": "scopes",
+      "unique_inputs": 12645,
+      "program_executions": 113805,
+      "validity_evaluations": 25300,
+      "duplicates_removed": 322,
+      "negative_inputs": 3061,
+      "source_derived_inputs": 1,
+      "reference_event_counts": {
+        "restored-hit": 4952,
+        "inner-miss": 29747,
+        "base-pop": 19766,
+        "depth-limit": 3471,
+        "deep-hit": 3843
+      },
+      "unexpected_disagreements": 0,
+      "tool_wall_seconds": 113.92432405798172,
+      "max_process_rss_bytes": 1651974144,
+      "cost_record": "benchmarks/construction/groups/scoped-bindings.json"
+    },
+    {
+      "group_id": "lease-expiration",
+      "family": "leases",
+      "unique_inputs": 17184,
+      "program_executions": 154656,
+      "validity_evaluations": 34378,
+      "duplicates_removed": 233,
+      "negative_inputs": 8005,
+      "source_derived_inputs": 1,
+      "reference_event_counts": {
+        "refresh": 61266,
+        "wheel-wrap": 19328,
+        "advance-zero": 18367,
+        "multi-expiry": 10254
+      },
+      "unexpected_disagreements": 0,
+      "tool_wall_seconds": 156.89102206600364,
+      "max_process_rss_bytes": 1652363264,
+      "cost_record": "benchmarks/construction/groups/lease-expiration.json"
+    },
+    {
+      "group_id": "banded-affine-alignment",
+      "family": "alignment",
+      "unique_inputs": 16406,
+      "program_executions": 147654,
+      "validity_evaluations": 32824,
+      "duplicates_removed": 1,
+      "negative_inputs": 4036,
+      "source_derived_inputs": 0,
+      "reference_event_counts": {
+        "tie-mask": 4036,
+        "empty-pair": 54,
+        "unreachable": 4375,
+        "wildcard": 14094
+      },
+      "unexpected_disagreements": 0,
+      "tool_wall_seconds": 118.47323619702365,
+      "max_process_rss_bytes": 1650589696,
+      "cost_record": "benchmarks/construction/groups/banded-affine-alignment.json"
+    },
+    {
+      "group_id": "fixed-point-resampling",
+      "family": "resample",
+      "unique_inputs": 18849,
+      "program_executions": 169641,
+      "validity_evaluations": 37710,
+      "duplicates_removed": 0,
+      "negative_inputs": 1126,
+      "source_derived_inputs": 24,
+      "reference_event_counts": {
+        "left-edge": 79716,
+        "low-saturation": 57921,
+        "high-saturation": 58854,
+        "right-edge": 85510,
+        "empty-output": 314,
+        "negative-step": 7853
+      },
+      "unexpected_disagreements": 0,
+      "tool_wall_seconds": 112.84387976302241,
+      "max_process_rss_bytes": 1652170752,
+      "cost_record": "benchmarks/construction/groups/fixed-point-resampling.json"
+    }
+  ],
+  "unique_inputs": 80051,
+  "program_executions": 720459,
+  "validity_evaluations": 160156,
+  "event_count_scope": "multi-label reference operation/output events, not independent inputs; legacy per-run report field is reference_status_histogram",
+  "coverage_scope": "selected successful full evidence; smoke and failed/repeated attempts remain in costs but do not inflate reported coverage",
+  "unexpected_disagreements": 0,
+  "final_proof_attempted": false,
+  "labels_certified": false,
+  "source_registry_sha256": "a56f60c2fbd7816b246cd1bf5b3ec5d2d8355dcb00101fa6b7c019f7307f6adf",
+  "compcert_build_sha256": "b69d85db5af163b18f7ed440e34869b58432b7e3a9b97f877c139cca33ff1460",
+  "tools_at_audit": [
+    {
+      "path": "/home/yangfp/.elan/toolchains/leanprover--lean4---v4.34.0/bin/lean",
+      "sha256": "e8baaa71855a616dc351028f3ad2200051b0671f423a1696a100e809302d5550"
+    },
+    {
+      "path": "/home/yangfp/.opam/qcp-8.20/bin/coqc",
+      "sha256": "9f68a71da4cadebead39952fb7e95628e8b818a7b13c76917a1f9219affbe46b"
+    },
+    {
+      "path": "/home/yangfp/.opam/five/bin/clightgen",
+      "sha256": "8064763950950ec9e48f44698ba056bb0cb53690e2a35c0c70bb148bdabdb7f2"
+    },
+    {
+      "path": "/home/yangfp/.opam/five/bin/coqc",
+      "sha256": "1d15c815891e425924a59c27d5e3c0e25f55880e3f64083463a511f0be3c7300"
+    },
+    {
+      "path": "/usr/bin/gcc",
+      "sha256": "821af3c74506283c179ca413bb33e6b528805a4dd8a5c09df125e5ad560a9e89"
+    },
+    {
+      "path": "/usr/bin/ocamlopt",
+      "sha256": "230e9a9d13611fa310b267ee7e26671ea99de48f3b52d7e54720f9eee9228b76"
+    }
+  ],
+  "generator_dependencies": [
+    {
+      "path": "scripts/construction/differential_systems.py",
+      "sha256": "c0fffafcbd66e134ecc5ccd1ba6f1b0f287c47ed56a55784684759d90eb65fb9"
+    },
+    {
+      "path": "scripts/construction/systems_cases.py",
+      "sha256": "859ee91efb22f1172c224b20d8016be64a8ce47965b881a48ca7a5f8c7772fff"
+    },
+    {
+      "path": "scripts/construction/systems_common.py",
+      "sha256": "1454d65edd0fa5b4780d605b4fa7b6fecf848aed7b77a21813e8ba0200551185"
+    }
+  ],
+  "shared_usage_batch": "batch-systems-v0.6.json",
+  "exact_process_tree_peak_bytes": null,
+  "hosted_inference_memory_bytes": null,
+  "call_graphs_sha256": "3b7442b6a93818d07a7cfa8b5643f0266d4f98a437112625553f3dab057c6ec5",
+  "fixtures_sha256": "512da156e7c1e533d8256753873265a44aeeeef2181b58e9dc228a8e7e7d2ac8",
+  "local_telemetry_scope": "prepare, compiler/execution commands, differential and audit envelopes instrumented; bootstrap, editing and tiny final metadata refreshes lack complete process telemetry",
+  "uninstrumented_housekeeping_costs": null,
+  "uninstrumented_housekeeping_reason": "bootstrap/editor overhead remains in shared request wall time; exact CPU/RSS and hosted inference memory unavailable",
+  "shared_tool_wall_seconds": 195.86362638202263,
+  "shared_max_process_rss_bytes": 1686040576,
+  "cost_events_complete_through": "2026-11-04T02:28:54.043127+00:00"
+}

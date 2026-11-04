@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "run_id": "bst-2026-11-03T115108236289+0000",
+  "group_id": "qcip-bst-delete",
+  "revision": "design-v0.2",
+  "rng_seed": 20261103,
+  "random_cases_requested": 8,
+  "curated_cases": 3,
+  "exhaustive_small_cases": 0,
+  "case_count": 11,
+  "program_executions": 132,
+  "platforms": [
+    "lean",
+    "rocq",
+    "c-native-sanitized"
+  ],
+  "compcert_semantic_execution_tested": false,
+  "positive_disagreements": 0,
+  "negative_distinguishing_inputs": 6,
+  "corpus": "_build/three-platform/differential/bst-2026-11-03T115108236289+0000/cases.jsonl.gz",
+  "corpus_sha256": "edd8e655d048cdd950ae8bb36812255d594b93b6fccad6b5ce0a1f96cdbc220f",
+  "source_registry_sha256": "ffceaabb70b75a190b2f338c76ffb565f32a93fbc941980b1c13da4581f0a6c5",
+  "status": "differential-passed; no formal equivalence inferred",
+  "smoke": true
+}

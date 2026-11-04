@@ -1,0 +1,9 @@
+{
+  "valid_counterexample_packages": 6,
+  "rejected_malformed_packages": 42,
+  "unproved_obligations_checked": 6,
+  "tranche": "classics",
+  "final_target_proofs_attempted": false,
+  "gate_proofs_supplied": false,
+  "scope": "classics tranche validator/generated obligation types; no final proofs or complete isolated grader"
+}

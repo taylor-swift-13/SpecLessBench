@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "group_id": "shared-stateful-rocq",
+  "attempt_ids": [
+    "820412c80095",
+    "054070b2db54",
+    "bbdfbaddc0da",
+    "ec0c9d53fcd5",
+    "23a3ecf42b26",
+    "3ab12ea6771a",
+    "fb34875a58d1"
+  ],
+  "tool_wall_seconds": 4.304201221981202,
+  "cpu_user_seconds": 0.6700000000000002,
+  "cpu_system_seconds": 1.0,
+  "max_process_rss_bytes": 384901120,
+  "exact_process_tree_peak_bytes": null,
+  "model_tokens": null,
+  "model_tokens_reason": "shared authoring session usage is recorded once in the referenced batch",
+  "shared_batch_id": "stateful-v0.5",
+  "historical_cost_complete": false,
+  "failed_attempts": 0,
+  "latest_updated_utc": "2026-11-03T14:52:47.699167+00:00"
+}

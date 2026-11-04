@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "curator_only": true,
+  "revision": "design-v0.4",
+  "concrete_registry": "tasks/boundaries-core/groups.json",
+  "original_plan": "22 entries / 54 slots, retained as historical plan",
+  "current_plan": "26 entries / 62 slots; 40 concrete contexts across 18 implementation groups; not certified labels or independent split-group count",
+  "new_entries": [
+    {"id":"B-TLV","group_id":"binary-tlv-decoder","slots":["B-TLV-CURSOR","B-TLV-ENDIAN"],"specification_features":["malformed byte streams","validation priority","typed records","endianness","accepted prefix","error position"]},
+    {"id":"B-QUOTE","group_id":"quoted-tokenizer","slots":["B-QUOTE-SPANS","B-QUOTE-EMPTY"],"specification_features":["quoting modes","escaping","empty tokens","adjacent pieces","NUL priority","completed token prefix"]},
+    {"id":"B-PACK","group_id":"packbits-decoder","slots":["B-PACK-SUFFIX","B-PACK-REPEAT"],"specification_features":["control byte decoding","atomic failed blocks","input/output error priority","partial output","capacity boundary"]},
+    {"id":"B-PATH","group_id":"lexical-path-normalizer","slots":["B-PATH-REVERSE","B-PATH-PARENTS"],"specification_features":["absolute/relative distinction","unmatched parents","separator rules","NUL position","byte preservation"]}
+  ],
+  "existing_entry_materializations": [
+    {"entry":"C-TREE","contexts":["C-TREE-STACK","C-TREE-SUBTREE"],"remaining":"C-TREE-QUEUE"},
+    {"entry":"C-UF","contexts":["C-UF-HALVING","C-UF-ONEHOP"],"remaining":"C-UF-NOCOMPRESS"},
+    {"entry":"C-PQ","contexts":["C-PQ-REP","C-PQ-CHILD"],"remaining":"C-PQ-BUILD"},
+    {"entry":"C-EVAL","contexts":["C-EVAL-DP","C-EVAL-SHORTCIRCUIT"],"remaining":"C-EVAL-FACTOR",
+     "supersedes":[{"old":"C-EVAL-FRAMES","new":"C-EVAL-DP","reason":"concrete memoized-demand vs topological-DP DAG evaluator"},{"old":"C-EVAL-BOOL","new":"C-EVAL-SHORTCIRCUIT","reason":"safe runtime error propagation and explicit short-circuit boundary instead of logical/bitwise mutation"}]}
+  ],
+  "feature_annotation_scope":"curator descriptors, not measured specification authoring difficulty or a correctness oracle",
+  "all_final_targets_unproved": true
+}

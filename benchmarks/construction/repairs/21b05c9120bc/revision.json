@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "revision_id": "21b05c9120bc",
+  "group_id": "shared-boundaries",
+  "started_utc": "2026-11-03T14:32:00.663947+00:00",
+  "reason": "Audit integration must handle historical command records lacking batch_id and old QCIP summaries without a top-level AST count. No program or target changes.",
+  "status": "committed-tests-invalidated",
+  "files": [
+    {
+      "path": "scripts/construction/cost_attribution.py",
+      "before_sha256": "f6a35408109c72f255d5e08f3dd122d493299eb0a362161a23b3bdfede638ca1",
+      "snapshot": "benchmarks/construction/repairs/21b05c9120bc/0.before",
+      "after_sha256": "b93e5e932bc00378d5886ddc4b9bc24c970aa5bdfe942a8551f381cb691e255d"
+    },
+    {
+      "path": "scripts/construction/summarize_all.py",
+      "before_sha256": "ba998a21af4d9aa174f92c15b33e548f33bf2bb6c5c4638afdc8a69d3b77dc51",
+      "snapshot": "benchmarks/construction/repairs/21b05c9120bc/1.before",
+      "after_sha256": "4519ad1cc424cbcf8b8b8a957b6fa6ebca54caeb532133b1be13f0d388aaed77"
+    }
+  ],
+  "new_revision": "tooling-v0.4.2",
+  "affected_contexts": [
+    "C-TREE-STACK",
+    "C-TREE-SUBTREE",
+    "C-UF-HALVING",
+    "C-UF-ONEHOP",
+    "C-PQ-REP",
+    "C-PQ-CHILD",
+    "C-EVAL-DP",
+    "C-EVAL-SHORTCIRCUIT",
+    "B-TLV-CURSOR",
+    "B-TLV-ENDIAN",
+    "B-QUOTE-SPANS",
+    "B-QUOTE-EMPTY",
+    "B-PACK-SUFFIX",
+    "B-PACK-REPEAT",
+    "B-PATH-REVERSE",
+    "B-PATH-PARENTS"
+  ],
+  "ended_utc": "2026-11-03T14:33:19.987498+00:00",
+  "retest_required": true,
+  "label_revalidation_required": true
+}

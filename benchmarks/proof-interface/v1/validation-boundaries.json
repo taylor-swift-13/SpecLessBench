@@ -1,0 +1,8 @@
+{
+  "valid_counterexample_packages": 24,
+  "rejected_malformed_packages": 168,
+  "unproved_obligations_checked": 24,
+  "final_target_proofs_attempted": false,
+  "gate_proofs_supplied": false,
+  "scope": "boundary tranche validator/generated obligation types; no final proofs or complete isolated grader"
+}

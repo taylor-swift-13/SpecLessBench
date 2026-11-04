@@ -1,0 +1,6 @@
+{
+  "source": "https://www.rfc-editor.org/rfc/rfc4648#section-10",
+  "description": "RFC 4648 Base64 input vectors, encoded as integer byte lists.",
+  "inputs": ["", "f", "fo", "foo", "foob", "fooba", "foobar"],
+  "outputs": ["", "Zg==", "Zm8=", "Zm9v", "Zm9vYg==", "Zm9vYmE=", "Zm9vYmFy"]
+}

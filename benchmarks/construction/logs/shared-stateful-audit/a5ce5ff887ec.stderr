@@ -1,0 +1,4 @@
+  File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/scripts/construction/audit_stateful_calls.py", line 7
+    for name,gid,_,_in GROUPS:
+                       ^^^^^^
+SyntaxError: invalid syntax

@@ -1,0 +1,26 @@
+/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/benchmarks/tasks/stateful-core/lean/StatefulNative.lean:22:63: error: unexpected identifier; expected '}'
+/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/benchmarks/tasks/stateful-core/lean/StatefulNative.lean:26:42: error(lean.unknownIdentifier): Unknown constant `Int.xor`
+/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/benchmarks/tasks/stateful-core/lean/StatefulNative.lean:173:81: error: Application type mismatch: The argument
+  v
+has type
+  Int
+but is expected to have type
+  Nat
+in the application
+  Prod.mk v
+/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/benchmarks/tasks/stateful-core/lean/StatefulNative.lean:176:65: error: Application type mismatch: The argument
+  (itemAt style s id).snd
+has type
+  Int
+but is expected to have type
+  Nat
+in the application
+  Prod.mk (itemAt style s id).snd
+/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/benchmarks/tasks/stateful-core/lean/StatefulNative.lean:179:19: error: Application type mismatch: The argument
+  key
+has type
+  Int
+but is expected to have type
+  Nat
+in the application
+  Prod.mk key

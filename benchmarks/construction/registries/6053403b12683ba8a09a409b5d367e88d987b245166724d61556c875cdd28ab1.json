@@ -1,0 +1,603 @@
+{
+  "schema_version": 1,
+  "revision": "design-v0.3",
+  "curator_only": true,
+  "required_platforms": [
+    "lean",
+    "rocq",
+    "compcert"
+  ],
+  "final_target_proofs_required": false,
+  "groups": [
+    {
+      "group_id": "basic-factorial",
+      "family": "factorial",
+      "family_index": 0,
+      "catalog_entry": "R-FAC",
+      "proof_level": "L1",
+      "witness_level": "W1",
+      "revision": "design-v0.3",
+      "cost_batch": "algorithms-v0.3",
+      "tasks": [
+        {
+          "id": "R-FAC-EQ",
+          "left": 0,
+          "right": 1,
+          "expected_polarity": "EQ",
+          "label_status": "provisional; not proved",
+          "theorem": "R_FAC_EQ",
+          "lean_goal": "lean/pending/R_FAC_EQ.lean.goal",
+          "rocq_goal": "rocq/BasicGoals.v::R_FAC_EQ",
+          "compcert_goal": "compcert/FACTORIALGoals.v::R_FAC_EQ",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "id": "R-FAC-CEX",
+          "left": 0,
+          "right": 2,
+          "expected_polarity": "CEX",
+          "label_status": "provisional; not proved",
+          "theorem": "R_FAC_CEX",
+          "lean_goal": "lean/pending/R_FAC_CEX.lean.goal",
+          "rocq_goal": "rocq/BasicGoals.v::R_FAC_CEX",
+          "compcert_goal": "compcert/FACTORIALGoals.v::R_FAC_CEX",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        }
+      ],
+      "variants": [
+        {
+          "id": "FACTORIAL_V0",
+          "c": "c/factorial/v0.c",
+          "lean": "BasicNative.entry 0 0",
+          "rocq": "BasicNative.entry 0 0",
+          "ast": "compcert/ast/FACTORIAL_V0.v"
+        },
+        {
+          "id": "FACTORIAL_V1",
+          "c": "c/factorial/v1.c",
+          "lean": "BasicNative.entry 0 1",
+          "rocq": "BasicNative.entry 0 1",
+          "ast": "compcert/ast/FACTORIAL_V1.v"
+        },
+        {
+          "id": "FACTORIAL_V2",
+          "c": "c/factorial/v2.c",
+          "lean": "BasicNative.entry 0 2",
+          "rocq": "BasicNative.entry 0 2",
+          "ast": "compcert/ast/FACTORIAL_V2.v"
+        }
+      ]
+    },
+    {
+      "group_id": "sequence-reversal",
+      "family": "reverse",
+      "family_index": 1,
+      "catalog_entry": "R-REV",
+      "proof_level": "L2",
+      "witness_level": "W1",
+      "revision": "design-v0.3",
+      "cost_batch": "algorithms-v0.3",
+      "tasks": [
+        {
+          "id": "R-REV-EQ",
+          "left": 0,
+          "right": 1,
+          "expected_polarity": "EQ",
+          "label_status": "provisional; not proved",
+          "theorem": "R_REV_EQ",
+          "lean_goal": "lean/pending/R_REV_EQ.lean.goal",
+          "rocq_goal": "rocq/BasicGoals.v::R_REV_EQ",
+          "compcert_goal": "compcert/REVERSEGoals.v::R_REV_EQ",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "id": "R-REV-CEX",
+          "left": 0,
+          "right": 2,
+          "expected_polarity": "CEX",
+          "label_status": "provisional; not proved",
+          "theorem": "R_REV_CEX",
+          "lean_goal": "lean/pending/R_REV_CEX.lean.goal",
+          "rocq_goal": "rocq/BasicGoals.v::R_REV_CEX",
+          "compcert_goal": "compcert/REVERSEGoals.v::R_REV_CEX",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        }
+      ],
+      "variants": [
+        {
+          "id": "REVERSE_V0",
+          "c": "c/reverse/v0.c",
+          "lean": "BasicNative.entry 1 0",
+          "rocq": "BasicNative.entry 1 0",
+          "ast": "compcert/ast/REVERSE_V0.v"
+        },
+        {
+          "id": "REVERSE_V1",
+          "c": "c/reverse/v1.c",
+          "lean": "BasicNative.entry 1 1",
+          "rocq": "BasicNative.entry 1 1",
+          "ast": "compcert/ast/REVERSE_V1.v"
+        },
+        {
+          "id": "REVERSE_V2",
+          "c": "c/reverse/v2.c",
+          "lean": "BasicNative.entry 1 2",
+          "rocq": "BasicNative.entry 1 2",
+          "ast": "compcert/ast/REVERSE_V2.v"
+        }
+      ]
+    },
+    {
+      "group_id": "sequence-sum",
+      "family": "sum",
+      "family_index": 2,
+      "catalog_entry": "R-SUM",
+      "proof_level": "L1",
+      "witness_level": "W1",
+      "revision": "design-v0.3",
+      "cost_batch": "algorithms-v0.3",
+      "tasks": [
+        {
+          "id": "R-SUM-EQ",
+          "left": 0,
+          "right": 1,
+          "expected_polarity": "EQ",
+          "label_status": "provisional; not proved",
+          "theorem": "R_SUM_EQ",
+          "lean_goal": "lean/pending/R_SUM_EQ.lean.goal",
+          "rocq_goal": "rocq/BasicGoals.v::R_SUM_EQ",
+          "compcert_goal": "compcert/SUMGoals.v::R_SUM_EQ",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "id": "R-SUM-CEX",
+          "left": 0,
+          "right": 2,
+          "expected_polarity": "CEX",
+          "label_status": "provisional; not proved",
+          "theorem": "R_SUM_CEX",
+          "lean_goal": "lean/pending/R_SUM_CEX.lean.goal",
+          "rocq_goal": "rocq/BasicGoals.v::R_SUM_CEX",
+          "compcert_goal": "compcert/SUMGoals.v::R_SUM_CEX",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        }
+      ],
+      "variants": [
+        {
+          "id": "SUM_V0",
+          "c": "c/sum/v0.c",
+          "lean": "BasicNative.entry 2 0",
+          "rocq": "BasicNative.entry 2 0",
+          "ast": "compcert/ast/SUM_V0.v"
+        },
+        {
+          "id": "SUM_V1",
+          "c": "c/sum/v1.c",
+          "lean": "BasicNative.entry 2 1",
+          "rocq": "BasicNative.entry 2 1",
+          "ast": "compcert/ast/SUM_V1.v"
+        },
+        {
+          "id": "SUM_V2",
+          "c": "c/sum/v2.c",
+          "lean": "BasicNative.entry 2 2",
+          "rocq": "BasicNative.entry 2 2",
+          "ast": "compcert/ast/SUM_V2.v"
+        }
+      ]
+    },
+    {
+      "group_id": "matrix-product",
+      "family": "matrix",
+      "family_index": 3,
+      "catalog_entry": "R-MAT",
+      "proof_level": "L3",
+      "witness_level": "W1",
+      "revision": "design-v0.3",
+      "cost_batch": "algorithms-v0.3",
+      "tasks": [
+        {
+          "id": "R-MAT-EQ",
+          "left": 0,
+          "right": 1,
+          "expected_polarity": "EQ",
+          "label_status": "provisional; not proved",
+          "theorem": "R_MAT_EQ",
+          "lean_goal": "lean/pending/R_MAT_EQ.lean.goal",
+          "rocq_goal": "rocq/BasicGoals.v::R_MAT_EQ",
+          "compcert_goal": "compcert/MATRIXGoals.v::R_MAT_EQ",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "id": "R-MAT-CEX",
+          "left": 0,
+          "right": 2,
+          "expected_polarity": "CEX",
+          "label_status": "provisional; not proved",
+          "theorem": "R_MAT_CEX",
+          "lean_goal": "lean/pending/R_MAT_CEX.lean.goal",
+          "rocq_goal": "rocq/BasicGoals.v::R_MAT_CEX",
+          "compcert_goal": "compcert/MATRIXGoals.v::R_MAT_CEX",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        }
+      ],
+      "variants": [
+        {
+          "id": "MATRIX_V0",
+          "c": "c/matrix/v0.c",
+          "lean": "BasicNative.entry 3 0",
+          "rocq": "BasicNative.entry 3 0",
+          "ast": "compcert/ast/MATRIX_V0.v"
+        },
+        {
+          "id": "MATRIX_V1",
+          "c": "c/matrix/v1.c",
+          "lean": "BasicNative.entry 3 1",
+          "rocq": "BasicNative.entry 3 1",
+          "ast": "compcert/ast/MATRIX_V1.v"
+        },
+        {
+          "id": "MATRIX_V2",
+          "c": "c/matrix/v2.c",
+          "lean": "BasicNative.entry 3 2",
+          "rocq": "BasicNative.entry 3 2",
+          "ast": "compcert/ast/MATRIX_V2.v"
+        }
+      ]
+    },
+    {
+      "group_id": "first-match-search",
+      "family": "search",
+      "family_index": 4,
+      "catalog_entry": "R-STR",
+      "proof_level": "L3-L4",
+      "witness_level": "W2",
+      "revision": "design-v0.3",
+      "cost_batch": "algorithms-v0.3",
+      "tasks": [
+        {
+          "id": "R-STR-EQ",
+          "left": 0,
+          "right": 1,
+          "expected_polarity": "EQ",
+          "label_status": "provisional; not proved",
+          "theorem": "R_STR_EQ",
+          "lean_goal": "lean/pending/R_STR_EQ.lean.goal",
+          "rocq_goal": "rocq/BasicGoals.v::R_STR_EQ",
+          "compcert_goal": "compcert/SEARCHGoals.v::R_STR_EQ",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "id": "R-STR-CEX",
+          "left": 0,
+          "right": 2,
+          "expected_polarity": "CEX",
+          "label_status": "provisional; not proved",
+          "theorem": "R_STR_CEX",
+          "lean_goal": "lean/pending/R_STR_CEX.lean.goal",
+          "rocq_goal": "rocq/BasicGoals.v::R_STR_CEX",
+          "compcert_goal": "compcert/SEARCHGoals.v::R_STR_CEX",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        }
+      ],
+      "variants": [
+        {
+          "id": "SEARCH_V0",
+          "c": "c/search/v0.c",
+          "lean": "BasicNative.entry 4 0",
+          "rocq": "BasicNative.entry 4 0",
+          "ast": "compcert/ast/SEARCH_V0.v"
+        },
+        {
+          "id": "SEARCH_V1",
+          "c": "c/search/v1.c",
+          "lean": "BasicNative.entry 4 1",
+          "rocq": "BasicNative.entry 4 1",
+          "ast": "compcert/ast/SEARCH_V1.v"
+        },
+        {
+          "id": "SEARCH_V2",
+          "c": "c/search/v2.c",
+          "lean": "BasicNative.entry 4 2",
+          "rocq": "BasicNative.entry 4 2",
+          "ast": "compcert/ast/SEARCH_V2.v"
+        }
+      ]
+    },
+    {
+      "group_id": "queue-traces",
+      "family": "queue",
+      "family_index": 5,
+      "catalog_entry": "R-QUE",
+      "proof_level": "L2-L3",
+      "witness_level": "W2",
+      "revision": "design-v0.3",
+      "cost_batch": "algorithms-v0.3",
+      "tasks": [
+        {
+          "id": "R-QUE-EQ",
+          "left": 0,
+          "right": 1,
+          "expected_polarity": "EQ",
+          "label_status": "provisional; not proved",
+          "theorem": "R_QUE_EQ",
+          "lean_goal": "lean/pending/R_QUE_EQ.lean.goal",
+          "rocq_goal": "rocq/BasicGoals.v::R_QUE_EQ",
+          "compcert_goal": "compcert/QUEUEGoals.v::R_QUE_EQ",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "id": "R-QUE-CEX",
+          "left": 0,
+          "right": 2,
+          "expected_polarity": "CEX",
+          "label_status": "provisional; not proved",
+          "theorem": "R_QUE_CEX",
+          "lean_goal": "lean/pending/R_QUE_CEX.lean.goal",
+          "rocq_goal": "rocq/BasicGoals.v::R_QUE_CEX",
+          "compcert_goal": "compcert/QUEUEGoals.v::R_QUE_CEX",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        }
+      ],
+      "variants": [
+        {
+          "id": "QUEUE_V0",
+          "c": "c/queue/v0.c",
+          "lean": "BasicNative.entry 5 0",
+          "rocq": "BasicNative.entry 5 0",
+          "ast": "compcert/ast/QUEUE_V0.v"
+        },
+        {
+          "id": "QUEUE_V1",
+          "c": "c/queue/v1.c",
+          "lean": "BasicNative.entry 5 1",
+          "rocq": "BasicNative.entry 5 1",
+          "ast": "compcert/ast/QUEUE_V1.v"
+        },
+        {
+          "id": "QUEUE_V2",
+          "c": "c/queue/v2.c",
+          "lean": "BasicNative.entry 5 2",
+          "rocq": "BasicNative.entry 5 2",
+          "ast": "compcert/ast/QUEUE_V2.v"
+        }
+      ]
+    }
+  ],
+  "protected_files": [
+    {
+      "path": "c/Algorithms.h",
+      "sha256": "892f853fbfd726e0d4450ae82e8bfd59595411445c1913dfc952d64096fb5089"
+    },
+    {
+      "path": "c/factorial/v0.c",
+      "sha256": "899e317f48fd75ec7c145f7ab417ba023e420e324852d29e699d987d755a0e7b"
+    },
+    {
+      "path": "c/factorial/v1.c",
+      "sha256": "bf5999f61ece77c23b466a107ead2939ae9b7b1fd9aaaf6ada0c333daf9e72fc"
+    },
+    {
+      "path": "c/factorial/v2.c",
+      "sha256": "1dceccf6825ec09c9059b019b44447997ee79b4be2a256f7bf78b9b99d0ba342"
+    },
+    {
+      "path": "c/matrix/v0.c",
+      "sha256": "99d493c11d95a265559ba16b87a891c468049c47e9d60551e5e1007b15c591eb"
+    },
+    {
+      "path": "c/matrix/v1.c",
+      "sha256": "54c6aab7eaa0e30082715be066203039d047e97397acec5ae34d2a3a57645966"
+    },
+    {
+      "path": "c/matrix/v2.c",
+      "sha256": "8f882bad16181061ce66ddc615e2f253d18e2d1110f340264dd16dd3b193dcce"
+    },
+    {
+      "path": "c/queue/v0.c",
+      "sha256": "fba448eab0ede866231f7e36ca013773647a80e7d0cb5f8a54908305e94da668"
+    },
+    {
+      "path": "c/queue/v1.c",
+      "sha256": "30825f082e1123c5987d0f3731dd489cd4c82fd300125d425e39fe7fef3aaee4"
+    },
+    {
+      "path": "c/queue/v2.c",
+      "sha256": "f76be5d644ba0d70602c8c496fe7d355baeb74e99d3c142c2ba9ac71c681c257"
+    },
+    {
+      "path": "c/reverse/v0.c",
+      "sha256": "f8746d9696b44b48a04cb2b5b10cff63050a236a77ca4eff5795db4385c924f1"
+    },
+    {
+      "path": "c/reverse/v1.c",
+      "sha256": "0d454a8e030e21cff8d8534fc1a4ef263ce1379fd4aa37dd8739898865a7374f"
+    },
+    {
+      "path": "c/reverse/v2.c",
+      "sha256": "4dd158a2d14e971c6d736e97c84cc2267bb9ff34bf08a17a7927bd4b7e54cc98"
+    },
+    {
+      "path": "c/search/v0.c",
+      "sha256": "a6f6afd61db115737ba1e05a590d6bc07702d2f40f8b363a59f4e01c09650c44"
+    },
+    {
+      "path": "c/search/v1.c",
+      "sha256": "cfb213dd1663247209378d1df76e06380c068d49141bfed220b3afff7d70d3d1"
+    },
+    {
+      "path": "c/search/v2.c",
+      "sha256": "4c98aa6c58ee2a6124c9f31353cb7b1dbcdcd774fe07d67291d3ebf33010d46a"
+    },
+    {
+      "path": "c/sum/v0.c",
+      "sha256": "bbb64948e3ea64cd51a40b33225085dad3e6da06f2eec5b6e3e03aaff01a656f"
+    },
+    {
+      "path": "c/sum/v1.c",
+      "sha256": "431db30924304c738a903763ceddba53e6eac0f5056e9f1801c0da7d36b4d60e"
+    },
+    {
+      "path": "c/sum/v2.c",
+      "sha256": "f9e2d288861c0a1d500f67fe016e9be45d6c54358b91a64eedd0ee9ef4909556"
+    },
+    {
+      "path": "lean/BasicDomain.lean",
+      "sha256": "658a9b9878851ad4f25b92a4eef8450f9584d64938e3fd1f43517f70e2ebe852"
+    },
+    {
+      "path": "lean/BasicGoals.lean",
+      "sha256": "1129102015f3606a83f078f7f33d92fe6334167fa817dd8ddb74f84a378f623d"
+    },
+    {
+      "path": "lean/BasicNative.lean",
+      "sha256": "0c9469c7cc50c54ab68c1858a91aa0b7e5bcd082a61b4b931c6f426d3230aa16"
+    },
+    {
+      "path": "lean/pending/R_FAC_CEX.lean.goal",
+      "sha256": "5479b44f3b539826363396b59a30f151ede41874f6f4f52fe582738846ab67d8"
+    },
+    {
+      "path": "lean/pending/R_FAC_EQ.lean.goal",
+      "sha256": "5a7adb1a6a10e5368bc7d052d8aa0fe6d4d8b875fed92801e2153695022cb59f"
+    },
+    {
+      "path": "lean/pending/R_MAT_CEX.lean.goal",
+      "sha256": "74b7a27219a5ceff3ef7fc14b0f2ab7ca7176d6075db3b3cdd19879fcffd8fae"
+    },
+    {
+      "path": "lean/pending/R_MAT_EQ.lean.goal",
+      "sha256": "1036b1582c447db6144c76ab4a4b6631d1daa517d9c8fb6b89575b274ca3011c"
+    },
+    {
+      "path": "lean/pending/R_QUE_CEX.lean.goal",
+      "sha256": "3b47bdfddb767af81386fdc2c48dac5ee08b80d9399cbe7c3b3b33560097fd2c"
+    },
+    {
+      "path": "lean/pending/R_QUE_EQ.lean.goal",
+      "sha256": "c094458e81ed24034b86534000fc43f6f578b6ec033a7e65ba800aae1d4d9a8d"
+    },
+    {
+      "path": "lean/pending/R_REV_CEX.lean.goal",
+      "sha256": "fd89eb1016417be127d9e75c224d71efdfcf681ea389ff5126cfd7df99e33314"
+    },
+    {
+      "path": "lean/pending/R_REV_EQ.lean.goal",
+      "sha256": "76b5de7b1c1108f547e4df199eab8d2104739abea5403407ad07d58ada5f9962"
+    },
+    {
+      "path": "lean/pending/R_STR_CEX.lean.goal",
+      "sha256": "8c817ae3ad1e7a6cd515348891903ebe87a0bfc0d486f558e73b017270ceb72a"
+    },
+    {
+      "path": "lean/pending/R_STR_EQ.lean.goal",
+      "sha256": "61cb3002781dc50c711086b524088335de74640e45af018da0780219143b327a"
+    },
+    {
+      "path": "lean/pending/R_SUM_CEX.lean.goal",
+      "sha256": "57d9833ea0be3cf0fa48b525349a0bb9a300bacf9c4d11bd5f52e0b72a393739"
+    },
+    {
+      "path": "lean/pending/R_SUM_EQ.lean.goal",
+      "sha256": "c559e9b53201801c09cfcdf5b6b15dc288c5b6c4a3bba8bc87944ba8787dbfe2"
+    },
+    {
+      "path": "rocq/BasicDomain.v",
+      "sha256": "5be48e562cde9c04ef77045729906b3c185f706faef44d518976caf238f33b43"
+    },
+    {
+      "path": "rocq/BasicExtract.v",
+      "sha256": "8e9fd0e15ad51eec379233c53a221db5580ddd64e8811a3a1dc4e89972f8d6f8"
+    },
+    {
+      "path": "rocq/BasicGoals.v",
+      "sha256": "557d184236e7b624976cf0895ed7653ab0c5161e184851ee2b9b6b551ac6f9a3"
+    },
+    {
+      "path": "rocq/BasicNative.v",
+      "sha256": "ffbd8645e6abf96c14a80c80a8d2943d35ffb4134ee559e630762d05c31204af"
+    },
+    {
+      "path": "compcert/BasicDomain.v",
+      "sha256": "14fb458da26493a0380dd263515bbe70189ead1273dad5b3da5caf9a7f12320c"
+    },
+    {
+      "path": "compcert/Execution.v",
+      "sha256": "31708675e639733ab5a746a62c2e2f2aa63b0ed53014a789f5cc2ddfca2a99be"
+    },
+    {
+      "path": "compcert/FACTORIALGoals.v",
+      "sha256": "bd23a5f59e5899b30089e8c358297c3416581ddc3a24715af74fb4e2d734a1bc"
+    },
+    {
+      "path": "compcert/MATRIXGoals.v",
+      "sha256": "2af9062917368e90b90e9b7efa2e3a7476012ff7e2eda869e12bb919e0f088d5"
+    },
+    {
+      "path": "compcert/QUEUEGoals.v",
+      "sha256": "c1e3685a3bf6d629354cb915280d16938b2fda5801e59cacd874424fc9c8a39b"
+    },
+    {
+      "path": "compcert/REVERSEGoals.v",
+      "sha256": "730b63e6355e864fce2d6b94c606057ac411a918fe903491919eb6ece3644079"
+    },
+    {
+      "path": "compcert/SEARCHGoals.v",
+      "sha256": "711182f689c4d3a3c0f755bf5058babd6791ba0c69d942c34136a5aa26a2c381"
+    },
+    {
+      "path": "compcert/SUMGoals.v",
+      "sha256": "276519f55204f84f61c071a5345a35d13bbb9b8086ca3b6a2816ca9866c785e5"
+    }
+  ],
+  "c_environment_header": "../qcip-core/common/io.h",
+  "io_header_sha256": "ed3054989c3045aa35852ebe9d788f9927dbcf5b57a628723fc882d7e57dd43e"
+}

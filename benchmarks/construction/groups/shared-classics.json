@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "group_id": "shared-classics",
+  "attempt_ids": [
+    "563363930a2c",
+    "517cc08c43dc",
+    "b58a66aaf7e6",
+    "87d5ebb3b402",
+    "04833f8dd1fb",
+    "c37a3394092c",
+    "544b55e96cd9",
+    "ebb8008ef8e8",
+    "00e5113b5dce",
+    "8ecb7a62af94",
+    "f0f48be1fcad",
+    "fc84b876826e"
+  ],
+  "tool_wall_seconds": 100.42800943000475,
+  "cpu_user_seconds": 7.4799999999999995,
+  "cpu_system_seconds": 14.83,
+  "max_process_rss_bytes": 1672970240,
+  "exact_process_tree_peak_bytes": null,
+  "model_tokens": null,
+  "model_tokens_reason": "shared authoring session usage is recorded once in the referenced batch",
+  "shared_batch_id": "classics-v0.8",
+  "historical_cost_complete": false,
+  "failed_attempts": 0,
+  "latest_updated_utc": "2026-11-04T02:55:32.825994+00:00"
+}

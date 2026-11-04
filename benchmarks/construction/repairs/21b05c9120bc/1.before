@@ -1,0 +1,62 @@
+"""One active inventory across construction batches; no duplicated group charges."""
+import hashlib
+import json
+from accounting import ROOT,AUDIT,now
+
+def main():
+    old_path=AUDIT/"summary-qcip-v0.2.json"
+    if not old_path.exists():
+        old=json.loads((AUDIT/"summary.json").read_text())
+        assert old["implementation_groups"]==4
+        old_path.write_text(json.dumps(old,indent=2)+"\n")
+    old=json.loads(old_path.read_text()); new=json.loads((AUDIT/"summary-algorithms-v0.3.json").read_text())
+    audit=json.loads((AUDIT/"corpus-audit-qcip-v0.2.json").read_text())
+    old_registry=ROOT/"benchmarks/tasks/qcip-core/three-platform.json"
+    new_registry=ROOT/"benchmarks/tasks/algorithms-core/groups.json"
+    registries=[old_registry,new_registry]; batches=[old,new]; names=[old_path.name,"summary-algorithms-v0.3.json"]
+    boundary_summary=AUDIT/"summary-boundaries-v0.4.json"
+    if boundary_summary.exists():
+        batches.append(json.loads(boundary_summary.read_text()));names.append(boundary_summary.name)
+        registries.append(ROOT/"benchmarks/tasks/boundaries-core/groups.json")
+    groups=[]
+    for p in registries:
+        reg=json.loads(p.read_text())
+        for g in reg["groups"]:
+            ids=[t.get("context_id",t.get("id")) for t in g["tasks"]]
+            groups.append({"group_id":g["group_id"],"contexts":ids,"platforms":["lean","rocq","compcert"],
+                "source_registry":p.relative_to(ROOT).as_posix(),"cost_record":"benchmarks/construction/groups/"+g["group_id"]+".json"})
+    assert len({g["group_id"] for g in groups})==len(groups)==sum(b["implementation_groups"]for b in batches)
+    contexts=[c for g in groups for c in g["contexts"]]; assert len(set(contexts))==len(contexts)==sum(b["semantic_contexts"]for b in batches)
+    asts=sum(b["clight_ast_count"]for b in batches)
+    entries=22+(4 if boundary_summary.exists()else 0);slots=54+(8 if boundary_summary.exists()else 0)
+    active={"schema_version":1,"updated_utc":now(),"groups":groups,"implementation_groups":len(groups),
+        "semantic_contexts":len(contexts),"platform_instances":3*len(contexts),"clight_ast_count":asts,
+        "catalog_entries":entries,"catalog_context_slots":slots,"remaining_candidate_slots":slots-len(contexts),
+        "catalog_count_scope":"versioned plan entries/slots, not independent family or released-task counts",
+        "final_proofs_required_at_construction":False,"reference_certified_contexts":0}
+    interface=ROOT/"benchmarks/proof-interface/v1/manifest.json"
+    if interface.exists():
+        active["proof_acceptance_contract"]="benchmarks/proof-interface/v1/manifest.json"
+        active["proof_acceptance_contract_sha256"]=hashlib.sha256(interface.read_bytes()).hexdigest()
+        active["bare_logical_disjunction_is_sufficient"]=False
+        active["literal_counterexample_data_required"]=True
+    (ROOT/"benchmarks/active-groups.json").write_text(json.dumps(active,indent=2)+"\n")
+    total={"schema_version":2,"updated_utc":now(),"implementation_groups":len(groups),"semantic_contexts":len(contexts),
+        "platform_instances":3*len(contexts),"clight_ast_count":asts,"groups":[g for b in batches for g in b["groups"]],
+        "input_records":old["total_family_inputs"]+sum(b["unique_inputs"]for b in batches[1:]),
+        "unique_inputs":audit["unique_inputs"]+sum(b["unique_inputs"]for b in batches[1:]),
+        "program_executions":old["total_program_executions"]+sum(b["program_executions"]for b in batches[1:]),
+        "domain_evaluations_after_qcip":sum(b["validity_evaluations"]for b in batches[1:]),"unexpected_differences":0,
+        "labels_certified":False,"final_target_proofs_attempted":False,
+        "shared_model_usage_batches":["batch-three-platform-v0.2.json","batch-algorithms-v0.3.json"]+(["batch-boundaries-v0.4.json"]if boundary_summary.exists()else []),
+        "cost_aggregation":"each group once, shared batch once; never multiply by targets/platforms",
+        "all_historical_costs_known":False,"exact_concurrent_tree_memory_known":False,
+        "batch_summaries":names}
+    if interface.exists():
+        total["proof_acceptance_contract"]="benchmarks/proof-interface/v1/manifest.json"
+        total["proof_acceptance_contract_sha256"]=hashlib.sha256(interface.read_bytes()).hexdigest()
+        total["submission_interface_validation"]=json.loads((interface.parent/"validation.json").read_text())
+    (AUDIT/"summary.json").write_text(json.dumps(total,indent=2)+"\n")
+    print(json.dumps({k:total[k] for k in ("implementation_groups","semantic_contexts","platform_instances","input_records","unique_inputs","program_executions")}))
+
+if __name__=="__main__": main()

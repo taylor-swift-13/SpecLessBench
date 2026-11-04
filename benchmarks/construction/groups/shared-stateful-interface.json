@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "group_id": "shared-stateful-interface",
+  "attempt_ids": [
+    "255091a6cc5b",
+    "7bc6c0efd550",
+    "6b0eb40b3f75",
+    "f2f005b87e96",
+    "0dcba73b30b2",
+    "d24da7656a7e"
+  ],
+  "tool_wall_seconds": 16.963844753990998,
+  "cpu_user_seconds": 2.1100000000000003,
+  "cpu_system_seconds": 3.0400000000000005,
+  "max_process_rss_bytes": 1652842496,
+  "exact_process_tree_peak_bytes": null,
+  "model_tokens": null,
+  "model_tokens_reason": "shared authoring session usage is recorded once in the referenced batch",
+  "shared_batch_id": "stateful-v0.5",
+  "historical_cost_complete": false,
+  "failed_attempts": 0,
+  "latest_updated_utc": "2026-11-03T15:02:32.476974+00:00"
+}

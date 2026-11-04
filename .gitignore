@@ -1,0 +1,28 @@
+# Rocq build artifacts
+*.vo
+*.vos
+*.vok
+*.glob
+*.aux
+.lia.cache
+.nia.cache
+.*.aux
+
+# CompCert / generated build output
+_build/
+*.cm[ioxat]
+*.o
+*.a
+
+# Editor and OS files
+.DS_Store
+Thumbs.db
+*~
+
+# Native construction build caches
+__pycache__/
+*.pyc
+*.olean
+*.ilean
+*.cmi
+*.cmx

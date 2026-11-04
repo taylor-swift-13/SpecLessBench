@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "revision_id": "7227ac094738",
+  "group_id": "minimum-spanning-forest",
+  "started_utc": "2026-11-04T02:54:35.452952+00:00",
+  "reason": "Rocq extracted Nat.pow expands large bit masks recursively and overflows; represent masks as binary integers",
+  "status": "committed-tests-invalidated",
+  "files": [
+    {
+      "path": "benchmarks/tasks/classics-core/rocq/ClassicsNative.v",
+      "before_sha256": "0715e8ad32fa89f7c2a75471a3f07bdfa4883740982c6129bb867eedefaa458f",
+      "snapshot": "benchmarks/construction/repairs/7227ac094738/0.before",
+      "after_sha256": "e02f5887752fa65ec1aa726d18b558d5672248980dcebfeb48815c0455f64c3a"
+    },
+    {
+      "path": "scripts/construction/classics_common.py",
+      "before_sha256": "fb59ca5a342d323389faa51435817b2ecdfc83678a035d221b5db52c13a9d823",
+      "snapshot": "benchmarks/construction/repairs/7227ac094738/1.before",
+      "after_sha256": "ff57ab907cfae10344e34a22f08f5b64229d70cb8b92ff5aeb82f141e3f7662f"
+    }
+  ],
+  "new_revision": "design-v0.8.2",
+  "affected_contexts": [
+    "MST-TIED-WEIGHT",
+    "MST-UNIQUE-EDGES",
+    "MST-MAX-COUNTEREXAMPLE"
+  ],
+  "ended_utc": "2026-11-04T02:55:00.570706+00:00",
+  "retest_required": true,
+  "label_revalidation_required": true
+}

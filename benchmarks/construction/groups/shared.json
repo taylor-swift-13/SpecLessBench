@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "group_id": "shared",
+  "attempt_ids": [
+    "41e1d50cb05d",
+    "b53748093185",
+    "09206637c3b2"
+  ],
+  "tool_wall_seconds": 26.683460861997446,
+  "cpu_user_seconds": 2.32,
+  "cpu_system_seconds": 6.0600000000000005,
+  "max_process_rss_bytes": 1672237056,
+  "exact_process_tree_peak_bytes": null,
+  "model_tokens": null,
+  "model_tokens_reason": "shared authoring session usage belongs to batch-three-platform-v0.2.json once",
+  "shared_batch_id": "three-platform-v0.2",
+  "historical_cost_complete": false,
+  "failed_attempts": 2,
+  "latest_updated_utc": "2026-11-03T11:46:00.491904+00:00"
+}

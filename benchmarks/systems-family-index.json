@@ -1,0 +1,14 @@
+{
+  "revision": "design-v0.6.2",
+  "curator_only": true,
+  "new_entries": [
+    {"group_id":"dependency-invalidation","kind":"graph closure","slots":["G-INVALIDATE-WORKLIST","G-INVALIDATE-DIRTY"]},
+    {"group_id":"scoped-bindings","kind":"scope semantics","slots":["N-SCOPE-OVERLAY","N-SCOPE-TOMBSTONE"]},
+    {"group_id":"lease-expiration","kind":"temporal state","slots":["T-LEASE-WHEEL","T-LEASE-STALE"]},
+    {"group_id":"banded-affine-alignment","kind":"dynamic programming","slots":["A-ALIGN-MINIMA","A-ALIGN-TIES"]},
+    {"group_id":"fixed-point-resampling","kind":"integer numerical kernel","slots":["A-RESAMPLE-PHASE","A-RESAMPLE-HALF"]}
+  ],
+  "fixture_provenance": "tasks/systems-core/fixtures.json",
+  "call_graphs": "tasks/systems-core/call-graphs.json",
+  "final_proofs_attempted": false
+}

@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "revision": "design-v0.3.1",
+  "group_id": "queue-traces",
+  "family": "queue",
+  "case_count": 24313,
+  "program_executions": 218817,
+  "validity_evaluations": 48636,
+  "cases_by_origin": {
+    "witness": 1,
+    "boundary": 3,
+    "exhaustive": 19529,
+    "random": 4780
+  },
+  "duplicate_inputs_removed": 222,
+  "rng_seed": 20261108,
+  "random_cases_requested": 5000,
+  "exhaustive_scope": "explicit small domain; see corpus generator",
+  "unexpected_disagreements": 0,
+  "negative_distinguishing_inputs": 7790,
+  "witness": {
+    "input": [
+      3,
+      0,
+      1,
+      1,
+      0,
+      1,
+      0
+    ],
+    "v0": [
+      8,
+      0,
+      0,
+      1,
+      1,
+      1,
+      1,
+      0,
+      0
+    ],
+    "v2": [
+      8,
+      0,
+      0,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ]
+  },
+  "corpus": "_build/algorithms-v0.3/runs/queue-2026-11-03T124223809555+0000/cases.jsonl.gz",
+  "corpus_sha256": "24e73d892f5f21b10df627f154705caac8f439e31d0501683daf8d15075c7296",
+  "registry_sha256": "03e759ddc6358a39ddeb6c13ecf4dae0f9e10092e1d4f88b66f8f377afb9761b",
+  "generator_sha256": "929b37b06ebe36400bd189bb4997299a70017d7cc5827397990fb0074825e4b8",
+  "clight_execution_tested": false,
+  "final_proof_attempted": false,
+  "smoke": false,
+  "status": "differential-passed; labels provisional"
+}

@@ -1,0 +1,8 @@
+/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/benchmarks/tasks/algorithms-core/lean/BasicNative.lean:25:3: error: unexpected token 'matches'; expected identifier
+/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/benchmarks/tasks/algorithms-core/lean/BasicNative.lean:29:61: error: unexpected token 'matches'; expected ')' or term
+/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/benchmarks/tasks/algorithms-core/lean/BasicNative.lean:31:44: error: unexpected token 'prefix'; expected '_' or identifier
+/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/benchmarks/tasks/algorithms-core/lean/BasicNative.lean:31:52: error: unexpected identifier; expected prec
+/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/benchmarks/tasks/algorithms-core/lean/BasicNative.lean:35:32: error: unexpected identifier; expected ':'
+/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/benchmarks/tasks/algorithms-core/lean/BasicNative.lean:35:70: error: unexpected token '['; expected ':'
+/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/benchmarks/tasks/algorithms-core/lean/BasicNative.lean:40:12: error(lean.unknownIdentifier): Unknown identifier `fallback`
+/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/benchmarks/tasks/algorithms-core/lean/BasicNative.lean:45:13: error(lean.unknownIdentifier): Unknown identifier `fallback`

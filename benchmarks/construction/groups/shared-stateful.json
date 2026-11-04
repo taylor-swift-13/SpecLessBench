@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "group_id": "shared-stateful",
+  "attempt_ids": [
+    "8beec0538e48",
+    "0557dc2c6f7f",
+    "6ac8a0b9c418",
+    "6591188b5789",
+    "4146ef907bc1",
+    "e6fa79439847",
+    "df9837c3b6ae"
+  ],
+  "tool_wall_seconds": 57.466035956007545,
+  "cpu_user_seconds": 3.84,
+  "cpu_system_seconds": 9.7,
+  "max_process_rss_bytes": 1679372288,
+  "exact_process_tree_peak_bytes": null,
+  "model_tokens": null,
+  "model_tokens_reason": "shared authoring session usage is recorded once in the referenced batch",
+  "shared_batch_id": "stateful-v0.5",
+  "historical_cost_complete": false,
+  "envelope_attempt_ids": [
+    "8beec0538e48",
+    "6ac8a0b9c418"
+  ],
+  "envelope_wall_seconds": 1.0429596830072114,
+  "cost_total_rule": "Use envelope totals for covered attempts; detail wall/CPU are nested attribution, never add both",
+  "envelope_cpu_user_seconds": 0.04,
+  "envelope_cpu_system_seconds": 0.08,
+  "failed_attempts": 1,
+  "latest_updated_utc": "2026-11-03T14:52:43.178746+00:00"
+}

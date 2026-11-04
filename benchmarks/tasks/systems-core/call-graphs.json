@@ -1,0 +1,889 @@
+{
+  "schema_version": 1,
+  "timestamp_utc": "2026-11-04T02:16:03.250806+00:00",
+  "scope": "syntactic main reachability in normalized Clight ASTs; not runtime stack sampling or proof difficulty",
+  "io_helpers_included": true,
+  "functions_and_calls": [
+    {
+      "group_id": "dependency-invalidation",
+      "variant": 0,
+      "ast": "compcert/ast/GRAPH_V0.v",
+      "ast_sha256": "a45e72de67a247ae7463eb468fb5405d6a5dd9a499812f50f8c1e81785bf693d",
+      "direct_calls": {
+        "emit": [],
+        "begin_output": [],
+        "end_output": [],
+        "eligible_edge": [],
+        "scan_neighbors": [
+          "eligible_edge"
+        ],
+        "propagate": [
+          "scan_neighbors"
+        ],
+        "invalidate": [
+          "propagate"
+        ],
+        "dirty_mask": [],
+        "graph_command": [
+          "dirty_mask",
+          "emit",
+          "invalidate"
+        ],
+        "main": [
+          "begin_output",
+          "end_output",
+          "graph_command"
+        ]
+      },
+      "reachable_functions": [
+        "begin_output",
+        "dirty_mask",
+        "eligible_edge",
+        "emit",
+        "end_output",
+        "graph_command",
+        "invalidate",
+        "main",
+        "propagate",
+        "scan_neighbors"
+      ],
+      "longest_call_chain": [
+        "main",
+        "graph_command",
+        "invalidate",
+        "propagate",
+        "scan_neighbors",
+        "eligible_edge"
+      ],
+      "maximum_direct_call_edges": 5,
+      "all_direct_callees_have_bodies": true,
+      "recursive": false
+    },
+    {
+      "group_id": "dependency-invalidation",
+      "variant": 1,
+      "ast": "compcert/ast/GRAPH_V1.v",
+      "ast_sha256": "90ece6216bd50b0f6458affce9cfb233d7b390bfff24bb978860263f5d644d4f",
+      "direct_calls": {
+        "emit": [],
+        "begin_output": [],
+        "end_output": [],
+        "eligible_edge": [],
+        "enqueue_neighbors": [
+          "eligible_edge"
+        ],
+        "propagate": [
+          "enqueue_neighbors"
+        ],
+        "invalidate": [
+          "propagate"
+        ],
+        "dirty_mask": [],
+        "graph_command": [
+          "dirty_mask",
+          "emit",
+          "invalidate"
+        ],
+        "main": [
+          "begin_output",
+          "end_output",
+          "graph_command"
+        ]
+      },
+      "reachable_functions": [
+        "begin_output",
+        "dirty_mask",
+        "eligible_edge",
+        "emit",
+        "end_output",
+        "enqueue_neighbors",
+        "graph_command",
+        "invalidate",
+        "main",
+        "propagate"
+      ],
+      "longest_call_chain": [
+        "main",
+        "graph_command",
+        "invalidate",
+        "propagate",
+        "enqueue_neighbors",
+        "eligible_edge"
+      ],
+      "maximum_direct_call_edges": 5,
+      "all_direct_callees_have_bodies": true,
+      "recursive": false
+    },
+    {
+      "group_id": "dependency-invalidation",
+      "variant": 2,
+      "ast": "compcert/ast/GRAPH_V2.v",
+      "ast_sha256": "55b024d0588a39c21db7a42f34963aacf492b48492d1c76e5c8cd8caa37e1b2f",
+      "direct_calls": {
+        "emit": [],
+        "begin_output": [],
+        "end_output": [],
+        "eligible_edge": [],
+        "enqueue_neighbors": [
+          "eligible_edge"
+        ],
+        "propagate": [
+          "enqueue_neighbors"
+        ],
+        "invalidate": [
+          "propagate"
+        ],
+        "dirty_mask": [],
+        "graph_command": [
+          "dirty_mask",
+          "emit",
+          "invalidate"
+        ],
+        "main": [
+          "begin_output",
+          "end_output",
+          "graph_command"
+        ]
+      },
+      "reachable_functions": [
+        "begin_output",
+        "dirty_mask",
+        "eligible_edge",
+        "emit",
+        "end_output",
+        "enqueue_neighbors",
+        "graph_command",
+        "invalidate",
+        "main",
+        "propagate"
+      ],
+      "longest_call_chain": [
+        "main",
+        "graph_command",
+        "invalidate",
+        "propagate",
+        "enqueue_neighbors",
+        "eligible_edge"
+      ],
+      "maximum_direct_call_edges": 5,
+      "all_direct_callees_have_bodies": true,
+      "recursive": false
+    },
+    {
+      "group_id": "scoped-bindings",
+      "variant": 0,
+      "ast": "compcert/ast/SCOPES_V0.v",
+      "ast_sha256": "5204ef6626ca02c408a37a1b7d6c089dd33c7ecbdb19cb76a2e3893cf4edbb42",
+      "direct_calls": {
+        "emit": [],
+        "begin_output": [],
+        "end_output": [],
+        "write_binding": [],
+        "init_layer": [
+          "write_binding"
+        ],
+        "push_scope": [
+          "init_layer"
+        ],
+        "pop_scope": [],
+        "resolve_binding": [],
+        "hide_binding": [
+          "write_binding"
+        ],
+        "scope_command": [
+          "emit",
+          "hide_binding",
+          "pop_scope",
+          "push_scope",
+          "resolve_binding",
+          "write_binding"
+        ],
+        "observe_bindings": [
+          "emit",
+          "resolve_binding"
+        ],
+        "main": [
+          "begin_output",
+          "end_output",
+          "observe_bindings",
+          "scope_command",
+          "write_binding"
+        ]
+      },
+      "reachable_functions": [
+        "begin_output",
+        "emit",
+        "end_output",
+        "hide_binding",
+        "init_layer",
+        "main",
+        "observe_bindings",
+        "pop_scope",
+        "push_scope",
+        "resolve_binding",
+        "scope_command",
+        "write_binding"
+      ],
+      "longest_call_chain": [
+        "main",
+        "scope_command",
+        "push_scope",
+        "init_layer",
+        "write_binding"
+      ],
+      "maximum_direct_call_edges": 4,
+      "all_direct_callees_have_bodies": true,
+      "recursive": false
+    },
+    {
+      "group_id": "scoped-bindings",
+      "variant": 1,
+      "ast": "compcert/ast/SCOPES_V1.v",
+      "ast_sha256": "16e8e71eacb118ab9b6cb85cb08c3695b56120704aca777f1fa1bcd8572ea125",
+      "direct_calls": {
+        "emit": [],
+        "begin_output": [],
+        "end_output": [],
+        "write_binding": [],
+        "init_layer": [
+          "write_binding"
+        ],
+        "push_scope": [
+          "init_layer"
+        ],
+        "pop_scope": [],
+        "resolve_binding": [],
+        "hide_binding": [
+          "write_binding"
+        ],
+        "scope_command": [
+          "emit",
+          "hide_binding",
+          "pop_scope",
+          "push_scope",
+          "resolve_binding",
+          "write_binding"
+        ],
+        "observe_bindings": [
+          "emit",
+          "resolve_binding"
+        ],
+        "main": [
+          "begin_output",
+          "end_output",
+          "observe_bindings",
+          "scope_command",
+          "write_binding"
+        ]
+      },
+      "reachable_functions": [
+        "begin_output",
+        "emit",
+        "end_output",
+        "hide_binding",
+        "init_layer",
+        "main",
+        "observe_bindings",
+        "pop_scope",
+        "push_scope",
+        "resolve_binding",
+        "scope_command",
+        "write_binding"
+      ],
+      "longest_call_chain": [
+        "main",
+        "scope_command",
+        "push_scope",
+        "init_layer",
+        "write_binding"
+      ],
+      "maximum_direct_call_edges": 4,
+      "all_direct_callees_have_bodies": true,
+      "recursive": false
+    },
+    {
+      "group_id": "scoped-bindings",
+      "variant": 2,
+      "ast": "compcert/ast/SCOPES_V2.v",
+      "ast_sha256": "5d1a862bb29a23e3929b1a95f9d4a0f0b5da2f9d67d11be37ddab3fe07d6603c",
+      "direct_calls": {
+        "emit": [],
+        "begin_output": [],
+        "end_output": [],
+        "write_binding": [],
+        "init_layer": [
+          "write_binding"
+        ],
+        "push_scope": [
+          "init_layer"
+        ],
+        "pop_scope": [],
+        "resolve_binding": [],
+        "hide_binding": [
+          "write_binding"
+        ],
+        "scope_command": [
+          "emit",
+          "hide_binding",
+          "pop_scope",
+          "push_scope",
+          "resolve_binding",
+          "write_binding"
+        ],
+        "observe_bindings": [
+          "emit",
+          "resolve_binding"
+        ],
+        "main": [
+          "begin_output",
+          "end_output",
+          "observe_bindings",
+          "scope_command",
+          "write_binding"
+        ]
+      },
+      "reachable_functions": [
+        "begin_output",
+        "emit",
+        "end_output",
+        "hide_binding",
+        "init_layer",
+        "main",
+        "observe_bindings",
+        "pop_scope",
+        "push_scope",
+        "resolve_binding",
+        "scope_command",
+        "write_binding"
+      ],
+      "longest_call_chain": [
+        "main",
+        "scope_command",
+        "push_scope",
+        "init_layer",
+        "write_binding"
+      ],
+      "maximum_direct_call_edges": 4,
+      "all_direct_callees_have_bodies": true,
+      "recursive": false
+    },
+    {
+      "group_id": "lease-expiration",
+      "variant": 0,
+      "ast": "compcert/ast/LEASES_V0.v",
+      "ast_sha256": "5fd46c694d774ebdf6eaaf8c302386839a6470c2a877f272d0985a3badd8ec8c",
+      "direct_calls": {
+        "emit": [],
+        "begin_output": [],
+        "end_output": [],
+        "clear_lease": [],
+        "set_lease": [],
+        "is_due": [],
+        "expire_at_tick": [
+          "clear_lease",
+          "is_due"
+        ],
+        "advance_clock": [
+          "expire_at_tick"
+        ],
+        "lease_command": [
+          "advance_clock",
+          "clear_lease",
+          "emit",
+          "set_lease"
+        ],
+        "main": [
+          "begin_output",
+          "clear_lease",
+          "emit",
+          "end_output",
+          "lease_command"
+        ]
+      },
+      "reachable_functions": [
+        "advance_clock",
+        "begin_output",
+        "clear_lease",
+        "emit",
+        "end_output",
+        "expire_at_tick",
+        "is_due",
+        "lease_command",
+        "main",
+        "set_lease"
+      ],
+      "longest_call_chain": [
+        "main",
+        "lease_command",
+        "advance_clock",
+        "expire_at_tick",
+        "clear_lease"
+      ],
+      "maximum_direct_call_edges": 4,
+      "all_direct_callees_have_bodies": true,
+      "recursive": false
+    },
+    {
+      "group_id": "lease-expiration",
+      "variant": 1,
+      "ast": "compcert/ast/LEASES_V1.v",
+      "ast_sha256": "59404c34de2f71199f2bb18d4c26f266b234acc5f56f19cf35e6cfaf7de6c7a2",
+      "direct_calls": {
+        "emit": [],
+        "begin_output": [],
+        "end_output": [],
+        "clear_lease": [],
+        "set_lease": [
+          "clear_lease"
+        ],
+        "is_due": [],
+        "expire_at_tick": [
+          "clear_lease",
+          "is_due"
+        ],
+        "advance_clock": [
+          "expire_at_tick"
+        ],
+        "lease_command": [
+          "advance_clock",
+          "clear_lease",
+          "emit",
+          "set_lease"
+        ],
+        "main": [
+          "begin_output",
+          "clear_lease",
+          "emit",
+          "end_output",
+          "lease_command"
+        ]
+      },
+      "reachable_functions": [
+        "advance_clock",
+        "begin_output",
+        "clear_lease",
+        "emit",
+        "end_output",
+        "expire_at_tick",
+        "is_due",
+        "lease_command",
+        "main",
+        "set_lease"
+      ],
+      "longest_call_chain": [
+        "main",
+        "lease_command",
+        "advance_clock",
+        "expire_at_tick",
+        "clear_lease"
+      ],
+      "maximum_direct_call_edges": 4,
+      "all_direct_callees_have_bodies": true,
+      "recursive": false
+    },
+    {
+      "group_id": "lease-expiration",
+      "variant": 2,
+      "ast": "compcert/ast/LEASES_V2.v",
+      "ast_sha256": "b1b273ab6e91844ab781061ab9f06bb7d146e2bc526d452915a98f4d5e2725bc",
+      "direct_calls": {
+        "emit": [],
+        "begin_output": [],
+        "end_output": [],
+        "clear_lease": [],
+        "set_lease": [],
+        "is_due": [],
+        "expire_at_tick": [
+          "clear_lease",
+          "is_due"
+        ],
+        "advance_clock": [
+          "expire_at_tick"
+        ],
+        "lease_command": [
+          "advance_clock",
+          "clear_lease",
+          "emit",
+          "set_lease"
+        ],
+        "main": [
+          "begin_output",
+          "clear_lease",
+          "emit",
+          "end_output",
+          "lease_command"
+        ]
+      },
+      "reachable_functions": [
+        "advance_clock",
+        "begin_output",
+        "clear_lease",
+        "emit",
+        "end_output",
+        "expire_at_tick",
+        "is_due",
+        "lease_command",
+        "main",
+        "set_lease"
+      ],
+      "longest_call_chain": [
+        "main",
+        "lease_command",
+        "advance_clock",
+        "expire_at_tick",
+        "clear_lease"
+      ],
+      "maximum_direct_call_edges": 4,
+      "all_direct_callees_have_bodies": true,
+      "recursive": false
+    },
+    {
+      "group_id": "banded-affine-alignment",
+      "variant": 0,
+      "ast": "compcert/ast/ALIGNMENT_V0.v",
+      "ast_sha256": "821998e75c69e5c49863642a48bea6f23fa982501ee8ff8aca038316dcb48b93",
+      "direct_calls": {
+        "emit": [],
+        "begin_output": [],
+        "end_output": [],
+        "cost_add": [],
+        "offer": [],
+        "diagonal": [
+          "cost_add"
+        ],
+        "gap_from": [
+          "cost_add"
+        ],
+        "offer_gaps": [
+          "gap_from",
+          "offer"
+        ],
+        "align_cell": [
+          "diagonal",
+          "offer",
+          "offer_gaps"
+        ],
+        "align": [
+          "align_cell",
+          "emit"
+        ],
+        "main": [
+          "align",
+          "begin_output",
+          "end_output"
+        ]
+      },
+      "reachable_functions": [
+        "align",
+        "align_cell",
+        "begin_output",
+        "cost_add",
+        "diagonal",
+        "emit",
+        "end_output",
+        "gap_from",
+        "main",
+        "offer",
+        "offer_gaps"
+      ],
+      "longest_call_chain": [
+        "main",
+        "align",
+        "align_cell",
+        "offer_gaps",
+        "gap_from",
+        "cost_add"
+      ],
+      "maximum_direct_call_edges": 5,
+      "all_direct_callees_have_bodies": true,
+      "recursive": false
+    },
+    {
+      "group_id": "banded-affine-alignment",
+      "variant": 1,
+      "ast": "compcert/ast/ALIGNMENT_V1.v",
+      "ast_sha256": "2ae6482eb27a80d7e3e1322ca25a3f233aebf0c270992f954456171d5656b8c4",
+      "direct_calls": {
+        "emit": [],
+        "begin_output": [],
+        "end_output": [],
+        "cost_add": [],
+        "offer": [],
+        "diagonal": [
+          "cost_add"
+        ],
+        "extend_minimum": [
+          "cost_add"
+        ],
+        "offer_gaps": [
+          "extend_minimum",
+          "offer"
+        ],
+        "align_cell": [
+          "diagonal",
+          "offer",
+          "offer_gaps"
+        ],
+        "align": [
+          "align_cell",
+          "emit"
+        ],
+        "main": [
+          "align",
+          "begin_output",
+          "end_output"
+        ]
+      },
+      "reachable_functions": [
+        "align",
+        "align_cell",
+        "begin_output",
+        "cost_add",
+        "diagonal",
+        "emit",
+        "end_output",
+        "extend_minimum",
+        "main",
+        "offer",
+        "offer_gaps"
+      ],
+      "longest_call_chain": [
+        "main",
+        "align",
+        "align_cell",
+        "offer_gaps",
+        "extend_minimum",
+        "cost_add"
+      ],
+      "maximum_direct_call_edges": 5,
+      "all_direct_callees_have_bodies": true,
+      "recursive": false
+    },
+    {
+      "group_id": "banded-affine-alignment",
+      "variant": 2,
+      "ast": "compcert/ast/ALIGNMENT_V2.v",
+      "ast_sha256": "548b52f9b3284abec39a7e17897bfc66aca81ef0f10b9e976882bd8eb0c7c73e",
+      "direct_calls": {
+        "emit": [],
+        "begin_output": [],
+        "end_output": [],
+        "cost_add": [],
+        "offer": [],
+        "diagonal": [
+          "cost_add"
+        ],
+        "extend_minimum": [
+          "cost_add"
+        ],
+        "offer_gaps": [
+          "extend_minimum",
+          "offer"
+        ],
+        "align_cell": [
+          "diagonal",
+          "offer",
+          "offer_gaps"
+        ],
+        "align": [
+          "align_cell",
+          "emit"
+        ],
+        "main": [
+          "align",
+          "begin_output",
+          "end_output"
+        ]
+      },
+      "reachable_functions": [
+        "align",
+        "align_cell",
+        "begin_output",
+        "cost_add",
+        "diagonal",
+        "emit",
+        "end_output",
+        "extend_minimum",
+        "main",
+        "offer",
+        "offer_gaps"
+      ],
+      "longest_call_chain": [
+        "main",
+        "align",
+        "align_cell",
+        "offer_gaps",
+        "extend_minimum",
+        "cost_add"
+      ],
+      "maximum_direct_call_edges": 5,
+      "all_direct_callees_have_bodies": true,
+      "recursive": false
+    },
+    {
+      "group_id": "fixed-point-resampling",
+      "variant": 0,
+      "ast": "compcert/ast/RESAMPLE_V0.v",
+      "ast_sha256": "9a0ca8bc5726ee9be601faa65c1aebf683b29a92dfa8893ab67b1e7af119d59c",
+      "direct_calls": {
+        "emit": [],
+        "begin_output": [],
+        "end_output": [],
+        "normalize_phase": [],
+        "split_phase": [
+          "normalize_phase"
+        ],
+        "round_signed": [],
+        "interpolate": [
+          "round_signed"
+        ],
+        "emit_sample": [
+          "emit",
+          "interpolate"
+        ],
+        "resample": [
+          "emit_sample",
+          "split_phase"
+        ],
+        "main": [
+          "begin_output",
+          "end_output",
+          "resample"
+        ]
+      },
+      "reachable_functions": [
+        "begin_output",
+        "emit",
+        "emit_sample",
+        "end_output",
+        "interpolate",
+        "main",
+        "normalize_phase",
+        "resample",
+        "round_signed",
+        "split_phase"
+      ],
+      "longest_call_chain": [
+        "main",
+        "resample",
+        "emit_sample",
+        "interpolate",
+        "round_signed"
+      ],
+      "maximum_direct_call_edges": 4,
+      "all_direct_callees_have_bodies": true,
+      "recursive": false
+    },
+    {
+      "group_id": "fixed-point-resampling",
+      "variant": 1,
+      "ast": "compcert/ast/RESAMPLE_V1.v",
+      "ast_sha256": "cbbdc0f6c7b4d43e8bc8b2aa52f1158977a7429e7347b9f8f655f02246bdeb99",
+      "direct_calls": {
+        "emit": [],
+        "begin_output": [],
+        "end_output": [],
+        "normalize_phase": [],
+        "split_phase": [
+          "normalize_phase"
+        ],
+        "round_signed": [],
+        "interpolate": [
+          "round_signed"
+        ],
+        "emit_sample": [
+          "emit",
+          "interpolate"
+        ],
+        "resample": [
+          "emit_sample",
+          "normalize_phase",
+          "split_phase"
+        ],
+        "main": [
+          "begin_output",
+          "end_output",
+          "resample"
+        ]
+      },
+      "reachable_functions": [
+        "begin_output",
+        "emit",
+        "emit_sample",
+        "end_output",
+        "interpolate",
+        "main",
+        "normalize_phase",
+        "resample",
+        "round_signed",
+        "split_phase"
+      ],
+      "longest_call_chain": [
+        "main",
+        "resample",
+        "emit_sample",
+        "interpolate",
+        "round_signed"
+      ],
+      "maximum_direct_call_edges": 4,
+      "all_direct_callees_have_bodies": true,
+      "recursive": false
+    },
+    {
+      "group_id": "fixed-point-resampling",
+      "variant": 2,
+      "ast": "compcert/ast/RESAMPLE_V2.v",
+      "ast_sha256": "459cd822f34d235818704d4b46b0cecf43d04edd741c296c72046612f493214f",
+      "direct_calls": {
+        "emit": [],
+        "begin_output": [],
+        "end_output": [],
+        "normalize_phase": [],
+        "split_phase": [
+          "normalize_phase"
+        ],
+        "round_signed": [],
+        "interpolate": [
+          "round_signed"
+        ],
+        "emit_sample": [
+          "emit",
+          "interpolate"
+        ],
+        "resample": [
+          "emit_sample",
+          "normalize_phase",
+          "split_phase"
+        ],
+        "main": [
+          "begin_output",
+          "end_output",
+          "resample"
+        ]
+      },
+      "reachable_functions": [
+        "begin_output",
+        "emit",
+        "emit_sample",
+        "end_output",
+        "interpolate",
+        "main",
+        "normalize_phase",
+        "resample",
+        "round_signed",
+        "split_phase"
+      ],
+      "longest_call_chain": [
+        "main",
+        "resample",
+        "emit_sample",
+        "interpolate",
+        "round_signed"
+      ],
+      "maximum_direct_call_edges": 4,
+      "all_direct_callees_have_bodies": true,
+      "recursive": false
+    }
+  ],
+  "final_proofs_attempted": false
+}

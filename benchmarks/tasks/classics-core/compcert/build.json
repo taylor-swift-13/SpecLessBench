@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "compcert": "3.17",
+  "rocq": "9.2",
+  "architecture": "x86_64-linux; little-endian; ptr64",
+  "clightgen_sha256": "8064763950950ec9e48f44698ba056bb0cb53690e2a35c0c70bb148bdabdb7f2",
+  "exports": [
+    {
+      "module": "FOREST_V0",
+      "preprocessed_sha256": "a81c8861498b568b7c5a0970bdcbcace944c44eef320960025f778395050da2c",
+      "path": "compcert/ast/FOREST_V0.v",
+      "sha256": "117a31ed5ce6c8a739db27a1a39f222371d63072e5d5beb03758212ca646e65f"
+    },
+    {
+      "module": "FOREST_V1",
+      "preprocessed_sha256": "d47dd7f35b73a42b5bab169d29419e6ecc2f5054e115b6a82f543e309f008e8c",
+      "path": "compcert/ast/FOREST_V1.v",
+      "sha256": "e7c4176f02c07a53236047e4fe9dd4ebc556f66a2cd4a22749f77b87ef82d0e8"
+    },
+    {
+      "module": "FOREST_V2",
+      "preprocessed_sha256": "aa05c9933b4649eb1986a9b65c5308a3f73516465c71c6d422d601e730b8638f",
+      "path": "compcert/ast/FOREST_V2.v",
+      "sha256": "dd1791e643af53ee7ee8c55300d26e8d7c4109abd258387b5b1487821bc63495"
+    },
+    {
+      "module": "SORTING_V0",
+      "preprocessed_sha256": "b666ee6476a31195137bdd902e1f026244a4cd422b4e29321b18abfd5bbbef73",
+      "path": "compcert/ast/SORTING_V0.v",
+      "sha256": "63929b6d9e31a8fb3d4264f376c2bd2e932685ec3d9e2f633eedce694008abb3"
+    },
+    {
+      "module": "SORTING_V1",
+      "preprocessed_sha256": "c9de458314c167e2163ac981916072c310b292d72208a59f1e888498c783e1df",
+      "path": "compcert/ast/SORTING_V1.v",
+      "sha256": "4ff0b4e6a597418dab6564add3e4ab845397c0ee3b8e65d224dca3d0246324fa"
+    },
+    {
+      "module": "SORTING_V2",
+      "preprocessed_sha256": "974d88d51cb81603375cb1c56bdad9d578fb3761652e178ff48276a3bfa2b14d",
+      "path": "compcert/ast/SORTING_V2.v",
+      "sha256": "f9da1e9a3f1ead4ff24ccccd5d5a1a923be84988ff1dd40d0d20fe82baf86635"
+    }
+  ],
+  "final_proofs": false,
+  "goal_types": "passed; final targets unproved",
+  "native_versions": {
+    "lean": "4.34.0",
+    "rocq": "8.20.1"
+  }
+}

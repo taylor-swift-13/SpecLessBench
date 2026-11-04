@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "revision": "design-v0.8.2",
+  "timestamp_utc": "2026-11-04T02:58:19.008560+00:00",
+  "implementation_groups": 2,
+  "semantic_contexts": 5,
+  "platform_instances": 15,
+  "clight_ast_count": 6,
+  "groups": [
+    {
+      "group_id": "minimum-spanning-forest",
+      "family": "forest",
+      "unique_inputs": 11064,
+      "program_executions": 99576,
+      "validity_evaluations": 22140,
+      "duplicates_removed": 3271,
+      "negative_inputs": 5559,
+      "source_derived_inputs": 0,
+      "reference_event_counts": {
+        "ties-allowed": 7203,
+        "disconnected": 2344,
+        "unique": 3861,
+        "equal-weights": 6125
+      },
+      "unexpected_disagreements": 0,
+      "tool_wall_seconds": 71.92580133996671,
+      "max_process_rss_bytes": 1652039680,
+      "cost_record": "benchmarks/construction/groups/minimum-spanning-forest.json"
+    },
+    {
+      "group_id": "stable-record-sorting",
+      "family": "sorting",
+      "unique_inputs": 13119,
+      "program_executions": 118071,
+      "validity_evaluations": 26250,
+      "duplicates_removed": 167,
+      "negative_inputs": 10508,
+      "source_derived_inputs": 0,
+      "reference_event_counts": {
+        "empty": 1,
+        "duplicate-keys": 12524,
+        "max-length": 145
+      },
+      "unexpected_disagreements": 0,
+      "tool_wall_seconds": 63.242195636063116,
+      "max_process_rss_bytes": 1652391936,
+      "cost_record": "benchmarks/construction/groups/stable-record-sorting.json"
+    }
+  ],
+  "unique_inputs": 24183,
+  "program_executions": 217647,
+  "validity_evaluations": 48390,
+  "unexpected_disagreements": 0,
+  "final_proof_attempted": false,
+  "labels_certified": false,
+  "source_registry_sha256": "fb3a70cedf7882249d88980a74743d72a90868e45858b97a6cdd7cae06487f40",
+  "compcert_build_sha256": "a12e92eece8b093e1b213c20fa2047fcbcc43bf4a87ef6e620afe394aca11a1e",
+  "shared_usage_batch": "batch-classics-v0.8.json",
+  "coverage_scope": "selected full runs only; smoke and failed attempts retained in costs",
+  "clight_execution_tested": false,
+  "exact_process_tree_peak_bytes": null,
+  "hosted_inference_memory_bytes": null,
+  "uninstrumented_housekeeping_costs": null,
+  "shared_tool_wall_seconds": 132.90729458293936,
+  "shared_max_process_rss_bytes": 1672970240,
+  "tools_at_audit": [
+    {
+      "path": "/home/yangfp/.elan/toolchains/leanprover--lean4---v4.34.0/bin/lean",
+      "sha256": "e8baaa71855a616dc351028f3ad2200051b0671f423a1696a100e809302d5550"
+    },
+    {
+      "path": "/home/yangfp/.opam/qcp-8.20/bin/coqc",
+      "sha256": "9f68a71da4cadebead39952fb7e95628e8b818a7b13c76917a1f9219affbe46b"
+    },
+    {
+      "path": "/home/yangfp/.opam/five/bin/clightgen",
+      "sha256": "8064763950950ec9e48f44698ba056bb0cb53690e2a35c0c70bb148bdabdb7f2"
+    },
+    {
+      "path": "/home/yangfp/.opam/five/bin/coqc",
+      "sha256": "1d15c815891e425924a59c27d5e3c0e25f55880e3f64083463a511f0be3c7300"
+    },
+    {
+      "path": "/usr/bin/gcc",
+      "sha256": "821af3c74506283c179ca413bb33e6b528805a4dd8a5c09df125e5ad560a9e89"
+    },
+    {
+      "path": "/home/yangfp/.opam/qcp-8.20/bin/ocamlopt",
+      "sha256": "8a1c755544e22f7999b18553ba8f6d98d119d40a55ef76dd4ef8af84eeafcf09"
+    }
+  ]
+}

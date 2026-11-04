@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "group_id": "shared-rocq",
+  "attempt_ids": [
+    "f3494cc1b7c6",
+    "d56dd9a3ccb0",
+    "345abab3bb78",
+    "d9165a5823d8",
+    "9d102b4a71e3",
+    "ccc20db87290",
+    "b98337c23ff7",
+    "87a056b033b2",
+    "92a624fc57a9"
+  ],
+  "tool_wall_seconds": 5.79372360301204,
+  "cpu_user_seconds": 1.1600000000000001,
+  "cpu_system_seconds": 1.72,
+  "max_process_rss_bytes": 418217984,
+  "exact_process_tree_peak_bytes": null,
+  "model_tokens": null,
+  "model_tokens_reason": "shared authoring session usage belongs to batch-three-platform-v0.2.json once",
+  "shared_batch_id": "three-platform-v0.2",
+  "historical_cost_complete": false,
+  "failed_attempts": 1,
+  "latest_updated_utc": "2026-11-03T11:49:22.542293+00:00"
+}

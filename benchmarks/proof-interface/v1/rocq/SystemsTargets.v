@@ -1,0 +1,21 @@
+From EqualBenchSystemsNative Require Import SystemsGoals.
+Definition G_INVALIDATE_WORKLIST_equivalence : Prop := SystemsGoals.G_INVALIDATE_WORKLIST_equivalence.
+Definition G_INVALIDATE_WORKLIST_refutationAt := SystemsGoals.G_INVALIDATE_WORKLIST_refutationAt.
+Definition G_INVALIDATE_DIRTY_equivalence : Prop := SystemsGoals.G_INVALIDATE_DIRTY_equivalence.
+Definition G_INVALIDATE_DIRTY_refutationAt := SystemsGoals.G_INVALIDATE_DIRTY_refutationAt.
+Definition N_SCOPE_OVERLAY_equivalence : Prop := SystemsGoals.N_SCOPE_OVERLAY_equivalence.
+Definition N_SCOPE_OVERLAY_refutationAt := SystemsGoals.N_SCOPE_OVERLAY_refutationAt.
+Definition N_SCOPE_TOMBSTONE_equivalence : Prop := SystemsGoals.N_SCOPE_TOMBSTONE_equivalence.
+Definition N_SCOPE_TOMBSTONE_refutationAt := SystemsGoals.N_SCOPE_TOMBSTONE_refutationAt.
+Definition T_LEASE_WHEEL_equivalence : Prop := SystemsGoals.T_LEASE_WHEEL_equivalence.
+Definition T_LEASE_WHEEL_refutationAt := SystemsGoals.T_LEASE_WHEEL_refutationAt.
+Definition T_LEASE_STALE_equivalence : Prop := SystemsGoals.T_LEASE_STALE_equivalence.
+Definition T_LEASE_STALE_refutationAt := SystemsGoals.T_LEASE_STALE_refutationAt.
+Definition A_ALIGN_MINIMA_equivalence : Prop := SystemsGoals.A_ALIGN_MINIMA_equivalence.
+Definition A_ALIGN_MINIMA_refutationAt := SystemsGoals.A_ALIGN_MINIMA_refutationAt.
+Definition A_ALIGN_TIES_equivalence : Prop := SystemsGoals.A_ALIGN_TIES_equivalence.
+Definition A_ALIGN_TIES_refutationAt := SystemsGoals.A_ALIGN_TIES_refutationAt.
+Definition A_RESAMPLE_PHASE_equivalence : Prop := SystemsGoals.A_RESAMPLE_PHASE_equivalence.
+Definition A_RESAMPLE_PHASE_refutationAt := SystemsGoals.A_RESAMPLE_PHASE_refutationAt.
+Definition A_RESAMPLE_HALF_equivalence : Prop := SystemsGoals.A_RESAMPLE_HALF_equivalence.
+Definition A_RESAMPLE_HALF_refutationAt := SystemsGoals.A_RESAMPLE_HALF_refutationAt.

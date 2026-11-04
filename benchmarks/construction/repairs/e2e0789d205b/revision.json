@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "revision_id": "e2e0789d205b",
+  "group_id": "shared-boundaries",
+  "started_utc": "2026-11-03T14:35:07.779042+00:00",
+  "reason": "Inventory checker used contract path before assignment; checker ordering only, frozen tasks unaffected.",
+  "status": "committed-tests-invalidated",
+  "files": [
+    {
+      "path": "scripts/curation/check_inventory.py",
+      "before_sha256": "fd7447da4a749b6985356e0c5109985f3ad52256d7f25e546480ee06fa5ff801",
+      "snapshot": "benchmarks/construction/repairs/e2e0789d205b/0.before",
+      "after_sha256": "a89c82bca88801c79de0ed6bfac410b63606d3ca482b0d5bf84fd63f466f3049"
+    }
+  ],
+  "new_revision": "tooling-v0.4.2",
+  "affected_contexts": [
+    "C-TREE-STACK",
+    "C-TREE-SUBTREE",
+    "C-UF-HALVING",
+    "C-UF-ONEHOP",
+    "C-PQ-REP",
+    "C-PQ-CHILD",
+    "C-EVAL-DP",
+    "C-EVAL-SHORTCIRCUIT",
+    "B-TLV-CURSOR",
+    "B-TLV-ENDIAN",
+    "B-QUOTE-SPANS",
+    "B-QUOTE-EMPTY",
+    "B-PACK-SUFFIX",
+    "B-PACK-REPEAT",
+    "B-PATH-REVERSE",
+    "B-PATH-PARENTS"
+  ],
+  "ended_utc": "2026-11-03T14:37:23.721457+00:00",
+  "retest_required": true,
+  "label_revalidation_required": true
+}

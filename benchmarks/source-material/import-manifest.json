@@ -1,0 +1,207 @@
+{
+  "source_file_count": 16,
+  "schema_version": 1,
+  "agent_facing": false,
+  "method": "Exact raw-byte snapshots checked against source-inspection hashes; no compilation or proof checking.",
+  "files": [
+    {
+      "contains_source_annotations": true,
+      "destination": "qcip/QCP_examples/QCP_demos_LLM/functional_queue.c",
+      "git_status": "",
+      "source": "QCIP",
+      "source_path": "QCP_examples/QCP_demos_LLM/functional_queue.c",
+      "evaluation_ready": false,
+      "sha256": "8212f0ded091c665465c335617c2c2e8aaca764617a2cf4eaff9e7775c37655c",
+      "matches_head_blob": true,
+      "license_lineage": "QCIP MIT; retain per-file notices",
+      "repository_head": "fb3544dd349fe273b469e79828dd10b6a37fa184"
+    },
+    {
+      "contains_source_annotations": true,
+      "destination": "qcip/QCP_examples/QCP_demos_LLM/bst_delete_new.c",
+      "git_status": "",
+      "source": "QCIP",
+      "source_path": "QCP_examples/QCP_demos_LLM/bst_delete_new.c",
+      "evaluation_ready": false,
+      "sha256": "d4ad3a6256ec0dbbd2ffff6c63ab5d5de6115f0cdf8ca68f68c8baf04cde3f45",
+      "matches_head_blob": true,
+      "license_lineage": "QCIP MIT; retain per-file notices",
+      "repository_head": "fb3544dd349fe273b469e79828dd10b6a37fa184"
+    },
+    {
+      "contains_source_annotations": true,
+      "destination": "qcip/QCP_examples/QCP_demos_LLM/bst_delete_rec2.c",
+      "git_status": "",
+      "source": "QCIP",
+      "source_path": "QCP_examples/QCP_demos_LLM/bst_delete_rec2.c",
+      "evaluation_ready": false,
+      "sha256": "32e3b0bd760a069f1e96cfc0f1cb39cc264eaa32bc98adcb41b9f64db211703d",
+      "matches_head_blob": true,
+      "license_lineage": "QCIP MIT; retain per-file notices",
+      "repository_head": "fb3544dd349fe273b469e79828dd10b6a37fa184"
+    },
+    {
+      "contains_source_annotations": true,
+      "destination": "qcip/QCP_examples/QCP_demos_LLM/avl_insert.c",
+      "git_status": "",
+      "source": "QCIP",
+      "source_path": "QCP_examples/QCP_demos_LLM/avl_insert.c",
+      "evaluation_ready": false,
+      "sha256": "e72c2c40d22dfc77e42a21bb72664f97d4d1c06a1b9ae03ffce1d8b5f1ddfb81",
+      "matches_head_blob": true,
+      "license_lineage": "QCIP MIT; retain per-file notices",
+      "repository_head": "fb3544dd349fe273b469e79828dd10b6a37fa184"
+    },
+    {
+      "contains_source_annotations": true,
+      "destination": "qcip/QCP_examples/QCP_demos_LLM/union_find_err_rel.c",
+      "git_status": "",
+      "source": "QCIP",
+      "source_path": "QCP_examples/QCP_demos_LLM/union_find_err_rel.c",
+      "evaluation_ready": false,
+      "sha256": "316f2aaa23768e97ea0b3c2f53a627ab4973c29e40f8599cc85f1ddc5102bccc",
+      "matches_head_blob": true,
+      "license_lineage": "QCIP MIT; retain per-file notices",
+      "repository_head": "fb3544dd349fe273b469e79828dd10b6a37fa184"
+    },
+    {
+      "contains_source_annotations": true,
+      "destination": "qcip/QCP_examples/QCP_demos_LLM/eval.c",
+      "git_status": "",
+      "source": "QCIP",
+      "source_path": "QCP_examples/QCP_demos_LLM/eval.c",
+      "evaluation_ready": false,
+      "sha256": "d22037bc1be51a36f66ccf3064d793d829f848432ae381f7a376979360bec454",
+      "matches_head_blob": true,
+      "license_lineage": "QCIP MIT; retain per-file notices",
+      "repository_head": "fb3544dd349fe273b469e79828dd10b6a37fa184"
+    },
+    {
+      "contains_source_annotations": true,
+      "destination": "qcip/QCP_examples/LLM_bench/Data_structures/priority_queue/priority_queue.c",
+      "git_status": "",
+      "source": "QCIP",
+      "source_path": "QCP_examples/LLM_bench/Data_structures/priority_queue/priority_queue.c",
+      "evaluation_ready": false,
+      "sha256": "a63eccea6fab810f6fc9148c722309426bdcfcbea9ce77a8b7431570bdd38c92",
+      "matches_head_blob": true,
+      "license_lineage": "QCIP MIT; retain per-file notices",
+      "repository_head": "fb3544dd349fe273b469e79828dd10b6a37fa184"
+    },
+    {
+      "contains_source_annotations": true,
+      "destination": "qcip/QCP_examples/LLM_bench/Algorithms/Dijkstra/Dijkstra_linked_forward_star.c",
+      "git_status": "",
+      "source": "QCIP",
+      "source_path": "QCP_examples/LLM_bench/Algorithms/Dijkstra/Dijkstra_linked_forward_star.c",
+      "evaluation_ready": false,
+      "sha256": "fd00906b16c8535553520d2171e1004d4d422edf2edb3ac6fde137d2d48a6a26",
+      "matches_head_blob": true,
+      "license_lineage": "QCIP MIT; retain per-file notices",
+      "repository_head": "fb3544dd349fe273b469e79828dd10b6a37fa184"
+    },
+    {
+      "contains_source_annotations": true,
+      "destination": "qcip/QCP_examples/LLM_bench/Algorithms/Dijkstra/Dijkstra_priority_queue.c",
+      "git_status": "",
+      "source": "QCIP",
+      "source_path": "QCP_examples/LLM_bench/Algorithms/Dijkstra/Dijkstra_priority_queue.c",
+      "evaluation_ready": false,
+      "sha256": "d57f2c906757af18cd4162dda823a11950772ba0aed563a7f41df95ca0493003",
+      "matches_head_blob": true,
+      "license_lineage": "QCIP MIT; retain per-file notices",
+      "repository_head": "fb3544dd349fe273b469e79828dd10b6a37fa184"
+    },
+    {
+      "contains_source_annotations": true,
+      "destination": "qcip/OUTPUT/binaryTree/binaryTree_invert/source/binaryTree_invert.c",
+      "git_status": "",
+      "source": "QCIP",
+      "source_path": "OUTPUT/binaryTree/binaryTree_invert/source/binaryTree_invert.c",
+      "evaluation_ready": false,
+      "sha256": "9d819e51768e22d615aa363f4a6da63c0b3ecfdc64640e8cf1bdf6c31f3f9aba",
+      "matches_head_blob": true,
+      "license_lineage": "QCIP MIT; retain per-file notices",
+      "repository_head": "fb3544dd349fe273b469e79828dd10b6a37fa184"
+    },
+    {
+      "contains_source_annotations": true,
+      "destination": "qcip/OUTPUT/xizi/xizi_circular_area_read/source/xizi_circular_area_read.c",
+      "git_status": "",
+      "source": "QCIP",
+      "source_path": "OUTPUT/xizi/xizi_circular_area_read/source/xizi_circular_area_read.c",
+      "evaluation_ready": false,
+      "sha256": "d5530fd0d327e324ba4a8f354796a78aee065f83cb82aa47829bc63e7178e659",
+      "matches_head_blob": true,
+      "license_lineage": "XiZi MulanPSL-2.0 lineage; QCIP annotations/adaptations",
+      "repository_head": "fb3544dd349fe273b469e79828dd10b6a37fa184"
+    },
+    {
+      "contains_source_annotations": true,
+      "destination": "qcip/OUTPUT/xizi/xizi_double_link_callpoint_specs/source/xizi_double_link_callpoint_specs.c",
+      "git_status": "",
+      "source": "QCIP",
+      "source_path": "OUTPUT/xizi/xizi_double_link_callpoint_specs/source/xizi_double_link_callpoint_specs.c",
+      "evaluation_ready": false,
+      "sha256": "0868d37d26de093ea0767a50dffaadee553b7bf0db66d4807299fca2bdb00b83",
+      "matches_head_blob": true,
+      "license_lineage": "XiZi MulanPSL-2.0 lineage; QCIP annotations/adaptations",
+      "repository_head": "fb3544dd349fe273b469e79828dd10b6a37fa184"
+    },
+    {
+      "license_lineage": "BSD-2-Clause under VST LICENSE for progs",
+      "source_url": "https://raw.githubusercontent.com/PrincetonUniversity/VST/08cb56d32d9ce42505cf8167c4d0bd15fb119d9e/progs/bst.c",
+      "evaluation_ready": false,
+      "destination": "vst/progs/bst.c",
+      "sha256": "31226bb496badf06c0790657c64067ec975394b70f8b77d25c0c5616fe49ca9b",
+      "repository_head": "08cb56d32d9ce42505cf8167c4d0bd15fb119d9e",
+      "source": "VST",
+      "source_path": "progs/bst.c"
+    },
+    {
+      "license_lineage": "BSD-2-Clause under VST LICENSE for progs",
+      "source_url": "https://raw.githubusercontent.com/PrincetonUniversity/VST/08cb56d32d9ce42505cf8167c4d0bd15fb119d9e/progs/VSUpile/pile.c",
+      "evaluation_ready": false,
+      "destination": "vst/progs/VSUpile/pile.c",
+      "sha256": "57b2ca6a24b3c40597ffe0235e246c6e4eab55e38416af4f3444565889ac98c3",
+      "repository_head": "08cb56d32d9ce42505cf8167c4d0bd15fb119d9e",
+      "source": "VST",
+      "source_path": "progs/VSUpile/pile.c"
+    },
+    {
+      "license_lineage": "BSD-2-Clause under VST LICENSE for progs",
+      "source_url": "https://raw.githubusercontent.com/PrincetonUniversity/VST/08cb56d32d9ce42505cf8167c4d0bd15fb119d9e/progs/VSUpile/fast/fastpile.c",
+      "evaluation_ready": false,
+      "destination": "vst/progs/VSUpile/fast/fastpile.c",
+      "sha256": "9673ddb437228dac4704b49b3ca70ca327d0f854415362ef30932cb18ade4810",
+      "repository_head": "08cb56d32d9ce42505cf8167c4d0bd15fb119d9e",
+      "source": "VST",
+      "source_path": "progs/VSUpile/fast/fastpile.c"
+    },
+    {
+      "license_lineage": "BSD-2-Clause under VST LICENSE for progs",
+      "source_url": "https://raw.githubusercontent.com/PrincetonUniversity/VST/08cb56d32d9ce42505cf8167c4d0bd15fb119d9e/progs/VSUpile/triang.c",
+      "evaluation_ready": false,
+      "destination": "vst/progs/VSUpile/triang.c",
+      "sha256": "d57eafe1412f653591de7945264c7e80da236d77e397e2358ff21bce7a9d9514",
+      "repository_head": "08cb56d32d9ce42505cf8167c4d0bd15fb119d9e",
+      "source": "VST",
+      "source_path": "progs/VSUpile/triang.c"
+    }
+  ],
+  "licenses": [
+    {
+      "sha256": "590186baef137f40c833998f701deaf74845cd48fbc446a98af9c5c3efaa506d",
+      "destination": "licenses/QCIP-MIT.txt"
+    },
+    {
+      "sha256": "b638cc8ca486ec24e2539a18ba7f8518934b09dc14a0e29f8e9a2caffb772720",
+      "destination": "licenses/XiZi-MulanPSL-2.0.txt"
+    },
+    {
+      "sha256": "1681071efc9cb22a656dbbe7130327359b2f2e72ee0bb622ae24ff08522fcaed",
+      "destination": "licenses/VST-LICENSE.txt"
+    }
+  ],
+  "import_date": "2026-11-03"
+}

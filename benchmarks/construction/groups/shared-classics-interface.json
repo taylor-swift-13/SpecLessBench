@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "group_id": "shared-classics-interface",
+  "attempt_ids": [
+    "6a11d8eff4be",
+    "17cc22b84643",
+    "14bc32f4d04b",
+    "70342a57b884",
+    "ba463d163409",
+    "549069bc95af"
+  ],
+  "tool_wall_seconds": 18.82034646597458,
+  "cpu_user_seconds": 2.0999999999999996,
+  "cpu_system_seconds": 3.4999999999999996,
+  "max_process_rss_bytes": 1653391360,
+  "exact_process_tree_peak_bytes": null,
+  "model_tokens": null,
+  "model_tokens_reason": "shared authoring session usage is recorded once in the referenced batch",
+  "shared_batch_id": "classics-v0.8",
+  "historical_cost_complete": false,
+  "failed_attempts": 0,
+  "latest_updated_utc": "2026-11-04T02:58:18.352451+00:00"
+}

@@ -1,0 +1,490 @@
+\documentclass{article}
+\usepackage{styles/icml2026/icml2026}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+\usepackage{url}
+
+\icmltitlerunning{EqualBench: Equivalence Without an Independent Specification}
+
+\begin{document}
+
+\twocolumn[
+  \icmltitle{EqualBench: Proving Program Equivalence Without an Independent Specification}
+
+  \begin{icmlauthorlist}
+    \icmlauthor{Anonymous Authors}{anon}
+  \end{icmlauthorlist}
+  \icmlaffiliation{anon}{Anonymous Institution}
+  \icmlcorrespondingauthor{Anonymous Author}{anonymous@example.com}
+  \icmlkeywords{program equivalence, formal verification, theorem proving, benchmark}
+  \vskip 0.3in
+]
+\printAffiliationsAndNotice{}
+
+\begin{abstract}
+Complete functional specifications must cover numerical conventions as well as error priority and partially completed outputs. For some tasks, a precise reference is most naturally expressed as a computation, such as a dynamic program that retains tied alignment directions or a fixed-point resampler with signed rounding. EqualBench asks an agent to prove two fixed implementations observationally equivalent, or certify a concrete difference, without an independent functional specification. Twenty-nine implementation groups supply 63 contexts and 189 native Lean, native Rocq and C/CompCert instances. Construction combines differential testing, documented input provenance, versioned repairs and per-group cost accounting. The definitions, 91 Clight ASTs and target types check. Final relational proofs and proof-agent evaluation remain pending, and test-derived labels remain provisional.
+\end{abstract}
+
+\section{Introduction}
+
+Program verification commonly starts from a declarative contract and asks whether an implementation satisfies it. The contract may be a postcondition, a mathematical function, or a collection of invariants. In practice, however, a complete specification can be difficult to produce and evaluate. A binary parser, for example, commits to behavior for length fields, byte order, malformed inputs, and error returns. Describing all of those cases declaratively can approach rewriting the parser in another language. A small, trusted reference parser can be easier to review and can serve as an executable behavior standard.
+
+The difficulty is often completeness rather than mathematical expressiveness. Suppose a parser accepts one record and encounters both a bad checksum and an invalid Boolean in the next. A replacement may decode every well-formed stream correctly yet change which error is reported, its byte offset, or whether the first record is preserved. Those choices are visible behavior during maintenance. An independently authored contract must capture them and must itself be assessed for omissions. EqualBench retains malformed content inside the input domain and compares the reference's concrete observations, including errors and committed prefixes. The benchmark therefore tests behavior preservation without first requiring a complete third description of that behavior.
+
+Stateful replacements add a temporal dimension. An inner transaction may commit while its writes must remain reversible by an outer rollback; a cache hit may affect a later eviction even though the immediate returned value is unchanged. The behavior standard spans operation histories and several helper calls. Comparing the supplied implementations directly lets the task preserve those conventions without introducing a separately authored transaction model or recency oracle. The proof must still discover the relations needed to connect snapshots with undo logs, or an ordered sequence with mutable linked nodes.
+
+This is not only a response to hard-to-write specifications. In some verification stacks, contract languages expose executable predicates or a restricted logical fragment, making quantified properties awkward to encode. Factorial and matrix multiplication do admit compact mathematical specifications; they are not evidence that declarative specification is inherently impossible. Yet a verification interface may encode even such functions through executable recurrences or reference loops. Proving conformance then includes proving that two computations agree. More generally, even when a mathematical specification is clear, preserving behavior during optimization or replacement remains a verification goal in its own right. Sorting can be specified by sortedness and permutation, yet replacing insertion sort with selection sort still requires reasoning across different intermediate states. EqualBench asks: \emph{does this new implementation preserve the behavior of the given reference implementation?}
+
+EqualBench's central setting is \textbf{equivalence without an independent functional specification}. The task does not ask an agent to generate a new implementation and prove it satisfies a separate postcondition. It supplies two immutable implementations and asks for a relation between them. A minimal comparison boundary is still necessary: each task states valid inputs or related initial states, required preconditions, and which results are observable. Those declarations delimit the comparison; they do not prescribe a third, independently defined correct output. Thus, “without a specification” means without a separately authored function-level behavior oracle, not without a formal theorem or a well-defined observation boundary.
+
+This distinction matters because a reference implementation is an executable standard, not an oracle for user intent. An equivalence proof establishes that the replacement behaves like the reference. If the reference is wrong, the replacement may faithfully preserve that error. The motivation is that an implementation may be easier to trust and maintain than a complete independent specification, not that equivalence proves the reference correct.
+
+The scored artifacts are formal certificates, not test outcomes. For an equivalent pair, the agent must prove equality for every admitted input. For an inequivalent pair, it must provide a concrete valid input or initial state, together with a proof that the observations differ. Failure to prove equivalence does not establish inequivalence: timeouts, failed tactics, and unsupported claims count as failures unless accompanied by a checked counterexample. Finite testing can help discover witnesses, but it cannot substitute for either certificate.
+
+The proof challenge is relational. Two implementations can have different recursive structures, algorithms, intermediate arrays, loop schedules, or memory layouts. Their states need not correspond step by step. An AVL insertion may call balancing, double rotation, single rotation, and height-update helpers; a shortest-path client may call a replaceable queue module. The agent must connect both the intermediate states and the behavior across these calls. A successful proof may require generalized induction, several representation relations, loop invariants, or a separation-logic argument. For C, these relations must connect Clight executions and the memory locations exposed by the task.
+
+We propose \textbf{EqualBench} to measure whether AI agents can construct these certificates. Every task context requires native Lean, native Rocq, and C compared through its generated Clight AST and CompCert semantics. Twenty-nine groups supply 63 contexts and 189 platform instances. We count ports within their implementation group. Three earlier simple Rocq probes have recorded proofs. The current construction stage records implementations, ASTs, checked target types, differential evidence, revisions and costs. Final relational proofs, portable dependency locking and isolated solver packaging remain pending.
+
+\paragraph{Contributions.}
+This design draft isolates direct relational verification between fixed implementations without an independently supplied function-level oracle. It defines a two-sided certificate interface and distinguishes native Lean/Rocq comparison from Clight state and memory semantics. Its group-based construction protocol records differential discoveries, repairs, target revisions and costs once per implementation group. The corpus and agent evaluation are incomplete; the intended contribution is a measured benchmark, not this design document alone.
+
+\section{Related Work}
+
+\paragraph{Verified code generation from specifications.}
+VERINA evaluates code, specification, and proof generation, with 189 Lean tasks and modular task modes \citep{ye2026verina}. AlgoVeri evaluates 77 classical algorithms under aligned functional contracts in Dafny, Verus, and Lean \citep{zhao2026algoveri}. Vero studies proof-only and code-and-proof modes over 43 multi-module repository instances with curated formal specifications; its audit routes can formally expose some incorrect or unsatisfiable specifications \citep{ye2026vero}. These benchmarks evaluate important stages of verifiable code generation. EqualBench changes the proof target: it supplies two implementations and no independent function-level postcondition, and asks for a checked proof of their relation or a checked counterexample. Vero's audit mechanism is a useful precedent for curation, but it is separate from EqualBench's primary task of comparing two implementations.
+
+\paragraph{Equivalence classification.}
+EQBENCH assembled equivalent and non-equivalent C and Java program pairs for equivalence-checking tools \citep{badihi2021eqbench}. EquiBench evaluates LLM judgments on 2,400 program pairs across languages and categories \citep{wei2025equibench}; CETBench studies judgments on transformed and cross-lingual pairs \citep{oza2026cetbench}; and SCRBench adds semantic-change diagnosis and transformation-sequence reconstruction to equivalence classification \citep{saghatchian2026scrbench}. These works ask models to classify or diagnose program behavior. EqualBench asks agents to produce machine-checkable evidence. This distinction is central despite the similarity between the names EqualBench, EquiBench, and EQBENCH.
+
+\paragraph{Ground-truth-free specification evaluation.}
+The closest methodological neighbor is VeriEquivBench, which uses formal equivalence checks to evaluate generated code/specification pairs without matching every output to a hand-written ground-truth specification \citep{zeng2026veriequivbench}. Its agent generates code and a formal contract from a natural-language request; the framework checks code-contract alignment and separately audits whether the contract captures the request. EqualBench fixes both programs before the attempt and asks for a direct program-to-program theorem or a checked witness of behavioral difference. It neither asks the agent to author a contract nor scores agreement with a natural-language intent. The two settings share an interest in reducing dependence on ground-truth specifications, but test different capabilities.
+
+\begin{table*}[t]
+\centering
+\small
+\caption{Task-level distinction from adjacent benchmark settings. EqualBench evaluates a proof artifact relating two supplied programs.}
+\label{tab:position}
+\begin{tabular}{p{0.18\textwidth}p{0.20\textwidth}p{0.23\textwidth}p{0.28\textwidth}}
+\toprule
+Setting & Supplied to agent & Agent's main obligation & Accepted evidence \\
+\midrule
+VERINA / AlgoVeri / Vero & Implementation task and independent formal contract & Implement code, prove code-contract alignment, or prove a supplied implementation & Verifier-checked implementation/specification proof \\
+EquiBench / EQBENCH / CETBench & Two program versions & Judge whether their behavior is equivalent & Classification or diagnosis \\
+VeriEquivBench & Natural-language request & Generate code and a contract, then establish their formal alignment & Formal code-contract checks plus request/contract audit \\
+EqualBench & Two immutable implementations and a minimal comparison boundary & Prove their behavior equivalent or establish a concrete behavioral difference & Kernel-checked relational proof or counterexample certificate \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\paragraph{Program equivalence and proof synthesis.}
+Regression verification uses an original program as a behavioral standard for a modified program \citep{godlin2013regression}. Automated functional-program-equivalence research studies how to discover lemmas that connect structurally different recursive implementations \citep{sun2025directed}. CoqGym provides a broad corpus and learning environment for interactive theorem proving \citep{yang2019coqgym}. These works motivate EqualBench's reference-based setting and proof challenges; EqualBench focuses on measuring AI agents' ability to produce checked equivalence or counterexample certificates across deliberately varied implementation families.
+
+\paragraph{Clight semantics.}
+The C/Clight track builds on the mechanized operational semantics of Clight \citep{blazy2009clight} and CompCert \citep{leroy2009compcert}. The proof object is the Clight AST generated from C; the benchmark does not assume that C is automatically converted into an ordinary Rocq recursive function.
+
+\paragraph{Modular data-structure verification.}
+VST's representation-changing modules and clients demonstrate established techniques for proving implementation substitution through abstraction and function-specification subsumption \citep{beringer2019abstraction,vst2026source}. They are both a source of realistic programs and a methodological precedent. EqualBench does not claim module replacement as a new verification problem; it evaluates agents that must discover and prove the relation between supplied implementations, without receiving the source project's standalone functional contracts.
+
+\section{Task Definition}
+
+An EqualBench task supplies two programs $P_A$ and $P_B$, a versioned proof environment $\mathcal{E}$, and a comparison boundary $B=(D,\mathit{Pre},\mathit{Obs})$. A program can be a function or a linked module with an entry point and a closed set of reachable helpers. Here $D$ describes input values or related initial states, $\mathit{Pre}$ states admissibility conditions, and $\mathit{Obs}$ identifies observable behavior. The task supplies no separate functional specification $S$ such that each implementation must prove $S(P)$. Its behavioral target is the relation between $P_A$ and $P_B$.
+
+For a functional task, define:
+\begin{align}
+  \mathit{Eq}(P_A,P_B) &\triangleq
+    \forall x\in D,\;\mathit{Pre}(x)\rightarrow
+    \mathit{Obs}(P_A(x),P_B(x)), \\
+  \mathit{Cex}(P_A,P_B) &\triangleq
+    \exists x\in D,\;\mathit{Pre}(x)\land
+    \neg\mathit{Obs}(P_A(x),P_B(x)).
+\end{align}
+The accepted result is structured: either a literal equivalence claim with a proof of $\mathit{Eq}(P_A,P_B)$, or a literal counterexample claim supplying concrete input and observations with a proof specialized to those values. Both branch goals are visible; expected polarity is hidden. We do not accept a bare proof of $\mathit{Eq}\lor\mathit{Cex}$: for total functions, classical reasoning can prove that logical dichotomy without selecting an explicit behavioral conclusion or constructing an input. Provisional labels and test witnesses aid construction, but truth depends on the frozen programs and boundary. Final reference proofs remain optional during this construction stage.
+
+\subsection{Native Lean and Rocq}
+
+Each native version supplies executable functions over an aligned input domain, independently encoded in Lean or Rocq. For total functions, equivalence reduces to equality over all admitted inputs, for example:
+\begin{equation}
+  \forall x,\;\mathit{valid}(x)\rightarrow f_A(x)=f_B(x).
+\end{equation}
+A counterexample must give a valid input and two different successful observations. Some native ports use explicit fuel and return an option; equivalence requires both implementations to return the same successful result on every admitted input. Two exhausted computations cannot pass by returning \texttt{None}. Fuel adequacy remains part of the obligation. Lean supplies checked proposition declarations and proof-free theorem templates; Rocq uses pending declarations closed with \texttt{Abort}, without admitted constants.
+
+Construction and solving have different permissions. A construction model may discover a counterexample and repair or retain an implementation under a new group revision. After freeze, only the proof workspace is editable. Native ports may use structural trees where C uses pointers, so call/control metadata remains platform-specific. Differential cross-language agreement is not a formal translation or refinement theorem.
+
+\subsection{C Programs via Clight}
+
+The C track supplies two fixed C implementations, possibly spanning multiple translation units, and their protected Clight ASTs from a pinned \texttt{clightgen} pipeline. A positive instance requires safe terminating executions from related admitted initial states and corresponding return/memory observations. A negative instance requires related valid states and checked finite executions whose observations differ. Negative witnesses will not rely solely on divergence or undefined behavior. Whole-final-memory equality is not required: stack layout, temporary storage, and unobserved locations can differ. Programs are deterministic and have no external I/O in the core track.
+
+Write $\mathsf{Exec}(P,s,r,m')$ for a finite, safe Clight execution returning $r$ in memory $m'$. Let $\mathit{InitRel}$ relate initial states and let $\mathit{ObsRel}$ compare return values and designated memory projections. The projections map different concrete layouts into the same observable domain. The C-track goals have the form:
+\begin{align}
+  \mathit{Eq}_C(P_A,P_B) &\triangleq \forall s_A,s_B,\\
+  &\quad \mathit{InitRel}(s_A,s_B) \rightarrow \exists r_A,r_B,m_A,m_B,\\
+  &\quad \mathsf{Exec}(P_A,s_A,r_A,m_A) \\
+  &\quad \land \mathsf{Exec}(P_B,s_B,r_B,m_B) \\
+  &\quad \land \mathit{ObsRel}(r_A,m_A,r_B,m_B),\\
+  \mathit{Cex}_C(P_A,P_B) &\triangleq \exists s_A,s_B,r_A,r_B,m_A,m_B,\\
+  &\quad \mathit{InitRel}(s_A,s_B) \land \mathsf{Exec}(P_A,s_A,r_A,m_A) \\
+  &\quad \land \mathsf{Exec}(P_B,s_B,r_B,m_B) \\
+  &\quad \land \neg\mathit{ObsRel}(r_A,m_A,r_B,m_B).
+\end{align}
+Because $\mathsf{Exec}$ denotes a finite safe run, the equivalence branch requires both programs to terminate safely on every related admitted state. The benchmark's formalization must include any additional determinism premises needed by the task; this mathematical sketch is not itself a proof object.
+
+Pointer identity is preserved when the API exposes it, through a fixed relation between caller-visible nodes. If a tree-map API exposes only lookups, different root addresses and shapes are permitted. If an intrusive-list API returns node handles, their correspondence is part of the observation. A union-find task compares connectivity results rather than raw representative IDs when representatives are not part of its public behavior.
+
+\subsection{Certificate Checking}
+
+Solving agents may add definitions, lemmas and proofs using sound strategies supported by the environment. The evaluator rebuilds protected files and checks the unchanged target with Lean for native Lean, and Rocq for native Rocq and CompCert. Only declared dependencies and axioms are allowed. A checked reference certificate, when obtained, is hidden. Its absence is disclosed rather than replaced by a test-derived proof claim. Final solving success still requires a genuine kernel-accepted certificate.
+
+For interprocedural tasks, all reachable helper bodies and the linking configuration are protected. A source declaration plus an unproved functional contract cannot replace a missing implementation. Agents may derive and prove helper contracts or relational summaries themselves. Allocators, copy routines, and diagnostic calls require concrete bodies or an explicitly pinned shared semantic boundary. Source annotations from another verification system do not discharge Clight obligations.
+
+\section{Benchmark Design}
+
+\subsection{Families, Tasks, and Difficulty}
+
+Tasks are chosen by implementation difference and reasoning challenge. Each family contains a reference, structurally different alternatives, and optional near-miss mutants. Some negative contexts instead use real alternatives under a wider input domain. We select a small number of pair tasks rather than treating every possible combination as a separate sample. A positive context demands an equivalence proof; a negative context demands a formal counterexample.
+
+We use four provisional equivalence-proof levels. \textbf{L1} requires direct induction or simple algebra; \textbf{L2} requires an auxiliary invariant or representation relation; \textbf{L3} connects algorithms or semantic states; \textbf{L4} composes several relations across recursive calls, modules, and heap updates. A larger function count does not imply L4. Labels must be calibrated before model evaluation.
+
+Difficulty and implementation style are separate labels. For each pair, we record its style contrast (e.g., recursive/accumulator, same algorithm/different control flow, different algorithms, different data representation, or buffer/in-place memory update) and its proof-difficulty level. This lets the evaluation ask whether failures track the proof obligation, the implementation-style gap, or both. Certificate direction is a second independent axis: universal equivalence proof versus existential counterexample proof. The pilot pairs each family with a positive and a near-miss negative instance so that direction can be compared under related code and task context.
+
+The original inventory contained 22 implementation-family entries and 54 candidate slots. Four byte-format/path entries, three stateful entries, five graph, state and numerical entries, and one encoding entry, and two classical algorithm entries yield a plan of 37 entries and 85 slots. Twenty-seven groups supply 58 concrete contexts and 174 platform instances. The remaining 22 slots are candidates or await alias review. The concrete evaluator revises two original candidate slots to compare demand-driven and topological evaluation and to expose short-circuit error propagation. Historical and revised IDs have an explicit mapping. The planned full release targets 60--100 contexts. Related ports and distinctive shared task code stay in one split group.
+
+Candidate families record implementation style, equivalence-proof difficulty (L1--L4), witness difficulty (W1--W3), heap shape, call structure, and language track. W1--W3 range from local discrepancies to longer state-reaching traces. These scales are independent: an L4 relation can have a W1 counterexample. Curators calibrate them before model scores are examined. Positive and negative contexts share code and input interfaces where possible, without assuming equal difficulty.
+
+\subsection{Interprocedural Data Structures}
+
+The complex slice targets programs whose behavior spans a client and several mutable components. Source inspection covered 28 C files in QCIP/QCP examples and OUTPUT artifacts \citep{qcp2026source}, including list clients, ring-buffer operations, two BST deletion styles, AVL helpers, union-find, priority queues, a graph client, and a tagged-AST evaluator. The inventory records per-file hashes and distinguishes local modifications from committed sources. It is source-selection evidence; no QCP proofs or new Clight relations were checked in this phase.
+
+\begin{table*}[t]
+\centering
+\small
+\caption{Complex candidate families. Each family contributes three contexts with three required platform versions; construction labels remain provisional.}
+\label{tab:complex}
+\begin{tabular}{p{0.18\textwidth}p{0.35\textwidth}p{0.35\textwidth}}
+\toprule
+Families & Implementation and call differences & Comparison boundary \\
+\midrule
+Intrusive list, ring buffer & Helper calls vs inline updates; bulk vs bytewise copies; flag vs count representation & Node-ID/traversal or byte-delivery traces, including backward links and wraparound \\
+Tree traversal, AST evaluator & Recursive calls vs explicit stacks/queues; factored operator helpers & Ordered tree projection or returned integer; enough caller-provided work storage \\
+BST, AVL & Predecessor/successor/rotation-based deletion; nested balancing helpers vs ancestor stack & Key/value queries and statuses; topology hidden unless exposed by API \\
+Union-find, priority queue & Compression vs halving; heap vs sorted array; repeated push vs bottom-up construction & Connectivity and extraction traces, with explicit duplicate/tie behavior \\
+Dijkstra, pile clients & Replaceable queue module; linked accumulation vs cached aggregate & Distance vector or count/client-result trace over a fixed input domain \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+The source Dijkstra client calls a separate sorted-array priority queue, making a real module boundary available for a heap-replacement task. The AVL source contains the chain insert--balance--double rotation--single rotation--height update. Such tasks require several local relations to survive composition. We separately record direct call edges, recursive components, translation-unit count, and whether every helper body is present; these are structural descriptors, not proof-difficulty scores.
+
+VST provides a particularly useful real replacement candidate \citep{beringer2019abstraction,vst2026source}: a pile module that traverses a linked list for count and a fast module that maintains a cached sum, with clients using the same API. Source inspection shows that fast addition rejects negative inputs. We therefore propose an equivalence context with nonnegative, nonoverflowing additions and a refutation context that admits safe signed inputs. The latter changes EqualBench's comparison domain and is not a claim that VST's original contract or proof is defective. Core versions use an explicit bounded-arena adaptation; the exact allocating sources remain extension candidates.
+
+The earlier staged plan proposed a six-family complex slice. The current materialization instead prioritizes BST, AVL, ring buffers, and Dijkstra to expose recursive and module-call reasoning early. A missing rotation or stale cache is not automatically a counterexample: if only map lookups are observed, the curator must exhibit a safe trace with a changed query result. This requirement prevents invariant violations with no exposed behavioral difference from becoming mislabeled negative tasks.
+
+\subsection{Concrete Four-Family Task Revision}
+\label{sec:concrete}
+
+Each initial QCIP group has three intended-equivalent implementations and one near-miss per platform. We select two intended-equivalence contexts and one refutation context, giving eight and four expected contexts, respectively. The solver sees both explicit branch targets and must commit to one, with concrete data for refutation. Those 36 platform instances refine existing slots without increasing the 54-context plan. Labels remain provisional; Appendix~\ref{app:targets} names this tranche's obligations.
+
+BST deletion contrasts recursive predecessor copying, iterative successor transplantation, and rotation-based pushdown deletion. Inputs contain at most 32 distinct initial key/value pairs and 64 delete/lookup commands. AVL insertion contrasts recursive balancing, an explicit ancestor stack, and different double-rotation call factoring, over at most 64 insert/lookup commands from an empty tree. Duplicate AVL insertions retain the old value. Both families observe query results, a fixed completion marker for updates, and an inorder key/value readout of the final tree; addresses, topology, cached heights, and allocation order are hidden. The readout is protected executable observation code, not a separately supplied map-update oracle.
+
+Ring buffers contrast two-span copying, bytewise copying, and occupancy-count representation. Capacity is 1--64 bytes and traces contain at most 64 read, write, or forced-write commands, each requesting 1--capacity bytes. Observations include return codes, actual byte counts, every delivered byte, and the remaining FIFO projection. This is an explicitly normalized derived API: it exposes actual counts and supplies concrete copying rather than inheriting unspecified library contracts. Dijkstra contrasts the source-style sorted-array min queue, direct vertex scanning, and a binary min heap. Inputs admit up to ten vertices, 64 directed edges, zero weights, cycles, parallel edges, and unreachable vertices, with weights bounded by 1000. The observable is the full distance vector with a fixed unreachable marker, not tie-dependent processing order. Queue capacity and arithmetic safety remain proof obligations, not circular input assumptions.
+
+All 16 C entries have closed source-level calls and use preallocated storage. Each reads an integer input buffer and writes a canonical initialized output buffer. The Clight interface starts from standard initialization, writes the same encoded input into each program's global, requires finite silent execution and no reachable stuck state, and compares return and output. We reused a local CompCert 3.17/Rocq 9.2 toolchain, exported all sixteen normalized Clight ASTs, and checked the interface and all target types. Type-checking exposed a wrong global-environment argument to \texttt{Clight.step2}; its repair retained before/after hashes and failed-command costs. These checks proved no final relational target. Dijkstra includes its queue provider in one translation unit; this revision tests logical module calls, not separate linking.
+
+The four negative contexts target lost BST values, a lost AVL middle subtree, full/empty confusion, and suppression of a later distance improvement. Their candidate witnesses are short safe traces. For example, deleting key 2 from entries $(2,20),(1,10),(3,30)$ and querying key 1 exposes a predecessor-copy mutant that changes the key but retains value 20. In the graph with edges $0\!\to\!1$ of weight 10, $0\!\to\!2$ of weight 1, and $2\!\to\!1$ of weight 1, freezing the first discovered distance yields 10 rather than 2 at vertex 1. A formal refutation must establish admissibility, safe finite executions, and the differing observations; the source edit alone is not a certificate.
+
+The earlier C-only check executed 660 inputs against four variants, or 2,640 sanitizer-instrumented runs. The revised pipeline ran 30,282 family inputs across four variants and three executable platforms, totaling 363,384 program evaluations. This comprises 20,000 seeded random inputs, 10,262 exhaustive small-domain inputs and 20 boundary/witness inputs. We found no unintended positive or cross-language observation disagreement, while each retained mutant had distinguishing inputs. Native C uses AddressSanitizer and UndefinedBehaviorSanitizer, not Clight semantic execution. Corpus hashes, seeds, revisions, disagreements and costs are retained. Finite agreement does not certify labels, full-domain safety or solving success; no new final relational proof was attempted.
+
+\subsection{Base-Algorithm Expansion}
+
+Six additional groups materialize factorial, reversal, summation, matrix multiplication, first-match search, and queue traces. Each has a reference, one replacement, and one retained mutant, producing twelve contexts and 36 platform instances. Native differences include direct/accumulator recursion, cellwise/shared-dimension matrix accumulation, naive/KMP matching, and single-/two-list queues. C versions use bounded arrays and explicit calls; native call structure need not mirror C pointers or loops. Related future matrix/reversal contexts share their split groups.
+
+The new tranche executed 66,358 distinct inputs, yielding 597,222 behavior evaluations across three variants and three executable platforms. It separately performed 132,774 Lean/Rocq input-domain evaluations, including deliberately invalid boundary records. No unintended positive, cross-language, or domain disagreement was observed, and every retained mutant had distinguishing inputs. Factorial exhausts its entire thirteen-value input domain; the other groups combine explicit small-domain enumeration with 5,000 random generation attempts and boundary/witness inputs. Duplicate inputs are removed and not recounted as novel coverage. These checks do not prove the final targets or execute Clight semantics.
+
+Before the boundary-rich expansion, the record contained 96,640 tested input records, 96,483 distinct group-specific inputs, and 960,606 behavior evaluations over ten groups. The difference comes from 157 repeated records in the earlier QCIP tranche, identified by a retrospective corpus audit without rewriting its original reports. Neither platform executions nor repeated records count as independent benchmark contexts.
+
+\subsection{Boundary-Rich Behavior Preservation}
+\label{sec:boundaries}
+
+Eight more groups contribute sixteen contexts and 48 platform instances. Four materialize existing tree, union-find, priority-queue and evaluator plans; four introduce bounded TLV decoding, quoted tokenization, PackBits-style decoding and lexical path normalization. All have three concrete variants per platform and explicit equivalence and literal-witness refutation targets. The byte interfaces are private bounded tasks, not claims of compliance with an external protocol, POSIX shell or filesystem semantics.
+
+The evaluator compares memoized demand-driven recursion with topological dynamic programming over a shared expression DAG. It admits unbound variables, unknown tags, division by zero and arithmetic range errors as runtime results. The relation must explain why computing an unreachable or short-circuited error does not change the root observation. Its mutant propagates the right error before applying short-circuit rules. A false left operand, an unbound right variable and an AND node distinguish the versions without undefined behavior.
+
+The format tasks compare complete observable results, not just successful payloads. TLV parsing compares typed records, little-endian values, validation priority, error offsets and the accepted-record prefix. Tokenization preserves empty quoted tokens, escape rules and completed tokens on failure. The decoder validates source availability before capacity and commits each block atomically. Path normalization distinguishes relative unresolved parents from absolute paths and reports the first NUL. Errors are not excluded by functional preconditions. The domain restricts transport lengths, byte ranges and safe bounded storage; behavior remains defined by the supplied code.
+
+This tranche tested 72,329 unique inputs, producing 650,961 behavior evaluations and 144,740 separate input-domain evaluations. Each group combines a retained witness, boundaries, a stated small exhaustive subdomain and 5,000 seeded random attempts. All retained mutants have distinguishing inputs; no unintended port, positive-pair or domain difference was observed. Before the stateful tranche, the cumulative record was 168,969 input records, 168,812 group-specific unique inputs and 1,611,567 behavior evaluations. Repeated testing after a telemetry repair contributes cost but does not multiply reported unique coverage.
+
+We annotate concrete behavioral features rather than assert that a declarative specification is impossible. Error precedence, partial commitment, encoding, state-dependent interpretation and representation-sensitive observations are separate descriptors. These do not automatically assign proof difficulty: indexed and suffix parsers share protected single-record helpers, whereas the evaluator and priority queue have larger computational or representation differences. Factorial and matrix multiplication remain mathematical controls. Whether these descriptors predict specification-authoring cost or relational proof success is an empirical question.
+
+\subsection{State Histories and Multi-Level Calls}
+\label{sec:stateful}
+
+Three new groups supply six contexts and eighteen platform instances. An incremental frame processor compares a linear pending buffer with a circular representation. A transaction store compares full-map snapshot stacks with an undo journal and savepoint marks. An LRU cache compares an MRU-ordered sequence with reusable arena nodes carrying intrusive predecessor/successor indices. Both the programs and their complete helper bodies are fixed; source contracts are not supplied as functional oracles.
+
+These comparisons preserve behavior across histories, including errors and uncommon operations. The frame processor retains incomplete data across feeds, exposes sticky error positions and preserves frames completed before a failure. The transaction store permits absent-key deletion, rollback without a transaction, a depth-limit error and an unfinished transaction at the end of a trace. Its journal must keep inner committed writes reversible by the outer transaction. The cache distinguishes a touching get from a non-touching peek, handles zero capacity and reports ordered eviction batches when resized. Final observations expose logical state, hiding buffer layout, undo storage and node indices.
+
+We extract direct-call graphs from all nine normalized Clight ASTs and check that every called function has a body. The frame chain has four call edges from main through feed, drain, checksum and byte access. The journal and linked-cache alternatives each have a longest chain of five edges, through restore/write or eviction/detachment helpers. These are syntactic reachability measurements in single-translation-unit programs, not runtime stack samples or evidence of an L4 proof difficulty. Native ports use their own representations and call structures.
+
+The main stateful corpus tests 106,160 unique inputs and 955,440 behavior evaluations, with 212,362 separate domain evaluations. Each group receives 10,000 random attempts, explicit small-domain enumeration and long boundary traces. Frame generation also enumerates short-frame partitions and inserted empty feeds. The reference event audit records 19,876 inner commits, 32,027 successful rollbacks and 44,798 cache evictions; event labels can overlap and are not independent samples. No unintended positive or cross-platform difference was observed, and all three retained mutants have distinguishing inputs.
+
+Event auditing exposed a coverage weakness: a feed completing multiple frames occurred only once in the main corpus. A deterministic supplement adds 3,805 inputs, disjoint from the main corpus, across all 32 circular-buffer residues, partial long frames, completed prefixes followed by errors and reset/resume sequences. It adds 2,592 multi-frame-feed events. Together the stateful tranche covers 109,965 unique inputs, 989,685 behavior evaluations and 219,984 domain evaluations. Before the latest tranche, the cumulative record was 278,934 input records, 278,777 group-specific unique inputs and 2,601,252 behavior evaluations. Coverage counts selected successful evidence runs; smoke, failed coverage attempts and retries remain in construction costs without inflating coverage.
+
+\subsection{Executable Numerical References}
+
+Some tasks expose a result whose precise description naturally retains the reference computation. The banded alignment reference enumerates all admissible gap predecessors. The alternate maintains one running minimum per column and one for the row. The observation includes both the minimum cost and a mask of all tied terminal move classes. The fixed-point resampling reference divides each output coordinate to obtain its source index and fractional phase. The alternate advances that phase incrementally. The observation includes the rounded value and both boundary and saturation flags. A signed half can change a returned value even when its unrounded rational value agrees. The two tasks exercise recurrence compression and incremental arithmetic, respectively.
+
+The same tranche adds graph closure after dependency edits, layered lookup with deletion masks and lease renewal with expiration ordering. These provide a mix of graph computation and stateful interface semantics. Direct-call graphs extracted from fifteen normalized Clight ASTs have longest chains of four or five call edges. Their callees all have bodies.
+
+We record the provenance of input fixtures separately from the origin of implementation code. The dependency, scope and lease fixtures adapt operations from Ninja tests, the Bash manual and Redis tests \citep{ninjaGraphFixture,bashScopeFixture,redisExpiryFixture}. Their encodings and observations are specific to EqualBench. Resampling uses sixteen monthly AirPassengers measurements as input samples \citep{rPassengersFixture}. We vary the fixed-point parameters while preserving those integers. Alignment uses synthetic sequences and an exhaustive small domain. The reports distinguish source-derived cases from synthetic inputs and bind the fixture snapshot by hash.
+
+\subsection{Program Sources and Provenance}
+
+Representative programs can be reused from AlgoVeri, VERINA, Vero and equivalence datasets \citep{zhao2026algoveri,ye2026verina,ye2026vero,wei2025equibench,oza2026cetbench,badihi2021eqbench}. Reuse requires exact source-file/license review, attribution and task-local provenance. Prior labels, tests and specifications aid curation but are not EqualBench certificates. Source-system standalone functional contracts are withheld from the solver. Construction may retain precisely stated unproved problems, with uncertainty disclosed.
+
+Additional sources include QCIP/QCP data-structure examples and VST's BST, queue, and modular pile programs \citep{qcp2026source,vst2026source}. A recorded proof against source-system annotations is not an EqualBench certificate. Allocator substitutions, disabled diagnostics, altered layouts, repaired code, and new client wrappers are recorded as adaptations rather than presented as unchanged upstream programs.
+
+All variants, domain variants, and clients of one implementation family stay in one split. A shared split-group ID further joins cross-track ports and entries sharing distinctive task-specific helper code. Common environment libraries alone do not merge unrelated tasks. Report implementation-family and independent-group counts separately; this avoids inflating sample size through clients of the same module or source-derived templates. Sorting remains useful but will not dominate the suite.
+
+\subsection{Construction Method}
+\label{sec:construction}
+
+The unit is a versioned implementation group, not an isolated program pair. Construction selects an implementation-style contrast, fixes the input and observation boundary, and supplies concrete Lean, Rocq and C versions of each variant. No independently authored correct-output function is used. Constructor permissions end when a revision freezes; proof agents thereafter edit proofs only.
+
+\paragraph{Program selection.}
+We first identify behavior that a maintainer would preserve when replacing a reference implementation. We prioritize computations whose complete behavior includes interacting conventions, such as exact rounding, tie handling, encoding boundaries, error precedence or the state after partial progress. A reference implementation is an executable description of those choices. The benchmark still fixes the input domain and observation explicitly. The selection criterion does not claim that a declarative specification is mathematically impossible to write.
+
+Within each selected family, we seek implementations with a concrete difference in algorithm, control flow or representation. We retain a reference and a small number of alternatives, then add a near-miss implementation when its observable difference can be exercised by a valid input. Curators inspect reachable helper bodies, arithmetic bounds and input encodings before testing. A function's size or call depth alone does not determine its difficulty. We keep computational kernels alongside stateful programs and simple controls so that proof difficulty, implementation style and witness difficulty can be evaluated separately.
+
+For sourced material, the record identifies the upstream project or dataset, version or retrieval point, relevant case, license information where code is reused, and each adaptation to the bounded task. Public test inputs and data samples can seed construction, while classic algorithms can use synthetic inputs. A sourced fixture does not certify the translated implementations or define the benchmark's target. The construction record distinguishes copied input values, adapted scenarios and newly authored code.
+
+Selection proceeds by checking the input and observation boundary, type checking each platform's protected definitions and targets, and testing within and across platforms. Small exhaustive domains, boundary histories, source-derived inputs and seeded random generation serve different coverage roles. The curator records disagreements before changing code, domain or observation. A repair creates a new revision and triggers the affected checks again. A retained behavioral difference becomes a candidate refutation task. Tests provide provisional evidence, and the frozen programs determine the pending theorem.
+
+The Base64 encoding family illustrates this process. RFC 4648 supplies seven input/output vectors \citep{rfc4648}. The benchmark also generates bounded byte strings. One implementation groups three input bytes and explicitly computes four output characters. Another carries a bit buffer across byte boundaries and emits six-bit groups as they become available. The selected observation is the entire encoded byte sequence, including padding. A mutant emits at most one padding character. The formal question is whether the two supplied computations agree on every admitted input. The RFC vectors are curator-side tests and are not an independent postcondition supplied to the solver. The selected corpus has 15,285 unique inputs and 137,565 behavior evaluations. All seven reference outputs agree with the recorded vectors, and the mutant differs on 3,573 tested inputs.
+
+For classical algorithm contrasts, we construct Prim and Kruskal implementations over bounded undirected graphs, and insertion sort and merge sort over key/payload records. The spanning-forest comparison admits disconnected graphs and negative or equal weights. With equal weights, the common observation contains total weight and component count, not selected edges. A second context assumes globally distinct edge weights and also observes the exact selected-edge mask. These goals compare implementations and do not independently establish optimality. The sorting observation contains the complete key/payload sequence, making the relative order of equal keys visible. Maximum-spanning Kruskal and unstable selection sort provide candidate counterexample tasks. The two groups cover 11,064 and 13,119 distinct inputs, respectively, with 10,000 seeded random generation attempts per group plus bounded enumeration and boundary cases; the respective mutants differ on 5,559 and 10,508 inputs. No unintended cross-platform differences were observed. The C executable is tested with sanitizers; Clight execution and final relational proofs remain pending.
+
+\begin{enumerate}
+\item \textbf{Materialize the boundary and code.} Record provenance, source adaptations and all reachable callees. Define input layouts, safe numerical ranges and executable observation projections. Keep representation differences visible in metadata rather than assuming identical layouts or call graphs across platforms.
+\item \textbf{Check definitions and obligations.} Type-check native code and target propositions, export real normalized Clight ASTs, and type-check their bindings and execution targets. Pending proofs are explicit; undefined program parameters, admitted certificates and equality of failed executions cannot fill gaps.
+\item \textbf{Generate and audit inputs.} Combine retained witnesses, boundaries, stated exhaustive subdomains and seeded, structurally biased random generation. The new tranche deduplicates inputs and cross-checks executable Lean/Rocq domain predicates against the generator, including invalid neighboring inputs. Random attempts and unique accepted inputs are reported separately.
+\item \textbf{Compare within and across platforms.} Compare intended-positive variants and each variant's ports using a common observation encoding. The C harness also checks normal return and zero output padding. C native sanitizer runs are distinguished from Clight semantic execution. Domain mismatch, failed execution, unintended pair difference and port disagreement are separate issue classes.
+\item \textbf{Repair or retain, then freeze.} Persist the original input and observations before changing a program, decoder, boundary or task. A constructor may repair a defect or retain a meaningful non-equivalence context. Domain restrictions cannot silently discard counterexamples. Save before/after hashes, affected contexts and revision IDs, rerun affected checks, and freeze code, targets, ASTs and evidence fingerprints together.
+\end{enumerate}
+
+The constructor stops the selected tranche when concrete versions and target types check, testing reaches its predeclared coverage, retained negatives have distinguishing inputs, and discovered unintended differences are resolved or explicitly reclassified. Final theorem proofs are not required at this stage. A shortest observed witness is not claimed globally minimal. Absence of a differential counterexample yields only a provisional equivalence label. Appendix~\ref{app:construction} gives the exact domains and repair example.
+
+\subsection{Quality Control}
+
+Construction currently does not require a final target proof. Its gates are source/provenance review, concrete versions on all three platforms, nonempty input boundaries and executable observation code, target-type checking, extensive differential testing, and complete issue/revision/cost records. A constructor may repair an unexpected difference or retain it as a refutation context. Before/after hashes, exact witnesses, affected task IDs and reruns are retained. After freezing a revision, solving agents cannot alter implementations. Construction-ready and reference-ready are separate statuses; pending ASTs or missing accounting evidence block the corresponding readiness claim.
+
+Absence of a differential counterexample only supports a provisional equivalence label. Kernel-checked opposite certificates can later expose wrong labels. Overall solving success is based on accepted certificates regardless of the provisional label; polarity-specific analyses must distinguish certified labels from provisional construction labels.
+
+\subsection{Auditing the Certificate Interface}
+
+Construction includes checking whether the goal can be discharged without the intended evidence. Our interface audit found that a bare proposition $\mathit{Eq}\lor\mathit{Cex}$ is too weak as a submission protocol. For total functions, classical logic yields either universal equality or an existential difference independently of understanding the programs. This is a valid logical proof, but it does not necessarily select a checked behavioral answer or produce a concrete counterexample. The issue is the task interface, not unsoundness of classical logic, which remains allowed within genuine branch proofs.
+
+The revised contract requires a literal branch tag. Equivalence submissions must directly inhabit the fixed universal target. Refutations supply finite JSON data for input and both observations; a protected serializer produces the corresponding Lean/Rocq values and a goal asserting admissibility, two successful observations and their inequality at that input. A generated gate requires the submitted theorem to have this branch-specific type. Opaque witness programs and conditional tags cannot substitute for the literal data. This audit changed no implementation or input domain, so prior differential evidence remains applicable.
+
+For all 63 contexts, both branch target types were checked on all three platforms. The interface additionally checks generated literal-witness obligation types and rejects malformed submission packages, including bare-disjunction claims, nonliteral witnesses, identical observations and wrong input-container types. Final certificates and an isolated grader with a completed dependency and axiom audit remain pending.
+
+\subsection{Construction Cost and Audit Trail}
+
+The implementation group is the accounting unit. Multiple pair targets and platform ports reference one group record, not duplicated charges. Each local command records UTC boundaries, monotonic elapsed time, user/system CPU time, exit status, arguments, output logs and kernel-reported maximum process RSS, including failures and repairs. Parent envelopes cover orchestration and child commands; nested detail costs are not added again. Maximum process RSS is explicitly the largest single-process high-water mark across waited descendants, not the simultaneous sum of a process tree. Without a dedicated writable cgroup, exact process-tree peak memory is unavailable.
+
+Model tokens come from provider-reported cumulative usage snapshots. Input, cached input, output and reasoning are distinguished; reasoning is already included in output. Shared authoring-session usage is recorded once in a batch and referenced by groups. Where group attribution is unavailable, it is marked unknown rather than evenly divided and called exact. Hosted inference memory and uninstrumented historical work are also unknown. Prefix snapshots state their cutoff; a post-turn snapshot is needed to close the final response's usage. Dollar costs are not inferred without a pinned billing basis.
+
+All discoveries and repairs enter an append-only issue/revision trail. Intentionally retained mutants are distinguished from accidental defects. Compiler/type-check failures remain recorded with costs even after repair. Before/after program hashes and exact differential inputs make changes reviewable; later evidence is bound to the revised source fingerprint. This protocol measures construction effort separately from downstream proof-agent budgets.
+
+\subsection{Scoring}
+
+For each task, $s_t=1$ only if the proof is accepted against the explicitly selected branch and, for refutation, the protected obligation specialized to the submitted literal input and observations; otherwise $s_t=0$. A proof of the bare logical disjunction is insufficient. Report overall certificate success and distinguish certified from provisional polarity labels. Also report task- and family-weighted scores:
+\begin{align}
+  S_{\mathrm{task}} &= \frac{1}{|T|}\sum_{t\in T}s_t, \\
+  S_{\mathrm{family}} &= \frac{1}{|F|}\sum_{f\in F}
+       \frac{1}{|T_f|}\sum_{t\in T_f}s_t,
+\end{align}
+where $F$ is the set of families and $T_f$ is the set of tasks in family $f$. The family score prevents a family with many variants from dominating the result. Report proof validity separately from completion time and token/tool budgets.
+
+The resampling unit is the independent split group: correlated implementation families and clients are kept together. Report group-bootstrap confidence intervals alongside the task and family scores. For proof-versus-counterexample comparisons, use within-family paired differences and show per-family outcomes. Analyze checked success with a hierarchical model including polarity, difficulty, style, call structure, track, tool budget, and group/model effects only if the final independent-group count supports stable estimates.
+
+\section{Evaluation Plan}
+
+Our planned research questions are:
+\begin{itemize}
+  \item \textbf{RQ1: Certificate construction.} How often do agents produce checked equivalence proofs and checked counterexamples?
+  \item \textbf{RQ2: Proof versus refutation.} Under matched families and budgets, are universal equivalence proofs harder than finding and formally certifying a finite counterexample?
+  \item \textbf{RQ3: Implementation style.} How does success vary across recursive, algorithmic, representational, control-flow, and memory-update contrasts, independently of task difficulty?
+  \item \textbf{RQ4: Track effects.} On conceptual cross-track pairs such as matrix multiplication and reversal, how does success change when the same transformation is expressed over functional values versus Clight state and memory? This comparison is descriptive unless the paired set is large enough to control task differences.
+  \item \textbf{RQ5: Failure analysis.} Which failures come from a false relation, a missing invariant, proof-assistant interaction, or an unclear observation boundary?
+  \item \textbf{RQ6: Call composition.} How does success change between equivalent inline and helper-based implementations, and which failures arise when relations must be composed across recursive or cross-file calls?
+  \item \textbf{RQ7: Behavioral boundary detail.} How does proof and refutation success vary with error precedence, partial commitment, encoding and operation-history dependence, after accounting for implementation style and program size?
+\end{itemize}
+
+VERINA evaluates nine models over 189 tasks and supports both one-shot and iterative proof refinement \citep{ye2026verina}. AlgoVeri studies 77 aligned algorithm tasks and uses multiple models with bounded iterative repair \citep{zhao2026algoveri}. Vero evaluates 43 repository instances and uses long-running agent configurations, alongside formal audit paths for benchmark defects \citep{ye2026vero}. These provide scale and protocol references, not task-level substitutes for EqualBench.
+
+For a first agent study, we propose six to eight pinned configurations: at least two general-purpose coding agents, two proof-focused configurations, and two open-weight systems, with three independent runs per task/configuration. Run pass@1 on all tasks under an identical tool and resource budget. On the 12-task pilot and a stratified hard subset, add a bounded iterative-repair condition (initially 15 repair turns) and report it separately from pass@1. Freeze exact model versions, prompts, tool access, seeds, and budgets at evaluation time. The task-family split remains fixed across all model configurations. Report results on public-source-derived and newly authored families separately to expose possible source-code contamination. Use one verifier-feedback protocol across configurations and record failed builds separately from kernel-accepted certificates; a successful compile alone does not count as a solve.
+
+The pilot studies construction quality, then proof feasibility; it is not yet a leaderboard. Three earlier Rocq probes passed recorded \texttt{coqc}/\texttt{coqchk} checks under Coq 8.20.1. Current native definitions and pending target types have checked under Lean 4.34.0 and Rocq 8.20.1; final complex relations remain unproved. No agent proof evaluation has run. A submission must replace design statements with a finalized corpus, explicit label confidence and measured outcomes.
+
+For RQ6, include within-family call-factoring contexts and verify the transformed pair before evaluation. Freeze all reachable bodies in both conditions, give the same semantic libraries and budgets, and compare success as a paired result. Module-replacement tasks remain distinct from this ablation because changing the data representation can introduce additional invariants.
+
+For RQ7, label behavioral features before inspecting model outcomes and report stratified results with group-level uncertainty. Include ordinary mathematical controls and both control-flow and representation contrasts; the current small sample cannot isolate a causal effect of specification burden. A separate blinded authoring study could ask annotators to describe full behavior, recording effort and omissions on withheld execution cases. Such descriptions would be analysis artifacts, never additional solver contracts or correctness oracles. This study has not been run, so feature-rich programs are not yet evidence of measured authoring difficulty.
+
+\section{Limitations}
+
+EqualBench's specification-free claim is relative to a standalone functional contract. The benchmark still needs an input domain, preconditions, and an observation relation; otherwise, equivalence is underspecified. It also trusts the chosen reference implementation as the behavior to preserve. An equivalence proof does not establish that this behavior matches user intent.
+
+The core uses preallocated arrays, pointer structures, node arenas and bounded work storage. It excludes general allocation, external I/O, floating-point transformations, concurrency and unspecified calls. Source-to-arena adaptations change programs and are disclosed. Negative C tasks require finite safe witnesses. Native ports use different representations and sometimes fuel. Cross-platform evidence is differential and the semantic refinement obligations remain open. Twenty-nine groups have concrete native/C sources, 91 Clight ASTs and type-checked pending targets. Portable dependency locking, isolated solver packaging and final proof evaluation remain incomplete. Historical costs, exact per-group attribution of shared model tokens and hosted inference memory are unavailable, preventing complete retrospective construction-cost claims.
+
+\section{Conclusion}
+
+EqualBench targets proof-producing program comparison without an independent declarative functional specification. Each task context requires Lean, Rocq and C/CompCert versions. Construction uses differential discovery and versioned repairs, with costs counted once per implementation group; final target proofs are deferred. Solving still requires a kernel-checked equivalence or counterexample certificate. Portable dependency locking, audits of ports and accounting, corpus expansion and proof-agent evaluation remain future work.
+
+\bibliography{references}
+\bibliographystyle{styles/icml2026/icml2026}
+
+\appendix
+\section{Concrete Task Boundaries and Unproved Targets}
+\label{app:targets}
+
+The design-v0.2 registry binds each context to native Lean, native Rocq and actual CompCert ASTs, with protected source hashes. Native Lean goal propositions and theorem templates contain no \texttt{sorry}; Rocq pending declarations end in \texttt{Abort}, exporting no proved theorem or admitted constant. The three versions' target types have checked. The twelve context names below each have three platform realizations, not thirty-six independent implementation groups. This appendix states obligations, not proved results.
+
+Let $A_0,A_1,A_2,A_3$ denote a family's reference, two alternatives, and mutant. Its two equivalence goals are $\mathit{Eq}_C(A_0,A_1)$ and $\mathit{Eq}_C(A_0,A_2)$, and its refutation goal is $\mathit{Cex}_C(A_0,A_3)$. In the repository these predicates quantify over a typed input $x$ satisfying the corresponding valid-input predicate, execute both Clight programs on the same encoded input, and compare the canonical outputs. Each agent-facing context exposes both explicit branch targets; refutation requires literal witness data and a specialized proof, with polarity hidden.
+
+\begin{table*}[t]
+\centering
+\small
+\caption{The twelve named expected-branch targets in the concrete revision. Every target remains unproved; L/W labels are provisional.}
+\label{tab:targets}
+\begin{tabular}{p{0.28\textwidth}p{0.47\textwidth}p{0.13\textwidth}}
+\toprule
+Theorem / task ID & Fixed implementation comparison & Target / level \\
+\midrule
+\texttt{C\_BST\_SUCCESSOR} & Predecessor copying vs successor transplantation & Eq / L3 \\
+\texttt{C\_BST\_ROTATE} & Predecessor copying vs rotation-based pushdown & Eq / L4 \\
+\texttt{C\_BST\_VALUE} & Predecessor copying vs omitted value assignment & Cex / W2 \\
+\texttt{C\_AVL\_STACK} & Recursive balancing vs explicit ancestor stack & Eq / L4 \\
+\texttt{C\_AVL\_FACTOR} & Factored double-rotation helpers vs direct calls in balance & Eq / L2 \\
+\texttt{C\_AVL\_MIDDLE} & Preserved vs dropped middle subtree during left rotation & Cex / W2 \\
+\texttt{C\_RING\_COPY} & Two-span copying vs bytewise copying with full flag & Eq / L2--L3 \\
+\texttt{C\_RING\_REP} & Full-flag representation vs occupancy count & Eq / L3 \\
+\texttt{C\_RING\_FULL} & Full-aware length vs indices-only length & Cex / W1 \\
+\texttt{C\_DIJK\_SCAN} & Sorted min-queue client vs unsettled-vertex scan & Eq / L4 \\
+\texttt{C\_DIJK\_HEAP} & Same graph client with sorted queue vs binary min heap & Eq / L3--L4 \\
+\texttt{C\_DIJK\_SEEN} & Strict relaxation vs acceptance of first distance only & Cex / W2 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+All keys lie in $[-1024,1024]$ and stored values in $[-10^6,10^6]$. BST initialization has distinct keys and permits every insertion order; commands may delete absent keys or query an empty tree. Deleted nodes are visibly retired without reclamation or reuse, and callers hold no interior handles. AVL duplicate insertion ignores the new value, and at most 64 insertions fit the explicit arena. These boundaries do not require the agent to satisfy an independent abstract-map specification.
+
+Ring input records fix operation kind, requested length, and byte payload, with separate nonoverlapping source, destination, and buffer storage. Ordinary writes truncate to free space; reads truncate to available bytes; forced writes discard sufficient oldest bytes to fit the request. These conventions are implemented in each frozen variant. The observation code exposes completion count and delivery, and the final projection hides obsolete physical bytes. The candidate full/empty witness writes $[17,29]$ to a capacity-two buffer and reads two bytes: the reference delivers both, whereas the mutant reports empty. The AVL witness inserts keys $1,0,3,2,4,5$ then queries key 2; the mutated rotation loses that key.
+
+Dijkstra encodes an ordered edge list and uses a fixed builder to produce adjacency chains, so valid initial layouts are not left implicit. With at most ten vertices and weights at most 1000, reachable shortest-path distances have a simple-path representative of at most 9000, distinct from $\mathit{INF}=10^9$. The queue has 641 entries; a conservative occupancy argument, arithmetic safety, termination, and the relation between queue/scan states must still be proved from the code. No queue-sufficiency assumption is smuggled into the domain. Neither this bound discussion nor native agreement is a relational certificate.
+
+
+\section{Construction Details and Evidence}
+\label{app:construction}
+
+The six algorithm groups refine existing catalog slots rather than introducing extra pairwise samples. Each selects reference/replacement and reference/mutant contexts, realized on all three platforms. Their named goals are \texttt{R\_FAC\_EQ/CEX}, \texttt{R\_REV\_EQ/CEX}, \texttt{R\_SUM\_EQ/CEX}, \texttt{R\_MAT\_EQ/CEX}, \texttt{R\_STR\_EQ/CEX}, and \texttt{R\_QUE\_EQ/CEX}; expected polarity remains curator-only.
+
+\begin{table*}[t]
+\centering\small
+\caption{Deduplicated construction coverage for the base-algorithm tranche. Domain evaluations are counted separately from behavior evaluations. No row denotes a proved final theorem.}
+\begin{tabular}{lrrrr}
+\toprule
+Group & Unique inputs & Behavior evaluations & Domain evaluations & Distinguishing inputs \\
+\midrule
+Factorial & 13 & 117 & 34 & 12 \\
+Reversal & 8,204 & 73,836 & 16,418 & 8,204 \\
+Summation & 8,213 & 73,917 & 16,436 & 7,118 \\
+Matrix product & 12,746 & 114,714 & 25,502 & 6,939 \\
+First-match search & 12,869 & 115,821 & 25,748 & 346 \\
+Queue traces & 24,313 & 218,817 & 48,636 & 7,790 \\
+\midrule
+Total & 66,358 & 597,222 & 132,774 & 30,409 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+Factorial admits integers 0--12 to avoid signed 32-bit overflow. Sequences have length 0--64 and values in $[-10^6,10^6]$. Matrix dimensions range 0--6 and entries lie in $[-1000,1000]$, including empty dimensions and a zero inner dimension with nonempty output. Texts have length at most 64, patterns at most 32, and bytes 0--255. Queue traces have at most 64 commands over enqueue, dequeue and peek, with empty queries allowed. Exact lengths and command encodings are checked by executable input predicates, not by separate functional postconditions.
+
+Small-domain enumeration covers ternary sequences of length at most 7; ternary matrices with dimensions at most 2; binary texts of length at most 7 and patterns of length at most 4; and traces of length at most 6 over three enqueue values, dequeue and peek. Every non-factorial group additionally receives 5,000 random attempts with fixed seeds, plus boundary and witness inputs. Deduplication explains why random attempt counts differ from novel input counts. The factorial group performs no random sampling after exhausting its admitted value inputs.
+
+The retained matrix mutant reads the right operand using $j\cdot k+t$ instead of $t\cdot c+j$. Both accesses stay within the admitted buffer. For $A=[1,2]$ and $B=[1,2;3,4]$, observed results are $[7,10]$ and $[5,11]$. The KMP mutant resets its matched-prefix length to 0 at every mismatch; text $[0,0,0,1]$ with pattern $[0,0,1]$ distinguishes a first match at 1 from failure. The queue mutant keeps the rear list after normalization; enqueue 1, dequeue, dequeue distinguishes an empty result from a repeated 1. These are execution witnesses, not formal counterexample certificates.
+
+One new Lean draft used reserved identifiers \texttt{matches} and \texttt{prefix}; type-checking rejected them before testing. The repair renamed them, archived the prior source, incremented the revision, and retained the failed command's cost. This is a construction error, not a discovered algorithmic counterexample. The earlier Clight global-environment error is likewise recorded separately from retained semantic mutants. No unintended algorithmic or cross-platform mismatch was observed in the completed tests, so we report none rather than inventing a repair example.
+
+Native input sequences are passed directly to the Lean/Rocq entry; the C harness pads the same fields into its fixed input global. The native observation is a length-prefixed integer list; C requires normal return and initialized output padding, then projects the corresponding length and payload. All case generators, corpus hashes, source/AST fingerprints, invalid-domain cases, failed commands and cost scopes are retained in the repository. Final proof obligations remain unproved, and portable dependency locking and isolated solver packaging remain pending.
+
+\section{Boundary-Rich Task Details}
+
+\begin{table*}[t]
+\centering\small
+\caption{Boundary-rich tranche construction coverage. Counts are deduplicated within groups, not independent statistical samples. Refutations remain execution witnesses without formal certificates.}
+\begin{tabular}{lrrrr}
+\toprule
+Group & Unique inputs & Behavior evaluations & Domain evaluations & Distinguishing inputs \\
+\midrule
+Tree mirror & 4,938 & 44,442 & 9,886 & 3,358 \\
+Union-find & 11,137 & 100,233 & 22,284 & 1,400 \\
+Priority queue & 7,284 & 65,556 & 14,578 & 2,900 \\
+Tagged evaluator & 5,806 & 52,254 & 11,624 & 122 \\
+TLV decoder & 7,508 & 67,572 & 15,026 & 1,943 \\
+Quoted tokenizer & 9,487 & 85,383 & 18,984 & 107 \\
+Block decoder & 16,158 & 145,422 & 32,326 & 3,668 \\
+Path normalizer & 10,011 & 90,099 & 20,032 & 67 \\
+\midrule
+Total & 72,329 & 650,961 & 144,740 & 13,565 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+The tree domain contains forests with at most 64 nodes, unique incoming child edges and backward child indices, rooted at the last node. It observes height and an ordered ID/label projection with null markers, hiding unreachable nodes. Union-find admits at most 64 elements and operations, observing connectivity rather than representative IDs. Priority-queue traces admit empty queries and duplicate values; their representation comparison uses trace mode, while the wrong-child counterexample context uses bulk construction followed by draining. All referenced helper bodies are supplied.
+
+The evaluator admits up to 64 DAG nodes and eight environment values. Its result is a triple of error code, error-node index and value. Operations enforce a semantic range of $[-32768,32767]$, while bounded intermediates fit C's signed 32-bit arithmetic. Division truncates toward zero. Unknown opcodes and unbound variables are successful error observations, rather than unsafe input shapes. Native fuel bounds are explicit and their adequacy remains part of each universal target.
+
+TLV streams contain at most 96 bytes. A record has a tag, two little-endian length bytes, payload and XOR checksum. Error priority is short header, unknown tag, excessive length, insufficient body, typed-length mismatch, checksum failure, then invalid Boolean. The observation preserves accepted records and reports the selected error offset. The corpus includes all seven reference error codes, but coverage is uneven: invalid-Boolean results occur twice and typed-length failures seventeen times. These histograms describe tested behavior, not exhaustive semantic coverage.
+
+Tokenizer and path inputs have at most 64 bytes. Tokenization gives NUL priority over escape handling; at end of input a dangling escape precedes an unclosed quote. Completed tokens survive errors and the unfinished token is discarded. The decoder admits at most 64 source bytes and capacity at most 96. Source shortage precedes output-capacity failure, and a failing block contributes no partial output. The path task is lexical only: unmatched relative parents survive, excess absolute parents do not, and a first NUL yields a position-bearing error. All malformed byte contents satisfying transport bounds remain admitted.
+
+Every context exposes a universal equivalence proposition and a refutation proposition parameterized by literal input and observations. The protected definitions directly reference the fixed variants; they do not invoke a third correct-output function. The task registry names sixteen comparisons, including demand/DP evaluation, indexed/suffix parsing and left/right path reduction. Parser variants share concrete record/block helpers, so their style difference is narrower than the evaluator or heap/ordered-array comparison. Difficulty remains provisional.
+
+The cost audit found a helper-import side effect that reset some command batch labels. Original timestamps and RSS records were preserved, append-only attribution corrections assigned them to the actual implementation groups, and the entire tranche was remeasured after removing the import. Two additional metadata-audit compatibility assumptions and one checker-ordering error were repaired and logged. These were construction-tool errors, not discovered algorithmic counterexamples. Earlier preparation and metadata housekeeping lacked full process telemetry; this gap, per-group shared-token attribution and hosted inference memory remain explicit rather than reconstructed.
+
+\section{Stateful Task Evidence and Pending Targets}
+
+\begin{table*}[t]
+\centering\small
+\caption{Stateful construction coverage, including a frame supplement whose inputs are disjoint from the main corpus. All final relational goals remain unproved.}
+\begin{tabular}{lrrrr}
+\toprule
+Group & Unique inputs & Behavior evaluations & Domain evaluations & Distinguishing inputs \\
+\midrule
+Incremental frames & 34,269 & 308,421 & 68,562 & 6,417 \\
+Nested transactions & 47,108 & 423,972 & 94,230 & 3,436 \\
+Intrusive LRU cache & 28,588 & 257,292 & 57,192 & 3,219 \\
+\midrule
+Total & 109,965 & 989,685 & 219,984 & 13,072 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+All traces contain at most 64 commands. Frames accept feed chunks of length zero to eight, with a maximum payload length of eight. An invalid tag, excessive length, bad checksum or truncated finish produces a sticky error; reset clears it. A feed can commit complete frames before retaining a later failed or incomplete frame. Linear and circular implementations compare consumed offsets, error positions, completed frames and logical residual bytes, while hiding unused storage. The retained mutant discards residual bytes on an empty feed. Because residual bytes are observable, a two-command trace can distinguish it; its universal positive relation can nevertheless require a representation invariant across all commands.
+
+The transaction store has eight keys, values in $[-1000,1000]$ and maximum depth eight. Its observations contain operation status, query results, current depth and the final logical map. Snapshot restoration and reverse undo replay must agree even after inner commits, repeated overwrites and deletes. The retained mutant truncates the undo log on inner commit, so an outer rollback may retain a write. No functional transaction oracle, snapshot equality requirement or precondition excluding invalid control histories is supplied.
+
+The cache has capacity zero to eight and sixteen possible keys. Put, get, peek, erase and resize expose return observations and ordered evictions; a final MRU-to-LRU projection hides arena-slot identities. The replacement uses live nodes with predecessor/successor indices and reuses freed slots. Its relation must connect node membership, link consistency, recency and capacity to the reference sequence across several helpers. The mutant omits get's touch. Final MRU observation permits a short witness, so the task's negative discovery level is not inferred from the positive proof's structural complexity.
+
+The six named comparisons are \texttt{S-FRAME-RING}, \texttt{S-FRAME-EMPTY}, \texttt{S-TX-JOURNAL}, \texttt{S-TX-COMMIT}, \texttt{S-LRU-LINKS} and \texttt{S-LRU-TOUCH}. Each has a native universal target requiring a common successful observation on every admitted input, a literal-witness refutation target, and corresponding safe finite Clight execution targets. All target types check, but no target proof is attempted. Longest direct-call chains are extracted from the actual protected ASTs; all callees have bodies and no external I/O occurs.
+
+The stateful Lean draft initially failed because of record-field syntax, an unavailable integer-XOR name and an underconstrained tuple numeral. The repair uses byte-wise natural XOR, explicit integer typing and valid record syntax; its prior sources, command failure and costs are retained. A one-line syntax error in the call-graph audit was separately repaired. The first frame supplement passed pair/port comparisons but omitted reset-after-error events required by the reused coverage gate. Its failed report was archived, reset/resume inputs were added, and the supplement was rerun. None of these failures is reported as an accidental program inequivalence. Preparation, compiler, execution and major audit commands are instrumented; editor/bootstrap overhead, exact concurrent process-tree memory and hosted inference memory remain explicit telemetry gaps.
+
+\section{Computational and Sourced Task Evidence}
+
+The latest five groups cover 80,051 unique inputs, 720,459 behavior evaluations and 160,156 input-domain evaluations. The graph, scope, lease, alignment and resampling groups respectively contain 14,967, 12,645, 17,184, 16,406 and 18,849 unique inputs. The selected corpora include 27 inputs derived from the recorded sources. The remaining inputs cover seeded random generation, explicit small domains and structured histories. All five retained mutants have distinguishing inputs. No unintended positive or cross-platform differences were observed.
+
+For alignment, input sequences [0] and [1] with band 1, opening cost 1, extension cost 0 and mismatch cost 1 yield cost 2 with all three terminal directions tied. The mutant returns the same cost with only the diagonal direction. This witness illustrates the value of comparing the complete selected observation. The resampling fixture preserves sixteen observed AirPassengers values; its integer phase, rounding and saturation conventions are newly defined for this benchmark.
+
+The current cumulative evidence comprises 398,453 input records, 398,296 group-specific unique inputs and 3,676,923 behavior evaluations. Nine platform evaluations per new input comprise three variants executed in C, Lean and extracted Rocq. Clight AST export and obligation types were checked separately. The attempted Lean definition and generated runner initially failed type checking. Their source snapshots, errors, repairs and resource costs are retained, and the revised programs passed the reported differential runs. Token usage is a provider-reported shared-session prefix. Exact per-group model attribution, hosted inference memory and simultaneous process-tree peak remain unavailable.
+
+\end{document}

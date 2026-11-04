@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/scripts/curation/check_inventory.py", line 80, in <module>
+    main()
+  File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/scripts/curation/check_inventory.py", line 50, in main
+    manifest=json.loads(contract.read_text())
+UnboundLocalError: local variable 'contract' referenced before assignment

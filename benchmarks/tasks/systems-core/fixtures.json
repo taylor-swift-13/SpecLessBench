@@ -1,0 +1,26 @@
+{
+  "graph": {
+    "source": "https://github.com/ninja-build/ninja/blob/v1.12.1/src/graph_test.cc#L41-L54",
+    "source_case": "ModifiedImplicit",
+    "adaptation": "Map explicit input, implicit input and output to nodes 0, 1 and 2. Use dependency-to-output edges and invalidate node 1. The wire-format observation comes from EqualBench.",
+    "inputs": [[4,0,0,2,0,0,1,2,0,2,1,0,0,4,2,0,0]]
+  },
+  "scopes": {
+    "source": "https://www.gnu.org/s/bash/manual/html_node/Shell-Functions.html",
+    "source_case": "func1 / func2 local shadowing example",
+    "adaptation": "Encode global and function-local values as 10 and 20. Push twice, query in the inner scope, then pop both scopes and query the restored global value.",
+    "inputs": [[8,0,0,10,0,3,0,0,0,0,0,20,0,3,0,0,0,2,0,0,0,4,0,0,0,4,0,0,0,2,0,0,0]]
+  },
+  "leases": {
+    "source": "https://github.com/redis/redis/blob/7.2.4/tests/unit/expire.tcl#L1-L19",
+    "source_case": "Repeated EXPIRE followed by read before and after expiry",
+    "adaptation": "Encode the value as 7 and use logical tick TTLs 3, 6 and 2 in place of wall-clock durations 5, 10 and 2. Read before and after advancing to tick 2.",
+    "inputs": [[6,0,0,7,3,0,0,7,6,0,0,7,2,1,0,0,0,3,2,0,0,1,0,0,0]]
+  },
+  "resample": {
+    "source": "https://raw.githubusercontent.com/wch/r-source/trunk/src/library/datasets/data/AirPassengers.R",
+    "source_case": "AirPassengers, January 1949 through April 1950",
+    "adaptation": "The first 16 monthly counts are stored verbatim as integer samples. Resampling parameters belong to EqualBench.",
+    "samples": [112,118,132,129,121,135,148,148,136,119,104,118,115,126,141,135]
+  }
+}

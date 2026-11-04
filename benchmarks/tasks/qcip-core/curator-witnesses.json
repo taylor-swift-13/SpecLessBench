@@ -1,0 +1,22 @@
+{
+  "bst": {
+    "input": {"initial": [[2, 20], [1, 10], [3, 30]], "commands": [[0, 2], [1, 1]]},
+    "expected_difference": "lookup(1) value 10 versus 20; final key/value projection differs too",
+    "formal_certificate": null
+  },
+  "avl": {
+    "input": {"commands": [[0, 1, 10], [0, 0, 0], [0, 3, 30], [0, 2, 20], [0, 4, 40], [0, 5, 50], [1, 2, 0]]},
+    "expected_difference": "lookup(2) found/value (1,20) versus (0,0)",
+    "formal_certificate": null
+  },
+  "ring": {
+    "input": {"capacity": 2, "commands": [[0, [17, 29]], [1, 2]]},
+    "expected_difference": "read succeeds and delivers [17,29] versus empty-read error",
+    "formal_certificate": null
+  },
+  "dijkstra": {
+    "input": {"vertices": 3, "start": 0, "edges": [[0, 1, 10], [0, 2, 1], [2, 1, 1]]},
+    "expected_difference": "distance vector [0,2,1] versus [0,10,1]",
+    "formal_certificate": null
+  }
+}

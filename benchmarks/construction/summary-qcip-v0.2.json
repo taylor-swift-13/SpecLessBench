@@ -1,0 +1,218 @@
+{
+  "schema_version": 1,
+  "revision": "design-v0.2",
+  "updated_utc": "2026-11-03T12:14:29.611206+00:00",
+  "implementation_groups": 4,
+  "semantic_contexts": 12,
+  "platform_instances": 36,
+  "groups": [
+    {
+      "group_id": "qcip-bst-delete",
+      "family": "bst",
+      "case_count": 9147,
+      "program_executions": 109764,
+      "negative_inputs": 3472,
+      "unexpected_differences": 0,
+      "tool_wall_seconds": 76.18428630498238,
+      "max_process_rss_bytes": 1676992512,
+      "exact_tree_peak_bytes": null,
+      "model_tokens": null,
+      "cost_file": "benchmarks/construction/groups/qcip-bst-delete.json"
+    },
+    {
+      "group_id": "qcip-avl-insert",
+      "family": "avl",
+      "case_count": 5825,
+      "program_executions": 69900,
+      "negative_inputs": 2505,
+      "unexpected_differences": 0,
+      "tool_wall_seconds": 50.09167166003317,
+      "max_process_rss_bytes": 1676914688,
+      "exact_tree_peak_bytes": null,
+      "model_tokens": null,
+      "cost_file": "benchmarks/construction/groups/qcip-avl-insert.json"
+    },
+    {
+      "group_id": "qcip-xizi-ring",
+      "family": "ring",
+      "case_count": 8118,
+      "program_executions": 97416,
+      "negative_inputs": 7671,
+      "unexpected_differences": 0,
+      "tool_wall_seconds": 104.17144494301465,
+      "max_process_rss_bytes": 1676369920,
+      "exact_tree_peak_bytes": null,
+      "model_tokens": null,
+      "cost_file": "benchmarks/construction/groups/qcip-xizi-ring.json"
+    },
+    {
+      "group_id": "qcip-dijkstra",
+      "family": "dijkstra",
+      "case_count": 7192,
+      "program_executions": 86304,
+      "negative_inputs": 3326,
+      "unexpected_differences": 0,
+      "tool_wall_seconds": 51.830602732967236,
+      "max_process_rss_bytes": 1677422592,
+      "exact_tree_peak_bytes": null,
+      "model_tokens": null,
+      "cost_file": "benchmarks/construction/groups/qcip-dijkstra.json"
+    }
+  ],
+  "total_family_inputs": 30282,
+  "total_program_executions": 363384,
+  "unexpected_differences": 0,
+  "shared_tool_wall_seconds": 69.6072442009754,
+  "shared_max_process_rss_bytes": 1688682496,
+  "token_cost_source": "batch-three-platform-v0.2.json; shared usage counted once",
+  "compcert": {
+    "schema_version": 1,
+    "version": "3.17",
+    "rocq_version": "9.2",
+    "architecture": "x86_64-linux; ptr64; little-endian",
+    "generator_sha256": "8064763950950ec9e48f44698ba056bb0cb53690e2a35c0c70bb148bdabdb7f2",
+    "coqc_sha256": "1d15c815891e425924a59c27d5e3c0e25f55880e3f64083463a511f0be3c7300",
+    "semantics": "Clight.step2",
+    "options": [
+      "-clight",
+      "-normalize"
+    ],
+    "exports": [
+      {
+        "variant": "BST_V0",
+        "group_id": "qcip-bst-delete",
+        "c_entry": "bst/v0.c",
+        "preprocessed_sha256": "5a51c17180f1b2c0c4c54e3cfd4af21d8efd4cb7a2ee475782ef8a827beb6d97",
+        "ast": "compcert/ast/BST_V0.v",
+        "ast_sha256": "52dfa0b2b794b6bc57974f2d0ac63e12f3d4c5fa4393de65342c3d91b540daee"
+      },
+      {
+        "variant": "BST_V1",
+        "group_id": "qcip-bst-delete",
+        "c_entry": "bst/v1.c",
+        "preprocessed_sha256": "04a0f99fd0816e286e7ec1968f4279984903b91c94dcbe134ac34afd9b23965f",
+        "ast": "compcert/ast/BST_V1.v",
+        "ast_sha256": "32a48987847f14c5b2beb902ca74de9a36edcc8a6a263690f4568f670c9cc331"
+      },
+      {
+        "variant": "BST_V2",
+        "group_id": "qcip-bst-delete",
+        "c_entry": "bst/v2.c",
+        "preprocessed_sha256": "4a0f16ec824377f16432ff2ff48f55910fe279b70aa53f579f51d6a9ea1b92df",
+        "ast": "compcert/ast/BST_V2.v",
+        "ast_sha256": "9fbdac1ecd6204d831ce26e9cd58ac5ea58bcc4b7f177ec0dfeef238ec1a338a"
+      },
+      {
+        "variant": "BST_V3",
+        "group_id": "qcip-bst-delete",
+        "c_entry": "bst/v3.c",
+        "preprocessed_sha256": "e24754f1f0bf11319227bac9a528da0760aede19e93847b34b26ed7dbbc9a4a0",
+        "ast": "compcert/ast/BST_V3.v",
+        "ast_sha256": "39f4227986a7b6542b7a821432d84c3b621f98ce6a0f565262b3ae5ce66961f7"
+      },
+      {
+        "variant": "AVL_V0",
+        "group_id": "qcip-avl-insert",
+        "c_entry": "avl/v0.c",
+        "preprocessed_sha256": "61b78a30843677f362e69b7578ab801b48c1d4c65d950eef687a2a2e0780deb9",
+        "ast": "compcert/ast/AVL_V0.v",
+        "ast_sha256": "1cf30959bdce801d94424e7f6c08fc0bc952513c80152a54a65b5644a48db540"
+      },
+      {
+        "variant": "AVL_V1",
+        "group_id": "qcip-avl-insert",
+        "c_entry": "avl/v1.c",
+        "preprocessed_sha256": "aa93b05bfc99a5633c6950a8b173fa067a2d7645c7d619cfe601b40e7eb7a843",
+        "ast": "compcert/ast/AVL_V1.v",
+        "ast_sha256": "e19316f95847c8b3db91343221ca27637562ae52688f51e7e153df095fda85ee"
+      },
+      {
+        "variant": "AVL_V2",
+        "group_id": "qcip-avl-insert",
+        "c_entry": "avl/v2.c",
+        "preprocessed_sha256": "2f0d082fe29511b8fd7d06397491c47b5eb2274fe8c0576e549d8ab0abbfd49f",
+        "ast": "compcert/ast/AVL_V2.v",
+        "ast_sha256": "eb6380412276f9e5ecd8440004e8c492362bb305256a022df199fe9aec05fa2a"
+      },
+      {
+        "variant": "AVL_V3",
+        "group_id": "qcip-avl-insert",
+        "c_entry": "avl/v3.c",
+        "preprocessed_sha256": "889e7e89e8c850757076678a46a1697223f19fe7990e29dd14ebd117d1152200",
+        "ast": "compcert/ast/AVL_V3.v",
+        "ast_sha256": "482f5d288a7f6cf4606b7fc2643c69ce628933873851fad86f8a0d5b29e5dd33"
+      },
+      {
+        "variant": "RING_V0",
+        "group_id": "qcip-xizi-ring",
+        "c_entry": "ring/v0.c",
+        "preprocessed_sha256": "b9320cc5ff1ec98613d19ac03123fd83ed65ecd43422d7ee41d26d33e736d954",
+        "ast": "compcert/ast/RING_V0.v",
+        "ast_sha256": "44da0d8ef3873285260a0558c659db7ff3ab139d42f8d35140a0805435b71f18"
+      },
+      {
+        "variant": "RING_V1",
+        "group_id": "qcip-xizi-ring",
+        "c_entry": "ring/v1.c",
+        "preprocessed_sha256": "15aae7a4ef6bf126051b26f7f7e27ce31f6cc1df23b579110fb9cfe56b95d8e1",
+        "ast": "compcert/ast/RING_V1.v",
+        "ast_sha256": "cdfad45c84dd8b641a170e856e2880c999d30ba813a16907244864dda8229ca7"
+      },
+      {
+        "variant": "RING_V2",
+        "group_id": "qcip-xizi-ring",
+        "c_entry": "ring/v2.c",
+        "preprocessed_sha256": "c4ac56f692a5f9974202a2f513402f9adb4617c6f9bb2e58e6418e7f1bf87ffb",
+        "ast": "compcert/ast/RING_V2.v",
+        "ast_sha256": "f3f15cffa70afb66f99ab7da7920e09e0c374868e52352329467ed589cdd4d70"
+      },
+      {
+        "variant": "RING_V3",
+        "group_id": "qcip-xizi-ring",
+        "c_entry": "ring/v3.c",
+        "preprocessed_sha256": "e38959f04a87da68d1ff91bde3e4c3ee9e577d0f4df4ffd9ce7bc7d39aeefc14",
+        "ast": "compcert/ast/RING_V3.v",
+        "ast_sha256": "440bf3dcde5ac1598839f6adda78de253933ede34aa5caf13af670209c72071c"
+      },
+      {
+        "variant": "DIJKSTRA_V0",
+        "group_id": "qcip-dijkstra",
+        "c_entry": "dijkstra/v0.c",
+        "preprocessed_sha256": "bb19bbea059255b73023fb837e836562e42ca35c6937166285d2d7b5fe90305e",
+        "ast": "compcert/ast/DIJKSTRA_V0.v",
+        "ast_sha256": "a935ec97e66cd376df6f81e5a154e999ec29e59594b7b15afbad8b74de4eb29e"
+      },
+      {
+        "variant": "DIJKSTRA_V1",
+        "group_id": "qcip-dijkstra",
+        "c_entry": "dijkstra/v1.c",
+        "preprocessed_sha256": "a37ea3e4eb25453e1b71bbdb07ba4f43dac1be4b64e39d150de411741e04ee52",
+        "ast": "compcert/ast/DIJKSTRA_V1.v",
+        "ast_sha256": "6d593f8abe35c7c7db9bb03b1cb637f5077366e206a5583abc25c7c8249eb8b1"
+      },
+      {
+        "variant": "DIJKSTRA_V2",
+        "group_id": "qcip-dijkstra",
+        "c_entry": "dijkstra/v2.c",
+        "preprocessed_sha256": "8f4b8b029a816eaeb47331c7de9577da85d5a997fdc82ef33c0b6c336afa70bd",
+        "ast": "compcert/ast/DIJKSTRA_V2.v",
+        "ast_sha256": "3892b0b01444fe4cb2433a5a2bd97a2de27f9d308b02ae2428275f4d1a78093d"
+      },
+      {
+        "variant": "DIJKSTRA_V3",
+        "group_id": "qcip-dijkstra",
+        "c_entry": "dijkstra/v3.c",
+        "preprocessed_sha256": "4eb99efb49f24bd19547b27a78a4215312a8cd028f5e02536bc1be688d58c2d5",
+        "ast": "compcert/ast/DIJKSTRA_V3.v",
+        "ast_sha256": "3b41c4d46e96131ea59baeb809f773b7ff63b40c6b4b61816f9686b90d791d31"
+      }
+    ],
+    "final_target_proofs": false,
+    "target_typecheck": "passed; declarations end Abort; no final proof",
+    "source_registry_before_ast_sha256": "ffceaabb70b75a190b2f338c76ffb565f32a93fbc941980b1c13da4581f0a6c5"
+  },
+  "proofs_of_final_targets_attempted": false,
+  "labels_certified": false,
+  "all_historical_costs_known": false,
+  "exact_concurrent_tree_memory_known": false
+}

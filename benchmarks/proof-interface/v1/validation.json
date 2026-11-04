@@ -1,0 +1,62 @@
+{
+  "valid_counterexample_packages": 75,
+  "rejected_malformed_packages": 507,
+  "unproved_obligations_checked": 75,
+  "batches": [
+    {
+      "valid_counterexample_packages": 18,
+      "rejected_malformed_packages": 108,
+      "unproved_obligations_checked": 18,
+      "final_target_proofs_attempted": false,
+      "gate_proofs_supplied": false,
+      "scope": "validator and generated obligation types; solver isolation, proof-axiom auditing and full grading still pending"
+    },
+    {
+      "valid_counterexample_packages": 24,
+      "rejected_malformed_packages": 168,
+      "unproved_obligations_checked": 24,
+      "final_target_proofs_attempted": false,
+      "gate_proofs_supplied": false,
+      "scope": "boundary tranche validator/generated obligation types; no final proofs or complete isolated grader"
+    },
+    {
+      "valid_counterexample_packages": 9,
+      "rejected_malformed_packages": 63,
+      "unproved_obligations_checked": 9,
+      "tranche": "stateful",
+      "final_target_proofs_attempted": false,
+      "gate_proofs_supplied": false,
+      "scope": "stateful tranche validator/generated obligation types; no final proofs or complete isolated grader"
+    },
+    {
+      "valid_counterexample_packages": 15,
+      "rejected_malformed_packages": 105,
+      "unproved_obligations_checked": 15,
+      "tranche": "systems",
+      "final_target_proofs_attempted": false,
+      "gate_proofs_supplied": false,
+      "scope": "systems tranche validator/generated obligation types; no final proofs or complete isolated grader"
+    },
+    {
+      "valid_counterexample_packages": 3,
+      "rejected_malformed_packages": 21,
+      "unproved_obligations_checked": 3,
+      "tranche": "base64",
+      "final_target_proofs_attempted": false,
+      "gate_proofs_supplied": false,
+      "scope": "base64 tranche validator/generated obligation types; no final proofs or complete isolated grader"
+    },
+    {
+      "valid_counterexample_packages": 6,
+      "rejected_malformed_packages": 42,
+      "unproved_obligations_checked": 6,
+      "tranche": "classics",
+      "final_target_proofs_attempted": false,
+      "gate_proofs_supplied": false,
+      "scope": "classics tranche validator/generated obligation types; no final proofs or complete isolated grader"
+    }
+  ],
+  "final_target_proofs_attempted": false,
+  "gate_proofs_supplied": false,
+  "scope": "all current literal obligation types; solver isolation, proof-axiom auditing and full grading pending"
+}

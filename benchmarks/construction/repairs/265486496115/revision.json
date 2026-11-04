@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "revision_id": "265486496115",
+  "group_id": "shared-boundaries",
+  "started_utc": "2026-11-03T14:25:52.723330+00:00",
+  "reason": "Legacy helper imports reset construction batch environment; preserve successful evidence and remeasure with independent wire helpers. Programs/domains/targets unchanged.",
+  "status": "committed-tests-invalidated",
+  "files": [
+    {
+      "path": "scripts/construction/differential_boundaries.py",
+      "before_sha256": "37773b4962b3d8ec3e351c981810f07f36c0b66840ce104975a5492544aba5fa",
+      "snapshot": "benchmarks/construction/repairs/265486496115/0.before",
+      "after_sha256": "65ba9bc01933883142a9287bc19588152c1e51a353031dada97f453bfacbae8d"
+    },
+    {
+      "path": "scripts/construction/prepare_boundaries.py",
+      "before_sha256": "c25c1a65eb06fb76097f6c1b5425fafc493e6b3d3103ecc107a2f1c3a0776a37",
+      "snapshot": "benchmarks/construction/repairs/265486496115/1.before",
+      "after_sha256": "581d0318306a9ac7de43fa1edce422adaf8c4147f0dd0329e67b880b9fed2cb6"
+    },
+    {
+      "path": "scripts/construction/prepare_boundary_targets.py",
+      "before_sha256": "c4bb3e321c2881dc82b5ae7605d1beb02e55045a94f70397912c47a232a46081",
+      "snapshot": "benchmarks/construction/repairs/265486496115/2.before",
+      "after_sha256": "bd003e8842b10f5f9f62da260c284884a5caa8737c0b76776f97ac414d859071"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/evidence/tree.json",
+      "before_sha256": "4cceb9c2030034660bcdf4aad2a1f177bb4f9afa8ecc027dc32ebd44549b30f6",
+      "snapshot": "benchmarks/construction/repairs/265486496115/3.before",
+      "after_sha256": "4cceb9c2030034660bcdf4aad2a1f177bb4f9afa8ecc027dc32ebd44549b30f6"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/evidence/unionfind.json",
+      "before_sha256": "87e4f1331ba3034859d1fdc9b9b0b0fb4c8f57997da65dc8e3db356df806061a",
+      "snapshot": "benchmarks/construction/repairs/265486496115/4.before",
+      "after_sha256": "87e4f1331ba3034859d1fdc9b9b0b0fb4c8f57997da65dc8e3db356df806061a"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/evidence/priority.json",
+      "before_sha256": "0983f9e53de28fcf3b9cc3886ed34721bb1f37e66e5a1281311cb6b41dc63bea",
+      "snapshot": "benchmarks/construction/repairs/265486496115/5.before",
+      "after_sha256": "0983f9e53de28fcf3b9cc3886ed34721bb1f37e66e5a1281311cb6b41dc63bea"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/evidence/eval.json",
+      "before_sha256": "6f290bbcaa8d03a33e40dea7dbb57e714d05448dbab82379531c73841fa564ae",
+      "snapshot": "benchmarks/construction/repairs/265486496115/6.before",
+      "after_sha256": "6f290bbcaa8d03a33e40dea7dbb57e714d05448dbab82379531c73841fa564ae"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/evidence/tlv.json",
+      "before_sha256": "d927ca273a7202617995d9a71fe3d898080cc33b7a55a5ca09104b0b636f9fbb",
+      "snapshot": "benchmarks/construction/repairs/265486496115/7.before",
+      "after_sha256": "d927ca273a7202617995d9a71fe3d898080cc33b7a55a5ca09104b0b636f9fbb"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/evidence/quotes.json",
+      "before_sha256": "e7101ce851fe9f2a36f19ca14f1aaf242c0268a805ccf7347654cfcdbb12bcc8",
+      "snapshot": "benchmarks/construction/repairs/265486496115/8.before",
+      "after_sha256": "e7101ce851fe9f2a36f19ca14f1aaf242c0268a805ccf7347654cfcdbb12bcc8"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/evidence/packbits.json",
+      "before_sha256": "71923c5583c921ed313f3d8ceee07f3ca2ea3fffcf8f94ed541e6a2c6f6d47ac",
+      "snapshot": "benchmarks/construction/repairs/265486496115/9.before",
+      "after_sha256": "71923c5583c921ed313f3d8ceee07f3ca2ea3fffcf8f94ed541e6a2c6f6d47ac"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/evidence/path.json",
+      "before_sha256": "89cf05a093ef90b26fc4f9aaa853593d6a00009b46ae966f3f55c270d19556c8",
+      "snapshot": "benchmarks/construction/repairs/265486496115/10.before",
+      "after_sha256": "89cf05a093ef90b26fc4f9aaa853593d6a00009b46ae966f3f55c270d19556c8"
+    }
+  ],
+  "new_revision": "tooling-v0.4.1",
+  "affected_contexts": [
+    "C-TREE-STACK",
+    "C-TREE-SUBTREE",
+    "C-UF-HALVING",
+    "C-UF-ONEHOP",
+    "C-PQ-REP",
+    "C-PQ-CHILD",
+    "C-EVAL-DP",
+    "C-EVAL-SHORTCIRCUIT",
+    "B-TLV-CURSOR",
+    "B-TLV-ENDIAN",
+    "B-QUOTE-SPANS",
+    "B-QUOTE-EMPTY",
+    "B-PACK-SUFFIX",
+    "B-PACK-REPEAT",
+    "B-PATH-REVERSE",
+    "B-PATH-PARENTS"
+  ],
+  "ended_utc": "2026-11-03T14:26:22.664988+00:00",
+  "retest_required": true,
+  "label_revalidation_required": true
+}

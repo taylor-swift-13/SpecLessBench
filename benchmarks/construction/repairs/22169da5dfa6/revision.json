@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "revision_id": "22169da5dfa6",
+  "group_id": "shared-algorithms-interface",
+  "started_utc": "2026-11-03T13:11:19.446759+00:00",
+  "reason": "Contract regression aggregator repeated Lean imports after declarations; consolidate imports before rechecking literal obligations",
+  "status": "committed-tests-invalidated",
+  "files": [
+    {
+      "path": "scripts/construction/check_submission_contract.py",
+      "before_sha256": "501035a65aed47987eb6b47f93e8d980fce36a3be7e2c639d6e4e854816cbb90",
+      "snapshot": "benchmarks/construction/repairs/22169da5dfa6/0.before",
+      "after_sha256": "38cc50896bd01e720dc8698fa02cd8d2b76d2e6b26dc11eb7e4583fdf184ad05"
+    }
+  ],
+  "new_revision": "explicit-branch-v1.1",
+  "affected_contexts": [
+    "all-24-active-contexts"
+  ],
+  "ended_utc": "2026-11-03T13:17:19.598246+00:00",
+  "retest_required": true,
+  "label_revalidation_required": true
+}

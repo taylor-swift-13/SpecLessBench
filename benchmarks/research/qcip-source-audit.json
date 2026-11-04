@@ -1,0 +1,1209 @@
+{
+  "schema_version": 1,
+  "inspection_date": "2026-11-03",
+  "root": "/home/yangfp/QCIP",
+  "repository_head": "fb3544dd349fe273b469e79828dd10b6a37fa184",
+  "method": "Lexical source inspection; no compilation, symbolic execution, proof replay, or equivalence certification.",
+  "call_tokens_warning": "Tokens may name macros, declarations in other translation units, or indirect-call wrappers; not a resolved call graph.",
+  "file_count": 28,
+  "files": [
+    {
+      "path": "QCP_examples/QCP_demos_LLM/sll_queue.c",
+      "sha256": "be6cceeadf09eac989ab4f54e9e304dbcb82bfc13602c2bcefbc119fb4d1560e",
+      "comment_stripped_sha256": "1cc82aa464393089421f26a5b7cf5b2432956b7b992db02cab7a24fb5f5ed1d9",
+      "head_blob_sha256": "be6cceeadf09eac989ab4f54e9e304dbcb82bfc13602c2bcefbc119fb4d1560e",
+      "matches_head_blob": true,
+      "git_status": "",
+      "physical_lines": 92,
+      "code_lines_after_comment_removal": 36,
+      "includes": [
+        "\"sll_def.h\"",
+        "\"sll_queue_def.h\""
+      ],
+      "functions_lexical": [
+        {
+          "name": "enqueue",
+          "line": 34,
+          "call_tokens": [
+            "malloc_list_cell"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "dequeue",
+          "line": 56,
+          "call_tokens": [
+            "free_list_cell"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "init_empty_queue",
+          "line": 82,
+          "call_tokens": [
+            "malloc_list_cell",
+            "malloc_queue_cell"
+          ],
+          "recursive_call_token": false
+        }
+      ]
+    },
+    {
+      "path": "QCP_examples/QCP_demos_LLM/dll_queue.c",
+      "sha256": "82d6366056abde7f4ba215d3d5580a968121b30e7c8f4b781cf32d49679531d8",
+      "comment_stripped_sha256": "f8cc861aa795be5cae5dc4c244f5c10d91a62897213c6bb85703988edbb7cecc",
+      "head_blob_sha256": "82d6366056abde7f4ba215d3d5580a968121b30e7c8f4b781cf32d49679531d8",
+      "matches_head_blob": true,
+      "git_status": "",
+      "physical_lines": 108,
+      "code_lines_after_comment_removal": 36,
+      "includes": [
+        "\"dll_queue_def.h\""
+      ],
+      "functions_lexical": [
+        {
+          "name": "enqueue",
+          "line": 23,
+          "call_tokens": [
+            "malloc_list_cell"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "dequeue",
+          "line": 68,
+          "call_tokens": [
+            "free_list_cell"
+          ],
+          "recursive_call_token": false
+        }
+      ]
+    },
+    {
+      "path": "QCP_examples/QCP_demos_LLM/functional_queue.c",
+      "sha256": "8212f0ded091c665465c335617c2c2e8aaca764617a2cf4eaff9e7775c37655c",
+      "comment_stripped_sha256": "69ff7fd77abdcd5cae0ef87db05f7c54572ff33db5a118d6e0a6b2799629cc8b",
+      "head_blob_sha256": "8212f0ded091c665465c335617c2c2e8aaca764617a2cf4eaff9e7775c37655c",
+      "matches_head_blob": true,
+      "git_status": "",
+      "physical_lines": 114,
+      "code_lines_after_comment_removal": 37,
+      "includes": [
+        "\"sll_def.h\"",
+        "\"functional_queue_def.h\""
+      ],
+      "functions_lexical": [
+        {
+          "name": "push",
+          "line": 27,
+          "call_tokens": [
+            "malloc_list_cell"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "pop",
+          "line": 39,
+          "call_tokens": [
+            "free_list_cell"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "enqueue",
+          "line": 52,
+          "call_tokens": [
+            "push"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "dequeue",
+          "line": 69,
+          "call_tokens": [
+            "pop",
+            "reverse"
+          ],
+          "recursive_call_token": false
+        }
+      ]
+    },
+    {
+      "path": "QCP_examples/QCP_demos_LLM/sll_merge_rel.c",
+      "sha256": "300b115956fd1b81d582ec970bcc0c47b9d3a5a21b37389daa1c14ece68d9761",
+      "comment_stripped_sha256": "363a04bd614e4efbbe2c48c69da5aadc0c23afbda192fb1bbcb024ff86cc33f9",
+      "head_blob_sha256": "300b115956fd1b81d582ec970bcc0c47b9d3a5a21b37389daa1c14ece68d9761",
+      "matches_head_blob": true,
+      "git_status": "",
+      "physical_lines": 318,
+      "code_lines_after_comment_removal": 87,
+      "includes": [
+        "\"sll_def.h\"",
+        "\"safeexec_def.h\""
+      ],
+      "functions_lexical": [
+        {
+          "name": "merge",
+          "line": 27,
+          "call_tokens": [],
+          "recursive_call_token": false
+        },
+        {
+          "name": "split_rec",
+          "line": 109,
+          "call_tokens": [
+            "split_rec"
+          ],
+          "recursive_call_token": true
+        },
+        {
+          "name": "merge_sort",
+          "line": 170,
+          "call_tokens": [
+            "merge",
+            "merge_sort",
+            "split_rec"
+          ],
+          "recursive_call_token": true
+        },
+        {
+          "name": "merge_sort3",
+          "line": 277,
+          "call_tokens": [
+            "insertion_sort",
+            "length",
+            "merge",
+            "merge_sort2",
+            "split_rec"
+          ],
+          "recursive_call_token": false
+        }
+      ]
+    },
+    {
+      "path": "QCP_examples/QCP_demos_LLM/sll_split_while.c",
+      "sha256": "1bfa609ce89f5c2906915c4b91ced5b16afdc15df220fd326b8aadc6dabfbf7f",
+      "comment_stripped_sha256": "bfb2239151bbf359927c070fff8095cb9526c7c5d1b88a0232de53123180c4c7",
+      "head_blob_sha256": "1bfa609ce89f5c2906915c4b91ced5b16afdc15df220fd326b8aadc6dabfbf7f",
+      "matches_head_blob": true,
+      "git_status": "",
+      "physical_lines": 127,
+      "code_lines_after_comment_removal": 20,
+      "includes": [
+        "\"sll_def.h\"",
+        "\"safeexec_def.h\""
+      ],
+      "functions_lexical": [
+        {
+          "name": "split_while",
+          "line": 16,
+          "call_tokens": [],
+          "recursive_call_token": false
+        }
+      ]
+    },
+    {
+      "path": "QCP_examples/QCP_demos_LLM/bst_insert.c",
+      "sha256": "955ca99c4806b00a44083ead38194d4a9963cf5c0d65ed3555f494084690783b",
+      "comment_stripped_sha256": "2b114d91e6ff19b2569a0e03dd46dfef20c04013a9e4fd05f0af2e6ad1b35aa9",
+      "head_blob_sha256": "955ca99c4806b00a44083ead38194d4a9963cf5c0d65ed3555f494084690783b",
+      "matches_head_blob": true,
+      "git_status": "",
+      "physical_lines": 80,
+      "code_lines_after_comment_removal": 32,
+      "includes": [
+        "\"bst_def.h\""
+      ],
+      "functions_lexical": [
+        {
+          "name": "insert",
+          "line": 24,
+          "call_tokens": [
+            "malloc_tree_node"
+          ],
+          "recursive_call_token": false
+        }
+      ]
+    },
+    {
+      "path": "QCP_examples/QCP_demos_LLM/bst_insert_rec.c",
+      "sha256": "53adb871ad0fc9b8079c1f34c5eb2258eaf72ce26322413f3f2a48eda0c9d67d",
+      "comment_stripped_sha256": "0fe7f90190982f9fadfc81e2f81019358f57b5b4b292d26a502b5ce8ccf3138a",
+      "head_blob_sha256": "53adb871ad0fc9b8079c1f34c5eb2258eaf72ce26322413f3f2a48eda0c9d67d",
+      "matches_head_blob": true,
+      "git_status": "",
+      "physical_lines": 63,
+      "code_lines_after_comment_removal": 26,
+      "includes": [
+        "\"bst_def.h\""
+      ],
+      "functions_lexical": [
+        {
+          "name": "insert",
+          "line": 24,
+          "call_tokens": [
+            "insert",
+            "malloc_tree_node"
+          ],
+          "recursive_call_token": true
+        }
+      ]
+    },
+    {
+      "path": "QCP_examples/QCP_demos_LLM/bst_delete_new.c",
+      "sha256": "d4ad3a6256ec0dbbd2ffff6c63ab5d5de6115f0cdf8ca68f68c8baf04cde3f45",
+      "comment_stripped_sha256": "5ee114075107e535aecf9e97f605f8db2c3d00515736f0e05967887accc6b548",
+      "head_blob_sha256": "d4ad3a6256ec0dbbd2ffff6c63ab5d5de6115f0cdf8ca68f68c8baf04cde3f45",
+      "matches_head_blob": true,
+      "git_status": "",
+      "physical_lines": 85,
+      "code_lines_after_comment_removal": 37,
+      "includes": [
+        "\"bst_def_new.h\""
+      ],
+      "functions_lexical": [
+        {
+          "name": "delete",
+          "line": 9,
+          "call_tokens": [
+            "free_tree_node"
+          ],
+          "recursive_call_token": false
+        }
+      ]
+    },
+    {
+      "path": "QCP_examples/QCP_demos_LLM/bst_delete_rec2.c",
+      "sha256": "32e3b0bd760a069f1e96cfc0f1cb39cc264eaa32bc98adcb41b9f64db211703d",
+      "comment_stripped_sha256": "1509973422737b7d0d893882e14b39cfb5e8cf24062bfeb70460befc6f3e012b",
+      "head_blob_sha256": "32e3b0bd760a069f1e96cfc0f1cb39cc264eaa32bc98adcb41b9f64db211703d",
+      "matches_head_blob": true,
+      "git_status": "",
+      "physical_lines": 114,
+      "code_lines_after_comment_removal": 33,
+      "includes": [
+        "\"bst_def.h\""
+      ],
+      "functions_lexical": [
+        {
+          "name": "get_pre",
+          "line": 14,
+          "call_tokens": [
+            "get_pre"
+          ],
+          "recursive_call_token": true
+        },
+        {
+          "name": "delete",
+          "line": 63,
+          "call_tokens": [
+            "delete",
+            "free_tree_node",
+            "get_pre"
+          ],
+          "recursive_call_token": true
+        }
+      ]
+    },
+    {
+      "path": "QCP_examples/QCP_demos_LLM/avl_insert.c",
+      "sha256": "e72c2c40d22dfc77e42a21bb72664f97d4d1c06a1b9ae03ffce1d8b5f1ddfb81",
+      "comment_stripped_sha256": "73320975433c74b7ac1df1d1d47e13078dc5fc083c2d5b3d0b1c1a9aef086530",
+      "head_blob_sha256": "e72c2c40d22dfc77e42a21bb72664f97d4d1c06a1b9ae03ffce1d8b5f1ddfb81",
+      "matches_head_blob": true,
+      "git_status": "",
+      "physical_lines": 212,
+      "code_lines_after_comment_removal": 115,
+      "includes": [
+        "\"avl_def.h\""
+      ],
+      "functions_lexical": [
+        {
+          "name": "update_height",
+          "line": 17,
+          "call_tokens": [],
+          "recursive_call_token": false
+        },
+        {
+          "name": "rotateR",
+          "line": 37,
+          "call_tokens": [
+            "update_height"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "rotateL",
+          "line": 57,
+          "call_tokens": [
+            "update_height"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "rotateRL",
+          "line": 77,
+          "call_tokens": [
+            "rotateL",
+            "rotateR"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "rotateLR",
+          "line": 96,
+          "call_tokens": [
+            "rotateL",
+            "rotateR"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "balance_factor",
+          "line": 116,
+          "call_tokens": [],
+          "recursive_call_token": false
+        },
+        {
+          "name": "balance",
+          "line": 150,
+          "call_tokens": [
+            "balance_factor",
+            "rotateL",
+            "rotateLR",
+            "rotateR",
+            "rotateRL"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "insert",
+          "line": 185,
+          "call_tokens": [
+            "balance",
+            "insert",
+            "malloc_tree_node",
+            "update_height"
+          ],
+          "recursive_call_token": true
+        }
+      ]
+    },
+    {
+      "path": "QCP_examples/QCP_demos_LLM/union_find_err_rel.c",
+      "sha256": "316f2aaa23768e97ea0b3c2f53a627ab4973c29e40f8599cc85f1ddc5102bccc",
+      "comment_stripped_sha256": "5c3bbb187328a89571fca8874375e51797337aafe0476953ab5dba0708f7a1cd",
+      "head_blob_sha256": "316f2aaa23768e97ea0b3c2f53a627ab4973c29e40f8599cc85f1ddc5102bccc",
+      "matches_head_blob": true,
+      "git_status": "",
+      "physical_lines": 289,
+      "code_lines_after_comment_removal": 43,
+      "includes": [
+        "\"safeexecE_def.h\""
+      ],
+      "functions_lexical": [
+        {
+          "name": "uf_find_c",
+          "line": 59,
+          "call_tokens": [
+            "uf_find_c"
+          ],
+          "recursive_call_token": true
+        },
+        {
+          "name": "uf_union_c",
+          "line": 142,
+          "call_tokens": [
+            "uf_find_c"
+          ],
+          "recursive_call_token": false
+        }
+      ]
+    },
+    {
+      "path": "QCP_examples/QCP_demos_LLM/eval.c",
+      "sha256": "d22037bc1be51a36f66ccf3064d793d829f848432ae381f7a376979360bec454",
+      "comment_stripped_sha256": "1b8fae9d4bd7123224cfce9540ef1d5ab7efa0346a557c411983813101dfe833",
+      "head_blob_sha256": "d22037bc1be51a36f66ccf3064d793d829f848432ae381f7a376979360bec454",
+      "matches_head_blob": true,
+      "git_status": "",
+      "physical_lines": 168,
+      "code_lines_after_comment_removal": 104,
+      "includes": [
+        "\"eval_def.h\""
+      ],
+      "functions_lexical": [
+        {
+          "name": "eval",
+          "line": 43,
+          "call_tokens": [
+            "eval"
+          ],
+          "recursive_call_token": true
+        }
+      ]
+    },
+    {
+      "path": "QCP_examples/LLM_bench/Data_structures/priority_queue/priority_queue.c",
+      "sha256": "a63eccea6fab810f6fc9148c722309426bdcfcbea9ce77a8b7431570bdd38c92",
+      "comment_stripped_sha256": "227c4bc04c5fb7cea55c45356b03d2810a57bca6ea2a6ca5d93febbb1ffc2819",
+      "head_blob_sha256": "a63eccea6fab810f6fc9148c722309426bdcfcbea9ce77a8b7431570bdd38c92",
+      "matches_head_blob": true,
+      "git_status": "",
+      "physical_lines": 565,
+      "code_lines_after_comment_removal": 57,
+      "includes": [],
+      "functions_lexical": [
+        {
+          "name": "push",
+          "line": 39,
+          "call_tokens": [],
+          "recursive_call_token": false
+        },
+        {
+          "name": "build",
+          "line": 141,
+          "call_tokens": [
+            "push"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "pop",
+          "line": 220,
+          "call_tokens": [],
+          "recursive_call_token": false
+        },
+        {
+          "name": "heap_sort",
+          "line": 433,
+          "call_tokens": [
+            "build",
+            "pop"
+          ],
+          "recursive_call_token": false
+        }
+      ]
+    },
+    {
+      "path": "QCP_examples/LLM_bench/Algorithms/Dijkstra/Dijkstra_priority_queue.c",
+      "sha256": "d57f2c906757af18cd4162dda823a11950772ba0aed563a7f41df95ca0493003",
+      "comment_stripped_sha256": "d2e718ea74f7737004f5b1ea32885f6f31813ca2af693bba741d2748fcae9397",
+      "head_blob_sha256": "d57f2c906757af18cd4162dda823a11950772ba0aed563a7f41df95ca0493003",
+      "matches_head_blob": true,
+      "git_status": "",
+      "physical_lines": 216,
+      "code_lines_after_comment_removal": 39,
+      "includes": [
+        "\"int_array_def.h\""
+      ],
+      "functions_lexical": [
+        {
+          "name": "priority_queue_clear",
+          "line": 28,
+          "call_tokens": [],
+          "recursive_call_token": false
+        },
+        {
+          "name": "priority_queue_empty",
+          "line": 47,
+          "call_tokens": [],
+          "recursive_call_token": false
+        },
+        {
+          "name": "priority_queue_push",
+          "line": 66,
+          "call_tokens": [],
+          "recursive_call_token": false
+        },
+        {
+          "name": "priority_queue_pop",
+          "line": 140,
+          "call_tokens": [],
+          "recursive_call_token": false
+        }
+      ]
+    },
+    {
+      "path": "QCP_examples/LLM_bench/Algorithms/Dijkstra/Dijkstra_linked_forward_star.c",
+      "sha256": "fd00906b16c8535553520d2171e1004d4d422edf2edb3ac6fde137d2d48a6a26",
+      "comment_stripped_sha256": "2348838eff71b545167a5e750e347efdc6581e66df473f2b0ff46532df93e021",
+      "head_blob_sha256": "fd00906b16c8535553520d2171e1004d4d422edf2edb3ac6fde137d2d48a6a26",
+      "matches_head_blob": true,
+      "git_status": "",
+      "physical_lines": 616,
+      "code_lines_after_comment_removal": 56,
+      "includes": [
+        "\"safeexec_def.h\"",
+        "\"int_array_def.h\""
+      ],
+      "functions_lexical": [
+        {
+          "name": "dijkstra_linked_forward_star_init",
+          "line": 83,
+          "call_tokens": [],
+          "recursive_call_token": false
+        },
+        {
+          "name": "dijkstra_linked_forward_star",
+          "line": 249,
+          "call_tokens": [
+            "dijkstra_linked_forward_star_init",
+            "priority_queue_clear",
+            "priority_queue_empty",
+            "priority_queue_pop",
+            "priority_queue_push"
+          ],
+          "recursive_call_token": false
+        }
+      ]
+    },
+    {
+      "path": "QCP_examples/LLM_bench/Algorithms/DFS/DFS_adjacency_list.c",
+      "sha256": "8e45bd014137af3b2ee9a5dac82dde78ed7b10fab89294d9a8c9e2d57af1233a",
+      "comment_stripped_sha256": "a11a4dc7b3ef92d832071e02382b2e59b4b5a21ecddb067de4d83cbb47ddcef7",
+      "head_blob_sha256": "8e45bd014137af3b2ee9a5dac82dde78ed7b10fab89294d9a8c9e2d57af1233a",
+      "matches_head_blob": true,
+      "git_status": "",
+      "physical_lines": 473,
+      "code_lines_after_comment_removal": 24,
+      "includes": [
+        "\"safeexec_def.h\"",
+        "\"int_array_def.h\"",
+        "\"sll_def.h\""
+      ],
+      "functions_lexical": [
+        {
+          "name": "dfs_adjacency_list",
+          "line": 99,
+          "call_tokens": [
+            "dfs_adjacency_list"
+          ],
+          "recursive_call_token": true
+        }
+      ]
+    },
+    {
+      "path": "QCP_examples/LLM_bench/Engineering/minisat/vec.c",
+      "sha256": "344f8de78a140ef3068008c632108f192d6a8877a966d7072a07cadd6351f025",
+      "comment_stripped_sha256": "b9da4dc200ddde5d94ff3f5758e279b7d2bd0a47dd3c7a84d9566cb8aef7fb05",
+      "head_blob_sha256": "344f8de78a140ef3068008c632108f192d6a8877a966d7072a07cadd6351f025",
+      "matches_head_blob": true,
+      "git_status": "",
+      "physical_lines": 482,
+      "code_lines_after_comment_removal": 73,
+      "includes": [
+        "\"vec.h\""
+      ],
+      "functions_lexical": [
+        {
+          "name": "veci_new",
+          "line": 113,
+          "call_tokens": [
+            "malloc"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "veci_delete",
+          "line": 132,
+          "call_tokens": [
+            "free"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "veci_begin",
+          "line": 154,
+          "call_tokens": [],
+          "recursive_call_token": false
+        },
+        {
+          "name": "veci_size",
+          "line": 176,
+          "call_tokens": [],
+          "recursive_call_token": false
+        },
+        {
+          "name": "veci_resize",
+          "line": 198,
+          "call_tokens": [],
+          "recursive_call_token": false
+        },
+        {
+          "name": "veci_push",
+          "line": 221,
+          "call_tokens": [
+            "realloc"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "vecp_new",
+          "line": 299,
+          "call_tokens": [
+            "malloc"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "vecp_delete",
+          "line": 318,
+          "call_tokens": [
+            "free"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "vecp_begin",
+          "line": 340,
+          "call_tokens": [],
+          "recursive_call_token": false
+        },
+        {
+          "name": "vecp_size",
+          "line": 362,
+          "call_tokens": [],
+          "recursive_call_token": false
+        },
+        {
+          "name": "vecp_resize",
+          "line": 384,
+          "call_tokens": [],
+          "recursive_call_token": false
+        },
+        {
+          "name": "vecp_push",
+          "line": 407,
+          "call_tokens": [
+            "realloc"
+          ],
+          "recursive_call_token": false
+        }
+      ]
+    },
+    {
+      "path": "OUTPUT/binaryTree/binaryTree_invert/source/binaryTree_invert.c",
+      "sha256": "9d819e51768e22d615aa363f4a6da63c0b3ecfdc64640e8cf1bdf6c31f3f9aba",
+      "comment_stripped_sha256": "af7b1be387c2b4047c142be8ec4795a0cf7b2e57e940aad2a6a33d1e8bd0415d",
+      "head_blob_sha256": "9d819e51768e22d615aa363f4a6da63c0b3ecfdc64640e8cf1bdf6c31f3f9aba",
+      "matches_head_blob": true,
+      "git_status": "",
+      "physical_lines": 19,
+      "code_lines_after_comment_removal": 12,
+      "includes": [
+        "\"binaryTree_def.h\""
+      ],
+      "functions_lexical": [
+        {
+          "name": "invert_tree",
+          "line": 5,
+          "call_tokens": [
+            "invert_tree"
+          ],
+          "recursive_call_token": true
+        }
+      ]
+    },
+    {
+      "path": "OUTPUT/binaryTree/binaryTree_height/source/binaryTree_height.c",
+      "sha256": "a89753bb35ae5f24000993f5fce881a74b27563a08df21020df8b1d51b74b0f9",
+      "comment_stripped_sha256": "5183725c064ea06266e1da29d936d90e8e37729ccb529b9401f02f58d35bad4b",
+      "head_blob_sha256": "a89753bb35ae5f24000993f5fce881a74b27563a08df21020df8b1d51b74b0f9",
+      "matches_head_blob": true,
+      "git_status": "",
+      "physical_lines": 27,
+      "code_lines_after_comment_removal": 14,
+      "includes": [
+        "\"binaryTree_def.h\""
+      ],
+      "functions_lexical": [
+        {
+          "name": "tree_height",
+          "line": 11,
+          "call_tokens": [
+            "tree_height"
+          ],
+          "recursive_call_token": true
+        }
+      ]
+    },
+    {
+      "path": "OUTPUT/xizi/xizi_circular_area_read/source/xizi_circular_area_read.c",
+      "sha256": "d5530fd0d327e324ba4a8f354796a78aee065f83cb82aa47829bc63e7178e659",
+      "comment_stripped_sha256": "02524427a707cfdc77f738d1d60e9505402f2e66344d642510050556521aae49",
+      "head_blob_sha256": "d5530fd0d327e324ba4a8f354796a78aee065f83cb82aa47829bc63e7178e659",
+      "matches_head_blob": true,
+      "git_status": "",
+      "physical_lines": 529,
+      "code_lines_after_comment_removal": 106,
+      "includes": [],
+      "functions_lexical": [
+        {
+          "name": "CircularAreaIsFull",
+          "line": 88,
+          "call_tokens": [
+            "KPrintf",
+            "NULL_PARAM_CHECK"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "CircularAreaIsEmpty",
+          "line": 122,
+          "call_tokens": [
+            "KPrintf",
+            "NULL_PARAM_CHECK"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "CircularAreaGetDataLength",
+          "line": 156,
+          "call_tokens": [
+            "CircularAreaIsFull",
+            "NULL_PARAM_CHECK"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "CircularAreaDivideRdData",
+          "line": 210,
+          "call_tokens": [
+            "NULL_PARAM_CHECK"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "CircularAreaRead",
+          "line": 266,
+          "call_tokens": [
+            "CHECK",
+            "CircularAreaDivideRdData",
+            "CircularAreaGetDataLength",
+            "CircularAreaIsEmpty",
+            "NULL_PARAM_CHECK",
+            "memcpy"
+          ],
+          "recursive_call_token": false
+        }
+      ]
+    },
+    {
+      "path": "OUTPUT/xizi/xizi_circular_area_write/source/xizi_circular_area_write.c",
+      "sha256": "f1f019ee6d785dc588c2deda8b91b8dff81abcff50bd2a3187ad61f548d710d4",
+      "comment_stripped_sha256": "9b3726141a7a48a825ea34a20aabec1110d164f80aa405cb2eff28cc558211f7",
+      "head_blob_sha256": "dfc44cc2307f491a8581700779bb372e3574d65190de36b986a351085d21a130",
+      "matches_head_blob": false,
+      "git_status": "M OUTPUT/xizi/xizi_circular_area_write/source/xizi_circular_area_write.c",
+      "physical_lines": 359,
+      "code_lines_after_comment_removal": 103,
+      "includes": [],
+      "functions_lexical": [
+        {
+          "name": "CircularAreaIsFull",
+          "line": 60,
+          "call_tokens": [
+            "NULL_PARAM_CHECK"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "CircularAreaGetDataLength",
+          "line": 101,
+          "call_tokens": [
+            "CircularAreaIsFull",
+            "NULL_PARAM_CHECK"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "CircularAreaDivideWrData",
+          "line": 145,
+          "call_tokens": [
+            "NULL_PARAM_CHECK"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "CircularAreaWrite",
+          "line": 169,
+          "call_tokens": [
+            "CHECK",
+            "CircularAreaDivideWrData",
+            "CircularAreaGetDataLength",
+            "NULL_PARAM_CHECK",
+            "memcpy"
+          ],
+          "recursive_call_token": false
+        }
+      ]
+    },
+    {
+      "path": "OUTPUT/xizi/xizi_circular_area_force_write/source/xizi_circular_area_force_write.c",
+      "sha256": "ba8c90364dfee4e1cb54bc517cb57c11916e791a719e1cd2a6c44ed854609739",
+      "comment_stripped_sha256": "0745b8389f88ccd2d7ef1db619a47625dfff378199ad020511df390bcb5f028e",
+      "head_blob_sha256": "ba8c90364dfee4e1cb54bc517cb57c11916e791a719e1cd2a6c44ed854609739",
+      "matches_head_blob": true,
+      "git_status": "",
+      "physical_lines": 669,
+      "code_lines_after_comment_removal": 104,
+      "includes": [
+        "\"char_array_def.h\""
+      ],
+      "functions_lexical": [
+        {
+          "name": "CircularAreaIsFull",
+          "line": 112,
+          "call_tokens": [
+            "KPrintf",
+            "NULL_PARAM_CHECK"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "CircularAreaGetDataLength",
+          "line": 182,
+          "call_tokens": [
+            "CircularAreaIsFull",
+            "NULL_PARAM_CHECK"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "CircularAreaDivideWrData",
+          "line": 274,
+          "call_tokens": [
+            "NULL_PARAM_CHECK"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "CircularAreaWrite",
+          "line": 352,
+          "call_tokens": [
+            "CHECK",
+            "CircularAreaDivideWrData",
+            "CircularAreaGetDataLength",
+            "CircularAreaIsFull",
+            "NULL_PARAM_CHECK",
+            "memcpy"
+          ],
+          "recursive_call_token": false
+        }
+      ]
+    },
+    {
+      "path": "OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs.c",
+      "sha256": "c94eeacfa4fb5474ae0ac271479be5da5b74a00d09dfe0d8f04636942dd8e6d2",
+      "comment_stripped_sha256": "38bb784f2e6bf0ee851b320e2a36c0f2b51b9415aebe06a545cb8b3119be8e4e",
+      "head_blob_sha256": "c94eeacfa4fb5474ae0ac271479be5da5b74a00d09dfe0d8f04636942dd8e6d2",
+      "matches_head_blob": true,
+      "git_status": "",
+      "physical_lines": 510,
+      "code_lines_after_comment_removal": 172,
+      "includes": [],
+      "functions_lexical": [
+        {
+          "name": "xizi_circular_area_call_init_metadata_release",
+          "line": 200,
+          "call_tokens": [
+            "CircularAreaGetDataLength",
+            "CircularAreaGetMaxLength",
+            "CircularAreaInit",
+            "CircularAreaIsEmpty",
+            "CircularAreaIsFull",
+            "CircularAreaRelease"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "xizi_circular_area_call_init_empty_read_release",
+          "line": 228,
+          "call_tokens": [
+            "CircularAreaInit",
+            "CircularAreaRead",
+            "CircularAreaRelease"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "xizi_circular_area_call_init_first_write_release",
+          "line": 259,
+          "call_tokens": [
+            "CircularAreaInit",
+            "CircularAreaRelease",
+            "CircularAreaWrite"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "xizi_circular_area_call_write_read_release",
+          "line": 287,
+          "call_tokens": [
+            "CircularAreaInit",
+            "CircularAreaRead",
+            "CircularAreaRelease",
+            "CircularAreaWrite"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "xizi_circular_area_call_repeated_write_release",
+          "line": 334,
+          "call_tokens": [
+            "CircularAreaInit",
+            "CircularAreaRelease",
+            "CircularAreaWrite"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "xizi_circular_area_call_read_then_write_release",
+          "line": 373,
+          "call_tokens": [
+            "CircularAreaInit",
+            "CircularAreaRead",
+            "CircularAreaRelease",
+            "CircularAreaWrite"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "xizi_circular_area_call_reset_release",
+          "line": 434,
+          "call_tokens": [
+            "CircularAreaGetDataLength",
+            "CircularAreaInit",
+            "CircularAreaIsEmpty",
+            "CircularAreaRelease",
+            "CircularAreaReset",
+            "CircularAreaWrite"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "xizi_circular_area_call_force_full_release",
+          "line": 479,
+          "call_tokens": [
+            "CircularAreaInit",
+            "CircularAreaRelease",
+            "CircularAreaWrite"
+          ],
+          "recursive_call_token": false
+        }
+      ]
+    },
+    {
+      "path": "OUTPUT/xizi/xizi_double_link_remove_node/source/xizi_double_link_remove_node.c",
+      "sha256": "192d0ecb7ca29c193a26117ac4afcaa1adfbcca557b4f3592131963e7be3a459",
+      "comment_stripped_sha256": "10725c80f1c8bd79328158b46cd5ddd88a412cd697384a8ad1b5f08ea4bcbf2a",
+      "head_blob_sha256": "192d0ecb7ca29c193a26117ac4afcaa1adfbcca557b4f3592131963e7be3a459",
+      "matches_head_blob": true,
+      "git_status": "",
+      "physical_lines": 92,
+      "code_lines_after_comment_removal": 16,
+      "includes": [
+        "\"xizi_double_link_def.h\""
+      ],
+      "functions_lexical": [
+        {
+          "name": "DoubleLinkListRmNode",
+          "line": 63,
+          "call_tokens": [],
+          "recursive_call_token": false
+        }
+      ]
+    },
+    {
+      "path": "OUTPUT/xizi/xizi_double_link_callpoint_specs/source/xizi_double_link_callpoint_specs.c",
+      "sha256": "0868d37d26de093ea0767a50dffaadee553b7bf0db66d4807299fca2bdb00b83",
+      "comment_stripped_sha256": "c88805c22c449a00854a693ce45e9d081801d85421939a85f3df378c019ff8eb",
+      "head_blob_sha256": "0868d37d26de093ea0767a50dffaadee553b7bf0db66d4807299fca2bdb00b83",
+      "matches_head_blob": true,
+      "git_status": "",
+      "physical_lines": 303,
+      "code_lines_after_comment_removal": 93,
+      "includes": [
+        "\"xizi_double_link_def.h\""
+      ],
+      "functions_lexical": [
+        {
+          "name": "xizi_double_link_call_empty_after_init",
+          "line": 102,
+          "call_tokens": [
+            "InitDoubleLinkList",
+            "IsDoubleLinkListEmpty"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "xizi_double_link_call_empty_rec_after_init",
+          "line": 115,
+          "call_tokens": [
+            "InitDoubleLinkList",
+            "IsDoubleLinkListEmpty"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "xizi_double_link_call_head_after_init",
+          "line": 128,
+          "call_tokens": [
+            "DoubleLinkListGetHead",
+            "InitDoubleLinkList"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "xizi_double_link_call_head_rec_after_init",
+          "line": 142,
+          "call_tokens": [
+            "DoubleLinkListGetHead",
+            "InitDoubleLinkList"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "xizi_double_link_call_len_after_init",
+          "line": 156,
+          "call_tokens": [
+            "DoubleLinkListLenGet",
+            "InitDoubleLinkList"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "xizi_double_link_call_next_after_init",
+          "line": 169,
+          "call_tokens": [
+            "DoubleLinkListGetNext",
+            "InitDoubleLinkList"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "xizi_double_link_call_next_rec_last_after_init",
+          "line": 187,
+          "call_tokens": [
+            "DoubleLinkListGetNext",
+            "InitDoubleLinkList"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "xizi_double_link_call_next_rec_middle_after_init",
+          "line": 206,
+          "call_tokens": [
+            "DoubleLinkListGetNext",
+            "InitDoubleLinkList"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "xizi_double_link_call_insert_after_init",
+          "line": 225,
+          "call_tokens": [
+            "DoubleLinkListInsertNodeAfter",
+            "InitDoubleLinkList"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "xizi_double_link_call_remove_front_singleton",
+          "line": 247,
+          "call_tokens": [
+            "DoubleLinkListInsertNodeAfter",
+            "DoubleLinkListRmNode",
+            "InitDoubleLinkList"
+          ],
+          "recursive_call_token": false
+        },
+        {
+          "name": "xizi_double_link_call_remove_tail_singleton",
+          "line": 276,
+          "call_tokens": [
+            "DoubleLinkListInsertNodeAfter",
+            "DoubleLinkListRmNode",
+            "InitDoubleLinkList"
+          ],
+          "recursive_call_token": false
+        }
+      ]
+    },
+    {
+      "path": "OUTPUT/xizi/xizi_avl_insert/source/xizi_avl_insert.c",
+      "sha256": "f351a250a95f9eb2795cc0c7f5cff3dc6983a6da6067cfc1c7b92077f5b4ffca",
+      "comment_stripped_sha256": "1fe8b0333dcc11f9f7ca43279bd64d412251ff5e69a4682797088c5cd1d23136",
+      "head_blob_sha256": null,
+      "matches_head_blob": false,
+      "git_status": "?? OUTPUT/xizi/xizi_avl_insert/source/xizi_avl_insert.c",
+      "physical_lines": 148,
+      "code_lines_after_comment_removal": 43,
+      "includes": [
+        "\"xizi_avl_def.h\""
+      ],
+      "functions_lexical": [
+        {
+          "name": "xizi_avl_insert",
+          "line": 53,
+          "call_tokens": [
+            "x_malloc",
+            "xizi_avl_balance",
+            "xizi_avl_insert",
+            "xizi_avl_update_height"
+          ],
+          "recursive_call_token": true
+        }
+      ]
+    },
+    {
+      "path": "OUTPUT/xizi/xizi_avl_delete_crtos/source/xizi_avl_delete_crtos.c",
+      "sha256": "75d096762ad61607c35e9d62bcad04e3085cc1b09f3004561d24e69d6ad148de",
+      "comment_stripped_sha256": "e13e30f5b013371c16ccfe37202585dac699feffbce50fc068806411a36b6b1e",
+      "head_blob_sha256": null,
+      "matches_head_blob": false,
+      "git_status": "?? OUTPUT/xizi/xizi_avl_delete_crtos/source/xizi_avl_delete_crtos.c",
+      "physical_lines": 267,
+      "code_lines_after_comment_removal": 75,
+      "includes": [],
+      "functions_lexical": [
+        {
+          "name": "AvlTreeDeleteNode",
+          "line": 127,
+          "call_tokens": [
+            "AvlTreeBalance",
+            "AvlTreeDeleteNode",
+            "AvlTreeUpdateNodeHeight",
+            "KPrintf",
+            "x_free"
+          ],
+          "recursive_call_token": true
+        }
+      ]
+    },
+    {
+      "path": "OUTPUT/xizi/xizi_avl_left_rotate/source/xizi_avl_left_rotate.c",
+      "sha256": "953fdc5216c621dfbbda5cfe95b233a2f47d7882bd23e9c7a680c0488728613c",
+      "comment_stripped_sha256": "e95c29e5fbe4449a20df441d6ec6f474beeecc4a4fd213edbb4cfa1241e43287",
+      "head_blob_sha256": null,
+      "matches_head_blob": false,
+      "git_status": "?? OUTPUT/xizi/xizi_avl_left_rotate/source/xizi_avl_left_rotate.c",
+      "physical_lines": 138,
+      "code_lines_after_comment_removal": 22,
+      "includes": [
+        "\"xizi_avl_def.h\""
+      ],
+      "functions_lexical": [
+        {
+          "name": "xizi_avl_left_rotate",
+          "line": 65,
+          "call_tokens": [
+            "xizi_avl_height"
+          ],
+          "recursive_call_token": false
+        }
+      ]
+    }
+  ]
+}

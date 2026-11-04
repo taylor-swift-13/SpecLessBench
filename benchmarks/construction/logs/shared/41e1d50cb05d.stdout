@@ -1,0 +1,4 @@
+benchmarks/tasks/qcip-core/lean/Native.lean:7:3: error: unexpected token 'at'; expected identifier
+benchmarks/tasks/qcip-core/lean/Native.lean:8:38: error: unexpected token 'at'; expected term
+benchmarks/tasks/qcip-core/lean/Native.lean:182:7: error: unexpected token 'have'; expected '(', ':=', ';', 'rec', '|' or line break
+benchmarks/tasks/qcip-core/lean/Native.lean:199:44: error: unexpected token 'at'; expected term

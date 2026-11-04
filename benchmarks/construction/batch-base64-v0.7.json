@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "batch_id": "base64-v0.7",
+  "status": "in-progress",
+  "started_utc": "2026-11-04T02:30:10.051802+00:00",
+  "groups": [
+    "base64-encoding"
+  ],
+  "baseline": {
+    "source": "local Codex rollout event_msg/token_count total_token_usage",
+    "session_id": "01a19d40-53c2-7811-8e47-5ac681576e1f",
+    "construction_request_timestamp": "2026-11-04T02:29:46.442Z",
+    "provider_timestamp": "2026-11-04T02:29:25.972Z",
+    "usage": {
+      "input_tokens": 96192884,
+      "cached_input_tokens": 94011776,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 698009,
+      "reasoning_output_tokens": 316208,
+      "total_tokens": 96890893
+    },
+    "session_prefix_bytes": 16146415,
+    "session_prefix_sha256": "1dcd56fd91c9a876f5d0223500d29932f7695570ee3beca569685501fc25dc3c"
+  },
+  "shared_usage_allocation": "record once here; never charge it once per pair/platform",
+  "historical_before_batch": {
+    "tokens": null,
+    "wall_seconds": null,
+    "peak_memory_bytes": null,
+    "reason": "Earlier group-level authoring/tool costs were not instrumented; no reconstruction or zero fill"
+  },
+  "hosted_model_peak_memory_bytes": null,
+  "hosted_model_memory_reason": "Provider does not expose inference memory telemetry",
+  "model_identity": null,
+  "model_identity_reason": "Exact provider model identifier not exposed by this chat runtime",
+  "latest_snapshot": {
+    "source": "local Codex rollout event_msg/token_count total_token_usage",
+    "session_id": "01a19d40-53c2-7811-8e47-5ac681576e1f",
+    "construction_request_timestamp": "2026-11-04T02:29:46.442Z",
+    "provider_timestamp": "2026-11-04T02:38:38.438Z",
+    "usage": {
+      "input_tokens": 107108254,
+      "cached_input_tokens": 104914944,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 710770,
+      "reasoning_output_tokens": 318049,
+      "total_tokens": 107819024
+    },
+    "session_prefix_bytes": 16473728,
+    "session_prefix_sha256": "d9b215a0edd60737b8287c95449d0242cb37b528c7620941053484dfd81f6564"
+  },
+  "request_started_utc": "2026-11-04T02:29:46.442Z",
+  "elapsed_request_wall_seconds_to_snapshot": 569.403188,
+  "elapsed_wall_scope": "whole shared request, including model/tool/idle latency; not per-group authoring attribution",
+  "provider_token_delta": {
+    "input_tokens": 10915370,
+    "cached_input_tokens": 10903168,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 12761,
+    "reasoning_output_tokens": 1841,
+    "total_tokens": 10928131
+  },
+  "usage_complete_through": "2026-11-04T02:38:38.438Z",
+  "usage_status": "prefix-only until a post-turn snapshot; final reply may not yet be counted",
+  "reasoning_tokens_rule": "reasoning_output_tokens is a subset of output_tokens; do not add twice"
+}

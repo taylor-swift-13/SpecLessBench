@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "group_id": "shared-classics-rocq",
+  "attempt_ids": [
+    "ba1e72190ca6",
+    "65e280250f45",
+    "cb2d247c54c3",
+    "9a746fe6857a",
+    "b3ab94d2c946",
+    "26352045a0aa",
+    "9893df7bfa53",
+    "4634d60f1d4b",
+    "8b042d78ec54",
+    "79337ffc8460",
+    "5bc2255ec8eb",
+    "05c02edd2ac6",
+    "5f638174f012",
+    "36cd0112f785",
+    "4238f9e40d5a"
+  ],
+  "tool_wall_seconds": 9.939913861977402,
+  "cpu_user_seconds": 1.5,
+  "cpu_system_seconds": 2.46,
+  "max_process_rss_bytes": 344399872,
+  "exact_process_tree_peak_bytes": null,
+  "model_tokens": null,
+  "model_tokens_reason": "shared authoring session usage is recorded once in the referenced batch",
+  "shared_batch_id": "classics-v0.8",
+  "historical_cost_complete": false,
+  "failed_attempts": 1,
+  "latest_updated_utc": "2026-11-04T02:55:38.486313+00:00"
+}

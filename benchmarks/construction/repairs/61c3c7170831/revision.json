@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "revision_id": "61c3c7170831",
+  "group_id": "shared-compcert",
+  "started_utc": "2026-11-03T12:03:28.037386+00:00",
+  "reason": "CompCert type-check found Clight.genv required instead of generic AST globalenv in step2; fix versioned adapter",
+  "status": "committed-tests-invalidated",
+  "files": [
+    {
+      "path": "scripts/construction/export_compcert.py",
+      "before_sha256": "a9305f6410e973e291073727c95bf85b1546ebed770c6a317f7a2daba45dc494",
+      "snapshot": "benchmarks/construction/repairs/61c3c7170831/0.before",
+      "after_sha256": "8a2e360d8c2e33da876fa15c7e3a9c6ed4260e162b318993c4b346d8e3b0063c"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/compcert/Execution.v",
+      "before_sha256": "91f9f8bfb0570b2d44c9e48c0131f8092b77edafd1ca2f6e6fa1e1026bbb1e7a",
+      "snapshot": "benchmarks/construction/repairs/61c3c7170831/1.before",
+      "after_sha256": "e4cbd75f36be508dd5e0fa7c2248a9755f9a95b5c902fe9c393fd1888b47e597"
+    }
+  ],
+  "new_revision": "design-v0.2-compcert1",
+  "affected_contexts": [
+    "C-BST-SUCCESSOR",
+    "C-BST-ROTATE",
+    "C-BST-VALUE",
+    "C-AVL-STACK",
+    "C-AVL-FACTOR",
+    "C-AVL-MIDDLE",
+    "C-RING-COPY",
+    "C-RING-REP",
+    "C-RING-FULL",
+    "C-DIJK-SCAN",
+    "C-DIJK-HEAP",
+    "C-DIJK-SEEN"
+  ],
+  "ended_utc": "2026-11-03T12:05:18.229758+00:00",
+  "retest_required": true,
+  "label_revalidation_required": true
+}

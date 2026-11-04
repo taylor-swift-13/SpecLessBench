@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "qcip_paths": [
+    "QCP_examples/QCP_demos_LLM/functional_queue.c",
+    "QCP_examples/QCP_demos_LLM/bst_delete_new.c",
+    "QCP_examples/QCP_demos_LLM/bst_delete_rec2.c",
+    "QCP_examples/QCP_demos_LLM/avl_insert.c",
+    "QCP_examples/QCP_demos_LLM/union_find_err_rel.c",
+    "QCP_examples/QCP_demos_LLM/eval.c",
+    "QCP_examples/LLM_bench/Data_structures/priority_queue/priority_queue.c",
+    "QCP_examples/LLM_bench/Algorithms/Dijkstra/Dijkstra_linked_forward_star.c",
+    "QCP_examples/LLM_bench/Algorithms/Dijkstra/Dijkstra_priority_queue.c",
+    "OUTPUT/binaryTree/binaryTree_invert/source/binaryTree_invert.c",
+    "OUTPUT/xizi/xizi_circular_area_read/source/xizi_circular_area_read.c",
+    "OUTPUT/xizi/xizi_double_link_callpoint_specs/source/xizi_double_link_callpoint_specs.c"
+  ],
+  "vst_paths": [
+    "progs/bst.c",
+    "progs/VSUpile/pile.c",
+    "progs/VSUpile/fast/fastpile.c",
+    "progs/VSUpile/triang.c"
+  ]
+}

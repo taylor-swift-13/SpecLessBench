@@ -1,0 +1,4 @@
+import BasicGoals
+open EqualBenchBasic
+theorem solve : R_QUE_EQ_certificate := by
+  -- pending final certificate; no proof supplied

@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "curator_only": true,
+  "status": "mixed design inventory; four families have concrete C closures and unproved targets; none is reference-ready",
+  "base_family_entries": 12,
+  "base_task_slots": 24,
+  "complex_family_entries": 10,
+  "complex_task_slots": 30,
+  "families": [
+    {
+      "id": "C-DLL",
+      "track": "clight",
+      "sources": ["source-material/qcip/OUTPUT/xizi/xizi_double_link_callpoint_specs/source/xizi_double_link_callpoint_specs.c"],
+      "closure_gaps": ["initializer/insertion/removal/query provider bodies", "shared layout header", "fixed trace driver"],
+      "call_structure": ["client-helper calls", "mutable cyclic list"],
+      "observation": "status and logical node IDs; forward/backward traversal traces",
+      "slots": ["C-DLL-CALL", "C-DLL-REP", "C-DLL-BACKLINK"],
+      "proof_level": "L2-L3",
+      "witness_level": "W2"
+    },
+    {
+      "id": "C-RING",
+      "track": "clight",
+      "sources": ["source-material/qcip/OUTPUT/xizi/xizi_circular_area_read/source/xizi_circular_area_read.c"],
+      "closure_gaps": ["CompCert 3.16 AST export and type-check", "AST closure/architecture lock", "reference certificates", "isolated agent package"],
+      "status": "source-concrete; no formal certificate",
+      "concrete_task_directory": "tasks/qcip-core",
+      "concrete_task_notes": "normalized read/write/force API with visible copy loops; explicit source adaptations",
+      "call_structure": ["nested helpers", "buffer mutation", "client operation trace"],
+      "observation": "return codes; delivered bytes; remaining FIFO projection",
+      "slots": ["C-RING-COPY", "C-RING-REP", "C-RING-FULL"],
+      "proof_level": "L3",
+      "witness_level": "W2-W3"
+    },
+    {
+      "id": "C-TREE",
+      "track": "clight",
+      "sources": ["source-material/qcip/OUTPUT/binaryTree/binaryTree_invert/source/binaryTree_invert.c"],
+      "closure_gaps": ["layout header", "height/projection query bodies", "worklist alternatives"],
+      "call_structure": ["recursive traversal", "mutable tree"],
+      "observation": "ordered labeled tree projection and returned height",
+      "slots": ["C-TREE-STACK", "C-TREE-QUEUE", "C-TREE-SUBTREE"],
+      "proof_level": "L3",
+      "witness_level": "W2"
+    },
+    {
+      "id": "C-BST",
+      "track": "clight",
+      "sources": [
+        "source-material/qcip/QCP_examples/QCP_demos_LLM/bst_delete_rec2.c",
+        "source-material/qcip/QCP_examples/QCP_demos_LLM/bst_delete_new.c",
+        "source-material/vst/progs/bst.c"
+      ],
+      "closure_gaps": ["CompCert 3.16 AST export and type-check", "AST closure/architecture lock", "reference certificates", "isolated agent package"],
+      "status": "source-concrete; no formal certificate",
+      "concrete_task_directory": "tasks/qcip-core",
+      "call_structure": ["recursive predecessor search", "pointer-to-pointer cursor", "nested rotation helpers"],
+      "observation": "key/value lookup trace; no public interior-node handles",
+      "slots": ["C-BST-SUCCESSOR", "C-BST-ROTATE", "C-BST-VALUE"],
+      "proof_level": "L3-L4",
+      "witness_level": "W2",
+      "split_group_hints": ["tree-map source ports"]
+    },
+    {
+      "id": "C-AVL",
+      "track": "clight",
+      "sources": ["source-material/qcip/QCP_examples/QCP_demos_LLM/avl_insert.c"],
+      "closure_gaps": ["CompCert 3.16 AST export and type-check", "AST closure/architecture lock", "reference certificates", "isolated agent package"],
+      "status": "source-concrete; no formal certificate",
+      "concrete_task_directory": "tasks/qcip-core",
+      "call_structure": ["recursive insertion", "balance-double-rotation-single-rotation-height chain"],
+      "observation": "lookup values and statuses; duplicate insertion ignored",
+      "slots": ["C-AVL-STACK", "C-AVL-FACTOR", "C-AVL-MIDDLE"],
+      "proof_level": "L3-L4",
+      "witness_level": "W2 for the concrete middle-subtree trace; provisional",
+      "split_group_hints": ["merge entries if distinctive BST/AVL helpers are shared"]
+    },
+    {
+      "id": "C-UF",
+      "track": "clight",
+      "sources": ["source-material/qcip/QCP_examples/QCP_demos_LLM/union_find_err_rel.c"],
+      "closure_gaps": ["singleton initializer", "connected wrapper/trace driver", "halving and noncompressing alternatives"],
+      "call_structure": ["union calls find", "recursive path compression"],
+      "observation": "Boolean connectivity trace; representative IDs hidden",
+      "slots": ["C-UF-HALVING", "C-UF-NOCOMPRESS", "C-UF-ONEHOP"],
+      "proof_level": "L3",
+      "witness_level": "W2-W3"
+    },
+    {
+      "id": "C-PQ",
+      "track": "clight",
+      "sources": ["source-material/qcip/QCP_examples/LLM_bench/Data_structures/priority_queue/priority_queue.c"],
+      "closure_gaps": ["common maximum-first API/trace driver", "ordered-array alternative", "bottom-up build alternative"],
+      "call_structure": ["build calls push", "bulk client calls build/pop"],
+      "observation": "extraction and empty traces including duplicate multiplicity",
+      "slots": ["C-PQ-REP", "C-PQ-BUILD", "C-PQ-CHILD"],
+      "proof_level": "L3",
+      "witness_level": "W2"
+    },
+    {
+      "id": "C-DIJK",
+      "track": "clight",
+      "sources": [
+        "source-material/qcip/QCP_examples/LLM_bench/Algorithms/Dijkstra/Dijkstra_linked_forward_star.c",
+        "source-material/qcip/QCP_examples/LLM_bench/Algorithms/Dijkstra/Dijkstra_priority_queue.c"
+      ],
+      "closure_gaps": ["CompCert 3.16 AST export and type-check", "AST closure/architecture lock", "queue-capacity proof", "reference certificates", "isolated agent package"],
+      "status": "source-concrete; no formal certificate",
+      "concrete_task_directory": "tasks/qcip-core",
+      "concrete_task_notes": "logical queue module calls included in one translation unit; not yet a separate-linking experiment",
+      "call_structure": ["cross-translation-unit queue calls", "graph relaxation client"],
+      "observation": "distance vector and unreachable marker",
+      "slots": ["C-DIJK-SCAN", "C-DIJK-HEAP", "C-DIJK-SEEN"],
+      "proof_level": "L4",
+      "witness_level": "W2"
+    },
+    {
+      "id": "C-EVAL",
+      "track": "clight",
+      "sources": ["source-material/qcip/QCP_examples/QCP_demos_LLM/eval.c"],
+      "closure_gaps": ["pinned syntax/range boundary", "explicit-frame evaluator", "factored operator helpers"],
+      "call_structure": ["recursive tagged-union AST", "operator helper factoring"],
+      "observation": "returned integer under safe admitted syntax",
+      "slots": ["C-EVAL-FRAMES", "C-EVAL-FACTOR", "C-EVAL-BOOL"],
+      "proof_level": "L2-L4",
+      "witness_level": "W1-W2"
+    },
+    {
+      "id": "C-PILE",
+      "track": "clight",
+      "sources": [
+        "source-material/vst/progs/VSUpile/pile.c",
+        "source-material/vst/progs/VSUpile/fast/fastpile.c",
+        "source-material/vst/progs/VSUpile/triang.c"
+      ],
+      "closure_gaps": ["headers", "explicit bounded-arena core adaptation", "closed clients", "separate original allocating extension"],
+      "call_structure": ["module replacement", "new-add-count-free client"],
+      "observation": "count trace and client return value",
+      "slots": ["C-PILE-MODULE", "C-PILE-CLIENT", "C-PILE-DOMAIN"],
+      "proof_level": "L3-L4",
+      "witness_level": "W1",
+      "special_context": "same real pair under restricted versus wider safe domain; not an upstream defect allegation"
+    }
+  ]
+}

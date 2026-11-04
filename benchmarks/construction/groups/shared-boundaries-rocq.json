@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "group_id": "shared-boundaries-rocq",
+  "attempt_ids": [
+    "bc845fc00a7f",
+    "e3506fe09ef9",
+    "c0d8075bc863",
+    "92ecc68f7100",
+    "9ffe3bfd9319",
+    "1c1eddfde1eb",
+    "f21d46f7a42c"
+  ],
+  "tool_wall_seconds": 4.407949453001493,
+  "cpu_user_seconds": 0.8200000000000001,
+  "cpu_system_seconds": 1.04,
+  "max_process_rss_bytes": 416309248,
+  "exact_process_tree_peak_bytes": null,
+  "model_tokens": null,
+  "model_tokens_reason": "shared authoring session usage is recorded once in the referenced batch",
+  "shared_batch_id": "boundaries-v0.4",
+  "historical_cost_complete": false,
+  "failed_attempts": 0,
+  "latest_updated_utc": "2026-11-03T14:16:22.701087+00:00"
+}

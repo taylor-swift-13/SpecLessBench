@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "group_id": "shared-compcert",
+  "attempt_ids": [
+    "33a6c4a5a4db",
+    "4ddefd373215",
+    "faec1d22a24d",
+    "bf04f2934fb9",
+    "234181232e80",
+    "4e64319900e4"
+  ],
+  "tool_wall_seconds": 2.7807009909884073,
+  "cpu_user_seconds": 0.8400000000000001,
+  "cpu_system_seconds": 0.78,
+  "max_process_rss_bytes": 495091712,
+  "exact_process_tree_peak_bytes": null,
+  "model_tokens": null,
+  "model_tokens_reason": "shared authoring session usage belongs to batch-three-platform-v0.2.json once",
+  "shared_batch_id": "three-platform-v0.2",
+  "historical_cost_complete": false,
+  "failed_attempts": 1,
+  "latest_updated_utc": "2026-11-03T12:03:53.242603+00:00"
+}

@@ -1,0 +1,704 @@
+{
+  "schema_version": 1,
+  "timestamp_utc": "2026-11-03T14:57:57.298031+00:00",
+  "scope": "syntactic main reachability in normalized Clight ASTs; not runtime stack sampling or proof difficulty",
+  "io_helpers_included": true,
+  "functions_and_calls": [
+    {
+      "group_id": "incremental-frame-stream",
+      "variant": 0,
+      "ast": "compcert/ast/FRAMES_V0.v",
+      "ast_sha256": "71cd247d9041b1ca16c9d7a1482e6dfe5a941d63ffa54645dfa0744fb7cd06c6",
+      "direct_calls": {
+        "emit": [],
+        "begin_output": [],
+        "end_output": [],
+        "peek_byte": [],
+        "push_byte": [],
+        "drop_bytes": [],
+        "checksum_frame": [
+          "peek_byte"
+        ],
+        "stream_error": [],
+        "drain_frames": [
+          "checksum_frame",
+          "drop_bytes",
+          "peek_byte",
+          "stream_error"
+        ],
+        "reset_stream": [],
+        "feed_chunk": [
+          "drain_frames",
+          "push_byte"
+        ],
+        "finish_stream": [
+          "stream_error"
+        ],
+        "observe_stream": [
+          "emit",
+          "peek_byte"
+        ],
+        "main": [
+          "begin_output",
+          "end_output",
+          "feed_chunk",
+          "finish_stream",
+          "observe_stream",
+          "reset_stream"
+        ]
+      },
+      "reachable_functions": [
+        "begin_output",
+        "checksum_frame",
+        "drain_frames",
+        "drop_bytes",
+        "emit",
+        "end_output",
+        "feed_chunk",
+        "finish_stream",
+        "main",
+        "observe_stream",
+        "peek_byte",
+        "push_byte",
+        "reset_stream",
+        "stream_error"
+      ],
+      "longest_call_chain": [
+        "main",
+        "feed_chunk",
+        "drain_frames",
+        "checksum_frame",
+        "peek_byte"
+      ],
+      "maximum_direct_call_edges": 4,
+      "all_direct_callees_have_bodies": true,
+      "recursive": false
+    },
+    {
+      "group_id": "incremental-frame-stream",
+      "variant": 1,
+      "ast": "compcert/ast/FRAMES_V1.v",
+      "ast_sha256": "e551c01ba4398a9ea886e0a6f0f6314d9359fab7794b425200d7c49f861593ee",
+      "direct_calls": {
+        "emit": [],
+        "begin_output": [],
+        "end_output": [],
+        "peek_byte": [],
+        "push_byte": [],
+        "drop_bytes": [],
+        "checksum_frame": [
+          "peek_byte"
+        ],
+        "stream_error": [],
+        "drain_frames": [
+          "checksum_frame",
+          "drop_bytes",
+          "peek_byte",
+          "stream_error"
+        ],
+        "reset_stream": [],
+        "feed_chunk": [
+          "drain_frames",
+          "push_byte"
+        ],
+        "finish_stream": [
+          "stream_error"
+        ],
+        "observe_stream": [
+          "emit",
+          "peek_byte"
+        ],
+        "main": [
+          "begin_output",
+          "end_output",
+          "feed_chunk",
+          "finish_stream",
+          "observe_stream",
+          "reset_stream"
+        ]
+      },
+      "reachable_functions": [
+        "begin_output",
+        "checksum_frame",
+        "drain_frames",
+        "drop_bytes",
+        "emit",
+        "end_output",
+        "feed_chunk",
+        "finish_stream",
+        "main",
+        "observe_stream",
+        "peek_byte",
+        "push_byte",
+        "reset_stream",
+        "stream_error"
+      ],
+      "longest_call_chain": [
+        "main",
+        "feed_chunk",
+        "drain_frames",
+        "checksum_frame",
+        "peek_byte"
+      ],
+      "maximum_direct_call_edges": 4,
+      "all_direct_callees_have_bodies": true,
+      "recursive": false
+    },
+    {
+      "group_id": "incremental-frame-stream",
+      "variant": 2,
+      "ast": "compcert/ast/FRAMES_V2.v",
+      "ast_sha256": "35c6be74809b45c88e223913a50563196fdd2df43735528687adadf24b64fc9f",
+      "direct_calls": {
+        "emit": [],
+        "begin_output": [],
+        "end_output": [],
+        "peek_byte": [],
+        "push_byte": [],
+        "drop_bytes": [],
+        "checksum_frame": [
+          "peek_byte"
+        ],
+        "stream_error": [],
+        "drain_frames": [
+          "checksum_frame",
+          "drop_bytes",
+          "peek_byte",
+          "stream_error"
+        ],
+        "reset_stream": [],
+        "feed_chunk": [
+          "drain_frames",
+          "push_byte"
+        ],
+        "finish_stream": [
+          "stream_error"
+        ],
+        "observe_stream": [
+          "emit",
+          "peek_byte"
+        ],
+        "main": [
+          "begin_output",
+          "end_output",
+          "feed_chunk",
+          "finish_stream",
+          "observe_stream",
+          "reset_stream"
+        ]
+      },
+      "reachable_functions": [
+        "begin_output",
+        "checksum_frame",
+        "drain_frames",
+        "drop_bytes",
+        "emit",
+        "end_output",
+        "feed_chunk",
+        "finish_stream",
+        "main",
+        "observe_stream",
+        "peek_byte",
+        "push_byte",
+        "reset_stream",
+        "stream_error"
+      ],
+      "longest_call_chain": [
+        "main",
+        "feed_chunk",
+        "drain_frames",
+        "checksum_frame",
+        "peek_byte"
+      ],
+      "maximum_direct_call_edges": 4,
+      "all_direct_callees_have_bodies": true,
+      "recursive": false
+    },
+    {
+      "group_id": "nested-transaction-store",
+      "variant": 0,
+      "ast": "compcert/ast/TRANSACTIONS_V0.v",
+      "ast_sha256": "b030afde81f918754e602dc8829a8284f3cf179b4e757e8dfe99be5972c4b75d",
+      "direct_calls": {
+        "emit": [],
+        "begin_output": [],
+        "end_output": [],
+        "read_slot": [],
+        "write_slot": [],
+        "append_undo": [],
+        "tx_write": [
+          "append_undo",
+          "write_slot"
+        ],
+        "tx_begin": [],
+        "tx_commit": [],
+        "tx_rollback": [
+          "write_slot"
+        ],
+        "execute_tx": [
+          "emit",
+          "read_slot",
+          "tx_begin",
+          "tx_commit",
+          "tx_rollback",
+          "tx_write"
+        ],
+        "main": [
+          "begin_output",
+          "emit",
+          "end_output",
+          "execute_tx",
+          "write_slot"
+        ]
+      },
+      "reachable_functions": [
+        "append_undo",
+        "begin_output",
+        "emit",
+        "end_output",
+        "execute_tx",
+        "main",
+        "read_slot",
+        "tx_begin",
+        "tx_commit",
+        "tx_rollback",
+        "tx_write",
+        "write_slot"
+      ],
+      "longest_call_chain": [
+        "main",
+        "execute_tx",
+        "tx_rollback",
+        "write_slot"
+      ],
+      "maximum_direct_call_edges": 3,
+      "all_direct_callees_have_bodies": true,
+      "recursive": false
+    },
+    {
+      "group_id": "nested-transaction-store",
+      "variant": 1,
+      "ast": "compcert/ast/TRANSACTIONS_V1.v",
+      "ast_sha256": "a6cc8ad48375872c9710348cf97c25b4c061d200403d176a42931590a02aad09",
+      "direct_calls": {
+        "emit": [],
+        "begin_output": [],
+        "end_output": [],
+        "read_slot": [],
+        "write_slot": [],
+        "append_undo": [
+          "read_slot"
+        ],
+        "tx_write": [
+          "append_undo",
+          "write_slot"
+        ],
+        "tx_begin": [],
+        "tx_commit": [],
+        "restore_undo": [
+          "write_slot"
+        ],
+        "undo_to": [
+          "restore_undo"
+        ],
+        "tx_rollback": [
+          "undo_to"
+        ],
+        "execute_tx": [
+          "emit",
+          "read_slot",
+          "tx_begin",
+          "tx_commit",
+          "tx_rollback",
+          "tx_write"
+        ],
+        "main": [
+          "begin_output",
+          "emit",
+          "end_output",
+          "execute_tx",
+          "write_slot"
+        ]
+      },
+      "reachable_functions": [
+        "append_undo",
+        "begin_output",
+        "emit",
+        "end_output",
+        "execute_tx",
+        "main",
+        "read_slot",
+        "restore_undo",
+        "tx_begin",
+        "tx_commit",
+        "tx_rollback",
+        "tx_write",
+        "undo_to",
+        "write_slot"
+      ],
+      "longest_call_chain": [
+        "main",
+        "execute_tx",
+        "tx_rollback",
+        "undo_to",
+        "restore_undo",
+        "write_slot"
+      ],
+      "maximum_direct_call_edges": 5,
+      "all_direct_callees_have_bodies": true,
+      "recursive": false
+    },
+    {
+      "group_id": "nested-transaction-store",
+      "variant": 2,
+      "ast": "compcert/ast/TRANSACTIONS_V2.v",
+      "ast_sha256": "a982f40a0cb939d2947caeba9d0d24ddd80f86742700f36e5688df09851c1626",
+      "direct_calls": {
+        "emit": [],
+        "begin_output": [],
+        "end_output": [],
+        "read_slot": [],
+        "write_slot": [],
+        "append_undo": [
+          "read_slot"
+        ],
+        "tx_write": [
+          "append_undo",
+          "write_slot"
+        ],
+        "tx_begin": [],
+        "tx_commit": [],
+        "restore_undo": [
+          "write_slot"
+        ],
+        "undo_to": [
+          "restore_undo"
+        ],
+        "tx_rollback": [
+          "undo_to"
+        ],
+        "execute_tx": [
+          "emit",
+          "read_slot",
+          "tx_begin",
+          "tx_commit",
+          "tx_rollback",
+          "tx_write"
+        ],
+        "main": [
+          "begin_output",
+          "emit",
+          "end_output",
+          "execute_tx",
+          "write_slot"
+        ]
+      },
+      "reachable_functions": [
+        "append_undo",
+        "begin_output",
+        "emit",
+        "end_output",
+        "execute_tx",
+        "main",
+        "read_slot",
+        "restore_undo",
+        "tx_begin",
+        "tx_commit",
+        "tx_rollback",
+        "tx_write",
+        "undo_to",
+        "write_slot"
+      ],
+      "longest_call_chain": [
+        "main",
+        "execute_tx",
+        "tx_rollback",
+        "undo_to",
+        "restore_undo",
+        "write_slot"
+      ],
+      "maximum_direct_call_edges": 5,
+      "all_direct_callees_have_bodies": true,
+      "recursive": false
+    },
+    {
+      "group_id": "intrusive-lru-cache",
+      "variant": 0,
+      "ast": "compcert/ast/LRU_V0.v",
+      "ast_sha256": "38f72395de90310e6c51a6d9e453fb026061fc18e6a2f27d6b74e17d075907cc",
+      "direct_calls": {
+        "emit": [],
+        "begin_output": [],
+        "end_output": [],
+        "lookup_key": [],
+        "key_at": [],
+        "value_at": [],
+        "erase_at": [],
+        "touch": [],
+        "set_value": [],
+        "insert_front": [],
+        "evict_tail": [
+          "erase_at",
+          "key_at",
+          "value_at"
+        ],
+        "cache_put": [
+          "evict_tail",
+          "insert_front",
+          "lookup_key",
+          "set_value",
+          "touch"
+        ],
+        "cache_query": [
+          "lookup_key",
+          "touch",
+          "value_at"
+        ],
+        "resize_cache": [
+          "evict_tail"
+        ],
+        "execute_cache": [
+          "cache_put",
+          "cache_query",
+          "emit",
+          "erase_at",
+          "lookup_key",
+          "resize_cache",
+          "value_at"
+        ],
+        "observe_cache": [
+          "emit"
+        ],
+        "main": [
+          "begin_output",
+          "end_output",
+          "execute_cache",
+          "observe_cache"
+        ]
+      },
+      "reachable_functions": [
+        "begin_output",
+        "cache_put",
+        "cache_query",
+        "emit",
+        "end_output",
+        "erase_at",
+        "evict_tail",
+        "execute_cache",
+        "insert_front",
+        "key_at",
+        "lookup_key",
+        "main",
+        "observe_cache",
+        "resize_cache",
+        "set_value",
+        "touch",
+        "value_at"
+      ],
+      "longest_call_chain": [
+        "main",
+        "execute_cache",
+        "cache_put",
+        "evict_tail",
+        "erase_at"
+      ],
+      "maximum_direct_call_edges": 4,
+      "all_direct_callees_have_bodies": true,
+      "recursive": false
+    },
+    {
+      "group_id": "intrusive-lru-cache",
+      "variant": 1,
+      "ast": "compcert/ast/LRU_V1.v",
+      "ast_sha256": "6c5b2545b099bc4501eed0952103b87991bc6628d2e090674b4763d7fab61f04",
+      "direct_calls": {
+        "emit": [],
+        "begin_output": [],
+        "end_output": [],
+        "lookup_key": [],
+        "key_at": [],
+        "value_at": [],
+        "detach": [],
+        "link_front": [],
+        "erase_at": [
+          "detach"
+        ],
+        "touch": [
+          "detach",
+          "link_front"
+        ],
+        "set_value": [],
+        "insert_front": [
+          "link_front"
+        ],
+        "evict_tail": [
+          "erase_at",
+          "key_at",
+          "value_at"
+        ],
+        "cache_put": [
+          "evict_tail",
+          "insert_front",
+          "lookup_key",
+          "set_value",
+          "touch"
+        ],
+        "cache_query": [
+          "lookup_key",
+          "touch",
+          "value_at"
+        ],
+        "resize_cache": [
+          "evict_tail"
+        ],
+        "execute_cache": [
+          "cache_put",
+          "cache_query",
+          "emit",
+          "erase_at",
+          "lookup_key",
+          "resize_cache",
+          "value_at"
+        ],
+        "observe_cache": [
+          "emit"
+        ],
+        "main": [
+          "begin_output",
+          "end_output",
+          "execute_cache",
+          "observe_cache"
+        ]
+      },
+      "reachable_functions": [
+        "begin_output",
+        "cache_put",
+        "cache_query",
+        "detach",
+        "emit",
+        "end_output",
+        "erase_at",
+        "evict_tail",
+        "execute_cache",
+        "insert_front",
+        "key_at",
+        "link_front",
+        "lookup_key",
+        "main",
+        "observe_cache",
+        "resize_cache",
+        "set_value",
+        "touch",
+        "value_at"
+      ],
+      "longest_call_chain": [
+        "main",
+        "execute_cache",
+        "cache_put",
+        "evict_tail",
+        "erase_at",
+        "detach"
+      ],
+      "maximum_direct_call_edges": 5,
+      "all_direct_callees_have_bodies": true,
+      "recursive": false
+    },
+    {
+      "group_id": "intrusive-lru-cache",
+      "variant": 2,
+      "ast": "compcert/ast/LRU_V2.v",
+      "ast_sha256": "e579e7826d99aaffcc89e62f3a91a02c16938fbd363529c7f038367031303238",
+      "direct_calls": {
+        "emit": [],
+        "begin_output": [],
+        "end_output": [],
+        "lookup_key": [],
+        "key_at": [],
+        "value_at": [],
+        "detach": [],
+        "link_front": [],
+        "erase_at": [
+          "detach"
+        ],
+        "touch": [
+          "detach",
+          "link_front"
+        ],
+        "set_value": [],
+        "insert_front": [
+          "link_front"
+        ],
+        "evict_tail": [
+          "erase_at",
+          "key_at",
+          "value_at"
+        ],
+        "cache_put": [
+          "evict_tail",
+          "insert_front",
+          "lookup_key",
+          "set_value",
+          "touch"
+        ],
+        "cache_query": [
+          "lookup_key",
+          "value_at"
+        ],
+        "resize_cache": [
+          "evict_tail"
+        ],
+        "execute_cache": [
+          "cache_put",
+          "cache_query",
+          "emit",
+          "erase_at",
+          "lookup_key",
+          "resize_cache",
+          "value_at"
+        ],
+        "observe_cache": [
+          "emit"
+        ],
+        "main": [
+          "begin_output",
+          "end_output",
+          "execute_cache",
+          "observe_cache"
+        ]
+      },
+      "reachable_functions": [
+        "begin_output",
+        "cache_put",
+        "cache_query",
+        "detach",
+        "emit",
+        "end_output",
+        "erase_at",
+        "evict_tail",
+        "execute_cache",
+        "insert_front",
+        "key_at",
+        "link_front",
+        "lookup_key",
+        "main",
+        "observe_cache",
+        "resize_cache",
+        "set_value",
+        "touch",
+        "value_at"
+      ],
+      "longest_call_chain": [
+        "main",
+        "execute_cache",
+        "cache_put",
+        "evict_tail",
+        "erase_at",
+        "detach"
+      ],
+      "maximum_direct_call_edges": 5,
+      "all_direct_callees_have_bodies": true,
+      "recursive": false
+    }
+  ],
+  "final_proofs_attempted": false
+}

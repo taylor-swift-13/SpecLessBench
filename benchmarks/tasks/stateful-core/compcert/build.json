@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "compcert": "3.17",
+  "rocq": "9.2",
+  "architecture": "x86_64-linux; little-endian; ptr64",
+  "clightgen_sha256": "8064763950950ec9e48f44698ba056bb0cb53690e2a35c0c70bb148bdabdb7f2",
+  "exports": [
+    {
+      "module": "FRAMES_V0",
+      "preprocessed_sha256": "29433b4c8febcc2bfa24713766cad2cd0a6c0301a8bfe11ca0df87b724c0d029",
+      "path": "compcert/ast/FRAMES_V0.v",
+      "sha256": "71cd247d9041b1ca16c9d7a1482e6dfe5a941d63ffa54645dfa0744fb7cd06c6"
+    },
+    {
+      "module": "FRAMES_V1",
+      "preprocessed_sha256": "7f49505036a4d255220c67d84aa368545e222eec0bd630be91427a4a643b41fd",
+      "path": "compcert/ast/FRAMES_V1.v",
+      "sha256": "e551c01ba4398a9ea886e0a6f0f6314d9359fab7794b425200d7c49f861593ee"
+    },
+    {
+      "module": "FRAMES_V2",
+      "preprocessed_sha256": "05822978971df59cb4a49d6de3b618529f6bf873e343fb56f42346debc56d91e",
+      "path": "compcert/ast/FRAMES_V2.v",
+      "sha256": "35c6be74809b45c88e223913a50563196fdd2df43735528687adadf24b64fc9f"
+    },
+    {
+      "module": "TRANSACTIONS_V0",
+      "preprocessed_sha256": "7bd4eb3ba015e257daa341a87a9d8d1497b5cb1a0004d48d15d89eaa6ba06c25",
+      "path": "compcert/ast/TRANSACTIONS_V0.v",
+      "sha256": "b030afde81f918754e602dc8829a8284f3cf179b4e757e8dfe99be5972c4b75d"
+    },
+    {
+      "module": "TRANSACTIONS_V1",
+      "preprocessed_sha256": "1baf1b576c49c3b9c38808f4548e4c3769a5c871fc0cf790c60c6834cd64aa4a",
+      "path": "compcert/ast/TRANSACTIONS_V1.v",
+      "sha256": "a6cc8ad48375872c9710348cf97c25b4c061d200403d176a42931590a02aad09"
+    },
+    {
+      "module": "TRANSACTIONS_V2",
+      "preprocessed_sha256": "4a2870162730510cb698b9059c1c3e701d9a8de8e4cddb8674796fdca2190c21",
+      "path": "compcert/ast/TRANSACTIONS_V2.v",
+      "sha256": "a982f40a0cb939d2947caeba9d0d24ddd80f86742700f36e5688df09851c1626"
+    },
+    {
+      "module": "LRU_V0",
+      "preprocessed_sha256": "27e2709e877a55314bdc55671c700a6bc45d0289198294942bd0d6a5ab3c0d82",
+      "path": "compcert/ast/LRU_V0.v",
+      "sha256": "38f72395de90310e6c51a6d9e453fb026061fc18e6a2f27d6b74e17d075907cc"
+    },
+    {
+      "module": "LRU_V1",
+      "preprocessed_sha256": "eb5052e521b91057d6a76cfde57e9838def9f6284a3ea96bafae853c9d94e2a9",
+      "path": "compcert/ast/LRU_V1.v",
+      "sha256": "6c5b2545b099bc4501eed0952103b87991bc6628d2e090674b4763d7fab61f04"
+    },
+    {
+      "module": "LRU_V2",
+      "preprocessed_sha256": "02bb6a33a47a9a8352cec8dcba194a133cbd397523d2f0da26df73ab14963d4d",
+      "path": "compcert/ast/LRU_V2.v",
+      "sha256": "e579e7826d99aaffcc89e62f3a91a02c16938fbd363529c7f038367031303238"
+    }
+  ],
+  "final_proofs": false,
+  "goal_types": "passed; final targets unproved",
+  "native_versions": {
+    "lean": "4.34.0",
+    "rocq": "8.20.1"
+  }
+}

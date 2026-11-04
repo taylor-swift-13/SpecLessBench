@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "revision_id": "83eba576182e",
+  "group_id": "shared-systems",
+  "started_utc": "2026-11-04T02:04:15.902562+00:00",
+  "reason": "Repair reserved Lean identifier and extend the tranche with two numerical algorithm groups after user steering.",
+  "status": "committed-tests-invalidated",
+  "files": [
+    {
+      "path": "benchmarks/tasks/systems-core/lean/SystemsNative.lean",
+      "before_sha256": "5f5333937dc2687499f0a704fd6a5eff1623950df97785ad43c9084b1bcc2ed7",
+      "snapshot": "benchmarks/construction/repairs/83eba576182e/0.before",
+      "after_sha256": "9e6245afa70137ed0bb7bcb90003c6d96f0fa2d0a35ffd9ee3c0264964f2207f"
+    },
+    {
+      "path": "benchmarks/tasks/systems-core/c/Systems.h",
+      "before_sha256": "f6fb108b241077146eb490d9e0e246ed13067e9520a50b089fb17df71b507e3c",
+      "snapshot": "benchmarks/construction/repairs/83eba576182e/1.before",
+      "after_sha256": "0797f4084718df75ce7c93f9bd7ddae410683968ef41884eee11ba4c149d1cf5"
+    },
+    {
+      "path": "scripts/construction/systems_common.py",
+      "before_sha256": "d136eacdd9e5c4e0fe11d1e1568bafe1b7978961ee14ee9ab4ee234687b59dd7",
+      "snapshot": "benchmarks/construction/repairs/83eba576182e/2.before",
+      "after_sha256": "f02241a77830a60eb90533ebcefba2e6b1fcf39411c7b0cb279f107603420e26"
+    }
+  ],
+  "new_revision": "design-v0.6.1",
+  "affected_contexts": [
+    "G-INVALIDATE-WORKLIST",
+    "G-INVALIDATE-DIRTY",
+    "N-SCOPE-OVERLAY",
+    "N-SCOPE-TOMBSTONE",
+    "T-LEASE-WHEEL",
+    "T-LEASE-STALE",
+    "A-ALIGN-MINIMA",
+    "A-ALIGN-TIES",
+    "A-RESAMPLE-PHASE",
+    "A-RESAMPLE-HALF"
+  ],
+  "ended_utc": "2026-11-04T02:10:43.146669+00:00",
+  "retest_required": true,
+  "label_revalidation_required": true
+}

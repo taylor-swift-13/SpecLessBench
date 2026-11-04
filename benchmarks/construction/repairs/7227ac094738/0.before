@@ -1,0 +1,73 @@
+From Coq Require Import ZArith List Bool.
+Import ListNotations.
+Open Scope nat_scope.
+Definition words:=list Z.
+Definition word(xs:words)i:=nth i xs 0%Z.
+Definition put {A}(xs:list A)i(v:A):=firstn i xs++[v]++skipn(S i)xs.
+Definition finish(xs:words):=Some(Z.of_nat(length xs)::xs).
+Definition obind {A B}(x:option A)(f:A->option B):=match x with Some a=>f a|None=>None end.
+Notation "'let*' x ':=' c 'in' b" := (obind c (fun x=>b)) (at level 200,x ident,c at level 100,b at level 200).
+Definition edge:=(nat*nat*Z*nat)%type.
+Definition record:=(Z*Z)%type.
+Definition edge_weight(e:edge):=let '(_,_,w,_):=e in w.
+Fixpoint insert_edge (reverse:bool) item (edges:list edge):=match edges with
+| []=>[item]|e::es=>if (if reverse then Z.gtb(edge_weight item)(edge_weight e)else Z.ltb(edge_weight item)(edge_weight e))
+  then item::e::es else e::insert_edge reverse item es end.
+Definition sort_edges reverse edges:=fold_left(fun sorted e=>insert_edge reverse e sorted)edges([]:list edge).
+Fixpoint root fuel(parent:list nat)x:=match fuel with O=>None|S f=>let next:=nth x parent x in
+  if Nat.eqb next x then Some x else root f parent next end.
+Definition kruskal reverse n edges:option(Z*nat*nat):=
+  let* state:=fold_left(fun state e=>let* state:=state in let '(parent,total,components,mask):=state in
+    let '(u,v,w,id):=e in let* a:=root 9 parent u in let* b:=root 9 parent v in
+    if Nat.eqb a b then Some(parent,total,components,mask)
+    else Some(put parent a b,(total+w)%Z,components-1,mask+2^id))
+    (sort_edges reverse edges)(Some(seq 0 n,0%Z,n,0))in
+  let '(_,total,components,mask):=state in Some(total,components,mask).
+Definition crossing(seen:list bool)(e:edge):=let '(u,v,_,_):=e in xorb(nth u seen false)(nth v seen false).
+Definition best_crossing edges seen:=fold_left(fun best e=>
+ if negb(crossing seen e)then best else match best with
+ | None=>Some e|Some old=>if Z.ltb(edge_weight e)(edge_weight old)then Some e else best end)
+ edges (@None edge).
+Fixpoint grow edges fuel seen total mask:=match best_crossing edges seen with
+| None=>Some(seen,total,mask)
+| Some(u,v,w,id)=>match fuel with O=>None|S f=>
+    grow edges f(put(put seen u true)v true)(total+w)%Z(mask+2^id)end end.
+Definition prim n edges:option(Z*nat*nat):=
+ let* state:=fold_left(fun state start=>let* state:=state in let '(seen,total,components,mask):=state in
+   if nth start seen false then Some(seen,total,components,mask)
+   else let* result:=grow edges 8(put seen start true)total mask in
+     let '(next,total,mask):=result in Some(next,total,components+1,mask))
+   (seq 0 n)(Some(repeat false n,0%Z,0,0))in
+ let '(_,total,components,mask):=state in Some(total,components,mask).
+Definition forest style xs:option words:=
+ let mode:=word xs 0 in let n:=Z.to_nat(word xs 1)in
+ let edges:=map(fun i=>(Z.to_nat(word xs(3+3*i)),Z.to_nat(word xs(4+3*i)),word xs(5+3*i),i))(seq 0(Z.to_nat(word xs 2)))in
+ let* result:=if Nat.eqb style 1 then prim n edges else kruskal(Nat.eqb style 2)n edges in
+ let '(weight,components,mask):=result in
+ finish([weight;Z.of_nat components]++if Z.eqb mode 1 then[Z.of_nat mask]else[]).
+
+Fixpoint insert_record(item:record)(items:list record):=match items with
+| []=>[item]|x::xs=>if Z.ltb(fst item)(fst x)then item::x::xs else x::insert_record item xs end.
+Fixpoint merge fuel(xs ys:list record):option(list record):=match xs,ys with
+| [],_=>Some ys|_,[]=>Some xs
+| x::xt,y::yt=>match fuel with O=>None|S f=>
+    if Z.leb(fst x)(fst y)then let* rest:=merge f xt(y::yt)in Some(x::rest)
+    else let* rest:=merge f(x::xt)yt in Some(y::rest)end end.
+Fixpoint merge_sort fuel(items:list record):option(list record):=match items with
+| []=>Some[]|[x]=>Some[x]|x::y::rest=>match fuel with O=>None|S f=>
+   let input:=x::y::rest in let half:=length input/2 in
+   let* left:=merge_sort f(firstn half input)in let* right:=merge_sort f(skipn half input)in
+   merge 128 left right end end.
+Fixpoint selection_sort fuel(items:list record):option(list record):=match items with
+| []=>Some[]|_=>match fuel with O=>None|S f=>
+  let best:=fold_left(fun best i=>if Z.ltb(fst(nth i items(0%Z,0%Z)))(fst(nth best items(0%Z,0%Z)))then i else best)(seq 0(length items))0 in
+  let picked:=nth best items(0%Z,0%Z)in let swapped:=put items best(nth 0 items(0%Z,0%Z))in
+  let* rest:=selection_sort f(skipn 1 swapped)in Some(picked::rest)end end.
+Definition sorting style xs:option words:=
+ let items:=map(fun i=>(word xs(1+2*i),word xs(2+2*i)))(seq 0(Z.to_nat(word xs 0)))in
+ let* sorted:=if Nat.eqb style 0 then Some(fold_left(fun acc item=>insert_record item acc)items[])
+   else if Nat.eqb style 1 then merge_sort 8 items else selection_sort 64 items in
+ finish(flat_map(fun kv=>[fst kv;snd kv])sorted).
+Definition entry family style xs:=if Nat.eqb family 0 then forest style xs else sorting style xs.
+Definition Equivalent(valid:words->Prop)(a b:words->option words):=forall x,valid x->exists o,a x=Some o/\b x=Some o.
+Definition RefutationAt(valid:words->Prop)(a b:words->option words)(x oa ob:words):=valid x/\a x=Some oa/\b x=Some ob/\oa<>ob.

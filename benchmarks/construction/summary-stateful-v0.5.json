@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "revision": "design-v0.5.1",
+  "tooling_revision": "tooling-v0.5.0",
+  "timestamp_utc": "2026-11-03T15:15:09.728926+00:00",
+  "implementation_groups": 3,
+  "semantic_contexts": 6,
+  "platform_instances": 18,
+  "clight_ast_count": 9,
+  "groups": [
+    {
+      "group_id": "incremental-frame-stream",
+      "family": "frames",
+      "unique_inputs": 34269,
+      "program_executions": 308421,
+      "validity_evaluations": 68562,
+      "duplicates_removed": 2562,
+      "negative_inputs": 6417,
+      "reference_event_counts": {
+        "stream-status-0": 288797,
+        "empty-feed-with-pending": 10005,
+        "stream-status-4": 63743,
+        "stream-status-1": 95680,
+        "reset-after-error": 17135,
+        "frame-completed": 115226,
+        "stream-status-2": 19300,
+        "stream-status-3": 24596,
+        "multi-frame-feed": 2593,
+        "stream-offset-32": 48880
+      },
+      "unexpected_disagreements": 0,
+      "tool_wall_seconds": 193.63359400304034,
+      "max_process_rss_bytes": 1652023296,
+      "cost_record": "benchmarks/construction/groups/incremental-frame-stream.json",
+      "supplements": [
+        {
+          "path": "benchmarks/tasks/stateful-core/evidence/frames-multiframe.json",
+          "sha256": "ba0967c6bc3224634537672e879cd8db7875de7f53eb26b879b45f1084ec8152",
+          "novel_inputs": 3805
+        }
+      ]
+    },
+    {
+      "group_id": "nested-transaction-store",
+      "family": "transactions",
+      "unique_inputs": 47108,
+      "program_executions": 423972,
+      "validity_evaluations": 94230,
+      "duplicates_removed": 348,
+      "negative_inputs": 3436,
+      "reference_event_counts": {
+        "write-in-transaction": 92098,
+        "nested-commit": 19876,
+        "rollback": 32027,
+        "get-missing": 64763,
+        "no-active-error": 61549,
+        "get-found": 21005,
+        "depth-limit-error": 1390
+      },
+      "unexpected_disagreements": 0,
+      "tool_wall_seconds": 148.75516142800916,
+      "max_process_rss_bytes": 1652854784,
+      "cost_record": "benchmarks/construction/groups/nested-transaction-store.json",
+      "supplements": []
+    },
+    {
+      "group_id": "intrusive-lru-cache",
+      "family": "lru",
+      "unique_inputs": 28588,
+      "program_executions": 257292,
+      "validity_evaluations": 57192,
+      "duplicates_removed": 158,
+      "negative_inputs": 3219,
+      "reference_event_counts": {
+        "get-hit": 23495,
+        "eviction": 44798,
+        "get-miss": 75088,
+        "put-zero-cap": 19512,
+        "resize-zero": 13630,
+        "resize-eviction": 20053,
+        "peek-hit": 11723,
+        "erased": 11776,
+        "peek-miss": 37596,
+        "erase-miss": 37327
+      },
+      "unexpected_disagreements": 0,
+      "tool_wall_seconds": 98.82064982701559,
+      "max_process_rss_bytes": 1652346880,
+      "cost_record": "benchmarks/construction/groups/intrusive-lru-cache.json",
+      "supplements": []
+    }
+  ],
+  "unique_inputs": 109965,
+  "program_executions": 989685,
+  "validity_evaluations": 219984,
+  "event_count_scope": "multi-label reference operation/output events, not independent inputs; legacy per-run report field is reference_status_histogram",
+  "coverage_scope": "selected successful full and disjoint supplemental evidence; smoke and failed/repeated attempts remain in costs but do not inflate reported coverage",
+  "unexpected_disagreements": 0,
+  "final_proof_attempted": false,
+  "labels_certified": false,
+  "source_registry_sha256": "3d0890b2b6e766510f30c83d5436d166452bec26292955dfbdb7f511548633ab",
+  "compcert_build_sha256": "c658607b446d0c50a7ffa81517f5706f28e3a41d0477a43f57def0118cb99fc5",
+  "tools_at_audit": [
+    {
+      "path": "/home/yangfp/.elan/toolchains/leanprover--lean4---v4.34.0/bin/lean",
+      "sha256": "e8baaa71855a616dc351028f3ad2200051b0671f423a1696a100e809302d5550"
+    },
+    {
+      "path": "/home/yangfp/.opam/qcp-8.20/bin/coqc",
+      "sha256": "9f68a71da4cadebead39952fb7e95628e8b818a7b13c76917a1f9219affbe46b"
+    },
+    {
+      "path": "/home/yangfp/.opam/five/bin/clightgen",
+      "sha256": "8064763950950ec9e48f44698ba056bb0cb53690e2a35c0c70bb148bdabdb7f2"
+    },
+    {
+      "path": "/home/yangfp/.opam/five/bin/coqc",
+      "sha256": "1d15c815891e425924a59c27d5e3c0e25f55880e3f64083463a511f0be3c7300"
+    },
+    {
+      "path": "/usr/bin/gcc",
+      "sha256": "821af3c74506283c179ca413bb33e6b528805a4dd8a5c09df125e5ad560a9e89"
+    },
+    {
+      "path": "/usr/bin/ocamlopt",
+      "sha256": "230e9a9d13611fa310b267ee7e26671ea99de48f3b52d7e54720f9eee9228b76"
+    }
+  ],
+  "generator_dependencies": [
+    {
+      "path": "scripts/construction/differential_stateful.py",
+      "sha256": "784a25e90632ae6a5f463a950001469480a9d8db7ccf1f2cc729fa001820fc81"
+    },
+    {
+      "path": "scripts/construction/stateful_cases.py",
+      "sha256": "0189f75ebab5f91f7f69cd024a6f19c29b59a2b46d86a098b118f63a5a7d5d8f"
+    },
+    {
+      "path": "scripts/construction/stateful_common.py",
+      "sha256": "60d3b875186308d479ebe0ee82e36ae5e6c4523fa0feabf0f98006814f0ddc60"
+    }
+  ],
+  "shared_usage_batch": "batch-stateful-v0.5.json",
+  "exact_process_tree_peak_bytes": null,
+  "hosted_inference_memory_bytes": null,
+  "call_graphs_sha256": "3fc3e020ddb774cdcc2a83f9e0c7befeef527bb0a9e24a03ef0bb4f70a67517e",
+  "local_telemetry_scope": "prepare, compiler/execution commands, differential and audit envelopes instrumented; bootstrap, editing and tiny final metadata refreshes lack complete process telemetry",
+  "uninstrumented_housekeeping_costs": null,
+  "uninstrumented_housekeeping_reason": "bootstrap/editor overhead remains in shared request wall time; exact CPU/RSS and hosted inference memory unavailable",
+  "shared_tool_wall_seconds": 90.96939176294836,
+  "shared_max_process_rss_bytes": 1679372288,
+  "cost_events_complete_through": "2026-11-03T15:15:08.412489+00:00"
+}

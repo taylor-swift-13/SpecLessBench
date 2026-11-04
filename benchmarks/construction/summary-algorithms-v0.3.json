@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "revision": "design-v0.3.1",
+  "timestamp_utc": "2026-11-03T15:15:04.292766+00:00",
+  "implementation_groups": 6,
+  "semantic_contexts": 12,
+  "platform_instances": 36,
+  "clight_ast_count": 18,
+  "groups": [
+    {
+      "group_id": "basic-factorial",
+      "family": "factorial",
+      "unique_inputs": 13,
+      "program_executions": 117,
+      "validity_evaluations": 34,
+      "duplicates_removed": 1,
+      "negative_inputs": 12,
+      "unexpected_disagreements": 0,
+      "tool_wall_seconds": 18.276304050988983,
+      "max_process_rss_bytes": 1650069504,
+      "cost_record": "benchmarks/construction/groups/basic-factorial.json"
+    },
+    {
+      "group_id": "sequence-reversal",
+      "family": "reverse",
+      "unique_inputs": 8204,
+      "program_executions": 73836,
+      "validity_evaluations": 16418,
+      "duplicates_removed": 84,
+      "negative_inputs": 8204,
+      "unexpected_disagreements": 0,
+      "tool_wall_seconds": 37.723731810969184,
+      "max_process_rss_bytes": 1652150272,
+      "cost_record": "benchmarks/construction/groups/sequence-reversal.json"
+    },
+    {
+      "group_id": "sequence-sum",
+      "family": "sum",
+      "unique_inputs": 8213,
+      "program_executions": 73917,
+      "validity_evaluations": 16436,
+      "duplicates_removed": 75,
+      "negative_inputs": 7118,
+      "unexpected_disagreements": 0,
+      "tool_wall_seconds": 36.166959983020206,
+      "max_process_rss_bytes": 1652264960,
+      "cost_record": "benchmarks/construction/groups/sequence-sum.json"
+    },
+    {
+      "group_id": "matrix-product",
+      "family": "matrix",
+      "unique_inputs": 12746,
+      "program_executions": 114714,
+      "validity_evaluations": 25502,
+      "duplicates_removed": 719,
+      "negative_inputs": 6939,
+      "unexpected_disagreements": 0,
+      "tool_wall_seconds": 47.09119056693453,
+      "max_process_rss_bytes": 1649836032,
+      "cost_record": "benchmarks/construction/groups/matrix-product.json"
+    },
+    {
+      "group_id": "first-match-search",
+      "family": "search",
+      "unique_inputs": 12869,
+      "program_executions": 115821,
+      "validity_evaluations": 25748,
+      "duplicates_removed": 42,
+      "negative_inputs": 346,
+      "unexpected_disagreements": 0,
+      "tool_wall_seconds": 47.40428796403285,
+      "max_process_rss_bytes": 1651855360,
+      "cost_record": "benchmarks/construction/groups/first-match-search.json"
+    },
+    {
+      "group_id": "queue-traces",
+      "family": "queue",
+      "unique_inputs": 24313,
+      "program_executions": 218817,
+      "validity_evaluations": 48636,
+      "duplicates_removed": 222,
+      "negative_inputs": 7790,
+      "unexpected_disagreements": 0,
+      "tool_wall_seconds": 77.58499767899048,
+      "max_process_rss_bytes": 1651617792,
+      "cost_record": "benchmarks/construction/groups/queue-traces.json"
+    }
+  ],
+  "unique_inputs": 66358,
+  "program_executions": 597222,
+  "validity_evaluations": 132774,
+  "unexpected_disagreements": 0,
+  "final_proof_attempted": false,
+  "labels_certified": false,
+  "source_registry_sha256": "03e759ddc6358a39ddeb6c13ecf4dae0f9e10092e1d4f88b66f8f377afb9761b",
+  "compcert_build_sha256": "449bc4197d9be3b5495561563d1d0d0bdc1c58bb7e546346eb6a2dd007fae2ae",
+  "tools_at_audit": [
+    {
+      "path": "/home/yangfp/.elan/toolchains/leanprover--lean4---v4.34.0/bin/lean",
+      "sha256": "e8baaa71855a616dc351028f3ad2200051b0671f423a1696a100e809302d5550"
+    },
+    {
+      "path": "/home/yangfp/.opam/qcp-8.20/bin/coqc",
+      "sha256": "9f68a71da4cadebead39952fb7e95628e8b818a7b13c76917a1f9219affbe46b"
+    },
+    {
+      "path": "/home/yangfp/.opam/five/bin/clightgen",
+      "sha256": "8064763950950ec9e48f44698ba056bb0cb53690e2a35c0c70bb148bdabdb7f2"
+    },
+    {
+      "path": "/home/yangfp/.opam/five/bin/coqc",
+      "sha256": "1d15c815891e425924a59c27d5e3c0e25f55880e3f64083463a511f0be3c7300"
+    },
+    {
+      "path": "/usr/bin/gcc",
+      "sha256": "821af3c74506283c179ca413bb33e6b528805a4dd8a5c09df125e5ad560a9e89"
+    },
+    {
+      "path": "/usr/bin/ocamlopt",
+      "sha256": "230e9a9d13611fa310b267ee7e26671ea99de48f3b52d7e54720f9eee9228b76"
+    }
+  ],
+  "generator_dependencies": [
+    {
+      "path": "scripts/construction/differential_algorithms.py",
+      "sha256": "929b37b06ebe36400bd189bb4997299a70017d7cc5827397990fb0074825e4b8"
+    },
+    {
+      "path": "scripts/construction/algorithms_common.py",
+      "sha256": "a2774dcd2fe13ba65bde725c4b9d1fa6ec8e3a9eda7bdfd39b13c9a1f220de47"
+    }
+  ],
+  "shared_usage_batch": "batch-algorithms-v0.3.json",
+  "exact_process_tree_peak_bytes": null,
+  "hosted_inference_memory_bytes": null,
+  "shared_tool_wall_seconds": 193.13835779600777,
+  "shared_max_process_rss_bytes": 1670545408,
+  "cost_events_complete_through": "2026-11-03T15:15:03.457160+00:00"
+}

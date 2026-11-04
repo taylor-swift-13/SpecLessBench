@@ -1,0 +1,334 @@
+{
+  "schema_version": 1,
+  "revision": "design-v0.6",
+  "curator_only": true,
+  "required_platforms": [
+    "lean",
+    "rocq",
+    "compcert"
+  ],
+  "final_target_proofs_required": false,
+  "groups": [
+    {
+      "group_id": "dependency-invalidation",
+      "family": "graph",
+      "family_index": 0,
+      "proof_level": "L3-L4",
+      "revision": "design-v0.6",
+      "cost_batch": "systems-v0.6",
+      "tasks": [
+        {
+          "id": "G-INVALIDATE-WORKLIST",
+          "left": 0,
+          "right": 1,
+          "domain_index": 0,
+          "expected_polarity": "EQ",
+          "label_status": "provisional; not proved",
+          "theorem": "G_INVALIDATE_WORKLIST",
+          "lean_goal": "lean/pending/G_INVALIDATE_WORKLIST.lean.goal",
+          "rocq_goal": "rocq/SystemsGoals.v::G_INVALIDATE_WORKLIST",
+          "compcert_goal": "compcert/GRAPHGoals.v::G_INVALIDATE_WORKLIST",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "id": "G-INVALIDATE-DIRTY",
+          "left": 0,
+          "right": 2,
+          "domain_index": 0,
+          "expected_polarity": "CEX",
+          "label_status": "provisional; not proved",
+          "theorem": "G_INVALIDATE_DIRTY",
+          "lean_goal": "lean/pending/G_INVALIDATE_DIRTY.lean.goal",
+          "rocq_goal": "rocq/SystemsGoals.v::G_INVALIDATE_DIRTY",
+          "compcert_goal": "compcert/GRAPHGoals.v::G_INVALIDATE_DIRTY",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        }
+      ],
+      "variants": [
+        {
+          "id": "GRAPH_V0",
+          "c": "c/graph/v0.c",
+          "lean": "SystemsNative.entry 0 0",
+          "rocq": "SystemsNative.entry 0 0",
+          "ast": "compcert/ast/GRAPH_V0.v"
+        },
+        {
+          "id": "GRAPH_V1",
+          "c": "c/graph/v1.c",
+          "lean": "SystemsNative.entry 0 1",
+          "rocq": "SystemsNative.entry 0 1",
+          "ast": "compcert/ast/GRAPH_V1.v"
+        },
+        {
+          "id": "GRAPH_V2",
+          "c": "c/graph/v2.c",
+          "lean": "SystemsNative.entry 0 2",
+          "rocq": "SystemsNative.entry 0 2",
+          "ast": "compcert/ast/GRAPH_V2.v"
+        }
+      ]
+    },
+    {
+      "group_id": "scoped-bindings",
+      "family": "scopes",
+      "family_index": 1,
+      "proof_level": "L2-L3",
+      "revision": "design-v0.6",
+      "cost_batch": "systems-v0.6",
+      "tasks": [
+        {
+          "id": "N-SCOPE-OVERLAY",
+          "left": 0,
+          "right": 1,
+          "domain_index": 1,
+          "expected_polarity": "EQ",
+          "label_status": "provisional; not proved",
+          "theorem": "N_SCOPE_OVERLAY",
+          "lean_goal": "lean/pending/N_SCOPE_OVERLAY.lean.goal",
+          "rocq_goal": "rocq/SystemsGoals.v::N_SCOPE_OVERLAY",
+          "compcert_goal": "compcert/SCOPESGoals.v::N_SCOPE_OVERLAY",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "id": "N-SCOPE-TOMBSTONE",
+          "left": 0,
+          "right": 2,
+          "domain_index": 1,
+          "expected_polarity": "CEX",
+          "label_status": "provisional; not proved",
+          "theorem": "N_SCOPE_TOMBSTONE",
+          "lean_goal": "lean/pending/N_SCOPE_TOMBSTONE.lean.goal",
+          "rocq_goal": "rocq/SystemsGoals.v::N_SCOPE_TOMBSTONE",
+          "compcert_goal": "compcert/SCOPESGoals.v::N_SCOPE_TOMBSTONE",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        }
+      ],
+      "variants": [
+        {
+          "id": "SCOPES_V0",
+          "c": "c/scopes/v0.c",
+          "lean": "SystemsNative.entry 1 0",
+          "rocq": "SystemsNative.entry 1 0",
+          "ast": "compcert/ast/SCOPES_V0.v"
+        },
+        {
+          "id": "SCOPES_V1",
+          "c": "c/scopes/v1.c",
+          "lean": "SystemsNative.entry 1 1",
+          "rocq": "SystemsNative.entry 1 1",
+          "ast": "compcert/ast/SCOPES_V1.v"
+        },
+        {
+          "id": "SCOPES_V2",
+          "c": "c/scopes/v2.c",
+          "lean": "SystemsNative.entry 1 2",
+          "rocq": "SystemsNative.entry 1 2",
+          "ast": "compcert/ast/SCOPES_V2.v"
+        }
+      ]
+    },
+    {
+      "group_id": "lease-expiration",
+      "family": "leases",
+      "family_index": 2,
+      "proof_level": "L3-L4",
+      "revision": "design-v0.6",
+      "cost_batch": "systems-v0.6",
+      "tasks": [
+        {
+          "id": "T-LEASE-WHEEL",
+          "left": 0,
+          "right": 1,
+          "domain_index": 2,
+          "expected_polarity": "EQ",
+          "label_status": "provisional; not proved",
+          "theorem": "T_LEASE_WHEEL",
+          "lean_goal": "lean/pending/T_LEASE_WHEEL.lean.goal",
+          "rocq_goal": "rocq/SystemsGoals.v::T_LEASE_WHEEL",
+          "compcert_goal": "compcert/LEASESGoals.v::T_LEASE_WHEEL",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "id": "T-LEASE-STALE",
+          "left": 0,
+          "right": 2,
+          "domain_index": 2,
+          "expected_polarity": "CEX",
+          "label_status": "provisional; not proved",
+          "theorem": "T_LEASE_STALE",
+          "lean_goal": "lean/pending/T_LEASE_STALE.lean.goal",
+          "rocq_goal": "rocq/SystemsGoals.v::T_LEASE_STALE",
+          "compcert_goal": "compcert/LEASESGoals.v::T_LEASE_STALE",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        }
+      ],
+      "variants": [
+        {
+          "id": "LEASES_V0",
+          "c": "c/leases/v0.c",
+          "lean": "SystemsNative.entry 2 0",
+          "rocq": "SystemsNative.entry 2 0",
+          "ast": "compcert/ast/LEASES_V0.v"
+        },
+        {
+          "id": "LEASES_V1",
+          "c": "c/leases/v1.c",
+          "lean": "SystemsNative.entry 2 1",
+          "rocq": "SystemsNative.entry 2 1",
+          "ast": "compcert/ast/LEASES_V1.v"
+        },
+        {
+          "id": "LEASES_V2",
+          "c": "c/leases/v2.c",
+          "lean": "SystemsNative.entry 2 2",
+          "rocq": "SystemsNative.entry 2 2",
+          "ast": "compcert/ast/LEASES_V2.v"
+        }
+      ]
+    }
+  ],
+  "protected_files": [
+    {
+      "path": "c/Systems.h",
+      "sha256": "f6fb108b241077146eb490d9e0e246ed13067e9520a50b089fb17df71b507e3c"
+    },
+    {
+      "path": "c/graph/v0.c",
+      "sha256": "70ffe14116a5bed6e37ffc27c69ca2edecb4cbf02507cf59b4cf8f073eab50d7"
+    },
+    {
+      "path": "c/graph/v1.c",
+      "sha256": "87404be913a8decd5ffda54a9bb68a81973609c965c5e12ce1e447af1a1306c3"
+    },
+    {
+      "path": "c/graph/v2.c",
+      "sha256": "4a9ecf1e477a23cc295a534fd1eca6128381321e47e66bf860bd6547e7090999"
+    },
+    {
+      "path": "c/leases/v0.c",
+      "sha256": "fdbcbaa33cf62af74d2dae8b3bd49e6d90fb0152f34b588e3c922e78f8656845"
+    },
+    {
+      "path": "c/leases/v1.c",
+      "sha256": "4a0d2dfc85ab7b476e1fd753065c75ab8b6dc6647c83b3a5c46f46eb39cdcf69"
+    },
+    {
+      "path": "c/leases/v2.c",
+      "sha256": "3f211b957c03d26886e4614075feaee053aac975da5bbf9822a7e32d47f09880"
+    },
+    {
+      "path": "c/scopes/v0.c",
+      "sha256": "c87a53bc0a933a1b26d27dfdfa8d6481f96bd62e8be62f0702cc0788e71bb959"
+    },
+    {
+      "path": "c/scopes/v1.c",
+      "sha256": "5d19707da246b1cc9906a4a3832b0e8a9e3f6cf12475c4710b279d3ee5b4068f"
+    },
+    {
+      "path": "c/scopes/v2.c",
+      "sha256": "1dc29d45ce6d1c1b85e3090ef4e791c13d761db8ab34f550897d71838821923f"
+    },
+    {
+      "path": "lean/SystemsDomain.lean",
+      "sha256": "fdcd9f28feaeae927f4c9716decb593f7289677664691dea1777ddaf70fd36c6"
+    },
+    {
+      "path": "lean/SystemsGoals.lean",
+      "sha256": "39b1105fbaed075b6e6e5ec892bb473fdcd9e8adcc6e402a4a1cea94a60330a6"
+    },
+    {
+      "path": "lean/SystemsNative.lean",
+      "sha256": "5f5333937dc2687499f0a704fd6a5eff1623950df97785ad43c9084b1bcc2ed7"
+    },
+    {
+      "path": "lean/SystemsRunner.lean",
+      "sha256": "4d855084b85d6c1e99a01963df3e577017293a890212705819edebdc695d23e2"
+    },
+    {
+      "path": "lean/pending/G_INVALIDATE_DIRTY.lean.goal",
+      "sha256": "775b36249b64ac7b45e1f99fc26af7f749610fb871afbd044a134aa2e4000e58"
+    },
+    {
+      "path": "lean/pending/G_INVALIDATE_WORKLIST.lean.goal",
+      "sha256": "88eb88ab0a4969ca3ecac49224366aa761d67c5f97155317a235ec46e994e9b3"
+    },
+    {
+      "path": "lean/pending/N_SCOPE_OVERLAY.lean.goal",
+      "sha256": "703ded1b218ddbdaaef06b57e0d0320d9693d8568b46d8adc37e26973cff8239"
+    },
+    {
+      "path": "lean/pending/N_SCOPE_TOMBSTONE.lean.goal",
+      "sha256": "dbc7b52e89d77b939da4e5873b49a754d8bc30d6a4672c5905ce88e546dc4192"
+    },
+    {
+      "path": "lean/pending/T_LEASE_STALE.lean.goal",
+      "sha256": "b32e63316fc4a01b454811f14344ebcc75afee8a14d3fa481b30301e70c75129"
+    },
+    {
+      "path": "lean/pending/T_LEASE_WHEEL.lean.goal",
+      "sha256": "b454effd77b84fc6d04aa7fd50cd917aa327691170a8f7cea37e5e2a8ee70fe1"
+    },
+    {
+      "path": "rocq/SystemsDomain.v",
+      "sha256": "eb3f403329ce41476f9efad87cb008a2bd52fa5d4319cc6730452fb356c1df1b"
+    },
+    {
+      "path": "rocq/SystemsExtract.v",
+      "sha256": "f00025c8c5d5d712138ea87e56a2583cc348947ae9ca76749ba71cbc20a6ca72"
+    },
+    {
+      "path": "rocq/SystemsGoals.v",
+      "sha256": "23c2bb8437faf6db278e6b8ceb797a08c5ce1b72085c6deea74c92ceaa0bd7b0"
+    },
+    {
+      "path": "rocq/SystemsNative.v",
+      "sha256": "67cfa845ea8e77465f1bcf75a76ab8ac4d9ad3d79ee40c0a81ef5fd30f2d6c21"
+    },
+    {
+      "path": "compcert/Execution.v",
+      "sha256": "d81e3e6d5dd762af0c447d635ad1c84d8a413f6bb37da4c64167860798264a44"
+    },
+    {
+      "path": "compcert/GRAPHGoals.v",
+      "sha256": "d07a5a9926ede5492b4ed865ebadccc4b33a469002038cbaf98a4b0a6231d768"
+    },
+    {
+      "path": "compcert/LEASESGoals.v",
+      "sha256": "6ca57147a604085a8d9d5b658d943c1d30d5b23cf0db94286da165a055197a08"
+    },
+    {
+      "path": "compcert/SCOPESGoals.v",
+      "sha256": "dd01708ce910fcff3ba10c74317a74b53ed8c00d796b5c3d0ef16502b065a051"
+    },
+    {
+      "path": "compcert/SystemsDomain.v",
+      "sha256": "48f43f17fa69973d206ce21eb9406c2191c84b548d60a93be82ba0362a12d9cd"
+    }
+  ],
+  "c_environment_header": "../qcip-core/common/io.h",
+  "io_header_sha256": "ed3054989c3045aa35852ebe9d788f9927dbcf5b57a628723fc882d7e57dd43e"
+}

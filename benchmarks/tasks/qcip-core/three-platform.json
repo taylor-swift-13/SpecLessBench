@@ -1,0 +1,684 @@
+{
+  "schema_version": 2,
+  "revision": "design-v0.2",
+  "curator_only": true,
+  "required_platforms": [
+    "lean",
+    "rocq",
+    "compcert"
+  ],
+  "implementation_group_count": 4,
+  "semantic_task_contexts": 12,
+  "platform_instances": 36,
+  "final_target_proofs_required_during_construction": false,
+  "group_construction_mutable": true,
+  "solver_implementations_mutable_after_freeze": false,
+  "status": "three-platform sources/ASTs and target types checked; differential labels provisional; final proofs deferred; accounting gaps explicit",
+  "groups": [
+    {
+      "group_id": "qcip-bst-delete",
+      "family": "bst",
+      "revision": "design-v0.2",
+      "cost_record": "../../construction/groups/qcip-bst-delete.json",
+      "shared_cost_batch": "three-platform-v0.2",
+      "variants": [
+        {
+          "id": "BST_V0",
+          "lean": "lean/Native.lean::bst 0",
+          "rocq": "rocq_native/Native.v::bst 0",
+          "compcert_c": "bst/v0.c",
+          "compcert_ast": "compcert/ast/BST_V0.v",
+          "port_status": "independent executable native re-encodings; no cross-language equivalence proof",
+          "style_caveat": "native trees replace pointer identity with structural nodes; predecessor/successor strategy retained; source-level call/control metrics are platform-specific"
+        },
+        {
+          "id": "BST_V1",
+          "lean": "lean/Native.lean::bst 1",
+          "rocq": "rocq_native/Native.v::bst 1",
+          "compcert_c": "bst/v1.c",
+          "compcert_ast": "compcert/ast/BST_V1.v",
+          "port_status": "independent executable native re-encodings; no cross-language equivalence proof",
+          "style_caveat": "native trees replace pointer identity with structural nodes; predecessor/successor strategy retained; source-level call/control metrics are platform-specific"
+        },
+        {
+          "id": "BST_V2",
+          "lean": "lean/Native.lean::bst 2",
+          "rocq": "rocq_native/Native.v::bst 2",
+          "compcert_c": "bst/v2.c",
+          "compcert_ast": "compcert/ast/BST_V2.v",
+          "port_status": "independent executable native re-encodings; no cross-language equivalence proof",
+          "style_caveat": "native trees replace pointer identity with structural nodes; predecessor/successor strategy retained; source-level call/control metrics are platform-specific"
+        },
+        {
+          "id": "BST_V3",
+          "lean": "lean/Native.lean::bst 3",
+          "rocq": "rocq_native/Native.v::bst 3",
+          "compcert_c": "bst/v3.c",
+          "compcert_ast": "compcert/ast/BST_V3.v",
+          "port_status": "independent executable native re-encodings; no cross-language equivalence proof",
+          "style_caveat": "native trees replace pointer identity with structural nodes; predecessor/successor strategy retained; source-level call/control metrics are platform-specific"
+        }
+      ],
+      "tasks": [
+        {
+          "context_id": "C-BST-SUCCESSOR",
+          "left_variant": 0,
+          "right_variant": 1,
+          "expected_polarity": "equivalent",
+          "label_status": "provisional; not kernel certified",
+          "lean": {
+            "statement": "lean/Goals.lean::C_BST_SUCCESSOR",
+            "pending_theorem": "lean/pending/C_BST_SUCCESSOR.lean.goal"
+          },
+          "rocq": {
+            "pending_theorem": "rocq_native/Goals.v::C_BST_SUCCESSOR"
+          },
+          "compcert": {
+            "pending_theorem": "compcert/BSTExpected.v::C_BST_SUCCESSOR",
+            "ast_status": "exported and type-checked; goal type checked, unproved"
+          },
+          "proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "context_id": "C-BST-ROTATE",
+          "left_variant": 0,
+          "right_variant": 2,
+          "expected_polarity": "equivalent",
+          "label_status": "provisional; not kernel certified",
+          "lean": {
+            "statement": "lean/Goals.lean::C_BST_ROTATE",
+            "pending_theorem": "lean/pending/C_BST_ROTATE.lean.goal"
+          },
+          "rocq": {
+            "pending_theorem": "rocq_native/Goals.v::C_BST_ROTATE"
+          },
+          "compcert": {
+            "pending_theorem": "compcert/BSTExpected.v::C_BST_ROTATE",
+            "ast_status": "exported and type-checked; goal type checked, unproved"
+          },
+          "proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "context_id": "C-BST-VALUE",
+          "left_variant": 0,
+          "right_variant": 3,
+          "expected_polarity": "counterexample",
+          "label_status": "provisional; not kernel certified",
+          "lean": {
+            "statement": "lean/Goals.lean::C_BST_VALUE",
+            "pending_theorem": "lean/pending/C_BST_VALUE.lean.goal"
+          },
+          "rocq": {
+            "pending_theorem": "rocq_native/Goals.v::C_BST_VALUE"
+          },
+          "compcert": {
+            "pending_theorem": "compcert/BSTExpected.v::C_BST_VALUE",
+            "ast_status": "exported and type-checked; goal type checked, unproved"
+          },
+          "proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "qcip-avl-insert",
+      "family": "avl",
+      "revision": "design-v0.2",
+      "cost_record": "../../construction/groups/qcip-avl-insert.json",
+      "shared_cost_batch": "three-platform-v0.2",
+      "variants": [
+        {
+          "id": "AVL_V0",
+          "lean": "lean/Native.lean::avl 0",
+          "rocq": "rocq_native/Native.v::avl 0",
+          "compcert_c": "avl/v0.c",
+          "compcert_ast": "compcert/ast/AVL_V0.v",
+          "port_status": "independent executable native re-encodings; no cross-language equivalence proof",
+          "style_caveat": "native trees replace pointer identity with structural nodes; predecessor/successor strategy retained; source-level call/control metrics are platform-specific"
+        },
+        {
+          "id": "AVL_V1",
+          "lean": "lean/Native.lean::avl 1",
+          "rocq": "rocq_native/Native.v::avl 1",
+          "compcert_c": "avl/v1.c",
+          "compcert_ast": "compcert/ast/AVL_V1.v",
+          "port_status": "independent executable native re-encodings; no cross-language equivalence proof",
+          "style_caveat": "native trees replace pointer identity with structural nodes; predecessor/successor strategy retained; source-level call/control metrics are platform-specific"
+        },
+        {
+          "id": "AVL_V2",
+          "lean": "lean/Native.lean::avl 2",
+          "rocq": "rocq_native/Native.v::avl 2",
+          "compcert_c": "avl/v2.c",
+          "compcert_ast": "compcert/ast/AVL_V2.v",
+          "port_status": "independent executable native re-encodings; no cross-language equivalence proof",
+          "style_caveat": "native trees replace pointer identity with structural nodes; predecessor/successor strategy retained; source-level call/control metrics are platform-specific"
+        },
+        {
+          "id": "AVL_V3",
+          "lean": "lean/Native.lean::avl 3",
+          "rocq": "rocq_native/Native.v::avl 3",
+          "compcert_c": "avl/v3.c",
+          "compcert_ast": "compcert/ast/AVL_V3.v",
+          "port_status": "independent executable native re-encodings; no cross-language equivalence proof",
+          "style_caveat": "native trees replace pointer identity with structural nodes; predecessor/successor strategy retained; source-level call/control metrics are platform-specific"
+        }
+      ],
+      "tasks": [
+        {
+          "context_id": "C-AVL-STACK",
+          "left_variant": 0,
+          "right_variant": 1,
+          "expected_polarity": "equivalent",
+          "label_status": "provisional; not kernel certified",
+          "lean": {
+            "statement": "lean/Goals.lean::C_AVL_STACK",
+            "pending_theorem": "lean/pending/C_AVL_STACK.lean.goal"
+          },
+          "rocq": {
+            "pending_theorem": "rocq_native/Goals.v::C_AVL_STACK"
+          },
+          "compcert": {
+            "pending_theorem": "compcert/AVLExpected.v::C_AVL_STACK",
+            "ast_status": "exported and type-checked; goal type checked, unproved"
+          },
+          "proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "context_id": "C-AVL-FACTOR",
+          "left_variant": 0,
+          "right_variant": 2,
+          "expected_polarity": "equivalent",
+          "label_status": "provisional; not kernel certified",
+          "lean": {
+            "statement": "lean/Goals.lean::C_AVL_FACTOR",
+            "pending_theorem": "lean/pending/C_AVL_FACTOR.lean.goal"
+          },
+          "rocq": {
+            "pending_theorem": "rocq_native/Goals.v::C_AVL_FACTOR"
+          },
+          "compcert": {
+            "pending_theorem": "compcert/AVLExpected.v::C_AVL_FACTOR",
+            "ast_status": "exported and type-checked; goal type checked, unproved"
+          },
+          "proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "context_id": "C-AVL-MIDDLE",
+          "left_variant": 0,
+          "right_variant": 3,
+          "expected_polarity": "counterexample",
+          "label_status": "provisional; not kernel certified",
+          "lean": {
+            "statement": "lean/Goals.lean::C_AVL_MIDDLE",
+            "pending_theorem": "lean/pending/C_AVL_MIDDLE.lean.goal"
+          },
+          "rocq": {
+            "pending_theorem": "rocq_native/Goals.v::C_AVL_MIDDLE"
+          },
+          "compcert": {
+            "pending_theorem": "compcert/AVLExpected.v::C_AVL_MIDDLE",
+            "ast_status": "exported and type-checked; goal type checked, unproved"
+          },
+          "proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "qcip-xizi-ring",
+      "family": "ring",
+      "revision": "design-v0.2",
+      "cost_record": "../../construction/groups/qcip-xizi-ring.json",
+      "shared_cost_batch": "three-platform-v0.2",
+      "variants": [
+        {
+          "id": "RING_V0",
+          "lean": "lean/Native.lean::ring 0",
+          "rocq": "rocq_native/Native.v::ring 0",
+          "compcert_c": "ring/v0.c",
+          "compcert_ast": "compcert/ast/RING_V0.v",
+          "port_status": "independent executable native re-encodings; no cross-language equivalence proof",
+          "style_caveat": "native trees replace pointer identity with structural nodes; predecessor/successor strategy retained; source-level call/control metrics are platform-specific"
+        },
+        {
+          "id": "RING_V1",
+          "lean": "lean/Native.lean::ring 1",
+          "rocq": "rocq_native/Native.v::ring 1",
+          "compcert_c": "ring/v1.c",
+          "compcert_ast": "compcert/ast/RING_V1.v",
+          "port_status": "independent executable native re-encodings; no cross-language equivalence proof",
+          "style_caveat": "native trees replace pointer identity with structural nodes; predecessor/successor strategy retained; source-level call/control metrics are platform-specific"
+        },
+        {
+          "id": "RING_V2",
+          "lean": "lean/Native.lean::ring 2",
+          "rocq": "rocq_native/Native.v::ring 2",
+          "compcert_c": "ring/v2.c",
+          "compcert_ast": "compcert/ast/RING_V2.v",
+          "port_status": "independent executable native re-encodings; no cross-language equivalence proof",
+          "style_caveat": "native trees replace pointer identity with structural nodes; predecessor/successor strategy retained; source-level call/control metrics are platform-specific"
+        },
+        {
+          "id": "RING_V3",
+          "lean": "lean/Native.lean::ring 3",
+          "rocq": "rocq_native/Native.v::ring 3",
+          "compcert_c": "ring/v3.c",
+          "compcert_ast": "compcert/ast/RING_V3.v",
+          "port_status": "independent executable native re-encodings; no cross-language equivalence proof",
+          "style_caveat": "native trees replace pointer identity with structural nodes; predecessor/successor strategy retained; source-level call/control metrics are platform-specific"
+        }
+      ],
+      "tasks": [
+        {
+          "context_id": "C-RING-COPY",
+          "left_variant": 0,
+          "right_variant": 1,
+          "expected_polarity": "equivalent",
+          "label_status": "provisional; not kernel certified",
+          "lean": {
+            "statement": "lean/Goals.lean::C_RING_COPY",
+            "pending_theorem": "lean/pending/C_RING_COPY.lean.goal"
+          },
+          "rocq": {
+            "pending_theorem": "rocq_native/Goals.v::C_RING_COPY"
+          },
+          "compcert": {
+            "pending_theorem": "compcert/RINGExpected.v::C_RING_COPY",
+            "ast_status": "exported and type-checked; goal type checked, unproved"
+          },
+          "proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "context_id": "C-RING-REP",
+          "left_variant": 0,
+          "right_variant": 2,
+          "expected_polarity": "equivalent",
+          "label_status": "provisional; not kernel certified",
+          "lean": {
+            "statement": "lean/Goals.lean::C_RING_REP",
+            "pending_theorem": "lean/pending/C_RING_REP.lean.goal"
+          },
+          "rocq": {
+            "pending_theorem": "rocq_native/Goals.v::C_RING_REP"
+          },
+          "compcert": {
+            "pending_theorem": "compcert/RINGExpected.v::C_RING_REP",
+            "ast_status": "exported and type-checked; goal type checked, unproved"
+          },
+          "proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "context_id": "C-RING-FULL",
+          "left_variant": 0,
+          "right_variant": 3,
+          "expected_polarity": "counterexample",
+          "label_status": "provisional; not kernel certified",
+          "lean": {
+            "statement": "lean/Goals.lean::C_RING_FULL",
+            "pending_theorem": "lean/pending/C_RING_FULL.lean.goal"
+          },
+          "rocq": {
+            "pending_theorem": "rocq_native/Goals.v::C_RING_FULL"
+          },
+          "compcert": {
+            "pending_theorem": "compcert/RINGExpected.v::C_RING_FULL",
+            "ast_status": "exported and type-checked; goal type checked, unproved"
+          },
+          "proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "qcip-dijkstra",
+      "family": "dijkstra",
+      "revision": "design-v0.2",
+      "cost_record": "../../construction/groups/qcip-dijkstra.json",
+      "shared_cost_batch": "three-platform-v0.2",
+      "variants": [
+        {
+          "id": "DIJKSTRA_V0",
+          "lean": "lean/Native.lean::dijkstra 0",
+          "rocq": "rocq_native/Native.v::dijkstra 0",
+          "compcert_c": "dijkstra/v0.c",
+          "compcert_ast": "compcert/ast/DIJKSTRA_V0.v",
+          "port_status": "independent executable native re-encodings; no cross-language equivalence proof",
+          "style_caveat": "native trees replace pointer identity with structural nodes; predecessor/successor strategy retained; source-level call/control metrics are platform-specific"
+        },
+        {
+          "id": "DIJKSTRA_V1",
+          "lean": "lean/Native.lean::dijkstra 1",
+          "rocq": "rocq_native/Native.v::dijkstra 1",
+          "compcert_c": "dijkstra/v1.c",
+          "compcert_ast": "compcert/ast/DIJKSTRA_V1.v",
+          "port_status": "independent executable native re-encodings; no cross-language equivalence proof",
+          "style_caveat": "native trees replace pointer identity with structural nodes; predecessor/successor strategy retained; source-level call/control metrics are platform-specific"
+        },
+        {
+          "id": "DIJKSTRA_V2",
+          "lean": "lean/Native.lean::dijkstra 2",
+          "rocq": "rocq_native/Native.v::dijkstra 2",
+          "compcert_c": "dijkstra/v2.c",
+          "compcert_ast": "compcert/ast/DIJKSTRA_V2.v",
+          "port_status": "independent executable native re-encodings; no cross-language equivalence proof",
+          "style_caveat": "native trees replace pointer identity with structural nodes; predecessor/successor strategy retained; source-level call/control metrics are platform-specific"
+        },
+        {
+          "id": "DIJKSTRA_V3",
+          "lean": "lean/Native.lean::dijkstra 3",
+          "rocq": "rocq_native/Native.v::dijkstra 3",
+          "compcert_c": "dijkstra/v3.c",
+          "compcert_ast": "compcert/ast/DIJKSTRA_V3.v",
+          "port_status": "independent executable native re-encodings; no cross-language equivalence proof",
+          "style_caveat": "native trees replace pointer identity with structural nodes; predecessor/successor strategy retained; source-level call/control metrics are platform-specific"
+        }
+      ],
+      "tasks": [
+        {
+          "context_id": "C-DIJK-SCAN",
+          "left_variant": 0,
+          "right_variant": 1,
+          "expected_polarity": "equivalent",
+          "label_status": "provisional; not kernel certified",
+          "lean": {
+            "statement": "lean/Goals.lean::C_DIJK_SCAN",
+            "pending_theorem": "lean/pending/C_DIJK_SCAN.lean.goal"
+          },
+          "rocq": {
+            "pending_theorem": "rocq_native/Goals.v::C_DIJK_SCAN"
+          },
+          "compcert": {
+            "pending_theorem": "compcert/DIJKSTRAExpected.v::C_DIJK_SCAN",
+            "ast_status": "exported and type-checked; goal type checked, unproved"
+          },
+          "proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "context_id": "C-DIJK-HEAP",
+          "left_variant": 0,
+          "right_variant": 2,
+          "expected_polarity": "equivalent",
+          "label_status": "provisional; not kernel certified",
+          "lean": {
+            "statement": "lean/Goals.lean::C_DIJK_HEAP",
+            "pending_theorem": "lean/pending/C_DIJK_HEAP.lean.goal"
+          },
+          "rocq": {
+            "pending_theorem": "rocq_native/Goals.v::C_DIJK_HEAP"
+          },
+          "compcert": {
+            "pending_theorem": "compcert/DIJKSTRAExpected.v::C_DIJK_HEAP",
+            "ast_status": "exported and type-checked; goal type checked, unproved"
+          },
+          "proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "context_id": "C-DIJK-SEEN",
+          "left_variant": 0,
+          "right_variant": 3,
+          "expected_polarity": "counterexample",
+          "label_status": "provisional; not kernel certified",
+          "lean": {
+            "statement": "lean/Goals.lean::C_DIJK_SEEN",
+            "pending_theorem": "lean/pending/C_DIJK_SEEN.lean.goal"
+          },
+          "rocq": {
+            "pending_theorem": "rocq_native/Goals.v::C_DIJK_SEEN"
+          },
+          "compcert": {
+            "pending_theorem": "compcert/DIJKSTRAExpected.v::C_DIJK_SEEN",
+            "ast_status": "exported and type-checked; goal type checked, unproved"
+          },
+          "proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        }
+      ]
+    }
+  ],
+  "protected_files": [
+    {
+      "path": "lean/Domain.lean",
+      "sha256": "71109d9e0e1035a13f9d83402a06e8a58765d70ef7d8f1a8f5fb0e72c10cefea"
+    },
+    {
+      "path": "lean/Goals.lean",
+      "sha256": "546473f4292a6512a6f7f67b35033a3b8058973aede80414c3dcee48fd310833"
+    },
+    {
+      "path": "lean/Native.lean",
+      "sha256": "d804eb78169554a4dc3f888f44a2cfa17b464f08f47dc00558a94d9475850bd7"
+    },
+    {
+      "path": "lean/pending/C_AVL_FACTOR.lean.goal",
+      "sha256": "acf60bdaf03f5e8a020f2e7295963aa9097594fdc2fbf7072675d8b081e0a8c9"
+    },
+    {
+      "path": "lean/pending/C_AVL_MIDDLE.lean.goal",
+      "sha256": "5dea44b2022ad9c3726e1631cd9974eb40fa9fccb0668b13df302449ef955fda"
+    },
+    {
+      "path": "lean/pending/C_AVL_STACK.lean.goal",
+      "sha256": "6708325be780118c962470df95b91983c03bba5f2082eac492db89e3f1c40de8"
+    },
+    {
+      "path": "lean/pending/C_BST_ROTATE.lean.goal",
+      "sha256": "901e6d8c5c8f943e869a2d2a0e36652b1e449c4e6679072d08dd500d8ef5ba28"
+    },
+    {
+      "path": "lean/pending/C_BST_SUCCESSOR.lean.goal",
+      "sha256": "3b98efc9a3c5ec130c2991075d039986bbdf1f1b3ebd01312c051d9b0b998992"
+    },
+    {
+      "path": "lean/pending/C_BST_VALUE.lean.goal",
+      "sha256": "1dfdf657e69f996d1466ab2ca524450b787a60612bb6906233ffb0200c384de6"
+    },
+    {
+      "path": "lean/pending/C_DIJK_HEAP.lean.goal",
+      "sha256": "fe8a05b055edb1f37b4e929772171146a407fc548b08818e189277db69b0047f"
+    },
+    {
+      "path": "lean/pending/C_DIJK_SCAN.lean.goal",
+      "sha256": "77b70ff219d5df8f87431b6bd28f0ed05c3344ee00bbdeafb0cf51b9ed93e662"
+    },
+    {
+      "path": "lean/pending/C_DIJK_SEEN.lean.goal",
+      "sha256": "3543b7c8b383ad6a6ffa46f707bffef06520dc4989d427ad8b1de22052a8d964"
+    },
+    {
+      "path": "lean/pending/C_RING_COPY.lean.goal",
+      "sha256": "df95489e70e7fe0a22d6c7e8ac79e6562ac31ddfa30498920383b42495f3c402"
+    },
+    {
+      "path": "lean/pending/C_RING_FULL.lean.goal",
+      "sha256": "532b6a2113c939f6ebc7d1429feabf0caa118667f3afeffc829fa8af2221dba5"
+    },
+    {
+      "path": "lean/pending/C_RING_REP.lean.goal",
+      "sha256": "47842cf852987c7e05064663f987dbc33748f0e1efa8e62285cf2b870d587319"
+    },
+    {
+      "path": "rocq_native/Extract.v",
+      "sha256": "cf087d33bd318eeaec1a328068c27e365c2ae775ecd7f89df63d936ad76b4cfc"
+    },
+    {
+      "path": "rocq_native/Goals.v",
+      "sha256": "74cd991f386d75a59bef41d7becae5eaec2ed90f869b4180ffce5c5ac54d1e70"
+    },
+    {
+      "path": "rocq_native/Native.v",
+      "sha256": "9b9d59706dd3daa20b932e7533692508e21662172df61bee10367f7d8901feed"
+    },
+    {
+      "path": "compcert/AVLBindings.v",
+      "sha256": "b0e96fb7a566241985478f2a6ca0543beb7d2be263bde331650574a17dd5df00"
+    },
+    {
+      "path": "compcert/AVLCertificates.v",
+      "sha256": "c09d6a1a7035a975c7030ee1e20fef7d363ec90a9030da23622295be79c801aa"
+    },
+    {
+      "path": "compcert/AVLExpected.v",
+      "sha256": "ad6d4a86ad5bfddd251ea3fe7680938d1cc8c34257d79b71f9216365d306289a"
+    },
+    {
+      "path": "compcert/BSTBindings.v",
+      "sha256": "f77c22f58741e6a931f73e637fe13ea747c05b335b4a457b2f3c44bbe8445937"
+    },
+    {
+      "path": "compcert/BSTCertificates.v",
+      "sha256": "b24d4eda0248c23ce1aed2d08783d45c1987881b181d9e7234f3b53eff9f95c1"
+    },
+    {
+      "path": "compcert/BSTExpected.v",
+      "sha256": "c9710ff9ad3ffc76cb2758d596e97bfea49f16d4fe04946eeda8444bb39f093b"
+    },
+    {
+      "path": "compcert/DIJKSTRABindings.v",
+      "sha256": "9b16da2300938d176dc89372e5e329cbddb47d7413aaa13fd6d9a659a1a1d6eb"
+    },
+    {
+      "path": "compcert/DIJKSTRACertificates.v",
+      "sha256": "8a6649f252376d6a8b8286f9073a1dd6a7494cad0df8cd49ab6e32de98fbc5d2"
+    },
+    {
+      "path": "compcert/DIJKSTRAExpected.v",
+      "sha256": "26bcd179dd6794d92f93d1d1da597438996bb4868aae401d11949597b1b21fc7"
+    },
+    {
+      "path": "compcert/Domain.v",
+      "sha256": "6049697d90b1b87ca5b8109557d4b6724c87367c9383de9ae56fa4d2dc77e6a7"
+    },
+    {
+      "path": "compcert/Execution.v",
+      "sha256": "e4cbd75f36be508dd5e0fa7c2248a9755f9a95b5c902fe9c393fd1888b47e597"
+    },
+    {
+      "path": "compcert/RINGBindings.v",
+      "sha256": "270495fc5263942b27ee11d55b82edb08838226ab7b7fcae40863e16c9e720b5"
+    },
+    {
+      "path": "compcert/RINGCertificates.v",
+      "sha256": "676dc43d21bdf908c30c86f5ea1bcafe1019c9e8fe8fe755e4b8fdbdffc72f7c"
+    },
+    {
+      "path": "compcert/RINGExpected.v",
+      "sha256": "5253b25cf0cc0e2fcd44d5904eefd547c93c73eb87aaed2d32e26b03a1d2f417"
+    },
+    {
+      "path": "compcert/ast/AVL_V0.v",
+      "sha256": "1cf30959bdce801d94424e7f6c08fc0bc952513c80152a54a65b5644a48db540"
+    },
+    {
+      "path": "compcert/ast/AVL_V1.v",
+      "sha256": "e19316f95847c8b3db91343221ca27637562ae52688f51e7e153df095fda85ee"
+    },
+    {
+      "path": "compcert/ast/AVL_V2.v",
+      "sha256": "eb6380412276f9e5ecd8440004e8c492362bb305256a022df199fe9aec05fa2a"
+    },
+    {
+      "path": "compcert/ast/AVL_V3.v",
+      "sha256": "482f5d288a7f6cf4606b7fc2643c69ce628933873851fad86f8a0d5b29e5dd33"
+    },
+    {
+      "path": "compcert/ast/BST_V0.v",
+      "sha256": "52dfa0b2b794b6bc57974f2d0ac63e12f3d4c5fa4393de65342c3d91b540daee"
+    },
+    {
+      "path": "compcert/ast/BST_V1.v",
+      "sha256": "32a48987847f14c5b2beb902ca74de9a36edcc8a6a263690f4568f670c9cc331"
+    },
+    {
+      "path": "compcert/ast/BST_V2.v",
+      "sha256": "9fbdac1ecd6204d831ce26e9cd58ac5ea58bcc4b7f177ec0dfeef238ec1a338a"
+    },
+    {
+      "path": "compcert/ast/BST_V3.v",
+      "sha256": "39f4227986a7b6542b7a821432d84c3b621f98ce6a0f565262b3ae5ce66961f7"
+    },
+    {
+      "path": "compcert/ast/DIJKSTRA_V0.v",
+      "sha256": "a935ec97e66cd376df6f81e5a154e999ec29e59594b7b15afbad8b74de4eb29e"
+    },
+    {
+      "path": "compcert/ast/DIJKSTRA_V1.v",
+      "sha256": "6d593f8abe35c7c7db9bb03b1cb637f5077366e206a5583abc25c7c8249eb8b1"
+    },
+    {
+      "path": "compcert/ast/DIJKSTRA_V2.v",
+      "sha256": "3892b0b01444fe4cb2433a5a2bd97a2de27f9d308b02ae2428275f4d1a78093d"
+    },
+    {
+      "path": "compcert/ast/DIJKSTRA_V3.v",
+      "sha256": "3b41c4d46e96131ea59baeb809f773b7ff63b40c6b4b61816f9686b90d791d31"
+    },
+    {
+      "path": "compcert/ast/RING_V0.v",
+      "sha256": "44da0d8ef3873285260a0558c659db7ff3ab139d42f8d35140a0805435b71f18"
+    },
+    {
+      "path": "compcert/ast/RING_V1.v",
+      "sha256": "cdfad45c84dd8b641a170e856e2880c999d30ba813a16907244864dda8229ca7"
+    },
+    {
+      "path": "compcert/ast/RING_V2.v",
+      "sha256": "f3f15cffa70afb66f99ab7da7920e09e0c374868e52352329467ed589cdd4d70"
+    },
+    {
+      "path": "compcert/ast/RING_V3.v",
+      "sha256": "440bf3dcde5ac1598839f6adda78de253933ede34aa5caf13af670209c72071c"
+    }
+  ],
+  "compcert_environment": {
+    "version": "3.17",
+    "rocq": "9.2",
+    "manifest": "compcert/manifest.json",
+    "manifest_sha256": "bd6942d39b38615d0679f22465f989e9e38c763fee856bc09d6c07f29b012225",
+    "goal_typecheck": "passed; declarations end Abort; no final proof"
+  }
+}

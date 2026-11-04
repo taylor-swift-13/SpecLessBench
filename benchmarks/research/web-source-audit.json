@@ -1,0 +1,51 @@
+{
+  "repository": "https://github.com/PrincetonUniversity/VST",
+  "inspection_date": "2026-11-03",
+  "revision": "08cb56d32d9ce42505cf8167c4d0bd15fb119d9e",
+  "files": [
+    {
+      "bytes": 2068,
+      "sha256": "31226bb496badf06c0790657c64067ec975394b70f8b77d25c0c5616fe49ca9b",
+      "path": "progs/bst.c",
+      "url": "https://raw.githubusercontent.com/PrincetonUniversity/VST/08cb56d32d9ce42505cf8167c4d0bd15fb119d9e/progs/bst.c"
+    },
+    {
+      "bytes": 1241,
+      "sha256": "4f4209265e96b60beebe391c5b7fdee0a931a2f4217ec3382d407949db91cb70",
+      "path": "progs/queue.c",
+      "url": "https://raw.githubusercontent.com/PrincetonUniversity/VST/08cb56d32d9ce42505cf8167c4d0bd15fb119d9e/progs/queue.c"
+    },
+    {
+      "bytes": 678,
+      "sha256": "57b2ca6a24b3c40597ffe0235e246c6e4eab55e38416af4f3444565889ac98c3",
+      "path": "progs/VSUpile/pile.c",
+      "url": "https://raw.githubusercontent.com/PrincetonUniversity/VST/08cb56d32d9ce42505cf8167c4d0bd15fb119d9e/progs/VSUpile/pile.c"
+    },
+    {
+      "bytes": 486,
+      "sha256": "9673ddb437228dac4704b49b3ca70ca327d0f854415362ef30932cb18ade4810",
+      "path": "progs/VSUpile/fast/fastpile.c",
+      "url": "https://raw.githubusercontent.com/PrincetonUniversity/VST/08cb56d32d9ce42505cf8167c4d0bd15fb119d9e/progs/VSUpile/fast/fastpile.c"
+    },
+    {
+      "bytes": 191,
+      "sha256": "d57eafe1412f653591de7945264c7e80da236d77e397e2358ff21bce7a9d9514",
+      "path": "progs/VSUpile/triang.c",
+      "url": "https://raw.githubusercontent.com/PrincetonUniversity/VST/08cb56d32d9ce42505cf8167c4d0bd15fb119d9e/progs/VSUpile/triang.c"
+    },
+    {
+      "bytes": 2404,
+      "sha256": "3ca3053120eca03e383b25d68003a59ef5bb9a4d2ea96674af5e8f12aaea1ff3",
+      "path": "progs/VSUpile/README.md",
+      "url": "https://raw.githubusercontent.com/PrincetonUniversity/VST/08cb56d32d9ce42505cf8167c4d0bd15fb119d9e/progs/VSUpile/README.md"
+    },
+    {
+      "bytes": 2502,
+      "sha256": "1681071efc9cb22a656dbbe7130327359b2f2e72ee0bb622ae24ff08522fcaed",
+      "path": "LICENSE",
+      "url": "https://raw.githubusercontent.com/PrincetonUniversity/VST/08cb56d32d9ce42505cf8167c4d0bd15fb119d9e/LICENSE"
+    }
+  ],
+  "method": "Read-only source and license inspection; no verification or source import.",
+  "schema_version": 1
+}

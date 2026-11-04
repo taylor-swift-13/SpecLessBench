@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "group_id": "shared-base64-interface",
+  "attempt_ids": [
+    "9ce9f0cab6b2",
+    "5712e035107a",
+    "0884015cc85f",
+    "7d72a6239517",
+    "8b96754ed8ad",
+    "128f69cb05d4"
+  ],
+  "tool_wall_seconds": 28.280434442014666,
+  "cpu_user_seconds": 3.4499999999999997,
+  "cpu_system_seconds": 5.209999999999999,
+  "max_process_rss_bytes": 1656590336,
+  "exact_process_tree_peak_bytes": null,
+  "model_tokens": null,
+  "model_tokens_reason": "shared authoring session usage is recorded once in the referenced batch",
+  "shared_batch_id": "base64-v0.7",
+  "historical_cost_complete": false,
+  "failed_attempts": 0,
+  "latest_updated_utc": "2026-11-04T02:36:54.872468+00:00"
+}

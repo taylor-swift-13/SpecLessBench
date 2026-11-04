@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "revision_id": "9d36a1926de1",
+  "group_id": "first-match-search",
+  "started_utc": "2026-11-03T12:32:18.413240+00:00",
+  "reason": "Lean parser rejected reserved identifiers matches/prefix; rename without changing algorithm",
+  "status": "committed-tests-invalidated",
+  "files": [
+    {
+      "path": "benchmarks/tasks/algorithms-core/lean/BasicNative.lean",
+      "before_sha256": "0c9469c7cc50c54ab68c1858a91aa0b7e5bcd082a61b4b931c6f426d3230aa16",
+      "snapshot": "benchmarks/construction/repairs/9d36a1926de1/0.before",
+      "after_sha256": "56bbfcab41446cf8509c8d6c6fd8a22344ba84b1575c454f2e906365a5b6e03e"
+    }
+  ],
+  "new_revision": "design-v0.3.1",
+  "affected_contexts": [
+    "R-FAC-EQ",
+    "R-FAC-CEX",
+    "R-REV-EQ",
+    "R-REV-CEX",
+    "R-SUM-EQ",
+    "R-SUM-CEX",
+    "R-MAT-EQ",
+    "R-MAT-CEX",
+    "R-STR-EQ",
+    "R-STR-CEX",
+    "R-QUE-EQ",
+    "R-QUE-CEX"
+  ],
+  "ended_utc": "2026-11-03T12:38:55.553811+00:00",
+  "retest_required": true,
+  "label_revalidation_required": true
+}

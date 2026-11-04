@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "revision_id": "95f817610488",
+  "group_id": "shared-stateful-audit",
+  "started_utc": "2026-11-03T14:57:52.487665+00:00",
+  "reason": "Call-graph audit helper has a Python for-clause typo; benchmark programs and tests unchanged.",
+  "status": "committed-tests-invalidated",
+  "files": [
+    {
+      "path": "scripts/construction/audit_stateful_calls.py",
+      "before_sha256": "554431425a96435cd1a2777a1aec66e7093bafae043adff6f064068399fe727c",
+      "snapshot": "benchmarks/construction/repairs/95f817610488/0.before",
+      "after_sha256": "f74c7a7d0d177afa2bf1f88764a58e9205553257bdabdf76477e3598340a6493"
+    }
+  ],
+  "new_revision": "tooling-v0.5.0",
+  "affected_contexts": [
+    "S-FRAME-RING",
+    "S-FRAME-EMPTY",
+    "S-TX-JOURNAL",
+    "S-TX-COMMIT",
+    "S-LRU-LINKS",
+    "S-LRU-TOUCH"
+  ],
+  "ended_utc": "2026-11-03T14:59:38.965936+00:00",
+  "retest_required": true,
+  "label_revalidation_required": true
+}

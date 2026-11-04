@@ -1,0 +1,36 @@
+File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/_build/algorithms-v0.3/contract-checks/ContractChecks_compcert.v", line 5, characters 0-407:
+Warning: To avoid stack overflow, large numbers in nat are interpreted as
+applications of Init.Nat.of_num_uint. [abstract-large-number,numbers,default]
+File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/_build/algorithms-v0.3/contract-checks/ContractChecks_compcert.v", line 5, characters 0-407:
+Warning: To avoid stack overflow, large numbers in nat are interpreted as
+applications of Init.Nat.of_num_uint. [abstract-large-number,numbers,default]
+File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/_build/algorithms-v0.3/contract-checks/ContractChecks_compcert.v", line 11, characters 0-662:
+Warning: To avoid stack overflow, large numbers in nat are interpreted as
+applications of Init.Nat.of_num_uint. [abstract-large-number,numbers,default]
+File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/_build/algorithms-v0.3/contract-checks/ContractChecks_compcert.v", line 11, characters 0-662:
+Warning: To avoid stack overflow, large numbers in nat are interpreted as
+applications of Init.Nat.of_num_uint. [abstract-large-number,numbers,default]
+File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/_build/algorithms-v0.3/contract-checks/ContractChecks_compcert.v", line 17, characters 0-382:
+Warning: To avoid stack overflow, large numbers in nat are interpreted as
+applications of Init.Nat.of_num_uint. [abstract-large-number,numbers,default]
+File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/_build/algorithms-v0.3/contract-checks/ContractChecks_compcert.v", line 17, characters 0-382:
+Warning: To avoid stack overflow, large numbers in nat are interpreted as
+applications of Init.Nat.of_num_uint. [abstract-large-number,numbers,default]
+File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/_build/algorithms-v0.3/contract-checks/ContractChecks_compcert.v", line 23, characters 0-742:
+Warning: To avoid stack overflow, large numbers in nat are interpreted as
+applications of Init.Nat.of_num_uint. [abstract-large-number,numbers,default]
+File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/_build/algorithms-v0.3/contract-checks/ContractChecks_compcert.v", line 23, characters 0-742:
+Warning: To avoid stack overflow, large numbers in nat are interpreted as
+applications of Init.Nat.of_num_uint. [abstract-large-number,numbers,default]
+File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/_build/algorithms-v0.3/contract-checks/ContractChecks_compcert.v", line 29, characters 0-156:
+Warning: To avoid stack overflow, large numbers in nat are interpreted as
+applications of Init.Nat.of_num_uint. [abstract-large-number,numbers,default]
+File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/_build/algorithms-v0.3/contract-checks/ContractChecks_compcert.v", line 29, characters 0-156:
+Warning: To avoid stack overflow, large numbers in nat are interpreted as
+applications of Init.Nat.of_num_uint. [abstract-large-number,numbers,default]
+File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/_build/algorithms-v0.3/contract-checks/ContractChecks_compcert.v", line 35, characters 0-180:
+Warning: To avoid stack overflow, large numbers in nat are interpreted as
+applications of Init.Nat.of_num_uint. [abstract-large-number,numbers,default]
+File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/_build/algorithms-v0.3/contract-checks/ContractChecks_compcert.v", line 35, characters 0-180:
+Warning: To avoid stack overflow, large numbers in nat are interpreted as
+applications of Init.Nat.of_num_uint. [abstract-large-number,numbers,default]

@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "group_id": "shared-systems-compcert",
+  "attempt_ids": [
+    "fac9ccdd8f72",
+    "77c68bb1a409"
+  ],
+  "tool_wall_seconds": 2.4040136380062904,
+  "cpu_user_seconds": 0.81,
+  "cpu_system_seconds": 0.81,
+  "max_process_rss_bytes": 495259648,
+  "exact_process_tree_peak_bytes": null,
+  "model_tokens": null,
+  "model_tokens_reason": "shared authoring session usage is recorded once in the referenced batch",
+  "shared_batch_id": "systems-v0.6",
+  "historical_cost_complete": false,
+  "failed_attempts": 0,
+  "latest_updated_utc": "2026-11-04T02:15:31.110977+00:00"
+}

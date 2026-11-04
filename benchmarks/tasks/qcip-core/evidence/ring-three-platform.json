@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "run_id": "ring-2026-11-03T115507346470+0000",
+  "group_id": "qcip-xizi-ring",
+  "revision": "design-v0.2",
+  "rng_seed": 20261105,
+  "random_cases_requested": 5000,
+  "curated_cases": 7,
+  "exhaustive_small_cases": 3111,
+  "case_count": 8118,
+  "program_executions": 97416,
+  "platforms": [
+    "lean",
+    "rocq",
+    "c-native-sanitized"
+  ],
+  "compcert_semantic_execution_tested": false,
+  "positive_disagreements": 0,
+  "negative_distinguishing_inputs": 7671,
+  "corpus": "_build/three-platform/differential/ring-2026-11-03T115507346470+0000/cases.jsonl.gz",
+  "corpus_sha256": "86c8f3147aa1dedfc8de499534107fc1ebf9d52beefde00f2d15a856a2ed8417",
+  "source_registry_sha256": "ffceaabb70b75a190b2f338c76ffb565f32a93fbc941980b1c13da4581f0a6c5",
+  "status": "differential-passed; no formal equivalence inferred",
+  "smoke": false
+}

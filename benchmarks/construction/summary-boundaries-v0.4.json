@@ -1,0 +1,208 @@
+{
+  "schema_version": 1,
+  "revision": "design-v0.4",
+  "tooling_revision": "tooling-v0.4.2",
+  "timestamp_utc": "2026-11-03T15:15:05.477247+00:00",
+  "implementation_groups": 8,
+  "semantic_contexts": 16,
+  "platform_instances": 48,
+  "clight_ast_count": 24,
+  "groups": [
+    {
+      "group_id": "pointer-tree-mirror",
+      "family": "tree",
+      "unique_inputs": 4938,
+      "program_executions": 44442,
+      "validity_evaluations": 9886,
+      "duplicates_removed": 90,
+      "negative_inputs": 3358,
+      "reference_status_histogram": {},
+      "unexpected_disagreements": 0,
+      "tool_wall_seconds": 95.63796061904577,
+      "max_process_rss_bytes": 1652822016,
+      "cost_record": "benchmarks/construction/groups/pointer-tree-mirror.json"
+    },
+    {
+      "group_id": "union-find-connectivity",
+      "family": "unionfind",
+      "unique_inputs": 11137,
+      "program_executions": 100233,
+      "validity_evaluations": 22284,
+      "duplicates_removed": 41,
+      "negative_inputs": 1400,
+      "reference_status_histogram": {},
+      "unexpected_disagreements": 0,
+      "tool_wall_seconds": 83.64431319401774,
+      "max_process_rss_bytes": 1652654080,
+      "cost_record": "benchmarks/construction/groups/union-find-connectivity.json"
+    },
+    {
+      "group_id": "max-priority-queue",
+      "family": "priority",
+      "unique_inputs": 7284,
+      "program_executions": 65556,
+      "validity_evaluations": 14578,
+      "duplicates_removed": 179,
+      "negative_inputs": 2900,
+      "reference_status_histogram": {},
+      "unexpected_disagreements": 0,
+      "tool_wall_seconds": 63.89757149199431,
+      "max_process_rss_bytes": 1652555776,
+      "cost_record": "benchmarks/construction/groups/max-priority-queue.json"
+    },
+    {
+      "group_id": "tagged-evaluator",
+      "family": "eval",
+      "unique_inputs": 5806,
+      "program_executions": 52254,
+      "validity_evaluations": 11624,
+      "duplicates_removed": 4,
+      "negative_inputs": 122,
+      "reference_status_histogram": {
+        "0": 1646,
+        "1": 1178,
+        "4": 2898,
+        "3": 83,
+        "2": 1
+      },
+      "unexpected_disagreements": 0,
+      "tool_wall_seconds": 55.02307925498462,
+      "max_process_rss_bytes": 1652428800,
+      "cost_record": "benchmarks/construction/groups/tagged-evaluator.json"
+    },
+    {
+      "group_id": "binary-tlv-decoder",
+      "family": "tlv",
+      "unique_inputs": 7508,
+      "program_executions": 67572,
+      "validity_evaluations": 15026,
+      "duplicates_removed": 317,
+      "negative_inputs": 1943,
+      "reference_status_histogram": {
+        "0": 1656,
+        "1": 253,
+        "2": 3296,
+        "3": 1307,
+        "4": 510,
+        "5": 17,
+        "6": 2,
+        "7": 467
+      },
+      "unexpected_disagreements": 0,
+      "tool_wall_seconds": 53.82617442298215,
+      "max_process_rss_bytes": 1652535296,
+      "cost_record": "benchmarks/construction/groups/binary-tlv-decoder.json"
+    },
+    {
+      "group_id": "quoted-tokenizer",
+      "family": "quotes",
+      "unique_inputs": 9487,
+      "program_executions": 85383,
+      "validity_evaluations": 18984,
+      "duplicates_removed": 207,
+      "negative_inputs": 107,
+      "reference_status_histogram": {
+        "0": 2906,
+        "3": 4307,
+        "1": 291,
+        "2": 1983
+      },
+      "unexpected_disagreements": 0,
+      "tool_wall_seconds": 62.79802042100346,
+      "max_process_rss_bytes": 1652445184,
+      "cost_record": "benchmarks/construction/groups/quoted-tokenizer.json"
+    },
+    {
+      "group_id": "packbits-decoder",
+      "family": "packbits",
+      "unique_inputs": 16158,
+      "program_executions": 145422,
+      "validity_evaluations": 32326,
+      "duplicates_removed": 57,
+      "negative_inputs": 3668,
+      "reference_status_histogram": {
+        "0": 1635,
+        "1": 7349,
+        "2": 7174
+      },
+      "unexpected_disagreements": 0,
+      "tool_wall_seconds": 90.25982994100195,
+      "max_process_rss_bytes": 1652363264,
+      "cost_record": "benchmarks/construction/groups/packbits-decoder.json"
+    },
+    {
+      "group_id": "lexical-path-normalizer",
+      "family": "path",
+      "unique_inputs": 10011,
+      "program_executions": 90099,
+      "validity_evaluations": 20032,
+      "duplicates_removed": 464,
+      "negative_inputs": 67,
+      "reference_status_histogram": {
+        "0": 5451,
+        "1": 4560
+      },
+      "unexpected_disagreements": 0,
+      "tool_wall_seconds": 65.50262593502703,
+      "max_process_rss_bytes": 1653047296,
+      "cost_record": "benchmarks/construction/groups/lexical-path-normalizer.json"
+    }
+  ],
+  "unique_inputs": 72329,
+  "program_executions": 650961,
+  "validity_evaluations": 144740,
+  "unexpected_disagreements": 0,
+  "final_proof_attempted": false,
+  "labels_certified": false,
+  "source_registry_sha256": "a6e11cd34c5ee211049344dd63befe86bdd6b0def666b0ad8725e5630789ef0f",
+  "compcert_build_sha256": "024ae07c2c0079ab405ede8f54f012ae4ae8c264874f91aef465e5a23287e918",
+  "tools_at_audit": [
+    {
+      "path": "/home/yangfp/.elan/toolchains/leanprover--lean4---v4.34.0/bin/lean",
+      "sha256": "e8baaa71855a616dc351028f3ad2200051b0671f423a1696a100e809302d5550"
+    },
+    {
+      "path": "/home/yangfp/.opam/qcp-8.20/bin/coqc",
+      "sha256": "9f68a71da4cadebead39952fb7e95628e8b818a7b13c76917a1f9219affbe46b"
+    },
+    {
+      "path": "/home/yangfp/.opam/five/bin/clightgen",
+      "sha256": "8064763950950ec9e48f44698ba056bb0cb53690e2a35c0c70bb148bdabdb7f2"
+    },
+    {
+      "path": "/home/yangfp/.opam/five/bin/coqc",
+      "sha256": "1d15c815891e425924a59c27d5e3c0e25f55880e3f64083463a511f0be3c7300"
+    },
+    {
+      "path": "/usr/bin/gcc",
+      "sha256": "821af3c74506283c179ca413bb33e6b528805a4dd8a5c09df125e5ad560a9e89"
+    },
+    {
+      "path": "/usr/bin/ocamlopt",
+      "sha256": "230e9a9d13611fa310b267ee7e26671ea99de48f3b52d7e54720f9eee9228b76"
+    }
+  ],
+  "generator_dependencies": [
+    {
+      "path": "scripts/construction/differential_boundaries.py",
+      "sha256": "65ba9bc01933883142a9287bc19588152c1e51a353031dada97f453bfacbae8d"
+    },
+    {
+      "path": "scripts/construction/boundary_cases.py",
+      "sha256": "d023d05a69650961d73afa6ffa57495561c6b8e33c8c9eee22b18dc4aeb84553"
+    },
+    {
+      "path": "scripts/construction/boundaries_common.py",
+      "sha256": "44379219c29bdd2ffdace65618843b347709d2ae836523b4a3fa431c1222bc17"
+    }
+  ],
+  "shared_usage_batch": "batch-boundaries-v0.4.json",
+  "exact_process_tree_peak_bytes": null,
+  "hosted_inference_memory_bytes": null,
+  "local_telemetry_scope": "compiler/execution commands and complete differential envelopes instrumented; earlier prepare/audit housekeeping has incomplete process telemetry",
+  "uninstrumented_housekeeping_costs": null,
+  "uninstrumented_housekeeping_reason": "preparation and initial audit commands were outside GNU-time wrappers; their latency remains in shared request wall time, exact CPU/RSS unavailable",
+  "shared_tool_wall_seconds": 83.87643553403905,
+  "shared_max_process_rss_bytes": 1692614656,
+  "cost_events_complete_through": "2026-11-03T15:15:04.409922+00:00"
+}

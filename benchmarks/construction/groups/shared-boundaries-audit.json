@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "group_id": "shared-boundaries-audit",
+  "attempt_ids": [
+    "2858d04b4d47",
+    "1e34320059e6",
+    "12fae3f223d0",
+    "b5f481c9f671",
+    "dc2158556b1a",
+    "c3022f002bdf",
+    "5eb3d1de424c",
+    "79445a975345",
+    "1785f8c02881",
+    "138b59e308d3"
+  ],
+  "tool_wall_seconds": 0,
+  "cpu_user_seconds": 0,
+  "cpu_system_seconds": 0,
+  "max_process_rss_bytes": 65097728,
+  "exact_process_tree_peak_bytes": null,
+  "model_tokens": null,
+  "model_tokens_reason": "shared authoring session usage is recorded once in the referenced batch",
+  "shared_batch_id": "boundaries-v0.4",
+  "historical_cost_complete": false,
+  "envelope_attempt_ids": [
+    "2858d04b4d47",
+    "1e34320059e6",
+    "12fae3f223d0",
+    "b5f481c9f671",
+    "dc2158556b1a",
+    "c3022f002bdf",
+    "5eb3d1de424c",
+    "79445a975345",
+    "1785f8c02881",
+    "138b59e308d3"
+  ],
+  "envelope_wall_seconds": 7.371690226034843,
+  "cost_total_rule": "Use envelope totals for covered attempts; detail wall/CPU are nested attribution, never add both",
+  "envelope_cpu_user_seconds": 1.6500000000000001,
+  "envelope_cpu_system_seconds": 0.69,
+  "failed_attempts": 1,
+  "latest_updated_utc": "2026-11-03T14:37:32.324251+00:00"
+}

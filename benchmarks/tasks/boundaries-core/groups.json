@@ -1,0 +1,793 @@
+{
+  "schema_version": 1,
+  "revision": "design-v0.4",
+  "curator_only": true,
+  "required_platforms": [
+    "lean",
+    "rocq",
+    "compcert"
+  ],
+  "final_target_proofs_required": false,
+  "groups": [
+    {
+      "group_id": "pointer-tree-mirror",
+      "family": "tree",
+      "family_index": 0,
+      "proof_level": "L3",
+      "revision": "design-v0.4",
+      "cost_batch": "boundaries-v0.4",
+      "tasks": [
+        {
+          "id": "C-TREE-STACK",
+          "left": 0,
+          "right": 1,
+          "domain_index": 0,
+          "expected_polarity": "EQ",
+          "label_status": "provisional; not proved",
+          "theorem": "C_TREE_STACK",
+          "lean_goal": "lean/pending/C_TREE_STACK.lean.goal",
+          "rocq_goal": "rocq/BoundaryGoals.v::C_TREE_STACK",
+          "compcert_goal": "compcert/TREEGoals.v::C_TREE_STACK",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "id": "C-TREE-SUBTREE",
+          "left": 0,
+          "right": 2,
+          "domain_index": 0,
+          "expected_polarity": "CEX",
+          "label_status": "provisional; not proved",
+          "theorem": "C_TREE_SUBTREE",
+          "lean_goal": "lean/pending/C_TREE_SUBTREE.lean.goal",
+          "rocq_goal": "rocq/BoundaryGoals.v::C_TREE_SUBTREE",
+          "compcert_goal": "compcert/TREEGoals.v::C_TREE_SUBTREE",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        }
+      ],
+      "variants": [
+        {
+          "id": "TREE_V0",
+          "c": "c/tree/v0.c",
+          "lean": "BoundaryNative.entry 0 0",
+          "rocq": "BoundaryNative.entry 0 0",
+          "ast": "compcert/ast/TREE_V0.v"
+        },
+        {
+          "id": "TREE_V1",
+          "c": "c/tree/v1.c",
+          "lean": "BoundaryNative.entry 0 1",
+          "rocq": "BoundaryNative.entry 0 1",
+          "ast": "compcert/ast/TREE_V1.v"
+        },
+        {
+          "id": "TREE_V2",
+          "c": "c/tree/v2.c",
+          "lean": "BoundaryNative.entry 0 2",
+          "rocq": "BoundaryNative.entry 0 2",
+          "ast": "compcert/ast/TREE_V2.v"
+        }
+      ]
+    },
+    {
+      "group_id": "union-find-connectivity",
+      "family": "unionfind",
+      "family_index": 1,
+      "proof_level": "L3",
+      "revision": "design-v0.4",
+      "cost_batch": "boundaries-v0.4",
+      "tasks": [
+        {
+          "id": "C-UF-HALVING",
+          "left": 0,
+          "right": 1,
+          "domain_index": 1,
+          "expected_polarity": "EQ",
+          "label_status": "provisional; not proved",
+          "theorem": "C_UF_HALVING",
+          "lean_goal": "lean/pending/C_UF_HALVING.lean.goal",
+          "rocq_goal": "rocq/BoundaryGoals.v::C_UF_HALVING",
+          "compcert_goal": "compcert/UNIONFINDGoals.v::C_UF_HALVING",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "id": "C-UF-ONEHOP",
+          "left": 0,
+          "right": 2,
+          "domain_index": 1,
+          "expected_polarity": "CEX",
+          "label_status": "provisional; not proved",
+          "theorem": "C_UF_ONEHOP",
+          "lean_goal": "lean/pending/C_UF_ONEHOP.lean.goal",
+          "rocq_goal": "rocq/BoundaryGoals.v::C_UF_ONEHOP",
+          "compcert_goal": "compcert/UNIONFINDGoals.v::C_UF_ONEHOP",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        }
+      ],
+      "variants": [
+        {
+          "id": "UNIONFIND_V0",
+          "c": "c/unionfind/v0.c",
+          "lean": "BoundaryNative.entry 1 0",
+          "rocq": "BoundaryNative.entry 1 0",
+          "ast": "compcert/ast/UNIONFIND_V0.v"
+        },
+        {
+          "id": "UNIONFIND_V1",
+          "c": "c/unionfind/v1.c",
+          "lean": "BoundaryNative.entry 1 1",
+          "rocq": "BoundaryNative.entry 1 1",
+          "ast": "compcert/ast/UNIONFIND_V1.v"
+        },
+        {
+          "id": "UNIONFIND_V2",
+          "c": "c/unionfind/v2.c",
+          "lean": "BoundaryNative.entry 1 2",
+          "rocq": "BoundaryNative.entry 1 2",
+          "ast": "compcert/ast/UNIONFIND_V2.v"
+        }
+      ]
+    },
+    {
+      "group_id": "max-priority-queue",
+      "family": "priority",
+      "family_index": 2,
+      "proof_level": "L3",
+      "revision": "design-v0.4",
+      "cost_batch": "boundaries-v0.4",
+      "tasks": [
+        {
+          "id": "C-PQ-REP",
+          "left": 0,
+          "right": 1,
+          "domain_index": 2,
+          "expected_polarity": "EQ",
+          "label_status": "provisional; not proved",
+          "theorem": "C_PQ_REP",
+          "lean_goal": "lean/pending/C_PQ_REP.lean.goal",
+          "rocq_goal": "rocq/BoundaryGoals.v::C_PQ_REP",
+          "compcert_goal": "compcert/PRIORITYGoals.v::C_PQ_REP",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "id": "C-PQ-CHILD",
+          "left": 0,
+          "right": 2,
+          "domain_index": 3,
+          "expected_polarity": "CEX",
+          "label_status": "provisional; not proved",
+          "theorem": "C_PQ_CHILD",
+          "lean_goal": "lean/pending/C_PQ_CHILD.lean.goal",
+          "rocq_goal": "rocq/BoundaryGoals.v::C_PQ_CHILD",
+          "compcert_goal": "compcert/PRIORITYGoals.v::C_PQ_CHILD",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        }
+      ],
+      "variants": [
+        {
+          "id": "PRIORITY_V0",
+          "c": "c/priority/v0.c",
+          "lean": "BoundaryNative.entry 2 0",
+          "rocq": "BoundaryNative.entry 2 0",
+          "ast": "compcert/ast/PRIORITY_V0.v"
+        },
+        {
+          "id": "PRIORITY_V1",
+          "c": "c/priority/v1.c",
+          "lean": "BoundaryNative.entry 2 1",
+          "rocq": "BoundaryNative.entry 2 1",
+          "ast": "compcert/ast/PRIORITY_V1.v"
+        },
+        {
+          "id": "PRIORITY_V2",
+          "c": "c/priority/v2.c",
+          "lean": "BoundaryNative.entry 2 2",
+          "rocq": "BoundaryNative.entry 2 2",
+          "ast": "compcert/ast/PRIORITY_V2.v"
+        }
+      ]
+    },
+    {
+      "group_id": "tagged-evaluator",
+      "family": "eval",
+      "family_index": 3,
+      "proof_level": "L4",
+      "revision": "design-v0.4",
+      "cost_batch": "boundaries-v0.4",
+      "tasks": [
+        {
+          "id": "C-EVAL-DP",
+          "left": 0,
+          "right": 1,
+          "domain_index": 4,
+          "expected_polarity": "EQ",
+          "label_status": "provisional; not proved",
+          "theorem": "C_EVAL_DP",
+          "lean_goal": "lean/pending/C_EVAL_DP.lean.goal",
+          "rocq_goal": "rocq/BoundaryGoals.v::C_EVAL_DP",
+          "compcert_goal": "compcert/EVALGoals.v::C_EVAL_DP",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "id": "C-EVAL-SHORTCIRCUIT",
+          "left": 0,
+          "right": 2,
+          "domain_index": 4,
+          "expected_polarity": "CEX",
+          "label_status": "provisional; not proved",
+          "theorem": "C_EVAL_SHORTCIRCUIT",
+          "lean_goal": "lean/pending/C_EVAL_SHORTCIRCUIT.lean.goal",
+          "rocq_goal": "rocq/BoundaryGoals.v::C_EVAL_SHORTCIRCUIT",
+          "compcert_goal": "compcert/EVALGoals.v::C_EVAL_SHORTCIRCUIT",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        }
+      ],
+      "variants": [
+        {
+          "id": "EVAL_V0",
+          "c": "c/eval/v0.c",
+          "lean": "BoundaryNative.entry 3 0",
+          "rocq": "BoundaryNative.entry 3 0",
+          "ast": "compcert/ast/EVAL_V0.v"
+        },
+        {
+          "id": "EVAL_V1",
+          "c": "c/eval/v1.c",
+          "lean": "BoundaryNative.entry 3 1",
+          "rocq": "BoundaryNative.entry 3 1",
+          "ast": "compcert/ast/EVAL_V1.v"
+        },
+        {
+          "id": "EVAL_V2",
+          "c": "c/eval/v2.c",
+          "lean": "BoundaryNative.entry 3 2",
+          "rocq": "BoundaryNative.entry 3 2",
+          "ast": "compcert/ast/EVAL_V2.v"
+        }
+      ]
+    },
+    {
+      "group_id": "binary-tlv-decoder",
+      "family": "tlv",
+      "family_index": 4,
+      "proof_level": "L3",
+      "revision": "design-v0.4",
+      "cost_batch": "boundaries-v0.4",
+      "tasks": [
+        {
+          "id": "B-TLV-CURSOR",
+          "left": 0,
+          "right": 1,
+          "domain_index": 5,
+          "expected_polarity": "EQ",
+          "label_status": "provisional; not proved",
+          "theorem": "B_TLV_CURSOR",
+          "lean_goal": "lean/pending/B_TLV_CURSOR.lean.goal",
+          "rocq_goal": "rocq/BoundaryGoals.v::B_TLV_CURSOR",
+          "compcert_goal": "compcert/TLVGoals.v::B_TLV_CURSOR",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "id": "B-TLV-ENDIAN",
+          "left": 0,
+          "right": 2,
+          "domain_index": 5,
+          "expected_polarity": "CEX",
+          "label_status": "provisional; not proved",
+          "theorem": "B_TLV_ENDIAN",
+          "lean_goal": "lean/pending/B_TLV_ENDIAN.lean.goal",
+          "rocq_goal": "rocq/BoundaryGoals.v::B_TLV_ENDIAN",
+          "compcert_goal": "compcert/TLVGoals.v::B_TLV_ENDIAN",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        }
+      ],
+      "variants": [
+        {
+          "id": "TLV_V0",
+          "c": "c/tlv/v0.c",
+          "lean": "BoundaryNative.entry 4 0",
+          "rocq": "BoundaryNative.entry 4 0",
+          "ast": "compcert/ast/TLV_V0.v"
+        },
+        {
+          "id": "TLV_V1",
+          "c": "c/tlv/v1.c",
+          "lean": "BoundaryNative.entry 4 1",
+          "rocq": "BoundaryNative.entry 4 1",
+          "ast": "compcert/ast/TLV_V1.v"
+        },
+        {
+          "id": "TLV_V2",
+          "c": "c/tlv/v2.c",
+          "lean": "BoundaryNative.entry 4 2",
+          "rocq": "BoundaryNative.entry 4 2",
+          "ast": "compcert/ast/TLV_V2.v"
+        }
+      ]
+    },
+    {
+      "group_id": "quoted-tokenizer",
+      "family": "quotes",
+      "family_index": 5,
+      "proof_level": "L2-L3",
+      "revision": "design-v0.4",
+      "cost_batch": "boundaries-v0.4",
+      "tasks": [
+        {
+          "id": "B-QUOTE-SPANS",
+          "left": 0,
+          "right": 1,
+          "domain_index": 6,
+          "expected_polarity": "EQ",
+          "label_status": "provisional; not proved",
+          "theorem": "B_QUOTE_SPANS",
+          "lean_goal": "lean/pending/B_QUOTE_SPANS.lean.goal",
+          "rocq_goal": "rocq/BoundaryGoals.v::B_QUOTE_SPANS",
+          "compcert_goal": "compcert/QUOTESGoals.v::B_QUOTE_SPANS",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "id": "B-QUOTE-EMPTY",
+          "left": 0,
+          "right": 2,
+          "domain_index": 6,
+          "expected_polarity": "CEX",
+          "label_status": "provisional; not proved",
+          "theorem": "B_QUOTE_EMPTY",
+          "lean_goal": "lean/pending/B_QUOTE_EMPTY.lean.goal",
+          "rocq_goal": "rocq/BoundaryGoals.v::B_QUOTE_EMPTY",
+          "compcert_goal": "compcert/QUOTESGoals.v::B_QUOTE_EMPTY",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        }
+      ],
+      "variants": [
+        {
+          "id": "QUOTES_V0",
+          "c": "c/quotes/v0.c",
+          "lean": "BoundaryNative.entry 5 0",
+          "rocq": "BoundaryNative.entry 5 0",
+          "ast": "compcert/ast/QUOTES_V0.v"
+        },
+        {
+          "id": "QUOTES_V1",
+          "c": "c/quotes/v1.c",
+          "lean": "BoundaryNative.entry 5 1",
+          "rocq": "BoundaryNative.entry 5 1",
+          "ast": "compcert/ast/QUOTES_V1.v"
+        },
+        {
+          "id": "QUOTES_V2",
+          "c": "c/quotes/v2.c",
+          "lean": "BoundaryNative.entry 5 2",
+          "rocq": "BoundaryNative.entry 5 2",
+          "ast": "compcert/ast/QUOTES_V2.v"
+        }
+      ]
+    },
+    {
+      "group_id": "packbits-decoder",
+      "family": "packbits",
+      "family_index": 6,
+      "proof_level": "L3",
+      "revision": "design-v0.4",
+      "cost_batch": "boundaries-v0.4",
+      "tasks": [
+        {
+          "id": "B-PACK-SUFFIX",
+          "left": 0,
+          "right": 1,
+          "domain_index": 7,
+          "expected_polarity": "EQ",
+          "label_status": "provisional; not proved",
+          "theorem": "B_PACK_SUFFIX",
+          "lean_goal": "lean/pending/B_PACK_SUFFIX.lean.goal",
+          "rocq_goal": "rocq/BoundaryGoals.v::B_PACK_SUFFIX",
+          "compcert_goal": "compcert/PACKBITSGoals.v::B_PACK_SUFFIX",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "id": "B-PACK-REPEAT",
+          "left": 0,
+          "right": 2,
+          "domain_index": 7,
+          "expected_polarity": "CEX",
+          "label_status": "provisional; not proved",
+          "theorem": "B_PACK_REPEAT",
+          "lean_goal": "lean/pending/B_PACK_REPEAT.lean.goal",
+          "rocq_goal": "rocq/BoundaryGoals.v::B_PACK_REPEAT",
+          "compcert_goal": "compcert/PACKBITSGoals.v::B_PACK_REPEAT",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        }
+      ],
+      "variants": [
+        {
+          "id": "PACKBITS_V0",
+          "c": "c/packbits/v0.c",
+          "lean": "BoundaryNative.entry 6 0",
+          "rocq": "BoundaryNative.entry 6 0",
+          "ast": "compcert/ast/PACKBITS_V0.v"
+        },
+        {
+          "id": "PACKBITS_V1",
+          "c": "c/packbits/v1.c",
+          "lean": "BoundaryNative.entry 6 1",
+          "rocq": "BoundaryNative.entry 6 1",
+          "ast": "compcert/ast/PACKBITS_V1.v"
+        },
+        {
+          "id": "PACKBITS_V2",
+          "c": "c/packbits/v2.c",
+          "lean": "BoundaryNative.entry 6 2",
+          "rocq": "BoundaryNative.entry 6 2",
+          "ast": "compcert/ast/PACKBITS_V2.v"
+        }
+      ]
+    },
+    {
+      "group_id": "lexical-path-normalizer",
+      "family": "path",
+      "family_index": 7,
+      "proof_level": "L3",
+      "revision": "design-v0.4",
+      "cost_batch": "boundaries-v0.4",
+      "tasks": [
+        {
+          "id": "B-PATH-REVERSE",
+          "left": 0,
+          "right": 1,
+          "domain_index": 8,
+          "expected_polarity": "EQ",
+          "label_status": "provisional; not proved",
+          "theorem": "B_PATH_REVERSE",
+          "lean_goal": "lean/pending/B_PATH_REVERSE.lean.goal",
+          "rocq_goal": "rocq/BoundaryGoals.v::B_PATH_REVERSE",
+          "compcert_goal": "compcert/PATHGoals.v::B_PATH_REVERSE",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "id": "B-PATH-PARENTS",
+          "left": 0,
+          "right": 2,
+          "domain_index": 8,
+          "expected_polarity": "CEX",
+          "label_status": "provisional; not proved",
+          "theorem": "B_PATH_PARENTS",
+          "lean_goal": "lean/pending/B_PATH_PARENTS.lean.goal",
+          "rocq_goal": "rocq/BoundaryGoals.v::B_PATH_PARENTS",
+          "compcert_goal": "compcert/PATHGoals.v::B_PATH_PARENTS",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        }
+      ],
+      "variants": [
+        {
+          "id": "PATH_V0",
+          "c": "c/path/v0.c",
+          "lean": "BoundaryNative.entry 7 0",
+          "rocq": "BoundaryNative.entry 7 0",
+          "ast": "compcert/ast/PATH_V0.v"
+        },
+        {
+          "id": "PATH_V1",
+          "c": "c/path/v1.c",
+          "lean": "BoundaryNative.entry 7 1",
+          "rocq": "BoundaryNative.entry 7 1",
+          "ast": "compcert/ast/PATH_V1.v"
+        },
+        {
+          "id": "PATH_V2",
+          "c": "c/path/v2.c",
+          "lean": "BoundaryNative.entry 7 2",
+          "rocq": "BoundaryNative.entry 7 2",
+          "ast": "compcert/ast/PATH_V2.v"
+        }
+      ]
+    }
+  ],
+  "protected_files": [
+    {
+      "path": "c/Formats.h",
+      "sha256": "085d777d2861528eca2d5d9a64ef9a30e1c50b42aadec582585bb1032e48bed4"
+    },
+    {
+      "path": "c/Structures.h",
+      "sha256": "96b7011b677e38865d80aa09e6d297b9be35933d232a4b5f051d272609caa545"
+    },
+    {
+      "path": "c/eval/v0.c",
+      "sha256": "b6a16f70aa78c573ff9fb72aa7fab4839a50158f390ce9d4584587fc56680ec2"
+    },
+    {
+      "path": "c/eval/v1.c",
+      "sha256": "cc2ce212ec5807e8cdd46d5e3f28f178a9693d4d5a69d069156e8e5c29399767"
+    },
+    {
+      "path": "c/eval/v2.c",
+      "sha256": "e5b66660ba5ee2d902183d16a2f09b872807f95622e2a93e7c68191e42183b72"
+    },
+    {
+      "path": "c/packbits/v0.c",
+      "sha256": "a6803b9dc9a309eef783b70d99724a15d9891b98877ef5064bf4deb96df88f5b"
+    },
+    {
+      "path": "c/packbits/v1.c",
+      "sha256": "ad6e04e4f8f5d1ba3930b885e3106952d6d4a5256896551b405cafd01f310ad1"
+    },
+    {
+      "path": "c/packbits/v2.c",
+      "sha256": "77198c0ff9c0f9c1ab8bfc7b76fa82f69558ca68eff27415344ce9b29d5bbd62"
+    },
+    {
+      "path": "c/path/v0.c",
+      "sha256": "7592d04cbd91ee9be91492cf5ef2c3abb651681a5d416e487a416352b95e44d5"
+    },
+    {
+      "path": "c/path/v1.c",
+      "sha256": "252aaa486be0f6cf5d80ea4c1f9610105e5328237e4b3fd22474807e36b693cc"
+    },
+    {
+      "path": "c/path/v2.c",
+      "sha256": "6b9e798b7a613a723cf422765b74e981d2d5bc18b6c9a4d369e49840ce42cb46"
+    },
+    {
+      "path": "c/priority/v0.c",
+      "sha256": "416daf405bc7939d5eb37db448614bd9682a3ce4ecfab2659efb3dca8b633c04"
+    },
+    {
+      "path": "c/priority/v1.c",
+      "sha256": "13d605a9bf938bf7e68e6cd870d668762d06b891d3597ee0b70ecd957e017be6"
+    },
+    {
+      "path": "c/priority/v2.c",
+      "sha256": "2652aacd22bffffd2e3f746384fa8e061e0e8e3c92924820d45123b12b85443d"
+    },
+    {
+      "path": "c/quotes/v0.c",
+      "sha256": "4d2a75dd5d4d169099555fdbc686c787ef101b9e898a45971e60b57e41a22f14"
+    },
+    {
+      "path": "c/quotes/v1.c",
+      "sha256": "c446b302eb1a04f1accec2ac8e21618839757c9b2abb0fe9107781cc2a1131f0"
+    },
+    {
+      "path": "c/quotes/v2.c",
+      "sha256": "3bd2ed302896b3897a9417170a7ba12915f69237960768d31d3c16eeeefe116a"
+    },
+    {
+      "path": "c/tlv/v0.c",
+      "sha256": "e7e1a6913d992155a47a121d0e9fb1e592245980f9f8837802d7dd6f323adea7"
+    },
+    {
+      "path": "c/tlv/v1.c",
+      "sha256": "b96283801fd9ba355154c02bfc2bcb5f16ba57479735addfe495fc84450d3280"
+    },
+    {
+      "path": "c/tlv/v2.c",
+      "sha256": "966fec682dab1985772985ed94ed59a5d88ed09f466a457976a470ce7276b099"
+    },
+    {
+      "path": "c/tree/v0.c",
+      "sha256": "5f55a7cca1003ab3cddf3e6d2fff84fe9d8674bf10df204795f0d654e717e027"
+    },
+    {
+      "path": "c/tree/v1.c",
+      "sha256": "07149147022d2b327966e04d42ee7d319bea0c0d0c867b97e4870d361c346180"
+    },
+    {
+      "path": "c/tree/v2.c",
+      "sha256": "c039e2c6628993c7f56fc1049edd39ff3dd12844f20743b2f7d1a1967b6fd923"
+    },
+    {
+      "path": "c/unionfind/v0.c",
+      "sha256": "19da4a0e0691a4c96cbba222f5f95a6e1e20313c216234758f440e3f3202ab0d"
+    },
+    {
+      "path": "c/unionfind/v1.c",
+      "sha256": "beb7b7010a31e458c3e946cbdb4c40b9ea714c03ef36e187932e9b4ba24f6496"
+    },
+    {
+      "path": "c/unionfind/v2.c",
+      "sha256": "8bf617a468642879856cf4a811d7b82fb316bde6bc98d333d5b0cdaba24ed2aa"
+    },
+    {
+      "path": "lean/BoundaryDomain.lean",
+      "sha256": "b40118acf5caddf8c265bfa58311d5c5391a3fefb69be176428e46598ebbe5dc"
+    },
+    {
+      "path": "lean/BoundaryGoals.lean",
+      "sha256": "a486cacabdb7496e72ac5db46b384b1fa57ba721c3ca2772164f1ed715021428"
+    },
+    {
+      "path": "lean/BoundaryNative.lean",
+      "sha256": "3a42d05935603bcfc609daba0fe36e907aa2290a1eaa525c6b9d86d57ffd4657"
+    },
+    {
+      "path": "lean/BoundaryRunner.lean",
+      "sha256": "7658a7eb4c048d48c4c872548ada34ccb46a3f5139de74fa1817443164e02fb3"
+    },
+    {
+      "path": "lean/pending/B_PACK_REPEAT.lean.goal",
+      "sha256": "5abcf0797ffb4d5e1b7767098484f780b1da87cda464abcb066841d6fbdce30e"
+    },
+    {
+      "path": "lean/pending/B_PACK_SUFFIX.lean.goal",
+      "sha256": "1482fe0f690619d4e7f680a997b5a5585260cdcf8129a3fcc239726a69f8f890"
+    },
+    {
+      "path": "lean/pending/B_PATH_PARENTS.lean.goal",
+      "sha256": "2e8fc96586fdd0aba97bb58e2a2a226344ac4343cf4e4c9e914eb69b0bb59c2a"
+    },
+    {
+      "path": "lean/pending/B_PATH_REVERSE.lean.goal",
+      "sha256": "dbf1f6ed180330122100125f85b45cc7fe7e9dc069863c3c89bd2c663d3e20cf"
+    },
+    {
+      "path": "lean/pending/B_QUOTE_EMPTY.lean.goal",
+      "sha256": "ad583d74bd46f7b741dc94e9f78a9d5ca8081f8f8dd1cefeec45539bf6ac8be6"
+    },
+    {
+      "path": "lean/pending/B_QUOTE_SPANS.lean.goal",
+      "sha256": "2b584ad7b9bbf8b9025d2c73f9e7b57c6febb66039e338988557bb2402c8dfc6"
+    },
+    {
+      "path": "lean/pending/B_TLV_CURSOR.lean.goal",
+      "sha256": "20dcbbd843e443192de921aef4fae6fc1d82851eae2fad733edd2c06baa3642f"
+    },
+    {
+      "path": "lean/pending/B_TLV_ENDIAN.lean.goal",
+      "sha256": "6735df51033a0d3a9918b94566194d6399695b6d44fda522bd6d1a90e839edbf"
+    },
+    {
+      "path": "lean/pending/C_EVAL_DP.lean.goal",
+      "sha256": "38a12660983bd99555f846bb212db02ed98f8b0b8e8b03a6a2b5783e2c88638c"
+    },
+    {
+      "path": "lean/pending/C_EVAL_SHORTCIRCUIT.lean.goal",
+      "sha256": "01bca385bb5951cc9331dd80afd97ec3df8b5336bd2b0e604f13303526f65148"
+    },
+    {
+      "path": "lean/pending/C_PQ_CHILD.lean.goal",
+      "sha256": "30fd9b62e255cb25b1a2f5ace383c7f131ede7cea4181b6aca9f0c2495514035"
+    },
+    {
+      "path": "lean/pending/C_PQ_REP.lean.goal",
+      "sha256": "fb12da255352fe29b2acdb14e94b9c58f8daf5893d41b58ec2e0eee96f02e110"
+    },
+    {
+      "path": "lean/pending/C_TREE_STACK.lean.goal",
+      "sha256": "397b41ac51adb1f8c22764eb98843e0be85b3bdf3e33bb2bfde336b457370b29"
+    },
+    {
+      "path": "lean/pending/C_TREE_SUBTREE.lean.goal",
+      "sha256": "346c7b1248be43fd5c6cebdddb701f1c1a094335735ba67188ad2fdc9397dcd7"
+    },
+    {
+      "path": "lean/pending/C_UF_HALVING.lean.goal",
+      "sha256": "fb9a6d62e8047c4a98d550164150ad34af4345f736c76734c6d607b2162f3a45"
+    },
+    {
+      "path": "lean/pending/C_UF_ONEHOP.lean.goal",
+      "sha256": "92b099e7b47af8642fe12fc0b5ce39bd8031a920020b1d8b38a458f35b266828"
+    },
+    {
+      "path": "rocq/BoundaryDomain.v",
+      "sha256": "1310985ea00d9a1297c0d6ef7646f44fdfa8c8c3cb7708873a3ccf8d935f51f7"
+    },
+    {
+      "path": "rocq/BoundaryExtract.v",
+      "sha256": "fb7cf01f71e83889bf95c0682981fc4ae603175fcb26a0797da53ef9a320e393"
+    },
+    {
+      "path": "rocq/BoundaryGoals.v",
+      "sha256": "a03a7dec223a4e0c521cc35a53442b64cb9f367d24ebc22677937f9534ac274a"
+    },
+    {
+      "path": "rocq/BoundaryNative.v",
+      "sha256": "35641c4d25ee54637520492157d8554bd387af3c6f0d80ba09ed1cf8e2cd1e2c"
+    },
+    {
+      "path": "compcert/BoundaryDomain.v",
+      "sha256": "1fe47ea57d58345b461aef9154e16bcb758a59e2aa40ff61a08daf9c8a400834"
+    },
+    {
+      "path": "compcert/EVALGoals.v",
+      "sha256": "e4701048ad470fca304957b40a19eaff16b081ddcff6ac3d8ed37517870f2c0e"
+    },
+    {
+      "path": "compcert/Execution.v",
+      "sha256": "d81e3e6d5dd762af0c447d635ad1c84d8a413f6bb37da4c64167860798264a44"
+    },
+    {
+      "path": "compcert/PACKBITSGoals.v",
+      "sha256": "ff26f5c60ce16a9fb03ddddb14d98d21bc85a94a06b5fe3a948227b663aba0b1"
+    },
+    {
+      "path": "compcert/PATHGoals.v",
+      "sha256": "13653f33200a3490ae5a9939e71bcf83024e0fa280b900d0cd00778d0a82aecd"
+    },
+    {
+      "path": "compcert/PRIORITYGoals.v",
+      "sha256": "807cd747d02bb78e2278399137260b8a61035823fb99b53ec8440ef1400fb9aa"
+    },
+    {
+      "path": "compcert/QUOTESGoals.v",
+      "sha256": "5e0dfa65d0dadf1a5bff5e301dc5e764f4d6568fec8ca2369b478bcdb65a635b"
+    },
+    {
+      "path": "compcert/TLVGoals.v",
+      "sha256": "d2d69404b1b89e29d639d9b456f56fd28d4f2681ce315fd8cb5b675013d76a73"
+    },
+    {
+      "path": "compcert/TREEGoals.v",
+      "sha256": "5557779241eb67b85ec88b7d82f27cc396ab155254408faf669e76af946ebd12"
+    },
+    {
+      "path": "compcert/UNIONFINDGoals.v",
+      "sha256": "89bbddaa753288378670a3b02dabd5bf4f9b998f1d124dad383fc1990f25c48b"
+    }
+  ],
+  "c_environment_header": "../qcip-core/common/io.h",
+  "io_header_sha256": "ed3054989c3045aa35852ebe9d788f9927dbcf5b57a628723fc882d7e57dd43e"
+}

@@ -1,0 +1,9 @@
+{
+  "valid_counterexample_packages": 3,
+  "rejected_malformed_packages": 21,
+  "unproved_obligations_checked": 3,
+  "tranche": "base64",
+  "final_target_proofs_attempted": false,
+  "gate_proofs_supplied": false,
+  "scope": "base64 tranche validator/generated obligation types; no final proofs or complete isolated grader"
+}

@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "group_id": "shared-base64-rocq",
+  "attempt_ids": [
+    "0cbc7592cc30",
+    "6f7ba6c1517d",
+    "945397eaa103",
+    "c6ce6695f240",
+    "0fd2a129348e",
+    "0c1a32bb1321",
+    "cf7eb748fed8"
+  ],
+  "tool_wall_seconds": 7.243733157985844,
+  "cpu_user_seconds": 1.2100000000000002,
+  "cpu_system_seconds": 1.7699999999999998,
+  "max_process_rss_bytes": 312414208,
+  "exact_process_tree_peak_bytes": null,
+  "model_tokens": null,
+  "model_tokens_reason": "shared authoring session usage is recorded once in the referenced batch",
+  "shared_batch_id": "base64-v0.7",
+  "historical_cost_complete": false,
+  "failed_attempts": 0,
+  "latest_updated_utc": "2026-11-04T02:34:03.798558+00:00"
+}

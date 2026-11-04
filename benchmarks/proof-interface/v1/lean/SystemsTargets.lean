@@ -1,0 +1,23 @@
+import SystemsGoals
+namespace EqualBenchSystemsSubmission
+def G_INVALIDATE_WORKLIST_equivalence : Prop := EqualBenchSystems.G_INVALIDATE_WORKLIST_equivalence
+def G_INVALIDATE_WORKLIST_refutationAt := EqualBenchSystems.G_INVALIDATE_WORKLIST_refutationAt
+def G_INVALIDATE_DIRTY_equivalence : Prop := EqualBenchSystems.G_INVALIDATE_DIRTY_equivalence
+def G_INVALIDATE_DIRTY_refutationAt := EqualBenchSystems.G_INVALIDATE_DIRTY_refutationAt
+def N_SCOPE_OVERLAY_equivalence : Prop := EqualBenchSystems.N_SCOPE_OVERLAY_equivalence
+def N_SCOPE_OVERLAY_refutationAt := EqualBenchSystems.N_SCOPE_OVERLAY_refutationAt
+def N_SCOPE_TOMBSTONE_equivalence : Prop := EqualBenchSystems.N_SCOPE_TOMBSTONE_equivalence
+def N_SCOPE_TOMBSTONE_refutationAt := EqualBenchSystems.N_SCOPE_TOMBSTONE_refutationAt
+def T_LEASE_WHEEL_equivalence : Prop := EqualBenchSystems.T_LEASE_WHEEL_equivalence
+def T_LEASE_WHEEL_refutationAt := EqualBenchSystems.T_LEASE_WHEEL_refutationAt
+def T_LEASE_STALE_equivalence : Prop := EqualBenchSystems.T_LEASE_STALE_equivalence
+def T_LEASE_STALE_refutationAt := EqualBenchSystems.T_LEASE_STALE_refutationAt
+def A_ALIGN_MINIMA_equivalence : Prop := EqualBenchSystems.A_ALIGN_MINIMA_equivalence
+def A_ALIGN_MINIMA_refutationAt := EqualBenchSystems.A_ALIGN_MINIMA_refutationAt
+def A_ALIGN_TIES_equivalence : Prop := EqualBenchSystems.A_ALIGN_TIES_equivalence
+def A_ALIGN_TIES_refutationAt := EqualBenchSystems.A_ALIGN_TIES_refutationAt
+def A_RESAMPLE_PHASE_equivalence : Prop := EqualBenchSystems.A_RESAMPLE_PHASE_equivalence
+def A_RESAMPLE_PHASE_refutationAt := EqualBenchSystems.A_RESAMPLE_PHASE_refutationAt
+def A_RESAMPLE_HALF_equivalence : Prop := EqualBenchSystems.A_RESAMPLE_HALF_equivalence
+def A_RESAMPLE_HALF_refutationAt := EqualBenchSystems.A_RESAMPLE_HALF_refutationAt
+end EqualBenchSystemsSubmission

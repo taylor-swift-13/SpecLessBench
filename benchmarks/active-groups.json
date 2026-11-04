@@ -1,0 +1,431 @@
+{
+  "schema_version": 1,
+  "updated_utc": "2026-11-04T02:58:19.242792+00:00",
+  "groups": [
+    {
+      "group_id": "qcip-bst-delete",
+      "contexts": [
+        "C-BST-SUCCESSOR",
+        "C-BST-ROTATE",
+        "C-BST-VALUE"
+      ],
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ],
+      "source_registry": "benchmarks/tasks/qcip-core/three-platform.json",
+      "cost_record": "benchmarks/construction/groups/qcip-bst-delete.json"
+    },
+    {
+      "group_id": "qcip-avl-insert",
+      "contexts": [
+        "C-AVL-STACK",
+        "C-AVL-FACTOR",
+        "C-AVL-MIDDLE"
+      ],
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ],
+      "source_registry": "benchmarks/tasks/qcip-core/three-platform.json",
+      "cost_record": "benchmarks/construction/groups/qcip-avl-insert.json"
+    },
+    {
+      "group_id": "qcip-xizi-ring",
+      "contexts": [
+        "C-RING-COPY",
+        "C-RING-REP",
+        "C-RING-FULL"
+      ],
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ],
+      "source_registry": "benchmarks/tasks/qcip-core/three-platform.json",
+      "cost_record": "benchmarks/construction/groups/qcip-xizi-ring.json"
+    },
+    {
+      "group_id": "qcip-dijkstra",
+      "contexts": [
+        "C-DIJK-SCAN",
+        "C-DIJK-HEAP",
+        "C-DIJK-SEEN"
+      ],
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ],
+      "source_registry": "benchmarks/tasks/qcip-core/three-platform.json",
+      "cost_record": "benchmarks/construction/groups/qcip-dijkstra.json"
+    },
+    {
+      "group_id": "basic-factorial",
+      "contexts": [
+        "R-FAC-EQ",
+        "R-FAC-CEX"
+      ],
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ],
+      "source_registry": "benchmarks/tasks/algorithms-core/groups.json",
+      "cost_record": "benchmarks/construction/groups/basic-factorial.json"
+    },
+    {
+      "group_id": "sequence-reversal",
+      "contexts": [
+        "R-REV-EQ",
+        "R-REV-CEX"
+      ],
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ],
+      "source_registry": "benchmarks/tasks/algorithms-core/groups.json",
+      "cost_record": "benchmarks/construction/groups/sequence-reversal.json"
+    },
+    {
+      "group_id": "sequence-sum",
+      "contexts": [
+        "R-SUM-EQ",
+        "R-SUM-CEX"
+      ],
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ],
+      "source_registry": "benchmarks/tasks/algorithms-core/groups.json",
+      "cost_record": "benchmarks/construction/groups/sequence-sum.json"
+    },
+    {
+      "group_id": "matrix-product",
+      "contexts": [
+        "R-MAT-EQ",
+        "R-MAT-CEX"
+      ],
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ],
+      "source_registry": "benchmarks/tasks/algorithms-core/groups.json",
+      "cost_record": "benchmarks/construction/groups/matrix-product.json"
+    },
+    {
+      "group_id": "first-match-search",
+      "contexts": [
+        "R-STR-EQ",
+        "R-STR-CEX"
+      ],
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ],
+      "source_registry": "benchmarks/tasks/algorithms-core/groups.json",
+      "cost_record": "benchmarks/construction/groups/first-match-search.json"
+    },
+    {
+      "group_id": "queue-traces",
+      "contexts": [
+        "R-QUE-EQ",
+        "R-QUE-CEX"
+      ],
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ],
+      "source_registry": "benchmarks/tasks/algorithms-core/groups.json",
+      "cost_record": "benchmarks/construction/groups/queue-traces.json"
+    },
+    {
+      "group_id": "pointer-tree-mirror",
+      "contexts": [
+        "C-TREE-STACK",
+        "C-TREE-SUBTREE"
+      ],
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ],
+      "source_registry": "benchmarks/tasks/boundaries-core/groups.json",
+      "cost_record": "benchmarks/construction/groups/pointer-tree-mirror.json"
+    },
+    {
+      "group_id": "union-find-connectivity",
+      "contexts": [
+        "C-UF-HALVING",
+        "C-UF-ONEHOP"
+      ],
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ],
+      "source_registry": "benchmarks/tasks/boundaries-core/groups.json",
+      "cost_record": "benchmarks/construction/groups/union-find-connectivity.json"
+    },
+    {
+      "group_id": "max-priority-queue",
+      "contexts": [
+        "C-PQ-REP",
+        "C-PQ-CHILD"
+      ],
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ],
+      "source_registry": "benchmarks/tasks/boundaries-core/groups.json",
+      "cost_record": "benchmarks/construction/groups/max-priority-queue.json"
+    },
+    {
+      "group_id": "tagged-evaluator",
+      "contexts": [
+        "C-EVAL-DP",
+        "C-EVAL-SHORTCIRCUIT"
+      ],
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ],
+      "source_registry": "benchmarks/tasks/boundaries-core/groups.json",
+      "cost_record": "benchmarks/construction/groups/tagged-evaluator.json"
+    },
+    {
+      "group_id": "binary-tlv-decoder",
+      "contexts": [
+        "B-TLV-CURSOR",
+        "B-TLV-ENDIAN"
+      ],
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ],
+      "source_registry": "benchmarks/tasks/boundaries-core/groups.json",
+      "cost_record": "benchmarks/construction/groups/binary-tlv-decoder.json"
+    },
+    {
+      "group_id": "quoted-tokenizer",
+      "contexts": [
+        "B-QUOTE-SPANS",
+        "B-QUOTE-EMPTY"
+      ],
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ],
+      "source_registry": "benchmarks/tasks/boundaries-core/groups.json",
+      "cost_record": "benchmarks/construction/groups/quoted-tokenizer.json"
+    },
+    {
+      "group_id": "packbits-decoder",
+      "contexts": [
+        "B-PACK-SUFFIX",
+        "B-PACK-REPEAT"
+      ],
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ],
+      "source_registry": "benchmarks/tasks/boundaries-core/groups.json",
+      "cost_record": "benchmarks/construction/groups/packbits-decoder.json"
+    },
+    {
+      "group_id": "lexical-path-normalizer",
+      "contexts": [
+        "B-PATH-REVERSE",
+        "B-PATH-PARENTS"
+      ],
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ],
+      "source_registry": "benchmarks/tasks/boundaries-core/groups.json",
+      "cost_record": "benchmarks/construction/groups/lexical-path-normalizer.json"
+    },
+    {
+      "group_id": "incremental-frame-stream",
+      "contexts": [
+        "S-FRAME-RING",
+        "S-FRAME-EMPTY"
+      ],
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ],
+      "source_registry": "benchmarks/tasks/stateful-core/groups.json",
+      "cost_record": "benchmarks/construction/groups/incremental-frame-stream.json"
+    },
+    {
+      "group_id": "nested-transaction-store",
+      "contexts": [
+        "S-TX-JOURNAL",
+        "S-TX-COMMIT"
+      ],
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ],
+      "source_registry": "benchmarks/tasks/stateful-core/groups.json",
+      "cost_record": "benchmarks/construction/groups/nested-transaction-store.json"
+    },
+    {
+      "group_id": "intrusive-lru-cache",
+      "contexts": [
+        "S-LRU-LINKS",
+        "S-LRU-TOUCH"
+      ],
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ],
+      "source_registry": "benchmarks/tasks/stateful-core/groups.json",
+      "cost_record": "benchmarks/construction/groups/intrusive-lru-cache.json"
+    },
+    {
+      "group_id": "dependency-invalidation",
+      "contexts": [
+        "G-INVALIDATE-WORKLIST",
+        "G-INVALIDATE-DIRTY"
+      ],
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ],
+      "source_registry": "benchmarks/tasks/systems-core/groups.json",
+      "cost_record": "benchmarks/construction/groups/dependency-invalidation.json"
+    },
+    {
+      "group_id": "scoped-bindings",
+      "contexts": [
+        "N-SCOPE-OVERLAY",
+        "N-SCOPE-TOMBSTONE"
+      ],
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ],
+      "source_registry": "benchmarks/tasks/systems-core/groups.json",
+      "cost_record": "benchmarks/construction/groups/scoped-bindings.json"
+    },
+    {
+      "group_id": "lease-expiration",
+      "contexts": [
+        "T-LEASE-WHEEL",
+        "T-LEASE-STALE"
+      ],
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ],
+      "source_registry": "benchmarks/tasks/systems-core/groups.json",
+      "cost_record": "benchmarks/construction/groups/lease-expiration.json"
+    },
+    {
+      "group_id": "banded-affine-alignment",
+      "contexts": [
+        "A-ALIGN-MINIMA",
+        "A-ALIGN-TIES"
+      ],
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ],
+      "source_registry": "benchmarks/tasks/systems-core/groups.json",
+      "cost_record": "benchmarks/construction/groups/banded-affine-alignment.json"
+    },
+    {
+      "group_id": "fixed-point-resampling",
+      "contexts": [
+        "A-RESAMPLE-PHASE",
+        "A-RESAMPLE-HALF"
+      ],
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ],
+      "source_registry": "benchmarks/tasks/systems-core/groups.json",
+      "cost_record": "benchmarks/construction/groups/fixed-point-resampling.json"
+    },
+    {
+      "group_id": "base64-encoding",
+      "contexts": [
+        "A-BASE64-STREAM",
+        "A-BASE64-PADDING"
+      ],
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ],
+      "source_registry": "benchmarks/tasks/base64-core/groups.json",
+      "cost_record": "benchmarks/construction/groups/base64-encoding.json"
+    },
+    {
+      "group_id": "minimum-spanning-forest",
+      "contexts": [
+        "MST-TIED-WEIGHT",
+        "MST-UNIQUE-EDGES",
+        "MST-MAX-COUNTEREXAMPLE"
+      ],
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ],
+      "source_registry": "benchmarks/tasks/classics-core/groups.json",
+      "cost_record": "benchmarks/construction/groups/minimum-spanning-forest.json"
+    },
+    {
+      "group_id": "stable-record-sorting",
+      "contexts": [
+        "SORT-MERGE",
+        "SORT-UNSTABLE"
+      ],
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ],
+      "source_registry": "benchmarks/tasks/classics-core/groups.json",
+      "cost_record": "benchmarks/construction/groups/stable-record-sorting.json"
+    }
+  ],
+  "implementation_groups": 29,
+  "semantic_contexts": 63,
+  "platform_instances": 189,
+  "clight_ast_count": 91,
+  "catalog_entries": 37,
+  "catalog_context_slots": 85,
+  "remaining_candidate_slots": 22,
+  "catalog_count_scope": "versioned plan entries/slots, not independent family or released-task counts",
+  "final_proofs_required_at_construction": false,
+  "reference_certified_contexts": 0,
+  "proof_acceptance_contract": "benchmarks/proof-interface/v1/manifest.json",
+  "proof_acceptance_contract_sha256": "34e7b355638e7a53763a45f823697cf9c612120424dca0e7286fe614d18ccbab",
+  "bare_logical_disjunction_is_sufficient": false,
+  "literal_counterexample_data_required": true
+}

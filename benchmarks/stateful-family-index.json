@@ -1,0 +1,16 @@
+{
+  "schema_version":1,
+  "revision":"design-v0.5.1",
+  "curator_only":true,
+  "concrete_registry":"tasks/stateful-core/groups.json",
+  "new_entries":[
+    {"id":"S-FRAME","group_id":"incremental-frame-stream","slots":["S-FRAME-RING","S-FRAME-EMPTY"],"representations":["linear pending sequence","bounded circular storage"],"specification_features":["chunk history","sticky errors","absolute error offsets","accepted frames before failure","EOF on residual bytes","empty-feed persistence","reset behavior"],"proof_level":"L3-L4 provisional","witness_level":"W1-W2 provisional"},
+    {"id":"S-TX","group_id":"nested-transaction-store","slots":["S-TX-JOURNAL","S-TX-COMMIT"],"representations":["snapshot stack of finite maps","undo journal with savepoint marks"],"specification_features":["nested commit followed by outer rollback","overwritten and deleted values","depth-limit errors","rollback without active transaction","ongoing state exposed to later queries"],"proof_level":"L3-L4 provisional","witness_level":"W2 provisional"},
+    {"id":"S-LRU","group_id":"intrusive-lru-cache","slots":["S-LRU-LINKS","S-LRU-TOUCH"],"representations":["MRU ordered key-value sequence","reused arena slots with intrusive predecessor/successor links"],"specification_features":["touch versus peek","eviction order","capacity-zero insertion","resize eviction batches","overwrite recency","node reuse after erase/evict"],"proof_level":"L3-L4 provisional","witness_level":"W1-W2 provisional; final MRU observation permits short witnesses"}
+  ],
+  "program_origin":"newly authored bounded APIs; no upstream program text or independent functional contracts copied",
+  "call_graph_evidence":"tasks/stateful-core/call-graphs.json",
+  "cost_batch":"construction/batch-stateful-v0.5.json",
+  "count_scope":"three new implementation groups, six contexts, eighteen platform instances; candidate inventory becomes twenty-nine entries and sixty-eight slots",
+  "final_proofs_attempted":false
+}

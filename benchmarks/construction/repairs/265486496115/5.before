@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "revision": "design-v0.4",
+  "group_id": "max-priority-queue",
+  "family": "priority",
+  "case_count": 7284,
+  "program_executions": 65556,
+  "validity_evaluations": 14578,
+  "cases_by_origin": {
+    "witness": 1,
+    "boundary": 4,
+    "exhaustive": 2456,
+    "random": 4823
+  },
+  "duplicate_inputs_removed": 179,
+  "rng_seed": 2026110306,
+  "random_cases_requested": 5000,
+  "exhaustive_scope": "explicit small transport/content subdomains in boundary_cases.py; not entire domain",
+  "unexpected_disagreements": 0,
+  "negative_distinguishing_inputs": 2900,
+  "witness": {
+    "input": [
+      1,
+      4,
+      9,
+      7,
+      8,
+      1
+    ],
+    "v0": [
+      4,
+      9,
+      8,
+      7,
+      1
+    ],
+    "v2": [
+      4,
+      9,
+      7,
+      8,
+      1
+    ]
+  },
+  "context_test_counts": {
+    "C-PQ-REP": 3725,
+    "C-PQ-CHILD": 3559
+  },
+  "reference_status_histogram": {},
+  "corpus": "_build/boundaries-v0.4/runs/priority-2026-11-03T142034309701+0000/cases.jsonl.gz",
+  "corpus_sha256": "b82093e287bd87e250b07d360cb4006d874033d57509382307730af4511f2084",
+  "registry_sha256": "a6e11cd34c5ee211049344dd63befe86bdd6b0def666b0ad8725e5630789ef0f",
+  "generator_sha256": "37773b4962b3d8ec3e351c981810f07f36c0b66840ce104975a5492544aba5fa",
+  "corpus_generator_sha256": "d023d05a69650961d73afa6ffa57495561c6b8e33c8c9eee22b18dc4aeb84553",
+  "clight_execution_tested": false,
+  "final_proof_attempted": false,
+  "smoke": false,
+  "status": "differential-passed; labels provisional"
+}

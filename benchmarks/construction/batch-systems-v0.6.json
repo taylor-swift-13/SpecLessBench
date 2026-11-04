@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "batch_id": "systems-v0.6",
+  "status": "construction-audited",
+  "started_utc": "2026-11-04T01:58:01.521223+00:00",
+  "groups": [
+    "dependency-invalidation",
+    "scoped-bindings",
+    "lease-expiration",
+    "banded-affine-alignment",
+    "fixed-point-resampling"
+  ],
+  "baseline": {
+    "source": "local Codex rollout event_msg/token_count total_token_usage",
+    "session_id": "01a19d40-53c2-7811-8e47-5ac681576e1f",
+    "construction_request_timestamp": "2026-11-04T01:56:53.144Z",
+    "provider_timestamp": "2026-11-03T15:17:15.373Z",
+    "usage": {
+      "input_tokens": 68242020,
+      "cached_input_tokens": 66824960,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 644161,
+      "reasoning_output_tokens": 303014,
+      "total_tokens": 68886181
+    },
+    "session_prefix_bytes": 14682448,
+    "session_prefix_sha256": "bf56f080494d4563b82df0f1e522bee9a615a985932776c272ac457b72a84fb2"
+  },
+  "shared_usage_allocation": "record once here; never charge it once per pair/platform",
+  "historical_before_batch": {
+    "tokens": null,
+    "wall_seconds": null,
+    "peak_memory_bytes": null,
+    "reason": "Earlier group-level authoring/tool costs were not instrumented; no reconstruction or zero fill"
+  },
+  "hosted_model_peak_memory_bytes": null,
+  "hosted_model_memory_reason": "Provider does not expose inference memory telemetry",
+  "model_identity": null,
+  "model_identity_reason": "Exact provider model identifier not exposed by this chat runtime",
+  "latest_snapshot": {
+    "source": "local Codex rollout event_msg/token_count total_token_usage",
+    "session_id": "01a19d40-53c2-7811-8e47-5ac681576e1f",
+    "construction_request_timestamp": "2026-11-04T01:56:53.144Z",
+    "provider_timestamp": "2026-11-04T02:28:58.698Z",
+    "usage": {
+      "input_tokens": 95410187,
+      "cached_input_tokens": 93229824,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 697264,
+      "reasoning_output_tokens": 316134,
+      "total_tokens": 96107451
+    },
+    "session_prefix_bytes": 16126321,
+    "session_prefix_sha256": "2ba8cd59f5140cb220fc20af1318964c54175b219ab9134b160feb99e7a44eb5"
+  },
+  "request_started_utc": "2026-11-04T01:56:53.144Z",
+  "elapsed_request_wall_seconds_to_snapshot": 1940.990759,
+  "elapsed_wall_scope": "whole shared request, including model/tool/idle latency; not per-group authoring attribution",
+  "provider_token_delta": {
+    "input_tokens": 27168167,
+    "cached_input_tokens": 26404864,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 53103,
+    "reasoning_output_tokens": 13120,
+    "total_tokens": 27221270
+  },
+  "usage_complete_through": "2026-11-04T02:28:58.698Z",
+  "usage_status": "prefix-only until a post-turn snapshot; final reply may not yet be counted",
+  "reasoning_tokens_rule": "reasoning_output_tokens is a subset of output_tokens; do not add twice",
+  "initial_groups": [
+    "dependency-invalidation",
+    "scoped-bindings",
+    "lease-expiration"
+  ]
+}

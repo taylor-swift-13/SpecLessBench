@@ -1,0 +1,152 @@
+{
+  "schema_version": 1,
+  "revision": "design-v0.7",
+  "curator_only": true,
+  "required_platforms": [
+    "lean",
+    "rocq",
+    "compcert"
+  ],
+  "final_target_proofs_required": false,
+  "groups": [
+    {
+      "group_id": "base64-encoding",
+      "family": "base64",
+      "family_index": 0,
+      "proof_level": "L3",
+      "revision": "design-v0.7",
+      "cost_batch": "base64-v0.7",
+      "tasks": [
+        {
+          "id": "A-BASE64-STREAM",
+          "left": 0,
+          "right": 1,
+          "domain_index": 0,
+          "expected_polarity": "EQ",
+          "label_status": "provisional; not proved",
+          "theorem": "A_BASE64_STREAM",
+          "lean_goal": "lean/pending/A_BASE64_STREAM.lean.goal",
+          "rocq_goal": "rocq/Base64Goals.v::A_BASE64_STREAM",
+          "compcert_goal": "compcert/BASE64Goals.v::A_BASE64_STREAM",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "id": "A-BASE64-PADDING",
+          "left": 0,
+          "right": 2,
+          "domain_index": 0,
+          "expected_polarity": "CEX",
+          "label_status": "provisional; not proved",
+          "theorem": "A_BASE64_PADDING",
+          "lean_goal": "lean/pending/A_BASE64_PADDING.lean.goal",
+          "rocq_goal": "rocq/Base64Goals.v::A_BASE64_PADDING",
+          "compcert_goal": "compcert/BASE64Goals.v::A_BASE64_PADDING",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        }
+      ],
+      "variants": [
+        {
+          "id": "BASE64_V0",
+          "c": "c/base64/v0.c",
+          "lean": "Base64Native.entry 0 0",
+          "rocq": "Base64Native.entry 0 0",
+          "ast": "compcert/ast/BASE64_V0.v"
+        },
+        {
+          "id": "BASE64_V1",
+          "c": "c/base64/v1.c",
+          "lean": "Base64Native.entry 0 1",
+          "rocq": "Base64Native.entry 0 1",
+          "ast": "compcert/ast/BASE64_V1.v"
+        },
+        {
+          "id": "BASE64_V2",
+          "c": "c/base64/v2.c",
+          "lean": "Base64Native.entry 0 2",
+          "rocq": "Base64Native.entry 0 2",
+          "ast": "compcert/ast/BASE64_V2.v"
+        }
+      ]
+    }
+  ],
+  "protected_files": [
+    {
+      "path": "c/Base64.h",
+      "sha256": "0c03cb3073f796d301c584b3f41a6c3b2766c2ad0617b6430ecd14a2d0115cb0"
+    },
+    {
+      "path": "c/base64/v0.c",
+      "sha256": "cd4dc6438594682cc6d2c3a0ad2db98e9dce9e7d8bcf23dfd1cee8080feecdac"
+    },
+    {
+      "path": "c/base64/v1.c",
+      "sha256": "74e7e9f3c943659d72d7e21236edc78d44ee1141964f684abb790703874582e8"
+    },
+    {
+      "path": "c/base64/v2.c",
+      "sha256": "dc8964fda6d6693c71a3a5328c94aaed5d1b0136d15f1c22c10fcca6936e2098"
+    },
+    {
+      "path": "lean/Base64Domain.lean",
+      "sha256": "d550c3650be81b292d59935f1f8b5bfd1bb824e80f16d5c3ecb35f23970f4771"
+    },
+    {
+      "path": "lean/Base64Goals.lean",
+      "sha256": "3d9eab1556631dc8ce0cd10a804dffcce5df07d353671093f28ffd76702cc1c4"
+    },
+    {
+      "path": "lean/Base64Native.lean",
+      "sha256": "f0e0e119f49c72dcb3e15ac62f9a729d878acf7c86ee7a83d679eee91462a7e3"
+    },
+    {
+      "path": "lean/Base64Runner.lean",
+      "sha256": "3c725d5f5d33299a46b0108d5c4c1d83324a23af0909d43a4a7a18e1dbbc9344"
+    },
+    {
+      "path": "lean/pending/A_BASE64_PADDING.lean.goal",
+      "sha256": "722b6a4908f80ae7791aab76b0efd81108d2c8d0889c56b7776ac35f4ea38a2c"
+    },
+    {
+      "path": "lean/pending/A_BASE64_STREAM.lean.goal",
+      "sha256": "fb027e33b60a96e16673083ebedbbad833cd0d8b0a3917d096ef0d1610aadebd"
+    },
+    {
+      "path": "rocq/Base64Domain.v",
+      "sha256": "03ca9555d29c50c4dc76a430af6365d81a810c817d9ead99146c179cb2c79773"
+    },
+    {
+      "path": "rocq/Base64Extract.v",
+      "sha256": "1bd164436e49e599ae5244cd004c4e116dd7490fca386400f8e01301041e6f24"
+    },
+    {
+      "path": "rocq/Base64Goals.v",
+      "sha256": "543550098445888bde3825edbef367ff18deb2471036dda0e54203453734b694"
+    },
+    {
+      "path": "rocq/Base64Native.v",
+      "sha256": "c72a7bade36b5a1021c6c499798f1e3ca9252ef314b66edddb2c886643992a71"
+    },
+    {
+      "path": "compcert/BASE64Goals.v",
+      "sha256": "06a49dac7c0f2fcdf8f262179c802b6c3b3386114fe4d7e1f62170c3342eb643"
+    },
+    {
+      "path": "compcert/Base64Domain.v",
+      "sha256": "0f43933458c4321bfe7e8ab602fe52479737eb0b260135430cf2000710d68c8a"
+    },
+    {
+      "path": "compcert/Execution.v",
+      "sha256": "d81e3e6d5dd762af0c447d635ad1c84d8a413f6bb37da4c64167860798264a44"
+    }
+  ],
+  "c_environment_header": "../qcip-core/common/io.h",
+  "io_header_sha256": "ed3054989c3045aa35852ebe9d788f9927dbcf5b57a628723fc882d7e57dd43e"
+}

@@ -1,0 +1,5 @@
+import BoundaryGoals
+open EqualBenchBoundary
+-- Select equivalence or literal-witness refutation using the submission contract.
+-- Pending universal branch (no final proof supplied):
+theorem solve : B_PACK_REPEAT_equivalence := by

@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "revision": "design-v0.8.1",
+  "group_id": "minimum-spanning-forest",
+  "family": "forest",
+  "case_count": 16,
+  "program_executions": 144,
+  "validity_evaluations": 44,
+  "cases_by_origin": {
+    "boundary": 9,
+    "witness": 1,
+    "random": 6
+  },
+  "duplicate_inputs_removed": 2,
+  "rng_seed": 2026110408,
+  "random_cases_requested": 8,
+  "exhaustive_scope": "explicit small transport/content subdomains in classics_cases.py; not entire domain",
+  "unexpected_disagreements": 0,
+  "negative_distinguishing_inputs": 4,
+  "witness": {
+    "input": [
+      0,
+      3,
+      3,
+      0,
+      1,
+      1,
+      1,
+      2,
+      2,
+      0,
+      2,
+      3
+    ],
+    "v0": [
+      2,
+      3,
+      1
+    ],
+    "v2": [
+      2,
+      5,
+      1
+    ]
+  },
+  "context_test_counts": {
+    "MST-TIED-WEIGHT": 10,
+    "MST-UNIQUE-EDGES": 6,
+    "MST-MAX-COUNTEREXAMPLE": 10
+  },
+  "reference_status_histogram": {
+    "ties-allowed": 10,
+    "disconnected": 3,
+    "unique": 6,
+    "equal-weights": 4
+  },
+  "corpus": "_build/classics-v0.8/runs/forest-2026-11-04T025200320114+0000/cases.jsonl.gz",
+  "corpus_sha256": "194f812c94af2657d5f86ec42c3a41bed74f7ffa1e80f898eae5b8e74df175f6",
+  "registry_sha256": "2b02ec799b5c3b7b52a8bf9c92f9e9d1b245876895e55647087e21f1e518d78c",
+  "generator_sha256": "697d6f805ff47fd32d4a6766805cdf8dfa9ad4d60975cd60e5135f32e4de96e1",
+  "corpus_generator_sha256": "4ed741d29dfd3197deb14c1a90e4929b6d780f42016ef5ef7351b5ade0b26f26",
+  "fixtures_sha256": "1f281cb7dbeba92a5a706337711074926f153e00c28c72b42297c1c8bf5bc0f3",
+  "clight_execution_tested": false,
+  "final_proof_attempted": false,
+  "smoke": true,
+  "status": "differential-passed; labels provisional"
+}

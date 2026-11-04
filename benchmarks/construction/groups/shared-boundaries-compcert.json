@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "group_id": "shared-boundaries-compcert",
+  "attempt_ids": [
+    "d71a75318d40",
+    "e981ab9bfc3a"
+  ],
+  "tool_wall_seconds": 1.4440896369924303,
+  "cpu_user_seconds": 0.45999999999999996,
+  "cpu_system_seconds": 0.37,
+  "max_process_rss_bytes": 495431680,
+  "exact_process_tree_peak_bytes": null,
+  "model_tokens": null,
+  "model_tokens_reason": "shared authoring session usage is recorded once in the referenced batch",
+  "shared_batch_id": "boundaries-v0.4",
+  "historical_cost_complete": false,
+  "failed_attempts": 0,
+  "latest_updated_utc": "2026-11-03T14:16:49.784419+00:00"
+}

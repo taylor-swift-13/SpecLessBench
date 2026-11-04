@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "group_id": "shared-boundaries-interface",
+  "attempt_ids": [
+    "34a18f26c775",
+    "dcbd3cafa84b",
+    "be6fee844c75",
+    "cddd2a218327",
+    "8e2eed163c88",
+    "67ab7a00a347",
+    "a40477b2193e",
+    "66a050086375",
+    "ebdd34171553"
+  ],
+  "tool_wall_seconds": 21.426011311996263,
+  "cpu_user_seconds": 3.46,
+  "cpu_system_seconds": 4.31,
+  "max_process_rss_bytes": 1655394304,
+  "exact_process_tree_peak_bytes": null,
+  "model_tokens": null,
+  "model_tokens_reason": "shared authoring session usage is recorded once in the referenced batch",
+  "shared_batch_id": "algorithms-v0.3",
+  "historical_cost_complete": false,
+  "failed_attempts": 0,
+  "latest_updated_utc": "2026-11-03T14:27:58.477689+00:00"
+}

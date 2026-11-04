@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "group_id": "shared-docs",
+  "attempt_ids": [
+    "d02901485220"
+  ],
+  "tool_wall_seconds": 0.17050954200385604,
+  "cpu_user_seconds": 0.02,
+  "cpu_system_seconds": 0.01,
+  "max_process_rss_bytes": 15171584,
+  "exact_process_tree_peak_bytes": null,
+  "model_tokens": null,
+  "model_tokens_reason": "shared authoring session usage belongs to batch-three-platform-v0.2.json once",
+  "shared_batch_id": "three-platform-v0.2",
+  "historical_cost_complete": false,
+  "failed_attempts": 0,
+  "latest_updated_utc": "2026-11-03T11:58:02.511156+00:00"
+}

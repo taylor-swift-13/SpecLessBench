@@ -1,0 +1,21 @@
+From EqualBenchSystems Require Import GRAPHGoals SCOPESGoals LEASESGoals ALIGNMENTGoals RESAMPLEGoals.
+Definition G_INVALIDATE_WORKLIST_equivalence : Prop := GRAPHGoals.G_INVALIDATE_WORKLIST_equivalence.
+Definition G_INVALIDATE_WORKLIST_refutationAt := GRAPHGoals.G_INVALIDATE_WORKLIST_refutationAt.
+Definition G_INVALIDATE_DIRTY_equivalence : Prop := GRAPHGoals.G_INVALIDATE_DIRTY_equivalence.
+Definition G_INVALIDATE_DIRTY_refutationAt := GRAPHGoals.G_INVALIDATE_DIRTY_refutationAt.
+Definition N_SCOPE_OVERLAY_equivalence : Prop := SCOPESGoals.N_SCOPE_OVERLAY_equivalence.
+Definition N_SCOPE_OVERLAY_refutationAt := SCOPESGoals.N_SCOPE_OVERLAY_refutationAt.
+Definition N_SCOPE_TOMBSTONE_equivalence : Prop := SCOPESGoals.N_SCOPE_TOMBSTONE_equivalence.
+Definition N_SCOPE_TOMBSTONE_refutationAt := SCOPESGoals.N_SCOPE_TOMBSTONE_refutationAt.
+Definition T_LEASE_WHEEL_equivalence : Prop := LEASESGoals.T_LEASE_WHEEL_equivalence.
+Definition T_LEASE_WHEEL_refutationAt := LEASESGoals.T_LEASE_WHEEL_refutationAt.
+Definition T_LEASE_STALE_equivalence : Prop := LEASESGoals.T_LEASE_STALE_equivalence.
+Definition T_LEASE_STALE_refutationAt := LEASESGoals.T_LEASE_STALE_refutationAt.
+Definition A_ALIGN_MINIMA_equivalence : Prop := ALIGNMENTGoals.A_ALIGN_MINIMA_equivalence.
+Definition A_ALIGN_MINIMA_refutationAt := ALIGNMENTGoals.A_ALIGN_MINIMA_refutationAt.
+Definition A_ALIGN_TIES_equivalence : Prop := ALIGNMENTGoals.A_ALIGN_TIES_equivalence.
+Definition A_ALIGN_TIES_refutationAt := ALIGNMENTGoals.A_ALIGN_TIES_refutationAt.
+Definition A_RESAMPLE_PHASE_equivalence : Prop := RESAMPLEGoals.A_RESAMPLE_PHASE_equivalence.
+Definition A_RESAMPLE_PHASE_refutationAt := RESAMPLEGoals.A_RESAMPLE_PHASE_refutationAt.
+Definition A_RESAMPLE_HALF_equivalence : Prop := RESAMPLEGoals.A_RESAMPLE_HALF_equivalence.
+Definition A_RESAMPLE_HALF_refutationAt := RESAMPLEGoals.A_RESAMPLE_HALF_refutationAt.

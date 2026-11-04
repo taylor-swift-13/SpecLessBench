@@ -1,0 +1,9 @@
+{
+  "valid_counterexample_packages": 15,
+  "rejected_malformed_packages": 105,
+  "unproved_obligations_checked": 15,
+  "tranche": "systems",
+  "final_target_proofs_attempted": false,
+  "gate_proofs_supplied": false,
+  "scope": "systems tranche validator/generated obligation types; no final proofs or complete isolated grader"
+}

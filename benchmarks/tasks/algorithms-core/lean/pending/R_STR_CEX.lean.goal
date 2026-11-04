@@ -1,0 +1,4 @@
+import BasicGoals
+open EqualBenchBasic
+theorem solve : R_STR_CEX_certificate := by
+  -- pending final certificate; no proof supplied

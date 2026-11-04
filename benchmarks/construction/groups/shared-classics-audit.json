@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "group_id": "shared-classics-audit",
+  "attempt_ids": [
+    "b94b9c6b0d17",
+    "e6946c79c80a",
+    "a96229145af8",
+    "f893fb630d00"
+  ],
+  "tool_wall_seconds": 0,
+  "cpu_user_seconds": 0,
+  "cpu_system_seconds": 0,
+  "max_process_rss_bytes": 16322560,
+  "exact_process_tree_peak_bytes": null,
+  "model_tokens": null,
+  "model_tokens_reason": "shared authoring session usage is recorded once in the referenced batch",
+  "shared_batch_id": "classics-v0.8",
+  "historical_cost_complete": false,
+  "envelope_attempt_ids": [
+    "b94b9c6b0d17",
+    "e6946c79c80a",
+    "a96229145af8",
+    "f893fb630d00"
+  ],
+  "envelope_wall_seconds": 1.3834340689936653,
+  "cost_total_rule": "Use envelope totals for covered attempts; detail wall/CPU are nested attribution, never add both",
+  "envelope_cpu_user_seconds": 0.05,
+  "envelope_cpu_system_seconds": 0.14,
+  "failed_attempts": 0,
+  "latest_updated_utc": "2026-11-04T02:49:18.265657+00:00"
+}

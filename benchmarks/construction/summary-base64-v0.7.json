@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "revision": "design-v0.7",
+  "timestamp_utc": "2026-11-04T02:37:26.325479+00:00",
+  "implementation_groups": 1,
+  "semantic_contexts": 2,
+  "platform_instances": 6,
+  "clight_ast_count": 3,
+  "groups": [
+    {
+      "group_id": "base64-encoding",
+      "family": "base64",
+      "unique_inputs": 15285,
+      "program_executions": 137565,
+      "validity_evaluations": 30582,
+      "negative_inputs": 3573,
+      "source_derived_inputs": 7,
+      "unexpected_disagreements": 0,
+      "cost_record": "benchmarks/construction/groups/base64-encoding.json"
+    }
+  ],
+  "unique_inputs": 15285,
+  "program_executions": 137565,
+  "validity_evaluations": 30582,
+  "unexpected_disagreements": 0,
+  "labels_certified": false,
+  "final_proof_attempted": false,
+  "source_registry_sha256": "bdf6f812fe543245c99a10e9c343feb394a68e6f6ca510504072c4966b25b755",
+  "fixtures_sha256": "d489d91f623657ecaa0175f951e6478acac84cc53eb608f443ec8fa8ace65abc",
+  "shared_usage_batch": "batch-base64-v0.7.json",
+  "exact_process_tree_peak_bytes": null,
+  "hosted_inference_memory_bytes": null
+}

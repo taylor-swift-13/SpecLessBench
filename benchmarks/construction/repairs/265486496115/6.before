@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "revision": "design-v0.4",
+  "group_id": "tagged-evaluator",
+  "family": "eval",
+  "case_count": 5806,
+  "program_executions": 52254,
+  "validity_evaluations": 11624,
+  "cases_by_origin": {
+    "witness": 1,
+    "boundary": 9,
+    "exhaustive": 797,
+    "random": 4999
+  },
+  "duplicate_inputs_removed": 4,
+  "rng_seed": 2026110307,
+  "random_cases_requested": 5000,
+  "exhaustive_scope": "explicit small transport/content subdomains in boundary_cases.py; not entire domain",
+  "unexpected_disagreements": 0,
+  "negative_distinguishing_inputs": 122,
+  "witness": {
+    "input": [
+      3,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      6,
+      0,
+      1
+    ],
+    "v0": [
+      3,
+      0,
+      -1,
+      0
+    ],
+    "v2": [
+      3,
+      1,
+      1,
+      0
+    ]
+  },
+  "context_test_counts": {
+    "C-EVAL-DP": 5806,
+    "C-EVAL-SHORTCIRCUIT": 5806
+  },
+  "reference_status_histogram": {
+    "0": 1646,
+    "1": 1178,
+    "4": 2898,
+    "3": 83,
+    "2": 1
+  },
+  "corpus": "_build/boundaries-v0.4/runs/eval-2026-11-03T142100923061+0000/cases.jsonl.gz",
+  "corpus_sha256": "ab0f245ee032957a6a90356499a1d1318de516889e06afec0307bb103a452349",
+  "registry_sha256": "a6e11cd34c5ee211049344dd63befe86bdd6b0def666b0ad8725e5630789ef0f",
+  "generator_sha256": "37773b4962b3d8ec3e351c981810f07f36c0b66840ce104975a5492544aba5fa",
+  "corpus_generator_sha256": "d023d05a69650961d73afa6ffa57495561c6b8e33c8c9eee22b18dc4aeb84553",
+  "clight_execution_tested": false,
+  "final_proof_attempted": false,
+  "smoke": false,
+  "status": "differential-passed; labels provisional"
+}

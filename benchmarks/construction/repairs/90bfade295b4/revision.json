@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "revision_id": "90bfade295b4",
+  "group_id": "incremental-frame-stream",
+  "started_utc": "2026-11-03T15:08:11.626483+00:00",
+  "reason": "Supplement reused full coverage gate but omitted reset-after-error events. All pair/port outputs agreed. Add explicit reset-and-resume cases; preserve failed coverage report and costs.",
+  "status": "committed-tests-invalidated",
+  "files": [
+    {
+      "path": "scripts/construction/supplement_stateful_frames.py",
+      "before_sha256": "599105e4c711a4756250cddd0b4d134634d701503849572c645bca79fd51e7e1",
+      "snapshot": "benchmarks/construction/repairs/90bfade295b4/0.before",
+      "after_sha256": "c468a795649f409954e8f2a9d9f604b6eaeb864df4682dacaad5366387fc7e23"
+    },
+    {
+      "path": "benchmarks/tasks/stateful-core/evidence/frames-multiframe.json",
+      "before_sha256": "639388b5ee2db8f0294021b66f81226e1da83bb8db5be2b13c770e796e97b5a1",
+      "snapshot": "benchmarks/construction/repairs/90bfade295b4/1.before",
+      "after_sha256": "ba0967c6bc3224634537672e879cd8db7875de7f53eb26b879b45f1084ec8152"
+    }
+  ],
+  "new_revision": "tooling-v0.5.1",
+  "affected_contexts": [
+    "S-FRAME-RING",
+    "S-FRAME-EMPTY"
+  ],
+  "ended_utc": "2026-11-03T15:10:49.811733+00:00",
+  "retest_required": true,
+  "label_revalidation_required": true
+}

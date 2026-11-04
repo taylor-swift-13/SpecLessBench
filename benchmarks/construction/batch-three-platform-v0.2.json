@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "batch_id": "three-platform-v0.2",
+  "status": "construction-recorded; final target proofs deferred; historical accounting gaps remain",
+  "started_utc": "2026-11-03T11:40:22.113751+00:00",
+  "groups": [
+    "qcip-bst-delete",
+    "qcip-avl-insert",
+    "qcip-xizi-ring",
+    "qcip-dijkstra"
+  ],
+  "baseline": {
+    "source": "local Codex rollout event_msg/token_count total_token_usage",
+    "session_id": "01a19d40-53c2-7811-8e47-5ac681576e1f",
+    "provider_timestamp": "2026-11-03T11:31:29.246Z",
+    "usage": {
+      "input_tokens": 34945154,
+      "cached_input_tokens": 33773440,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 294821,
+      "reasoning_output_tokens": 153511,
+      "total_tokens": 35239975
+    },
+    "session_prefix_bytes": 8061025,
+    "session_prefix_sha256": "be71dff91f798104ac9ced5645f837f2cdc0df113b0ccf1327e38dc6413fab6b"
+  },
+  "shared_usage_allocation": "record once here; never charge it once per pair/platform",
+  "historical_before_batch": {
+    "tokens": null,
+    "wall_seconds": null,
+    "peak_memory_bytes": null,
+    "reason": "Earlier group-level authoring/tool costs were not instrumented; no reconstruction or zero fill"
+  },
+  "hosted_model_peak_memory_bytes": null,
+  "hosted_model_memory_reason": "Provider does not expose inference memory telemetry",
+  "model_identity": null,
+  "model_identity_reason": "Exact provider model identifier not exposed by this chat runtime",
+  "latest_snapshot": {
+    "source": "local Codex rollout event_msg/token_count total_token_usage",
+    "session_id": "01a19d40-53c2-7811-8e47-5ac681576e1f",
+    "construction_request_timestamp": "2026-11-03T11:35:50.132Z",
+    "provider_timestamp": "2026-11-03T12:14:29.938Z",
+    "usage": {
+      "input_tokens": 42991260,
+      "cached_input_tokens": 41769472,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 370754,
+      "reasoning_output_tokens": 179119,
+      "total_tokens": 43362014
+    },
+    "session_prefix_bytes": 9368485,
+    "session_prefix_sha256": "dc2571af2bee6f54d143846e9c32413092d516e2a38152981f1aca285d69e531"
+  },
+  "provider_token_delta": {
+    "input_tokens": 8046106,
+    "cached_input_tokens": 7996032,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 75933,
+    "reasoning_output_tokens": 25608,
+    "total_tokens": 8122039
+  },
+  "usage_complete_through": "2026-11-03T12:14:29.938Z",
+  "usage_status": "incomplete: no unambiguous post-final provider usage before collector deadline/next request",
+  "reasoning_tokens_rule": "reasoning_output_tokens is a subset of output_tokens; do not add twice",
+  "request_started_utc": "2026-11-03T11:35:50.132Z",
+  "elapsed_request_wall_seconds_to_snapshot": 2365.353587,
+  "elapsed_wall_scope": "whole shared request, including model/tool/idle latency; not per-group authoring attribution",
+  "collector": {
+    "finished_utc": "2026-11-03T12:20:16.630668+00:00",
+    "wall_seconds": 300.81299999999464,
+    "cpu_seconds": 10.8125,
+    "peak_working_set_bytes": 118493184,
+    "memory_scope": "Windows collector process kernel peak working set; not inference or WSL tree memory",
+    "final_message_observed_utc": null
+  }
+}

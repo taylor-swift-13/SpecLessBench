@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "compcert": "3.17",
+  "rocq": "9.2",
+  "architecture": "x86_64-linux; little-endian; ptr64",
+  "clightgen_sha256": "8064763950950ec9e48f44698ba056bb0cb53690e2a35c0c70bb148bdabdb7f2",
+  "exports": [
+    {
+      "module": "GRAPH_V0",
+      "preprocessed_sha256": "3b570d771b3f52828ce2fdad7a41ce94de2931bf9ea41dc4b586f108e06807ab",
+      "path": "compcert/ast/GRAPH_V0.v",
+      "sha256": "a45e72de67a247ae7463eb468fb5405d6a5dd9a499812f50f8c1e81785bf693d"
+    },
+    {
+      "module": "GRAPH_V1",
+      "preprocessed_sha256": "813c76936cf3cf067fee57b722813755cd3e3bbb37d7a148905599632899b95e",
+      "path": "compcert/ast/GRAPH_V1.v",
+      "sha256": "90ece6216bd50b0f6458affce9cfb233d7b390bfff24bb978860263f5d644d4f"
+    },
+    {
+      "module": "GRAPH_V2",
+      "preprocessed_sha256": "163b2ea593a7dfedd23b76900f566065039484b39933a4789ac8cb481d7ca25a",
+      "path": "compcert/ast/GRAPH_V2.v",
+      "sha256": "55b024d0588a39c21db7a42f34963aacf492b48492d1c76e5c8cd8caa37e1b2f"
+    },
+    {
+      "module": "SCOPES_V0",
+      "preprocessed_sha256": "308f3a5e4ffb2bf1d9a6d12027b70be1b100050b741207b94f9cd350d7cc376a",
+      "path": "compcert/ast/SCOPES_V0.v",
+      "sha256": "5204ef6626ca02c408a37a1b7d6c089dd33c7ecbdb19cb76a2e3893cf4edbb42"
+    },
+    {
+      "module": "SCOPES_V1",
+      "preprocessed_sha256": "2d21ec65c0b1f9aa4bcfed4ffc4b444407c3e6e38af71bd4165e5aec6cfb9a78",
+      "path": "compcert/ast/SCOPES_V1.v",
+      "sha256": "16e8e71eacb118ab9b6cb85cb08c3695b56120704aca777f1fa1bcd8572ea125"
+    },
+    {
+      "module": "SCOPES_V2",
+      "preprocessed_sha256": "53488700a2021c5c5f03ddab6dfa3ae38f8e9433d7f52ced87630c0623afb48b",
+      "path": "compcert/ast/SCOPES_V2.v",
+      "sha256": "5d1a862bb29a23e3929b1a95f9d4a0f0b5da2f9d67d11be37ddab3fe07d6603c"
+    },
+    {
+      "module": "LEASES_V0",
+      "preprocessed_sha256": "a178b10377c3d9307cec505ac78b13cff3ce0d78a848de26a46edc66687bf2a7",
+      "path": "compcert/ast/LEASES_V0.v",
+      "sha256": "5fd46c694d774ebdf6eaaf8c302386839a6470c2a877f272d0985a3badd8ec8c"
+    },
+    {
+      "module": "LEASES_V1",
+      "preprocessed_sha256": "0cb01be148125d44cb91bd7054156374f59518541f866af99c96ab2f9c63fe8a",
+      "path": "compcert/ast/LEASES_V1.v",
+      "sha256": "59404c34de2f71199f2bb18d4c26f266b234acc5f56f19cf35e6cfaf7de6c7a2"
+    },
+    {
+      "module": "LEASES_V2",
+      "preprocessed_sha256": "f008d9ea038bc7d972186601a1c11d3882ff8e42c4eda31352b9891e18aac6f9",
+      "path": "compcert/ast/LEASES_V2.v",
+      "sha256": "b1b273ab6e91844ab781061ab9f06bb7d146e2bc526d452915a98f4d5e2725bc"
+    },
+    {
+      "module": "ALIGNMENT_V0",
+      "preprocessed_sha256": "6326b8b27f6d69577340367d4c97958f53c502db5ca29d1ffeb9b6671787a6b3",
+      "path": "compcert/ast/ALIGNMENT_V0.v",
+      "sha256": "821998e75c69e5c49863642a48bea6f23fa982501ee8ff8aca038316dcb48b93"
+    },
+    {
+      "module": "ALIGNMENT_V1",
+      "preprocessed_sha256": "35aca188935011f2de5a770e67e8df69d6afa9919561bca2320ec27ea9a72f2f",
+      "path": "compcert/ast/ALIGNMENT_V1.v",
+      "sha256": "2ae6482eb27a80d7e3e1322ca25a3f233aebf0c270992f954456171d5656b8c4"
+    },
+    {
+      "module": "ALIGNMENT_V2",
+      "preprocessed_sha256": "80d37c6ff35868e50bf193db7517a7e5cc12e31c4c914a96f36ab59b0a1df891",
+      "path": "compcert/ast/ALIGNMENT_V2.v",
+      "sha256": "548b52f9b3284abec39a7e17897bfc66aca81ef0f10b9e976882bd8eb0c7c73e"
+    },
+    {
+      "module": "RESAMPLE_V0",
+      "preprocessed_sha256": "a50b9ef35d84731343c775841f6653b4ab81827d416c4cbbef2e990dc1de1a6b",
+      "path": "compcert/ast/RESAMPLE_V0.v",
+      "sha256": "9a0ca8bc5726ee9be601faa65c1aebf683b29a92dfa8893ab67b1e7af119d59c"
+    },
+    {
+      "module": "RESAMPLE_V1",
+      "preprocessed_sha256": "d1ef8e6d06fcafaabfcbf3a13b1bb4b50779416b7e1ac27252484c4c6a471240",
+      "path": "compcert/ast/RESAMPLE_V1.v",
+      "sha256": "cbbdc0f6c7b4d43e8bc8b2aa52f1158977a7429e7347b9f8f655f02246bdeb99"
+    },
+    {
+      "module": "RESAMPLE_V2",
+      "preprocessed_sha256": "95c0328800acc889443a98defc9e9e3beaf96a07ad7397f45e548c2246cce616",
+      "path": "compcert/ast/RESAMPLE_V2.v",
+      "sha256": "459cd822f34d235818704d4b46b0cecf43d04edd741c296c72046612f493214f"
+    }
+  ],
+  "final_proofs": false,
+  "goal_types": "passed; final targets unproved",
+  "native_versions": {
+    "lean": "4.34.0",
+    "rocq": "8.20.1"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "revision_id": "2cd892e66976",
+  "group_id": "shared-stateful",
+  "started_utc": "2026-11-03T14:51:04.760037+00:00",
+  "reason": "Lean draft rejected an unparenthesized conditional record field, unavailable Int.xor and underconstrained tuple numeral type. Definitions have not yet passed checking.",
+  "status": "committed-tests-invalidated",
+  "files": [
+    {
+      "path": "benchmarks/tasks/stateful-core/lean/StatefulNative.lean",
+      "before_sha256": "5d3cbfa0737a1dc392d8eca753d33a86c2f6ae194e7088428cee2f665f339bb1",
+      "snapshot": "benchmarks/construction/repairs/2cd892e66976/0.before",
+      "after_sha256": "b51ee6f5347487b1039d92519dda6c3a9f7c6379bf54bf53caf3ebf85e67e891"
+    },
+    {
+      "path": "scripts/construction/stateful_common.py",
+      "before_sha256": "e229605187c78449c9a1baae41056b16db65a05b7dfd5bed1df821ba138d40e8",
+      "snapshot": "benchmarks/construction/repairs/2cd892e66976/1.before",
+      "after_sha256": "60d3b875186308d479ebe0ee82e36ae5e6c4523fa0feabf0f98006814f0ddc60"
+    },
+    {
+      "path": "scripts/construction/prepare_stateful.py",
+      "before_sha256": "126ed87a8ba38a348a66fc1ff4ffddbca2c99e657e56d749bb08be7cf65878b2",
+      "snapshot": "benchmarks/construction/repairs/2cd892e66976/2.before",
+      "after_sha256": "e7054dd6120c90b7f07e469a51d4e34f0dc2233e1a1f6f9d517df41744d83849"
+    }
+  ],
+  "new_revision": "design-v0.5.1",
+  "affected_contexts": [
+    "S-FRAME-RING",
+    "S-FRAME-EMPTY",
+    "S-TX-JOURNAL",
+    "S-TX-COMMIT",
+    "S-LRU-LINKS",
+    "S-LRU-TOUCH"
+  ],
+  "ended_utc": "2026-11-03T14:52:00.097102+00:00",
+  "retest_required": true,
+  "label_revalidation_required": true
+}

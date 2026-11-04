@@ -1,0 +1,5 @@
+import StatefulGoals
+open EqualBenchStateful
+-- Select equivalence or literal-witness refutation using the submission contract.
+-- Pending universal branch (no final proof supplied):
+theorem solve : S_FRAME_RING_equivalence := by

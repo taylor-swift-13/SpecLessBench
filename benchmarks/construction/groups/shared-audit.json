@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "group_id": "shared-audit",
+  "attempt_ids": [
+    "a279da73d1c4",
+    "c28b2c4fcbfa",
+    "dc1d15c73f3b"
+  ],
+  "tool_wall_seconds": 2.1128856869763695,
+  "cpu_user_seconds": 0.05,
+  "cpu_system_seconds": 0.2,
+  "max_process_rss_bytes": 17502208,
+  "exact_process_tree_peak_bytes": null,
+  "model_tokens": null,
+  "model_tokens_reason": "shared authoring session usage belongs to batch-three-platform-v0.2.json once",
+  "shared_batch_id": "three-platform-v0.2",
+  "historical_cost_complete": false,
+  "failed_attempts": 0,
+  "latest_updated_utc": "2026-11-03T12:14:26.364071+00:00"
+}

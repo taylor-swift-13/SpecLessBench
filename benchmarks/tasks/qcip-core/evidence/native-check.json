@@ -1,0 +1,247 @@
+{
+  "schema_version": 1,
+  "kind": "native construction checks, not formal certificates",
+  "tasks_manifest_sha256": "97c77fe7a363ddd51630b4c20a4725ac4570dbf4f016efe29cdac7c7865a91c6",
+  "compiler": "gcc (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0",
+  "random_seed": 20261103,
+  "cases_per_family": {
+    "bst": 163,
+    "avl": 165,
+    "ring": 167,
+    "dijkstra": 165
+  },
+  "variants": [
+    {
+      "id": "BST_V0",
+      "preprocessed_sha256": "5a51c17180f1b2c0c4c54e3cfd4af21d8efd4cb7a2ee475782ef8a827beb6d97",
+      "asan_ubsan_batch_passed": true,
+      "native_cases": 163
+    },
+    {
+      "id": "BST_V1",
+      "preprocessed_sha256": "04a0f99fd0816e286e7ec1968f4279984903b91c94dcbe134ac34afd9b23965f",
+      "asan_ubsan_batch_passed": true,
+      "native_cases": 163
+    },
+    {
+      "id": "BST_V2",
+      "preprocessed_sha256": "4a0f16ec824377f16432ff2ff48f55910fe279b70aa53f579f51d6a9ea1b92df",
+      "asan_ubsan_batch_passed": true,
+      "native_cases": 163
+    },
+    {
+      "id": "BST_V3",
+      "preprocessed_sha256": "e24754f1f0bf11319227bac9a528da0760aede19e93847b34b26ed7dbbc9a4a0",
+      "asan_ubsan_batch_passed": true,
+      "native_cases": 163
+    },
+    {
+      "id": "AVL_V0",
+      "preprocessed_sha256": "61b78a30843677f362e69b7578ab801b48c1d4c65d950eef687a2a2e0780deb9",
+      "asan_ubsan_batch_passed": true,
+      "native_cases": 165
+    },
+    {
+      "id": "AVL_V1",
+      "preprocessed_sha256": "aa93b05bfc99a5633c6950a8b173fa067a2d7645c7d619cfe601b40e7eb7a843",
+      "asan_ubsan_batch_passed": true,
+      "native_cases": 165
+    },
+    {
+      "id": "AVL_V2",
+      "preprocessed_sha256": "2f0d082fe29511b8fd7d06397491c47b5eb2274fe8c0576e549d8ab0abbfd49f",
+      "asan_ubsan_batch_passed": true,
+      "native_cases": 165
+    },
+    {
+      "id": "AVL_V3",
+      "preprocessed_sha256": "889e7e89e8c850757076678a46a1697223f19fe7990e29dd14ebd117d1152200",
+      "asan_ubsan_batch_passed": true,
+      "native_cases": 165
+    },
+    {
+      "id": "RING_V0",
+      "preprocessed_sha256": "b9320cc5ff1ec98613d19ac03123fd83ed65ecd43422d7ee41d26d33e736d954",
+      "asan_ubsan_batch_passed": true,
+      "native_cases": 167
+    },
+    {
+      "id": "RING_V1",
+      "preprocessed_sha256": "15aae7a4ef6bf126051b26f7f7e27ce31f6cc1df23b579110fb9cfe56b95d8e1",
+      "asan_ubsan_batch_passed": true,
+      "native_cases": 167
+    },
+    {
+      "id": "RING_V2",
+      "preprocessed_sha256": "c4ac56f692a5f9974202a2f513402f9adb4617c6f9bb2e58e6418e7f1bf87ffb",
+      "asan_ubsan_batch_passed": true,
+      "native_cases": 167
+    },
+    {
+      "id": "RING_V3",
+      "preprocessed_sha256": "e38959f04a87da68d1ff91bde3e4c3ee9e577d0f4df4ffd9ce7bc7d39aeefc14",
+      "asan_ubsan_batch_passed": true,
+      "native_cases": 167
+    },
+    {
+      "id": "DIJKSTRA_V0",
+      "preprocessed_sha256": "bb19bbea059255b73023fb837e836562e42ca35c6937166285d2d7b5fe90305e",
+      "asan_ubsan_batch_passed": true,
+      "native_cases": 165
+    },
+    {
+      "id": "DIJKSTRA_V1",
+      "preprocessed_sha256": "a37ea3e4eb25453e1b71bbdb07ba4f43dac1be4b64e39d150de411741e04ee52",
+      "asan_ubsan_batch_passed": true,
+      "native_cases": 165
+    },
+    {
+      "id": "DIJKSTRA_V2",
+      "preprocessed_sha256": "8f4b8b029a816eaeb47331c7de9577da85d5a997fdc82ef33c0b6c336afa70bd",
+      "asan_ubsan_batch_passed": true,
+      "native_cases": 165
+    },
+    {
+      "id": "DIJKSTRA_V3",
+      "preprocessed_sha256": "4eb99efb49f24bd19547b27a78a4215312a8cd028f5e02536bc1be688d58c2d5",
+      "asan_ubsan_batch_passed": true,
+      "native_cases": 165
+    }
+  ],
+  "witnesses": {
+    "bst": {
+      "reference_output": [
+        10,
+        0,
+        0,
+        1,
+        1,
+        10,
+        -2,
+        1,
+        10,
+        3,
+        30
+      ],
+      "mutant_output": [
+        10,
+        0,
+        0,
+        1,
+        1,
+        20,
+        -2,
+        1,
+        20,
+        3,
+        30
+      ],
+      "status": "native observation only; no Rocq counterexample certificate"
+    },
+    "avl": {
+      "reference_output": [
+        28,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        20,
+        -2,
+        0,
+        0,
+        1,
+        10,
+        2,
+        20,
+        3,
+        30,
+        4,
+        40,
+        5,
+        50
+      ],
+      "mutant_output": [
+        26,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        -2,
+        0,
+        0,
+        1,
+        10,
+        3,
+        30,
+        4,
+        40,
+        5,
+        50
+      ],
+      "status": "native observation only; no Rocq counterexample certificate"
+    },
+    "ring": {
+      "reference_output": [
+        10,
+        0,
+        0,
+        2,
+        1,
+        0,
+        2,
+        17,
+        29,
+        -2,
+        0
+      ],
+      "mutant_output": [
+        8,
+        0,
+        0,
+        2,
+        1,
+        1,
+        0,
+        -2,
+        0
+      ],
+      "status": "native observation only; no Rocq counterexample certificate"
+    },
+    "dijkstra": {
+      "reference_output": [
+        3,
+        0,
+        2,
+        1
+      ],
+      "mutant_output": [
+        3,
+        0,
+        10,
+        1
+      ],
+      "status": "native observation only; no Rocq counterexample certificate"
+    }
+  }
+}

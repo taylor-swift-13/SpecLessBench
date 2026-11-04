@@ -1,0 +1,472 @@
+{
+  "schema_version": 1,
+  "curator_only": true,
+  "revision": "design-v0.1",
+  "status": "source-concrete; AST export/type-check/reference certificates pending",
+  "proofs_requested": false,
+  "input_words": 8192,
+  "output_words": 8192,
+  "compcert_target_version": "3.16",
+  "semantics": "Clight.step2; clightgen -normalize",
+  "target_architecture": "x86_64-linux; must be locked and recorded at AST export",
+  "families": [
+    {
+      "id": "bst",
+      "domain": "BST",
+      "split_group_id": "qcip-bst-delete",
+      "proof_level": "L3-L4",
+      "witness_level": "W2",
+      "variants": [
+        {
+          "id": "BST_V0",
+          "source": "bst/v0.c",
+          "ast_module": "BST_V0",
+          "style_macro": 0
+        },
+        {
+          "id": "BST_V1",
+          "source": "bst/v1.c",
+          "ast_module": "BST_V1",
+          "style_macro": 1
+        },
+        {
+          "id": "BST_V2",
+          "source": "bst/v2.c",
+          "ast_module": "BST_V2",
+          "style_macro": 2
+        },
+        {
+          "id": "BST_V3",
+          "source": "bst/v3.c",
+          "ast_module": "BST_V3",
+          "style_macro": 3
+        }
+      ],
+      "tasks": [
+        {
+          "id": "C-BST-SUCCESSOR",
+          "left": "BST_V0",
+          "right": "BST_V1",
+          "expected_branch": "equivalent",
+          "expected_theorem": "C_BST_SUCCESSOR",
+          "expected_statement": "Equivalent BST.valid BST.encode impl_BST_V0 impl_BST_V1",
+          "expected_goal_file": "rocq/BSTExpected.v",
+          "public_goal_file": "rocq/BSTCertificates.v",
+          "public_theorem": "task_01",
+          "reference_certificate": null,
+          "provisional_difficulty": "L3"
+        },
+        {
+          "id": "C-BST-ROTATE",
+          "left": "BST_V0",
+          "right": "BST_V2",
+          "expected_branch": "equivalent",
+          "expected_theorem": "C_BST_ROTATE",
+          "expected_statement": "Equivalent BST.valid BST.encode impl_BST_V0 impl_BST_V2",
+          "expected_goal_file": "rocq/BSTExpected.v",
+          "public_goal_file": "rocq/BSTCertificates.v",
+          "public_theorem": "task_02",
+          "reference_certificate": null,
+          "provisional_difficulty": "L4"
+        },
+        {
+          "id": "C-BST-VALUE",
+          "left": "BST_V0",
+          "right": "BST_V3",
+          "expected_branch": "counterexample",
+          "expected_theorem": "C_BST_VALUE",
+          "expected_statement": "Counterexample BST.valid BST.encode impl_BST_V0 impl_BST_V3",
+          "expected_goal_file": "rocq/BSTExpected.v",
+          "public_goal_file": "rocq/BSTCertificates.v",
+          "public_theorem": "task_03",
+          "reference_certificate": null,
+          "provisional_difficulty": "W2"
+        }
+      ],
+      "call_closure": "all source-level callees have included bodies; generated AST audit pending"
+    },
+    {
+      "id": "avl",
+      "domain": "AVL",
+      "split_group_id": "qcip-avl-insert",
+      "proof_level": "L3-L4",
+      "witness_level": "W2",
+      "variants": [
+        {
+          "id": "AVL_V0",
+          "source": "avl/v0.c",
+          "ast_module": "AVL_V0",
+          "style_macro": 0
+        },
+        {
+          "id": "AVL_V1",
+          "source": "avl/v1.c",
+          "ast_module": "AVL_V1",
+          "style_macro": 1
+        },
+        {
+          "id": "AVL_V2",
+          "source": "avl/v2.c",
+          "ast_module": "AVL_V2",
+          "style_macro": 2
+        },
+        {
+          "id": "AVL_V3",
+          "source": "avl/v3.c",
+          "ast_module": "AVL_V3",
+          "style_macro": 3
+        }
+      ],
+      "tasks": [
+        {
+          "id": "C-AVL-STACK",
+          "left": "AVL_V0",
+          "right": "AVL_V1",
+          "expected_branch": "equivalent",
+          "expected_theorem": "C_AVL_STACK",
+          "expected_statement": "Equivalent AVL.valid AVL.encode impl_AVL_V0 impl_AVL_V1",
+          "expected_goal_file": "rocq/AVLExpected.v",
+          "public_goal_file": "rocq/AVLCertificates.v",
+          "public_theorem": "task_01",
+          "reference_certificate": null,
+          "provisional_difficulty": "L4"
+        },
+        {
+          "id": "C-AVL-FACTOR",
+          "left": "AVL_V0",
+          "right": "AVL_V2",
+          "expected_branch": "equivalent",
+          "expected_theorem": "C_AVL_FACTOR",
+          "expected_statement": "Equivalent AVL.valid AVL.encode impl_AVL_V0 impl_AVL_V2",
+          "expected_goal_file": "rocq/AVLExpected.v",
+          "public_goal_file": "rocq/AVLCertificates.v",
+          "public_theorem": "task_02",
+          "reference_certificate": null,
+          "provisional_difficulty": "L2"
+        },
+        {
+          "id": "C-AVL-MIDDLE",
+          "left": "AVL_V0",
+          "right": "AVL_V3",
+          "expected_branch": "counterexample",
+          "expected_theorem": "C_AVL_MIDDLE",
+          "expected_statement": "Counterexample AVL.valid AVL.encode impl_AVL_V0 impl_AVL_V3",
+          "expected_goal_file": "rocq/AVLExpected.v",
+          "public_goal_file": "rocq/AVLCertificates.v",
+          "public_theorem": "task_03",
+          "reference_certificate": null,
+          "provisional_difficulty": "W2"
+        }
+      ],
+      "call_closure": "all source-level callees have included bodies; generated AST audit pending"
+    },
+    {
+      "id": "ring",
+      "domain": "Ring",
+      "split_group_id": "qcip-xizi-ring",
+      "proof_level": "L3",
+      "witness_level": "W1-W2",
+      "variants": [
+        {
+          "id": "RING_V0",
+          "source": "ring/v0.c",
+          "ast_module": "RING_V0",
+          "style_macro": 0
+        },
+        {
+          "id": "RING_V1",
+          "source": "ring/v1.c",
+          "ast_module": "RING_V1",
+          "style_macro": 1
+        },
+        {
+          "id": "RING_V2",
+          "source": "ring/v2.c",
+          "ast_module": "RING_V2",
+          "style_macro": 2
+        },
+        {
+          "id": "RING_V3",
+          "source": "ring/v3.c",
+          "ast_module": "RING_V3",
+          "style_macro": 3
+        }
+      ],
+      "tasks": [
+        {
+          "id": "C-RING-COPY",
+          "left": "RING_V0",
+          "right": "RING_V1",
+          "expected_branch": "equivalent",
+          "expected_theorem": "C_RING_COPY",
+          "expected_statement": "Equivalent Ring.valid Ring.encode impl_RING_V0 impl_RING_V1",
+          "expected_goal_file": "rocq/RINGExpected.v",
+          "public_goal_file": "rocq/RINGCertificates.v",
+          "public_theorem": "task_01",
+          "reference_certificate": null,
+          "provisional_difficulty": "L2-L3"
+        },
+        {
+          "id": "C-RING-REP",
+          "left": "RING_V0",
+          "right": "RING_V2",
+          "expected_branch": "equivalent",
+          "expected_theorem": "C_RING_REP",
+          "expected_statement": "Equivalent Ring.valid Ring.encode impl_RING_V0 impl_RING_V2",
+          "expected_goal_file": "rocq/RINGExpected.v",
+          "public_goal_file": "rocq/RINGCertificates.v",
+          "public_theorem": "task_02",
+          "reference_certificate": null,
+          "provisional_difficulty": "L3"
+        },
+        {
+          "id": "C-RING-FULL",
+          "left": "RING_V0",
+          "right": "RING_V3",
+          "expected_branch": "counterexample",
+          "expected_theorem": "C_RING_FULL",
+          "expected_statement": "Counterexample Ring.valid Ring.encode impl_RING_V0 impl_RING_V3",
+          "expected_goal_file": "rocq/RINGExpected.v",
+          "public_goal_file": "rocq/RINGCertificates.v",
+          "public_theorem": "task_03",
+          "reference_certificate": null,
+          "provisional_difficulty": "W1"
+        }
+      ],
+      "call_closure": "all source-level callees have included bodies; generated AST audit pending"
+    },
+    {
+      "id": "dijkstra",
+      "domain": "Dijkstra",
+      "split_group_id": "qcip-dijkstra",
+      "proof_level": "L4",
+      "witness_level": "W2",
+      "variants": [
+        {
+          "id": "DIJKSTRA_V0",
+          "source": "dijkstra/v0.c",
+          "ast_module": "DIJKSTRA_V0",
+          "style_macro": 0
+        },
+        {
+          "id": "DIJKSTRA_V1",
+          "source": "dijkstra/v1.c",
+          "ast_module": "DIJKSTRA_V1",
+          "style_macro": 1
+        },
+        {
+          "id": "DIJKSTRA_V2",
+          "source": "dijkstra/v2.c",
+          "ast_module": "DIJKSTRA_V2",
+          "style_macro": 2
+        },
+        {
+          "id": "DIJKSTRA_V3",
+          "source": "dijkstra/v3.c",
+          "ast_module": "DIJKSTRA_V3",
+          "style_macro": 3
+        }
+      ],
+      "tasks": [
+        {
+          "id": "C-DIJK-SCAN",
+          "left": "DIJKSTRA_V0",
+          "right": "DIJKSTRA_V1",
+          "expected_branch": "equivalent",
+          "expected_theorem": "C_DIJK_SCAN",
+          "expected_statement": "Equivalent Dijkstra.valid Dijkstra.encode impl_DIJKSTRA_V0 impl_DIJKSTRA_V1",
+          "expected_goal_file": "rocq/DIJKSTRAExpected.v",
+          "public_goal_file": "rocq/DIJKSTRACertificates.v",
+          "public_theorem": "task_01",
+          "reference_certificate": null,
+          "provisional_difficulty": "L4"
+        },
+        {
+          "id": "C-DIJK-HEAP",
+          "left": "DIJKSTRA_V0",
+          "right": "DIJKSTRA_V2",
+          "expected_branch": "equivalent",
+          "expected_theorem": "C_DIJK_HEAP",
+          "expected_statement": "Equivalent Dijkstra.valid Dijkstra.encode impl_DIJKSTRA_V0 impl_DIJKSTRA_V2",
+          "expected_goal_file": "rocq/DIJKSTRAExpected.v",
+          "public_goal_file": "rocq/DIJKSTRACertificates.v",
+          "public_theorem": "task_02",
+          "reference_certificate": null,
+          "provisional_difficulty": "L3-L4"
+        },
+        {
+          "id": "C-DIJK-SEEN",
+          "left": "DIJKSTRA_V0",
+          "right": "DIJKSTRA_V3",
+          "expected_branch": "counterexample",
+          "expected_theorem": "C_DIJK_SEEN",
+          "expected_statement": "Counterexample Dijkstra.valid Dijkstra.encode impl_DIJKSTRA_V0 impl_DIJKSTRA_V3",
+          "expected_goal_file": "rocq/DIJKSTRAExpected.v",
+          "public_goal_file": "rocq/DIJKSTRACertificates.v",
+          "public_theorem": "task_03",
+          "reference_certificate": null,
+          "provisional_difficulty": "W2"
+        }
+      ],
+      "call_closure": "all source-level callees have included bodies; generated AST audit pending"
+    }
+  ],
+  "protected_files": [
+    {
+      "path": "avl/body.h",
+      "sha256": "ea0ec940c623cfadf3fea0a24e94c2dd9ddc19f4f6ae0e6fecc5cb299251a3b5"
+    },
+    {
+      "path": "avl/v0.c",
+      "sha256": "d43e1417eb999f5e96821885bff4a180d8f4857747954301d1be41738eef5d12"
+    },
+    {
+      "path": "avl/v1.c",
+      "sha256": "a49bf25d2b3eeb2b4834514e66756dd781149282cfa6321d68f64e9c75c6fe14"
+    },
+    {
+      "path": "avl/v2.c",
+      "sha256": "0584409ad1776d87574f45737d1e0caae83bcdb6632faf990af38feb45729583"
+    },
+    {
+      "path": "avl/v3.c",
+      "sha256": "35df5f9ca62d7931542f7f24f4b5efb807dc44b7c31e7f0e56b728a27833d9cf"
+    },
+    {
+      "path": "bst/body.h",
+      "sha256": "8183ad3c2562a6b30cf4b557e8e88380c86bb6eed22ab85abd9dd4e7da261f6d"
+    },
+    {
+      "path": "bst/v0.c",
+      "sha256": "4d2d454af0b6b0d60e4ef3ba834f4ae8d2be78e384cb2dd056e802b308d24d70"
+    },
+    {
+      "path": "bst/v1.c",
+      "sha256": "f8ba2ddce1b3b1ae8607960a34cca17f083149553eef63022b3c92258e57254a"
+    },
+    {
+      "path": "bst/v2.c",
+      "sha256": "b75590edb74b08c7da941ed99f0bb9d4d710a8d3fce3d27e18c8601bd8f74aa1"
+    },
+    {
+      "path": "bst/v3.c",
+      "sha256": "8d7814989eef02fe6694beab6ab75fe330d4c8547eabab643c1e36ed7478d973"
+    },
+    {
+      "path": "common/io.h",
+      "sha256": "ed3054989c3045aa35852ebe9d788f9927dbcf5b57a628723fc882d7e57dd43e"
+    },
+    {
+      "path": "dijkstra/body.h",
+      "sha256": "4ba0d0bc1e0e297c93e97527224e8c479e53ef1c7a690a8b1f8ea21913b3d50a"
+    },
+    {
+      "path": "dijkstra/queue.h",
+      "sha256": "e7f800227d6c6d00c96034d4ce43280395f5fbb5b05c6c547f66431d515bd785"
+    },
+    {
+      "path": "dijkstra/v0.c",
+      "sha256": "108cd4278b9a025d7f882eb6210aeefb4c357628ffeb4f4c09bb7c001f97e1f0"
+    },
+    {
+      "path": "dijkstra/v1.c",
+      "sha256": "9202525fc4e0bef54aaee10def7bbf8d591719e7d66bfc51de00f132539b8042"
+    },
+    {
+      "path": "dijkstra/v2.c",
+      "sha256": "b559ce98c4d4f31eadce99224442d63cf8fc5e1704efdcb61367bed160966719"
+    },
+    {
+      "path": "dijkstra/v3.c",
+      "sha256": "36502eaa98ea5dfbd114049c100e5c5589c0eaa5e68d4f01da249cfa25e2716a"
+    },
+    {
+      "path": "licenses/QCIP-MIT.txt",
+      "sha256": "590186baef137f40c833998f701deaf74845cd48fbc446a98af9c5c3efaa506d"
+    },
+    {
+      "path": "licenses/VST-LICENSE.txt",
+      "sha256": "1681071efc9cb22a656dbbe7130327359b2f2e72ee0bb622ae24ff08522fcaed"
+    },
+    {
+      "path": "licenses/XiZi-MulanPSL-2.0.txt",
+      "sha256": "b638cc8ca486ec24e2539a18ba7f8518934b09dc14a0e29f8e9a2caffb772720"
+    },
+    {
+      "path": "ring/body.h",
+      "sha256": "3aa0750e3b437f9230d10caa42fee194a2b3331aaf06511c218b140983ce795c"
+    },
+    {
+      "path": "ring/v0.c",
+      "sha256": "c80e6135cee2d170f1582f237fefb3d18eb27816016ff367a625809760e60726"
+    },
+    {
+      "path": "ring/v1.c",
+      "sha256": "f46e24b5718628273dd699e0034072a8b59db7ecb5c6d7deccab07322090e6a7"
+    },
+    {
+      "path": "ring/v2.c",
+      "sha256": "913c41978c935985103ec6ab867f427fb00e58bccf5e4b04515b3f6cce5b8e4c"
+    },
+    {
+      "path": "ring/v3.c",
+      "sha256": "3665e953dd557494223bd98e015e3b3336a795bdb68f9e446bcd7dd74c04025a"
+    },
+    {
+      "path": "rocq/AVLBindings.v",
+      "sha256": "b0e96fb7a566241985478f2a6ca0543beb7d2be263bde331650574a17dd5df00"
+    },
+    {
+      "path": "rocq/AVLCertificates.v",
+      "sha256": "c09d6a1a7035a975c7030ee1e20fef7d363ec90a9030da23622295be79c801aa"
+    },
+    {
+      "path": "rocq/AVLExpected.v",
+      "sha256": "ad6d4a86ad5bfddd251ea3fe7680938d1cc8c34257d79b71f9216365d306289a"
+    },
+    {
+      "path": "rocq/BSTBindings.v",
+      "sha256": "f77c22f58741e6a931f73e637fe13ea747c05b335b4a457b2f3c44bbe8445937"
+    },
+    {
+      "path": "rocq/BSTCertificates.v",
+      "sha256": "b24d4eda0248c23ce1aed2d08783d45c1987881b181d9e7234f3b53eff9f95c1"
+    },
+    {
+      "path": "rocq/BSTExpected.v",
+      "sha256": "c9710ff9ad3ffc76cb2758d596e97bfea49f16d4fe04946eeda8444bb39f093b"
+    },
+    {
+      "path": "rocq/DIJKSTRABindings.v",
+      "sha256": "9b16da2300938d176dc89372e5e329cbddb47d7413aaa13fd6d9a659a1a1d6eb"
+    },
+    {
+      "path": "rocq/DIJKSTRACertificates.v",
+      "sha256": "8a6649f252376d6a8b8286f9073a1dd6a7494cad0df8cd49ab6e32de98fbc5d2"
+    },
+    {
+      "path": "rocq/DIJKSTRAExpected.v",
+      "sha256": "26bcd179dd6794d92f93d1d1da597438996bb4868aae401d11949597b1b21fc7"
+    },
+    {
+      "path": "rocq/Domain.v",
+      "sha256": "991d28db1e35b1af335a3ee3374b12cec5e02cf0c760e7bbf3f032b9fd3d7906"
+    },
+    {
+      "path": "rocq/Execution.v",
+      "sha256": "ac9ebafd87c5d91b8c14a2690ea218e2f84dde83be2ee2382e0f0325920f3013"
+    },
+    {
+      "path": "rocq/RINGBindings.v",
+      "sha256": "270495fc5263942b27ee11d55b82edb08838226ab7b7fcae40863e16c9e720b5"
+    },
+    {
+      "path": "rocq/RINGCertificates.v",
+      "sha256": "676dc43d21bdf908c30c86f5ea1bcafe1019c9e8fe8fe755e4b8fdbdffc72f7c"
+    },
+    {
+      "path": "rocq/RINGExpected.v",
+      "sha256": "5253b25cf0cc0e2fcd44d5904eefd547c93c73eb87aaed2d32e26b03a1d2f417"
+    }
+  ]
+}
