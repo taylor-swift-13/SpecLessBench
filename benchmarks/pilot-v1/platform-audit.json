@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "steps": [
+    {
+      "step": "build_three_platform.py",
+      "exit_code": 0,
+      "log_sha256": "a653d609991544e23271b1f285896643d9f6d403f031d9e5b317648f30eeee3b"
+    },
+    {
+      "step": "export_compcert.py",
+      "exit_code": 0,
+      "log_sha256": "206c7a9f28514f46c2d96530d78631d443737b5a27751987471c4c02fe0f9439"
+    },
+    {
+      "step": "build_algorithms.py",
+      "exit_code": 0,
+      "log_sha256": "9b4be24d6062767779dc2ff438e14655da143b1e8d6b581979f93340bbca3e0f"
+    },
+    {
+      "step": "build_boundaries.py",
+      "exit_code": 0,
+      "log_sha256": "b430473187fce39d9c25f0d5d15cf28854d55b429486fcf1cfd353b53e3d9205"
+    },
+    {
+      "step": "build_stateful.py",
+      "exit_code": 0,
+      "log_sha256": "fe6c96d59f6ed08b92a5b1c3a2563975d051dc9904519f2fd23e6907d08fb684"
+    },
+    {
+      "step": "build_systems.py",
+      "exit_code": 0,
+      "log_sha256": "21034c6f97fb21d3a054e741f7a16f8f20c840851bdd524b7bbf89f7863acf06"
+    },
+    {
+      "step": "build_base64.py",
+      "exit_code": 0,
+      "log_sha256": "cd5d9517bbb3af83a9799336f8f6165ba900f4f5cc9b079f2fb744a07c621f42"
+    },
+    {
+      "step": "build_classics.py",
+      "exit_code": 0,
+      "log_sha256": "24b21f218c6b61e26ffa50ca1191a9ef5e3e2402a104dd08d4ca68fdb1a80f28"
+    },
+    {
+      "step": "build_graphsuite.py",
+      "exit_code": 0,
+      "log_sha256": "f248738c55cd986ba5d6ee85311ab7a0a3d1b635a70a4dda416c5ab8a03f9d31"
+    },
+    {
+      "step": "build_countsort.py",
+      "exit_code": 0,
+      "log_sha256": "70efe3b748be235431656d556ee1fda709dd0a3899662e70afb95418a08f7cab"
+    }
+  ],
+  "contexts": 71,
+  "platform_instances": 213,
+  "scope": "fresh-copy source/AST and pending-goal type checking, no final theorem proofs and no CompCert semantic execution",
+  "frozen_manifest_sha256": "638b51d00b6e8121b6403a5f0312c8250ba8ffe8458d76c4b76c7bdd02fd5819",
+  "audit_inputs_sha256": "c5c7d0b84ccf581210b5293592cb9532b39afd72dec07936efd22c2d97cf5e5f"
+}

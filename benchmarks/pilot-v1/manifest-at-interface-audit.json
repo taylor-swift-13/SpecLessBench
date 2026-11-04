@@ -1,0 +1,664 @@
+{
+  "schema_version": 1,
+  "status": "frozen-source-snapshot; solver-release-pending",
+  "pilot_name": "SpecLessBench pilot v1",
+  "source_commit": "445c7de9d5fa0de7a4caad3e01633218d601a9e0",
+  "contexts": [
+    {
+      "pilot_id": "P-00e48e122a4702fd",
+      "split_family": "F-689a18d4915daf2f",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-0108a894d0204535",
+      "split_family": "F-5610d76cc298eb9b",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-057af1668b6f061d",
+      "split_family": "F-af2b5c99b98cd4b2",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-07903e74308414da",
+      "split_family": "F-7b8a63e4b0bcf9d8",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-0c929f0a80151d16",
+      "split_family": "F-19f1b36fb95683b9",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-1c5b1f5915712439",
+      "split_family": "F-587e130d7ddc9e5f",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-1c64f7213be07fd7",
+      "split_family": "F-0126d4cbaeb55e08",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-1d107bb817e08aad",
+      "split_family": "F-b7a1815f609d7a17",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-202748ff548e13e8",
+      "split_family": "F-25c28dec987253e3",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-206a794d9e7ea76f",
+      "split_family": "F-8a61d4acc7558e40",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-257182450c06682d",
+      "split_family": "F-8a61d4acc7558e40",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-2574af49e541f12f",
+      "split_family": "F-c62bac8e798b8542",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-290bc162a2d590a1",
+      "split_family": "F-635a9e29e15ac6af",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-2d3008e6e2305f8f",
+      "split_family": "F-587e130d7ddc9e5f",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-2d667f5319e3d843",
+      "split_family": "F-8bdddfb8e26b0bdd",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-36f7ac285a474514",
+      "split_family": "F-97fc6e1395f8bea7",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-3a01bf8d4c050d27",
+      "split_family": "F-3a301ecafdb4495a",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-41913e16eb424e51",
+      "split_family": "F-976b77598a0c59e8",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-47365e42e9bf3349",
+      "split_family": "F-b85ca2ec68cabfe9",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-47667634e66f5fb0",
+      "split_family": "F-0126d4cbaeb55e08",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-4fa9e95a90b4bcb8",
+      "split_family": "F-405f4e4c7b3ed154",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-50cbb9d49e645407",
+      "split_family": "F-8ca480e820b89b71",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-5b0d1003633e0522",
+      "split_family": "F-3a3e878f1d4d8842",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-60237c398967cc17",
+      "split_family": "F-2245c6f45f485d0b",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-60a096a4dbb5cb55",
+      "split_family": "F-2245c6f45f485d0b",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-61234ee06595b7b5",
+      "split_family": "F-635a9e29e15ac6af",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-64b95bb3a4c0b252",
+      "split_family": "F-05fa87ef275450ef",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-657279e0c1965170",
+      "split_family": "F-97fc6e1395f8bea7",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-6647a5b030d4128d",
+      "split_family": "F-b4900846e9a1d65b",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-687d1b8e0007b408",
+      "split_family": "F-635a9e29e15ac6af",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-6f5da120c08a8429",
+      "split_family": "F-c62bac8e798b8542",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-6faf53d34084f6dd",
+      "split_family": "F-968359d4ceeeb81f",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-72c5ffd4347dd5b6",
+      "split_family": "F-3282e7d79d3648e7",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-7442ec22700c458b",
+      "split_family": "F-f19a875cafd82359",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-7bddffe514ab96d8",
+      "split_family": "F-b4900846e9a1d65b",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-84f209d53b9ea14f",
+      "split_family": "F-405f4e4c7b3ed154",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-8955293573546270",
+      "split_family": "F-416bca3164949220",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-8c40ebfea428607f",
+      "split_family": "F-af2b5c99b98cd4b2",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-8c80550ec124d0d5",
+      "split_family": "F-3a3e878f1d4d8842",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-8df12c448aa49468",
+      "split_family": "F-3b99c6affef5b9b5",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-8f141c7644f41c05",
+      "split_family": "F-3b99c6affef5b9b5",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-9646eb1c4020f77d",
+      "split_family": "F-f19a875cafd82359",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-96ea32247b0bf84c",
+      "split_family": "F-19f1b36fb95683b9",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-98e7eaa663be27cc",
+      "split_family": "F-7b8a63e4b0bcf9d8",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-9c80eedd3357bda0",
+      "split_family": "F-05fa87ef275450ef",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-9e2b2dbf2d6d3da9",
+      "split_family": "F-8bdddfb8e26b0bdd",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-9fd602f0a359fe2a",
+      "split_family": "F-cbdf79e67e621302",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-a4c3e4c312f19d48",
+      "split_family": "F-8a61d4acc7558e40",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-a4e78da77c2cb072",
+      "split_family": "F-5610d76cc298eb9b",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-a5a8455737e58f7a",
+      "split_family": "F-976b77598a0c59e8",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-a5d953bfe0f30a64",
+      "split_family": "F-8a61d4acc7558e40",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-a73c97d134e5c188",
+      "split_family": "F-3a301ecafdb4495a",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-a80b8283427dcbd7",
+      "split_family": "F-b176f6126a4169ab",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-b0938b1d88d55490",
+      "split_family": "F-25c28dec987253e3",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-b712fd2590b8bc83",
+      "split_family": "F-cbdf79e67e621302",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-b75bd7689bae108e",
+      "split_family": "F-b85ca2ec68cabfe9",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-b81c86e437e5f1fb",
+      "split_family": "F-7b8a63e4b0bcf9d8",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-be46d9c04b34e443",
+      "split_family": "F-968359d4ceeeb81f",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-c8103fcef59af2f0",
+      "split_family": "F-8ca480e820b89b71",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-dae2be97c41de43c",
+      "split_family": "F-25c28dec987253e3",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-db3e815a2ff5ac3f",
+      "split_family": "F-05fa87ef275450ef",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-dbec465c356ed73d",
+      "split_family": "F-b176f6126a4169ab",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-dc0b8d700379cb30",
+      "split_family": "F-2245c6f45f485d0b",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-e69f7e9ea72f14cf",
+      "split_family": "F-b7a1815f609d7a17",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-eacf34660b79ad4e",
+      "split_family": "F-416bca3164949220",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-ecc214642b82d4e5",
+      "split_family": "F-8a61d4acc7558e40",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-ed9f986c585e9033",
+      "split_family": "F-635a9e29e15ac6af",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-ee66f50b2458cf88",
+      "split_family": "F-05fa87ef275450ef",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-f8c9b8b3e8c62f3a",
+      "split_family": "F-3282e7d79d3648e7",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-fb2bc3925f433ac2",
+      "split_family": "F-689a18d4915daf2f",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    },
+    {
+      "pilot_id": "P-fff59d84254f07f9",
+      "split_family": "F-b85ca2ec68cabfe9",
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ]
+    }
+  ],
+  "context_count": 71,
+  "split_family_count": 30,
+  "platform_instances": 213,
+  "protected_file_count": 472,
+  "private_mapping_sha256": "55727377e3c9e5a6a25de6a9318f624266375446b4f962f6ff828e68bf5bda21",
+  "truth_labels_in_this_manifest": false,
+  "reference_certificates": 0,
+  "release_warning": "Curator mapping, evidence, original source history and sibling variants can leak labels; public isolated packaging is not certified.",
+  "private_mapping_backup_required": true,
+  "validator_addendum_sha256": "27811b17e3c783dce921c2f89871db81c753ead3998ab000fcd2d6a1abd5b9e5",
+  "validator_dependency_count": 4,
+  "audit_inputs_sha256": "c5c7d0b84ccf581210b5293592cb9532b39afd72dec07936efd22c2d97cf5e5f",
+  "audit_input_count": 28,
+  "audit_extras_sha256": "843dc15be3391976ccbabb978a49972eeaca96a8560ae47a211bd32b962c4c15",
+  "audit_extra_count": 117,
+  "toolchain_addendum_sha256": "4a354354b7ee5c771bb82526ce753420816a7254462983533b89da9675b03e72",
+  "complete_environment_lock": false
+}

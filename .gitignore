@@ -26,3 +26,6 @@ __pycache__/
 *.ilean
 *.cmi
 *.cmx
+
+# Pilot private mapping contains original task identifiers and curator metadata.
+benchmarks/pilot-v1/curator/

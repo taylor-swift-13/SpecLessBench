@@ -71,6 +71,10 @@ def main():
     command_seconds,command_window_count=union_seconds(command_windows)
     memory=[r for r in commands if r.get('max_process_rss_bytes') is not None]
     peak=max(memory,key=lambda r:r['max_process_rss_bytes'])if memory else None
+    pilot_path=AUDIT/'pilot-jobs.jsonl'
+    pilot_bytes=pilot_path.read_bytes()if pilot_path.exists()else b''
+    pilot_jobs=[json.loads(line)for line in pilot_bytes.splitlines()]
+    pilot_peaks=[row['resources']['memory_peak_bytes']for row in pilot_jobs if row.get('resources') and row['resources'].get('memory_peak_bytes') is not None]
     record={'schema_version':1,'generated_utc':now(),'complete_project_total_available':False,
        'scope':'observed construction and research batches; not proof-agent evaluation, not a complete bill',
        'batch_count':len(batches),'batch_records':batches,'skipped_batch_records':skipped,
@@ -92,6 +96,10 @@ def main():
           'peak_attempt_id':peak['attempt_id']if peak else None,'peak_group_id':peak['group_id']if peak else None,
           'commands_with_rss':len(memory),'commands_without_rss':len(commands)-len(memory),
           'exact_concurrent_process_tree_peak_bytes':None,'hosted_model_inference_peak_bytes':None,
+          'max_observed_pilot_job_cgroup_peak_bytes':max(pilot_peaks)if pilot_peaks else None,
+          'pilot_jobs_with_cgroup_peak':len(pilot_peaks),'pilot_jobs_without_cgroup_peak':len(pilot_jobs)-len(pilot_peaks),
+          'pilot_job_log_prefix_bytes':len(pilot_bytes),'pilot_job_log_prefix_sha256':hashlib.sha256(pilot_bytes).hexdigest(),
+          'pilot_cgroup_scope':'per-job cgroup v2 memory.peak, including supervisor and descendants through sandbox exit, before final cleanup; not full construction or hosted inference memory',
           'scope':'GNU time/wait4 maximum process high-water among instrumented commands and waited descendants; not the simultaneous process-tree sum',
           'limitations':['unmeasured commands or historical activity may have larger peaks','provider does not expose hosted inference memory'],'complete':False},
        'monetary_cost':None,'monetary_cost_reason':'Exact historical model identities and applicable billing rates are not consistently available.',

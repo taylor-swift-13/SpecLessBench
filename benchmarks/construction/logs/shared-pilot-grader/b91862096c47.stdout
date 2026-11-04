@@ -1,0 +1,11 @@
+rocq valid accepted
+rocq admitted rejected
+rocq axiom rejected
+rocq wrong-type rejected
+rocq forged-gate package refused
+compcert valid accepted
+compcert admitted rejected
+compcert axiom rejected
+compcert wrong-type rejected
+compcert forged-gate package refused
+Only toy propositions were used; no benchmark theorem was proved.

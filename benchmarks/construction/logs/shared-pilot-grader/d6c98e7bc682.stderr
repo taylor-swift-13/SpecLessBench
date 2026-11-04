@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/scripts/pilot/test_lean_kernel.py", line 24, in <module>
+    if __name__=='__main__':main()
+  File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/scripts/pilot/test_lean_kernel.py", line 21, in main
+    run_case('valid','theorem solve : Obligation.goal := True.intro',True)
+  File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/scripts/pilot/test_lean_kernel.py", line 16, in run_case
+    if r.returncode:raise AssertionError((name,name2,r.stdout,r.stderr))
+AssertionError: ('valid', 'Submission', '/tmp/pilot-lean-toy-x2p626_g/Submission.lean:2:16: error(lean.unknownIdentifier): Unknown identifier `Obligation.goal`\n', '')

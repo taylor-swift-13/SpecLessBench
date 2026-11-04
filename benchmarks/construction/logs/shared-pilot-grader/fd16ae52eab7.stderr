@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/scripts/pilot/test_lean_kernel.py", line 24, in <module>
+    if __name__=='__main__':main()
+  File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/scripts/pilot/test_lean_kernel.py", line 21, in main
+    run_case('valid','theorem solve : Obligation.goal := True.intro',True)
+  File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/scripts/pilot/test_lean_kernel.py", line 17, in run_case
+    r=subprocess.run([LEAN,'--run',str(AUDIT)],cwd=d,env=env,capture_output=True,text=True,timeout=120)
+  File "/usr/lib/python3.10/subprocess.py", line 505, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+  File "/usr/lib/python3.10/subprocess.py", line 1154, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+  File "/usr/lib/python3.10/subprocess.py", line 2022, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+  File "/usr/lib/python3.10/subprocess.py", line 1198, in _check_timeout
+    raise TimeoutExpired(
+subprocess.TimeoutExpired: Command '['/home/yangfp/.elan/toolchains/leanprover--lean4---v4.34.0/bin/lean', '--run', '/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/scripts/pilot/TrustedLeanAudit.lean']' timed out after 120 seconds

@@ -1,0 +1,13 @@
+Verified 71 contexts and 472 protected files.
+Checking build_three_platform.py
+Checking export_compcert.py
+Checking build_algorithms.py
+Checking build_boundaries.py
+Checking build_stateful.py
+Checking build_systems.py
+Checking build_base64.py
+Checking build_classics.py
+Checking build_graphsuite.py
+Checking build_countsort.py
+Verified 71 contexts and 472 protected files.
+All platform build steps passed; final target proofs were not attempted.

@@ -1,0 +1,41 @@
+"""Experimental Rocq proof gate for trusted, task-specific packages.
+
+Not enabled for pilot tasks: assumption reporting and loader behavior still
+need adversarial review. This version conservatively rejects all axioms.
+"""
+import shutil,tempfile
+from pathlib import Path
+from sandbox import run_isolated,TOOLCHAINS
+
+def _result(status,stage,detail=None):return {'status':status,'stage':stage,'detail':detail}
+def _valid_dir(path):
+    path=Path(path)
+    return path.is_dir() and not path.is_symlink() and not any(p.is_symlink()for p in path.rglob('*'))
+def grade_prepared(platform,package,submission,timeout=90):
+    package=Path(package);submission=Path(submission)
+    if platform not in ('rocq','compcert') or not _valid_dir(package) or not _valid_dir(submission):return _result('infrastructure-error','input','invalid platform or directory')
+    if not (package/'Obligation.vo').is_file():return _result('infrastructure-error','input','incomplete trusted package')
+    if any((package/name).exists()for name in ('candidate','Gate.v','Gate.vo','Audit.v','Submission.vo')):return _result('infrastructure-error','input','reserved package file')
+    if {p.name for p in submission.iterdir()}!={'Submission.v'} or not (submission/'Submission.v').is_file():return _result('rejected','submission','expected only Submission.v')
+    if (submission/'Submission.v').stat().st_size>1024*1024:return _result('rejected','submission','source exceeds size limit')
+    coqc=TOOLCHAINS[platform]+'/bin/coqc';coqchk=TOOLCHAINS[platform]+'/bin/coqchk'
+    with tempfile.TemporaryDirectory(prefix='specless-rocq-core-')as temp:
+        trusted=Path(temp)/'trusted';shutil.copytree(package,trusted);(trusted/'candidate').mkdir()
+        (trusted/'Gate.v').write_text('From Trusted Require Import Obligation.\nFrom Candidate Require Import Submission.\nDefinition pilot_checked : Obligation.goal := Submission.solve.\n')
+        (trusted/'Audit.v').write_text('From Trusted Require Import Gate.\nPrint Assumptions Gate.pilot_checked.\n')
+        def run(args,**kwargs):return run_isolated(platform,trusted,submission,args,timeout=timeout,**kwargs)
+        common=[coqc,'-q','-noglob','-Q','/trusted','Trusted']
+        sub=run(common+['-Q','/submission','Candidate','-Q','/work','Candidate','-o','/work/Submission.vo','/submission/Submission.v'],collect=['Submission.vo'])
+        if sub['status']!='exited':return _result('infrastructure-error','submission',sub['status'])
+        if sub['exit_code']!=0:return _result('rejected','submission','Rocq did not compile submission')
+        (trusted/'candidate/Submission.vo').write_bytes(sub['artifacts']['Submission.vo'])
+        gate=run(common+['-Q','/trusted/candidate','Candidate','-Q','/work','Trusted','-o','/work/Gate.vo','/trusted/Gate.v'],collect=['Gate.vo'])
+        if gate['status']!='exited':return _result('infrastructure-error','gate',gate['status'])
+        if gate['exit_code']!=0:return _result('rejected','gate','submission does not inhabit the protected goal')
+        (trusted/'Gate.vo').write_bytes(gate['artifacts']['Gate.vo'])
+        checked=run([coqchk,'-Q','/trusted','Trusted','-Q','/trusted/candidate','Candidate','Trusted.Gate'])
+        if checked['status']!='exited' or checked['exit_code']!=0:return _result('infrastructure-error','kernel','independent kernel check failed')
+        audit=run(common+['-Q','/trusted/candidate','Candidate','-Q','/work','Trusted','-o','/work/Audit.vo','/trusted/Audit.v'],collect=['Audit.vo'])
+        if audit['status']!='exited' or audit['exit_code']!=0:return _result('infrastructure-error','audit','assumptions check failed')
+        if audit['stdout'].strip()=='Closed under the global context':return _result('accepted','audit')
+        return _result('rejected','audit','unapproved assumptions or unexpected audit output')

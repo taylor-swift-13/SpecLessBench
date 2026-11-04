@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "public_manifest_sha256": "61280d98b6dfae775bb5410e9cd3d268811251deb61ee5f3c14fd26172a55b6f",
+  "public_ids_checked": 71,
+  "curator_ids_in_public_manifest": 0,
+  "legacy_context_ids_with_explicit_polarity_words": 8,
+  "protected_source_files_with_explicit_hint_words": 12,
+  "solver_package_verified": false,
+  "isolated_grader_verified": false,
+  "release_ready": false,
+  "reason": "Opaque index is not a solver package. Shared source files, legacy goal symbols, evidence and public Git history require separate leakage and isolation review.",
+  "limitations": [
+    "Regex checks explicit words only; variant patterns and public history can also leak labels.",
+    "No genuine solver-facing package has yet passed a per-task disclosure audit."
+  ]
+}

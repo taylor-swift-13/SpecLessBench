@@ -1,0 +1,6 @@
+Running test_sandbox.py
+Running test_lean_kernel.py
+Running test_sandboxed_lean_gate.py
+Running test_sandboxed_rocq_gate.py
+Running test_release_gate.py
+Synthetic prototype regressions passed; pilot grader not released.

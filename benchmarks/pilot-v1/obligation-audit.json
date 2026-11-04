@@ -1,0 +1,159 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "contexts": 71,
+  "platform_instances": 213,
+  "equivalence_obligations": 213,
+  "literal_refutation_obligations": 213,
+  "aggregate_compilation_units": 24,
+  "compiled": [
+    {
+      "module": "BranchTargets",
+      "platform": "lean",
+      "obligation_count": 48,
+      "exit_code": 0
+    },
+    {
+      "module": "BranchTargets",
+      "platform": "rocq",
+      "obligation_count": 48,
+      "exit_code": 0
+    },
+    {
+      "module": "BranchTargets",
+      "platform": "compcert",
+      "obligation_count": 48,
+      "exit_code": 0
+    },
+    {
+      "module": "BoundaryTargets",
+      "platform": "lean",
+      "obligation_count": 32,
+      "exit_code": 0
+    },
+    {
+      "module": "BoundaryTargets",
+      "platform": "rocq",
+      "obligation_count": 32,
+      "exit_code": 0
+    },
+    {
+      "module": "BoundaryTargets",
+      "platform": "compcert",
+      "obligation_count": 32,
+      "exit_code": 0
+    },
+    {
+      "module": "StatefulTargets",
+      "platform": "lean",
+      "obligation_count": 12,
+      "exit_code": 0
+    },
+    {
+      "module": "StatefulTargets",
+      "platform": "rocq",
+      "obligation_count": 12,
+      "exit_code": 0
+    },
+    {
+      "module": "StatefulTargets",
+      "platform": "compcert",
+      "obligation_count": 12,
+      "exit_code": 0
+    },
+    {
+      "module": "SystemsTargets",
+      "platform": "lean",
+      "obligation_count": 20,
+      "exit_code": 0
+    },
+    {
+      "module": "SystemsTargets",
+      "platform": "rocq",
+      "obligation_count": 20,
+      "exit_code": 0
+    },
+    {
+      "module": "SystemsTargets",
+      "platform": "compcert",
+      "obligation_count": 20,
+      "exit_code": 0
+    },
+    {
+      "module": "Base64Targets",
+      "platform": "lean",
+      "obligation_count": 4,
+      "exit_code": 0
+    },
+    {
+      "module": "Base64Targets",
+      "platform": "rocq",
+      "obligation_count": 4,
+      "exit_code": 0
+    },
+    {
+      "module": "Base64Targets",
+      "platform": "compcert",
+      "obligation_count": 4,
+      "exit_code": 0
+    },
+    {
+      "module": "ClassicsTargets",
+      "platform": "lean",
+      "obligation_count": 10,
+      "exit_code": 0
+    },
+    {
+      "module": "ClassicsTargets",
+      "platform": "rocq",
+      "obligation_count": 10,
+      "exit_code": 0
+    },
+    {
+      "module": "ClassicsTargets",
+      "platform": "compcert",
+      "obligation_count": 10,
+      "exit_code": 0
+    },
+    {
+      "module": "GraphSuiteTargets",
+      "platform": "lean",
+      "obligation_count": 12,
+      "exit_code": 0
+    },
+    {
+      "module": "GraphSuiteTargets",
+      "platform": "rocq",
+      "obligation_count": 12,
+      "exit_code": 0
+    },
+    {
+      "module": "GraphSuiteTargets",
+      "platform": "compcert",
+      "obligation_count": 12,
+      "exit_code": 0
+    },
+    {
+      "module": "CountSortTargets",
+      "platform": "lean",
+      "obligation_count": 4,
+      "exit_code": 0
+    },
+    {
+      "module": "CountSortTargets",
+      "platform": "rocq",
+      "obligation_count": 4,
+      "exit_code": 0
+    },
+    {
+      "module": "CountSortTargets",
+      "platform": "compcert",
+      "obligation_count": 4,
+      "exit_code": 0
+    }
+  ],
+  "scope": "goal types only, using arbitrary valid probe inputs and fabricated distinct observations; no claim these are witnesses and no proofs attempted",
+  "solver_package_verified": false,
+  "private_log_index_sha256": "54c50e3f2adf246c1a56d95e19e974713edaa48b74813a33d6794b3290e78b4f",
+  "private_log_count": 24
+}

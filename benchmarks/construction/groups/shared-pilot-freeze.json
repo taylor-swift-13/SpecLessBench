@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "group_id": "shared-pilot-freeze",
+  "attempt_ids": [
+    "b7e621402143",
+    "aa922b706fc7",
+    "c2916c426c0b",
+    "1d3c03bb0c4f",
+    "abb3f7839255",
+    "acc50a9cb2b3",
+    "57db1dfc2e8b",
+    "88efcf86f9ea"
+  ],
+  "tool_wall_seconds": 7.370185397000569,
+  "cpu_user_seconds": 0.55,
+  "cpu_system_seconds": 0.52,
+  "max_process_rss_bytes": 41332736,
+  "exact_process_tree_peak_bytes": null,
+  "model_tokens": null,
+  "model_tokens_reason": "shared authoring session usage is recorded once in the referenced batch",
+  "shared_batch_id": "pilot-freeze-v0.12",
+  "historical_cost_complete": false,
+  "failed_attempts": 0,
+  "latest_updated_utc": "2026-11-04T14:27:40.575410+00:00"
+}

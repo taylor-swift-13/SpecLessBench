@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/scripts/pilot/test_sandboxed_rocq_gate.py", line 37, in <module>
+    for p in ('rocq','compcert'):test(p)
+  File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/scripts/pilot/test_sandboxed_rocq_gate.py", line 27, in test
+    r=must(run_isolated(platform,trusted,submission,common+['-Q','/submission','Candidate','-top','Candidate.Submission','-o','/work/Submission.vo','/submission/Submission.v'],timeout=90,collect=['Submission.vo']))
+  File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/scripts/pilot/test_sandboxed_rocq_gate.py", line 10, in must
+    if result['status']!='exited' or result['exit_code']!=0:raise AssertionError(result)
+AssertionError: {'status': 'exited', 'exit_code': 1, 'stdout': '', 'stderr': 'File "/submission/Submission.v", line 1, characters 0-39:\nError: The file /trusted/Obligation.vo contains library Obligation\nand not library Trusted.Obligation.\n\n', 'artifacts': {}}

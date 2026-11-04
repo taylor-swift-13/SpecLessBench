@@ -1,0 +1,11 @@
+Verified 71 contexts and 472 protected files.
+Checking prepare_branch_targets.py
+Checking prepare_boundary_targets.py
+Checking prepare_stateful_targets.py
+Checking prepare_systems_targets.py
+Checking prepare_base64_targets.py
+Checking prepare_classics_targets.py
+Checking prepare_graphsuite_targets.py
+Checking prepare_countsort_targets.py
+Verified 71 contexts and 472 protected files.
+All 71 branch interfaces checked on three platforms; no final proofs.

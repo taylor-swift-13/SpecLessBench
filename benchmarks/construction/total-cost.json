@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "generated_utc": "2026-11-04T04:08:15.227922+00:00",
+  "generated_utc": "2026-11-04T14:31:49.913186+00:00",
   "complete_project_total_available": false,
   "scope": "observed construction and research batches; not proof-agent evaluation, not a complete bill",
-  "batch_count": 11,
+  "batch_count": 12,
   "batch_records": [
     {
       "batch_id": "algorithms-v0.3",
@@ -139,6 +139,25 @@
       "session_id": "01a19d40-53c2-7811-8e47-5ac681576e1f"
     },
     {
+      "batch_id": "pilot-freeze-v0.12",
+      "record": "benchmarks/construction/batch-pilot-freeze-v0.12.json",
+      "sha256": "cb496d0098d27c5e30fba65b1fd6861a832b34466e86ec8bb86b275294e74695",
+      "provider_interval_start_utc": "2026-11-04T13:21:36.114Z",
+      "provider_interval_end_utc": "2026-11-04T14:31:12.150Z",
+      "request_started_utc": "2026-11-04T13:26:20.382Z",
+      "request_wall_seconds_to_snapshot": 3913.60049,
+      "provider_delta": {
+        "input_tokens": 81538367,
+        "cached_input_tokens": 81401472,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 112506,
+        "reasoning_output_tokens": 56363,
+        "total_tokens": 81650873
+      },
+      "usage_status": "prefix-only until a post-turn snapshot; final reply may not yet be counted",
+      "session_id": "01a19d40-53c2-7811-8e47-5ac681576e1f"
+    },
+    {
       "batch_id": "stateful-v0.5",
       "record": "benchmarks/construction/batch-stateful-v0.5.json",
       "sha256": "0fd8fe8fc9f8e48592678f4b8d246fd98f89f542dad80a638a16e8646859d3ec",
@@ -218,15 +237,15 @@
   "skipped_batch_records": [],
   "token_observation": {
     "provider_interval_union": {
-      "input_tokens": 116388746,
-      "cached_input_tokens": 115142016,
+      "input_tokens": 197927113,
+      "cached_input_tokens": 196543488,
       "cache_write_input_tokens": 0,
-      "output_tokens": 516315,
-      "reasoning_output_tokens": 184586,
-      "total_tokens": 116905061
+      "output_tokens": 628821,
+      "reasoning_output_tokens": 240949,
+      "total_tokens": 198555934
     },
     "session_count": 1,
-    "merged_interval_count": 10,
+    "merged_interval_count": 11,
     "overlapping_intervals_deduplicated": 1,
     "scope": "provider-reported cumulative counters between each recorded baseline and latest snapshot; intervals merged within a session before subtraction",
     "limitations": [
@@ -238,16 +257,16 @@
     "complete": false
   },
   "time_observation": {
-    "request_window_union_seconds": 18783.231271999997,
-    "request_window_count": 11,
-    "merged_request_window_count": 10,
-    "instrumented_command_window_union_seconds": 4435.581492000004,
-    "instrumented_command_count": 2374,
+    "request_window_union_seconds": 22696.831761999998,
+    "request_window_count": 12,
+    "merged_request_window_count": 11,
+    "instrumented_command_window_union_seconds": 6049.910885000001,
+    "instrumented_command_count": 2411,
     "invalid_command_timestamps": 0,
-    "command_log_prefix_bytes": 2973646,
-    "command_log_prefix_sha256": "84bff2d62f4a4112ec6a95912b9c29e38354e285c76e20d36705825a59418722",
+    "command_log_prefix_bytes": 3011797,
+    "command_log_prefix_sha256": "a48b470b75f1b0545b2f6743339d9795111ca2e38e3e8e49636731444041c400",
     "attribution_corrections_sha256": "bca3a5f6358b04992a03ba66bbe53f89f8cf4aef11d08ef554478d4ba00da20b",
-    "merged_instrumented_command_window_count": 1170,
+    "merged_instrumented_command_window_count": 1197,
     "scope": "request start through recorded snapshot includes idle/wait; command interval union counts overlapping or nested commands once",
     "limitations": [
       "windows and command logs omit historical work, uninstrumented actions and post-snapshot tails",
@@ -256,13 +275,19 @@
     "complete": false
   },
   "memory_observation": {
-    "max_observed_single_process_rss_bytes": 1700548608,
-    "peak_attempt_id": "3d0305eba729",
-    "peak_group_id": "shared-boundaries",
-    "commands_with_rss": 2374,
+    "max_observed_single_process_rss_bytes": 2068004864,
+    "peak_attempt_id": "cf7c9eb405f5",
+    "peak_group_id": "shared-pilot-grader",
+    "commands_with_rss": 2411,
     "commands_without_rss": 0,
     "exact_concurrent_process_tree_peak_bytes": null,
     "hosted_model_inference_peak_bytes": null,
+    "max_observed_pilot_job_cgroup_peak_bytes": 582873088,
+    "pilot_jobs_with_cgroup_peak": 232,
+    "pilot_jobs_without_cgroup_peak": 0,
+    "pilot_job_log_prefix_bytes": 158099,
+    "pilot_job_log_prefix_sha256": "97e33f8c78624265e35cf953b2bc26c62c412876f4dc00e2089dd4afc066c2a7",
+    "pilot_cgroup_scope": "per-job cgroup v2 memory.peak, including supervisor and descendants through sandbox exit, before final cleanup; not full construction or hosted inference memory",
     "scope": "GNU time/wait4 maximum process high-water among instrumented commands and waited descendants; not the simultaneous process-tree sum",
     "limitations": [
       "unmeasured commands or historical activity may have larger peaks",

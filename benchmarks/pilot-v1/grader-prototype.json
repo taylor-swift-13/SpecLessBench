@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "status": "synthetic-tests-passed",
+  "tests": [
+    {
+      "test": "test_sandbox.py",
+      "script_sha256": "ff9681800fbdb211118a1d6ee9a1b21b544cb98b3117d79096e0f5b251ce4ecf",
+      "exit_code": 0,
+      "output": "synthetic filesystem, network, timeout, memory and process-limit checks passed\n"
+    },
+    {
+      "test": "test_lean_kernel.py",
+      "script_sha256": "390a0ce16ec328b566f17eb523e429d241b57ed5c6075462fc0f2df2b6b79b46",
+      "exit_code": 0,
+      "output": "valid accepted\nsorry rejected\naxiom rejected\nwrong-goal rejected\n"
+    },
+    {
+      "test": "test_sandboxed_lean_gate.py",
+      "script_sha256": "2b210a3a841d4ebf07d09d60fdb8ff37588d7ccd3c77f6b3e652e2d9031b9411",
+      "exit_code": 0,
+      "output": "valid accepted\nsorry rejected\naxiom rejected\nwrong-goal rejected\nOnly toy propositions were used; no benchmark theorem was proved.\n"
+    },
+    {
+      "test": "test_sandboxed_rocq_gate.py",
+      "script_sha256": "8f5f01d0a6892849dd4a76d4b790cab03a29803dffe49f78598e3bb7e3b3bc8c",
+      "exit_code": 0,
+      "output": "rocq valid accepted\nrocq admitted rejected\nrocq axiom rejected\ncompcert valid accepted\ncompcert admitted rejected\ncompcert axiom rejected\nOnly toy propositions were used; no benchmark theorem was proved.\n"
+    },
+    {
+      "test": "test_lean_grader_core.py",
+      "script_sha256": "5f0f08b00600717b6d6291781515bbb2407b1117c7d92261235def1a973627f3",
+      "exit_code": 0,
+      "output": "valid accepted\nsorry rejected\naxiom rejected\nstdout-spoof rejected\nwrong-type rejected\nforged-gate package refused; no benchmark task was proved\n"
+    },
+    {
+      "test": "test_rocq_grader_core.py",
+      "script_sha256": "2ff2e0e83580b9682577c6514d0c8262721acdf808efd1898d63b9c17c19be91",
+      "exit_code": 0,
+      "output": "rocq valid accepted\nrocq admitted rejected\nrocq axiom rejected\nrocq stdout-spoof rejected\nrocq wrong-type rejected\nrocq forged-gate package refused\ncompcert valid accepted\ncompcert admitted rejected\ncompcert axiom rejected\ncompcert stdout-spoof rejected\ncompcert wrong-type rejected\ncompcert forged-gate package refused\nOnly toy propositions were used; no benchmark theorem was proved.\n"
+    },
+    {
+      "test": "test_release_gate.py",
+      "script_sha256": "d4c015bf7eac2e36ac5a42601ff3a51c1fe5a9991972762318a3687959076218",
+      "exit_code": 0,
+      "output": "All 213 unpublished task/platform entries fail closed; no proof ran.\n"
+    }
+  ],
+  "components": [
+    {
+      "path": "scripts/pilot/sandbox.py",
+      "sha256": "77d771e266ca511597467298864619d8000a13a497e0d6c9bb7dad7f3f0c1c12"
+    },
+    {
+      "path": "scripts/pilot/resource_supervisor.py",
+      "sha256": "a9003c464588718517b82847d80cceba305c76e269d7e2390eca97538ee9709b"
+    },
+    {
+      "path": "scripts/pilot/TrustedLeanAudit.lean",
+      "sha256": "759bfaf6dfb9d2946d3fe4ab86e1a1154e79dbe7d5203324663e0b4299001b6d"
+    },
+    {
+      "path": "scripts/pilot/lean_grader_core.py",
+      "sha256": "4a9d7984d4019959292e7f50915865de8c92354c7945d4dafa0c6352146e3b9b"
+    },
+    {
+      "path": "scripts/pilot/rocq_grader_core.py",
+      "sha256": "c6c9c78391135c3f4e66456c7d8246ea09b4fb2a0ebd7e87680d35ebfbf6f2c4"
+    },
+    {
+      "path": "scripts/pilot/release_gate.py",
+      "sha256": "ea6655ba1d16f9b09078cf27eff54f0e6a57f7b65086d237083f115b3d949442"
+    },
+    {
+      "path": "scripts/pilot/test_prototype.py",
+      "sha256": "99bc9a61a0d820dbcb8dbde5a4763b956cee4db0c6e3f9c3c39911a8acc83c80"
+    }
+  ],
+  "scope": "toy propositions and OS boundary probes only; no actual pilot task was graded",
+  "job_telemetry": "benchmarks/construction/pilot-jobs.jsonl",
+  "release_ready": false,
+  "limitations": [
+    "no per-task solver package or binding integration",
+    "Rocq assumptions text and loader require adversarial review",
+    "user-scoped cgroup availability and kernel security vary by deployment; fallback must fail closed",
+    "bwrap and shared host kernel are not a complete hostile-code security boundary"
+  ]
+}

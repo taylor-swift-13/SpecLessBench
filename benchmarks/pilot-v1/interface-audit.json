@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "contexts": 71,
+  "platform_instances": 213,
+  "protected_interface_files_checked": 24,
+  "steps": [
+    {
+      "step": "prepare_branch_targets.py",
+      "exit_code": 0,
+      "log_sha256": "66be2268ef711ebc7b695cb616bdc2a665cfdd7a68987963124d4eb52d164c01"
+    },
+    {
+      "step": "prepare_boundary_targets.py",
+      "exit_code": 0,
+      "log_sha256": "ddab3dd9a225c1e560a5676295e4b1913f430b18974b3326d97734b061021516"
+    },
+    {
+      "step": "prepare_stateful_targets.py",
+      "exit_code": 0,
+      "log_sha256": "42d7eccd4fdbef7967f3d31f5d9042339eb6d6fe456ae9051eddb0f3930544c8"
+    },
+    {
+      "step": "prepare_systems_targets.py",
+      "exit_code": 0,
+      "log_sha256": "16c49760c050bfaf2df68a2cba47ff4c2eb23335fd07a655e982c19753bfb1a0"
+    },
+    {
+      "step": "prepare_base64_targets.py",
+      "exit_code": 0,
+      "log_sha256": "b2243f87033c9520d4daad8c4bf9d947f244f944f8798330ff7973ec83401f9c"
+    },
+    {
+      "step": "prepare_classics_targets.py",
+      "exit_code": 0,
+      "log_sha256": "389a5a3b70390cce9ad2d38376471bfedf7080f1ab9ae7026eea52c38590f71a"
+    },
+    {
+      "step": "prepare_graphsuite_targets.py",
+      "exit_code": 0,
+      "log_sha256": "7a7570ffd557443bd9e94c62fad9e111a33430cb6fdc9d77290d589333408566"
+    },
+    {
+      "step": "prepare_countsort_targets.py",
+      "exit_code": 0,
+      "log_sha256": "5c3aa0eb71a6170a855f5c8c167bef0d1d0b8273df15d66433d17ee78980d33c"
+    }
+  ],
+  "frozen_manifest_sha256": "064e3741207d82f0622ecada4aa674d3464cf451d22f6119c166c7a55ed72a5e",
+  "scope": "explicit branch target modules type-checked on all three platforms; no final theorem proof or CompCert semantic execution"
+}
