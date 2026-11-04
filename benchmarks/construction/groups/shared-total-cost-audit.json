@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "group_id": "shared-total-cost-audit",
+  "attempt_ids": [
+    "9901e4890607",
+    "99c730f8e81b",
+    "50777c4328a1"
+  ],
+  "tool_wall_seconds": 2.1636958429880906,
+  "cpu_user_seconds": 0.42,
+  "cpu_system_seconds": 0.2,
+  "max_process_rss_bytes": 32047104,
+  "exact_process_tree_peak_bytes": null,
+  "model_tokens": null,
+  "model_tokens_reason": "shared authoring session usage is recorded once in the referenced batch",
+  "shared_batch_id": "total-cost-audit-v0.11",
+  "historical_cost_complete": false,
+  "failed_attempts": 0,
+  "latest_updated_utc": "2026-11-04T04:07:22.337806+00:00"
+}

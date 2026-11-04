@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "group_id": "shared-countsort-interface",
+  "attempt_ids": [
+    "ea7318641e87",
+    "25b43bdfc600",
+    "4a7a4e774c31",
+    "a7c671b923c5",
+    "0a1ece6adbcc",
+    "5fbc0a7eeb0b"
+  ],
+  "tool_wall_seconds": 17.163226360979024,
+  "cpu_user_seconds": 1.9200000000000002,
+  "cpu_system_seconds": 2.7199999999999998,
+  "max_process_rss_bytes": 1656139776,
+  "exact_process_tree_peak_bytes": null,
+  "model_tokens": null,
+  "model_tokens_reason": "shared authoring session usage is recorded once in the referenced batch",
+  "shared_batch_id": "construction-continuation-v0.11",
+  "historical_cost_complete": false,
+  "failed_attempts": 0,
+  "latest_updated_utc": "2026-11-04T04:02:43.529386+00:00"
+}

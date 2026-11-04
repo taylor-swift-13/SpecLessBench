@@ -2,7 +2,7 @@
 
 以下是待构造候选，并非已完成的 benchmark 任务；每项仍须固定程序、三平台定理、差分测试和成本记录。
 
-更新：表中的全源最短路和强连通分量已在 [graphsuite-core](tasks/graphsuite-core/README.md) 落地；原候选表保留作为设计历史。
+更新：表中的全源最短路和强连通分量已在 [graphsuite-core](tasks/graphsuite-core/README.md) 落地；稳定计数排序与插入排序的比较已在 [countsort-core](tasks/countsort-core/README.md) 落地。原候选表保留作为设计历史。
 
 本轮补充了[来源、输入与观察边界、反例设计及初步筛查](research/classic-comparisons.md)。现有库已经包括并查集连接性和朴素匹配／KMP；后续新增实现须保留在对应原家族，避免重复计算数据划分与结果。
 

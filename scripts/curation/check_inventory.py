@@ -47,14 +47,15 @@ def main():
 
     if (root / "benchmarks/active-groups.json").exists():
         active = json.loads((root / "benchmarks/active-groups.json").read_text())
-        assert len(active["groups"]) == active["implementation_groups"] == 32
+        assert len(active["groups"]) == active["implementation_groups"] == 33
         ids = [t for g in active["groups"] for t in g["contexts"]]
-        assert len(ids) == len(set(ids)) == active["semantic_contexts"] == 69
-        assert active["platform_instances"] == 207 and active["clight_ast_count"] == 100
-        assert active["catalog_entries"] == 39 and active["catalog_context_slots"] == 91
+        assert len(ids) == len(set(ids)) == active["semantic_contexts"] == 71
+        assert active["platform_instances"] == 213 and active["clight_ast_count"] == 103
+        assert active["catalog_entries"] == 39 and active["catalog_context_slots"] == 93
         split={g['group_id']:g['split_group_id'] for g in active['groups']}
         assert split['boyer-moore-search']==split['first-match-search']
         assert split['all-pairs-shortest-path']==split['qcip-dijkstra']
+        assert split['stable-counting-sort']==split['stable-record-sorting']
         assert hashlib.sha256((root/active['split_policy']).read_bytes()).hexdigest()==active['split_policy_sha256']
         extension=json.loads((root/"benchmarks/boundary-family-index.json").read_text())
         assert len(extension["new_entries"])==4 and sum(len(g["slots"])for g in extension["new_entries"])==8

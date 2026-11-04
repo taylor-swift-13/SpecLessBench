@@ -1,6 +1,6 @@
 # SpecLessBench task catalog (design draft)
 
-**v0.10** adds all-pairs shortest paths, strongly connected components and Boyer–Moore, with six contexts. See [graphsuite-core](tasks/graphsuite-core/README.md). The active inventory has 32 groups and 69 contexts. The earlier Prim/Kruskal and stable-sorting contexts are in [classics-core](tasks/classics-core/README.md). The preceding Base64 source vectors and targets are in [base64-core](tasks/base64-core/README.md).
+**v0.11** adds stable insertion/counting sort and a stability counterexample; see [countsort-core](tasks/countsort-core/README.md). The preceding all-pairs shortest paths, strongly connected components and Boyer–Moore contexts are in [graphsuite-core](tasks/graphsuite-core/README.md). The active inventory has 33 groups and 71 contexts. The earlier Prim/Kruskal and stable-sorting contexts are in [classics-core](tasks/classics-core/README.md). The preceding Base64 source vectors and targets are in [base64-core](tasks/base64-core/README.md).
 
 **Current v0.6 inventory** has 34 plan entries and 78 slots, with 26 concrete groups, 56 contexts, 168 platform instances and 82 Clight ASTs. The five new groups cover graph closure, scope, expiry, affine alignment and fixed-point resampling. Each group contributes a positive pair and a refutation pair. See [the numerical and systems tranche](tasks/systems-core/README.md) and [its index](systems-family-index.json).
 

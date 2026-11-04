@@ -733,6 +733,30 @@
       "lean_namespace": "SpecLessBenchGraphSuiteSubmission",
       "equivalence_goal": "BM_02_equivalence",
       "refutation_at_goal": "BM_02_refutationAt"
+    },
+    {
+      "context_id": "COUNT-01",
+      "group_id": "stable-counting-sort",
+      "family": "records",
+      "family_index": 0,
+      "domain_index": 0,
+      "tranche": "countsort",
+      "goal_module": "CountSortTargets",
+      "lean_namespace": "SpecLessBenchCountSortSubmission",
+      "equivalence_goal": "COUNT_01_equivalence",
+      "refutation_at_goal": "COUNT_01_refutationAt"
+    },
+    {
+      "context_id": "COUNT-02",
+      "group_id": "stable-counting-sort",
+      "family": "records",
+      "family_index": 0,
+      "domain_index": 0,
+      "tranche": "countsort",
+      "goal_module": "CountSortTargets",
+      "lean_namespace": "SpecLessBenchCountSortSubmission",
+      "equivalence_goal": "COUNT_02_equivalence",
+      "refutation_at_goal": "COUNT_02_refutationAt"
     }
   ],
   "accepted_modes": [
@@ -759,6 +783,10 @@
     {
       "path": "compcert/ClassicsTargets.v",
       "sha256": "664ce6e953d84b2306ca42b7cb038f29d4bada59a159245ad52c33284c070841"
+    },
+    {
+      "path": "compcert/CountSortTargets.v",
+      "sha256": "9138b5d99bbc226346c8990092edf2f0225c84448b2d1ef187fc7541b9ba66b9"
     },
     {
       "path": "compcert/GraphSuiteTargets.v",
@@ -789,6 +817,10 @@
       "sha256": "f540d664f32cfb5442b1edc283d59e289ff2f02127bccde0e0cbce4ff212047f"
     },
     {
+      "path": "lean/CountSortTargets.lean",
+      "sha256": "58adf93ae8e48022a279ee6719970e6a7e71efd0d822c760ff841ad694542c4e"
+    },
+    {
       "path": "lean/GraphSuiteTargets.lean",
       "sha256": "c1682d838e3ee049d87501d45f86cc5bff47545ff948279cdcbfb5ae47159081"
     },
@@ -817,6 +849,10 @@
       "sha256": "3586937bc8378bb886b4c186710cfbcf8d7cc9f8c8dd72f36870e9ccfb6abca5"
     },
     {
+      "path": "rocq/CountSortTargets.v",
+      "sha256": "5fee429ea5061a414d678f20e864b3db38978a1f3841d31b3782a2d48f618c18"
+    },
+    {
       "path": "rocq/GraphSuiteTargets.v",
       "sha256": "2e15ddfb433dc34015fc2c8721bd14c6aee620e3cf43e2e0461a64c98f987daf"
     },
@@ -829,6 +865,6 @@
       "sha256": "77b3d6bc3365d1a5ecbebb2e479d8cc262a51604d22ac9712a16b64b58550b01"
     }
   ],
-  "submission_validator_sha256": "4eac263bb86d127a3a962d8c664eb9b33402f196c0e4510ef43bce9fcdb8d148",
-  "validation_evidence_sha256": "871683d63a9278f441d4a1bb602641c38c72a9468b740d68b067adfa368a7769"
+  "submission_validator_sha256": "350e79528046ca2a7a3792e98ad296c9af873b27e62531588616b78dee164d5f",
+  "validation_evidence_sha256": "0843ffa74bfad2b9345c22fb45e78fc21e10566dcfcc1057c8000cda26469e39"
 }

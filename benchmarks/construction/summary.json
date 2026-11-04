@@ -1,10 +1,10 @@
 {
   "schema_version": 2,
-  "updated_utc": "2026-11-04T03:46:09.990764+00:00",
-  "implementation_groups": 32,
-  "semantic_contexts": 69,
-  "platform_instances": 207,
-  "clight_ast_count": 100,
+  "updated_utc": "2026-11-04T04:08:15.049749+00:00",
+  "implementation_groups": 33,
+  "semantic_contexts": 71,
+  "platform_instances": 213,
+  "clight_ast_count": 103,
   "groups": [
     {
       "group_id": "qcip-bst-delete",
@@ -568,12 +568,33 @@
       "tool_wall_seconds": 48.107608720994904,
       "max_process_rss_bytes": 1652314112,
       "cost_record": "benchmarks/construction/groups/boyer-moore-search.json"
+    },
+    {
+      "group_id": "stable-counting-sort",
+      "family": "records",
+      "unique_inputs": 13126,
+      "program_executions": 118134,
+      "validity_evaluations": 26266,
+      "duplicates_removed": 159,
+      "negative_inputs": 12631,
+      "source_derived_inputs": 0,
+      "reference_event_counts": {
+        "empty": 1,
+        "equal-keys": 12631,
+        "boundary-key": 9438,
+        "max-size": 147
+      },
+      "unexpected_disagreements": 0,
+      "independent_oracle": "Python stable key sort",
+      "tool_wall_seconds": 55.50545660997159,
+      "max_process_rss_bytes": 1651527680,
+      "cost_record": "benchmarks/construction/groups/stable-counting-sort.json"
     }
   ],
-  "input_records": 431249,
-  "unique_inputs": 431092,
-  "program_executions": 3972087,
-  "domain_evaluations_after_qcip": 802258,
+  "input_records": 444375,
+  "unique_inputs": 444218,
+  "program_executions": 4090221,
+  "domain_evaluations_after_qcip": 828524,
   "unexpected_differences": 0,
   "labels_certified": false,
   "final_target_proofs_attempted": false,
@@ -585,7 +606,8 @@
     "batch-systems-v0.6.json",
     "batch-base64-v0.7.json",
     "batch-classics-v0.8.json",
-    "batch-classics-graphs-v0.10.json"
+    "batch-classics-graphs-v0.10.json",
+    "batch-construction-continuation-v0.11.json"
   ],
   "cost_aggregation": "each group once, shared batch once; never multiply by targets/platforms",
   "coverage_scope": "selected successful full/supplemental evidence; smoke and failed/repeated attempts are retained as costs, not additional unique coverage",
@@ -599,14 +621,15 @@
     "summary-systems-v0.6.json",
     "summary-base64-v0.7.json",
     "summary-classics-v0.8.json",
-    "summary-graphsuite-v0.10.json"
+    "summary-graphsuite-v0.10.json",
+    "summary-countsort-v0.11.json"
   ],
   "proof_acceptance_contract": "benchmarks/proof-interface/v1/manifest.json",
-  "proof_acceptance_contract_sha256": "3988289b7f83b80adce6b507f3f8c7080a9494af14e2b121e9066ffbbf056642",
+  "proof_acceptance_contract_sha256": "71099b131c1168833a0d72d022559ff00f159512e56b83c3fa635a8bc65dbdcf",
   "submission_interface_validation": {
-    "valid_counterexample_packages": 84,
-    "rejected_malformed_packages": 570,
-    "unproved_obligations_checked": 84,
+    "valid_counterexample_packages": 87,
+    "rejected_malformed_packages": 591,
+    "unproved_obligations_checked": 87,
     "batches": [
       {
         "valid_counterexample_packages": 18,
@@ -668,6 +691,15 @@
         "final_target_proofs_attempted": false,
         "gate_proofs_supplied": false,
         "scope": "graphsuite tranche validator/generated obligation types; no final proofs or complete isolated grader"
+      },
+      {
+        "valid_counterexample_packages": 3,
+        "rejected_malformed_packages": 21,
+        "unproved_obligations_checked": 3,
+        "tranche": "countsort",
+        "final_target_proofs_attempted": false,
+        "gate_proofs_supplied": false,
+        "scope": "countsort tranche validator/generated obligation types; no final proofs or complete isolated grader"
       }
     ],
     "final_target_proofs_attempted": false,

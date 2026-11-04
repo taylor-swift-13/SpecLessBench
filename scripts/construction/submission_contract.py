@@ -69,6 +69,9 @@ def validate(request):
         elif context["tranche"]=="graphsuite":
             from graphsuite_cases import valid_domain
             admitted=isinstance(x,list) and all(type(v) is int for v in x) and valid_domain(context["domain_index"],x)
+        elif context["tranche"]=="countsort":
+            from countsort_cases import valid_domain
+            admitted=isinstance(x,list) and all(type(v) is int for v in x) and valid_domain(context["domain_index"],x)
         else:
             sys.path.insert(0,str(ROOT/"scripts/curation"))
             from check_qcip_core import valid
@@ -89,7 +92,7 @@ def seq(values,lean=False): return "["+(" , " if lean else "; ").join(str(v) if 
 
 
 def input_term(context,x,lean):
-    if context["tranche"] in ("algorithms","boundaries","stateful","systems","base64","classics","graphsuite"): return seq(x,lean)
+    if context["tranche"] in ("algorithms","boundaries","stateful","systems","base64","classics","graphsuite","countsort"): return seq(x,lean)
     f=context["family"]; ns="SpecLessBench." if lean else "SpecLessBench.QCIP.Domain."
     dom={"bst":"BST","avl":"AVL","ring":"Ring","dijkstra":"Dijkstra"}[f]
     def listing(items): return "["+(" , " if lean else "; ").join(items)+"]"

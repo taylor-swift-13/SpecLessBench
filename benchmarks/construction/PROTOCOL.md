@@ -15,7 +15,7 @@
 ## 严格成本口径
 
 - 一组一个汇总文件，内部列全部尝试、失败、修复、构建和测试，不按任务对或平台重复收费。
-- 每个外部命令记录UTC开始/结束、单调时钟耗时、完整argv、退出码、stdout/stderr文件、源码revision、CPU user/system时间及内核报告的最大进程RSS。
+- 被埋点的外部命令记录 UTC 开始/结束、单调时钟耗时、完整 argv、退出码、stdout/stderr 文件、源码 revision、CPU user/system 时间及内核报告的最大进程 RSS；历史或临时命令若未埋点，单独标记缺口，不推算或补零。
 - `max_process_rss_bytes` 明确定义为该命令及被wait回收后代中**单进程高水位的最大值**；它不是并发进程树RSS之和。另可采样进程树总RSS，须注明采样间隔和可能漏峰，不能冒充精确总峰值。本WSL没有可写的专用cgroup，因此精确进程树总峰值记null。
 - 本地编译/测试内存和远端模型推理内存分别记录；后者平台未提供就记null，不估算显存。
 - token只使用provider回报的usage事件，不用字符数估算。区分输入、缓存输入、输出和reasoning；reasoning是输出子集，不重复求和。
@@ -28,3 +28,11 @@
 本轮可启动一次性的`close_usage.py`本地收尾采集器：观察当前请求的final消息后，采集其后且下一用户请求前的provider usage事件，最长等待5分钟。若没有无歧义的末尾事件，继续标记incomplete；不编造完整总量。采集器自身的CPU、墙钟和Windows内核工作集峰值另外记录在batch，不混入WSL或推理内存。
 
 后续批次使用独立batch文件（例如`batch-algorithms-v0.3.json`），不得重用旧批次baseline或把两次请求usage重复收费。`measure`读取环境中的batch/revision标识；同组汇总保持唯一。全局`summary.json`合并各批次，原QCIP报告保留在`summary-qcip-v0.2.json`。实际执行流程见[construction-method.md](../../docs/construction-method.md)。早期收尾采集器未能观测到final，故旧usage明确保持incomplete，当前不把该前缀宣称为完整账单。
+
+## 项目级总账及论文更新
+
+`total-cost.json` 是按项目汇总的机器可读总账，使用 `python3 scripts/construction/summarize_total_cost.py` 刷新；`summarize_all.py` 也会刷新它。该脚本收集所有已有 batch（含构造研究与成本审计），对同一会话中有重叠的 provider 累计计数区间合并后再求差；请求时间窗口和所有有记录的命令窗口分别取区间并集，避免把并发和嵌套命令的墙钟时间重复计算。不同会话的 provider token 独立汇总；缓存输入和推理输出是对应总量的子集，不再相加。脚本记录源 batch 哈希、区间、截止时间和缺失状态，遇到计数不一致则失败，不猜测数值。
+
+项目级内存只取所有有记录命令的最大单进程 RSS 高水位，绝不将不同命令峰值相加；并发进程树峰值和远端推理内存没有可靠计量时为 null。请求窗口包含思考、等待和可能的空闲，不等于 CPU 时间、人时或整个历史构造持续时间；provider 窗口也可能包含无法单独归属的同一对话工作。因此现阶段仅能报告**已观察部分**，不能把它称为完整或精确的总成本。
+
+后续每次构造开始前先建立独立 batch 并为工具命令设置对应 batch/revision；记录构造期失败、修复和探索，同一实现组只保存一次成本。阶段结束后刷新各 batch 快照、各组及 `summary.json`，运行 `summarize_total_cost.py` 和 `update_paper_total_cost.py`，并编译论文。最终冻结时在有明确截止点后收集可用的 post-turn usage、复核所有批次覆盖区间与遗漏，标明仍不可获得的内存／历史成本；不得仅因已到论文截稿就把缺口记为零。

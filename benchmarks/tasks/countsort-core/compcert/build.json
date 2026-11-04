@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "compcert": "3.17",
+  "rocq": "9.2",
+  "architecture": "x86_64-linux; little-endian; ptr64",
+  "clightgen_sha256": "8064763950950ec9e48f44698ba056bb0cb53690e2a35c0c70bb148bdabdb7f2",
+  "exports": [
+    {
+      "module": "RECORDS_V0",
+      "preprocessed_sha256": "a26b8ef5c1bf8303bd394e87657d3e19e9b3a004e847dac13b83fabde88bded3",
+      "path": "compcert/ast/RECORDS_V0.v",
+      "sha256": "a12c37cb7810b6d5bf675944b0ae8c45b7176cdfaee12176d2415c1ade21c5c3"
+    },
+    {
+      "module": "RECORDS_V1",
+      "preprocessed_sha256": "3159a77671012744c09baa3d92c1424b208528b6800561505305738e9b100fde",
+      "path": "compcert/ast/RECORDS_V1.v",
+      "sha256": "ba9d41135867b1154203acc030bd41046d38c5ed80944f08de05d38433396589"
+    },
+    {
+      "module": "RECORDS_V2",
+      "preprocessed_sha256": "69cd6165cb06503fff1a9deb137958f03f9ee74552a7bf25c0afd1cc7834934d",
+      "path": "compcert/ast/RECORDS_V2.v",
+      "sha256": "c413d4a4114d675845f082559a7ca042b39da4a12a0e3c1d2e4aef4234671ca1"
+    }
+  ],
+  "final_proofs": false,
+  "goal_types": "passed; final targets unproved",
+  "native_versions": {
+    "lean": "4.34.0",
+    "rocq": "8.20.1"
+  }
+}

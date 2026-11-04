@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "group_id": "shared-countsort-rocq",
+  "attempt_ids": [
+    "af8e29f7d3b5",
+    "ae3a314b5655",
+    "9ebf2f1be1dc",
+    "1038cf0d2d73",
+    "76aefaf91629",
+    "f485508e2e8b",
+    "38487901fe9b"
+  ],
+  "tool_wall_seconds": 4.7088640200090595,
+  "cpu_user_seconds": 0.6500000000000001,
+  "cpu_system_seconds": 0.94,
+  "max_process_rss_bytes": 292921344,
+  "exact_process_tree_peak_bytes": null,
+  "model_tokens": null,
+  "model_tokens_reason": "shared authoring session usage is recorded once in the referenced batch",
+  "shared_batch_id": "construction-continuation-v0.11",
+  "historical_cost_complete": false,
+  "failed_attempts": 0,
+  "latest_updated_utc": "2026-11-04T04:00:42.309005+00:00"
+}

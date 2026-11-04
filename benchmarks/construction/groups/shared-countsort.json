@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "group_id": "shared-countsort",
+  "attempt_ids": [
+    "a2dd31b825ca",
+    "0af5d6c6fde9",
+    "12886cd5b382",
+    "0c2fe5622624",
+    "efc0df43c538"
+  ],
+  "tool_wall_seconds": 35.95035657499102,
+  "cpu_user_seconds": 2.25,
+  "cpu_system_seconds": 5.95,
+  "max_process_rss_bytes": 1659949056,
+  "exact_process_tree_peak_bytes": null,
+  "model_tokens": null,
+  "model_tokens_reason": "shared authoring session usage is recorded once in the referenced batch",
+  "shared_batch_id": "construction-continuation-v0.11",
+  "historical_cost_complete": false,
+  "failed_attempts": 0,
+  "latest_updated_utc": "2026-11-04T04:00:37.374786+00:00"
+}

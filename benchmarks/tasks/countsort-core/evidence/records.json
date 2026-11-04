@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "revision": "design-v0.11",
+  "group_id": "stable-counting-sort",
+  "family": "records",
+  "case_count": 13126,
+  "program_executions": 118134,
+  "validity_evaluations": 26266,
+  "cases_by_origin": {
+    "boundary": 5,
+    "exhaustive": 3279,
+    "random": 9842
+  },
+  "duplicate_inputs_removed": 159,
+  "rng_seed": 2026110414,
+  "random_cases_requested": 10000,
+  "exhaustive_scope": "explicit small transport/content subdomains in countsort_cases.py; not entire domain",
+  "unexpected_disagreements": 0,
+  "negative_distinguishing_inputs": 12631,
+  "witness": {
+    "input": [
+      2,
+      0,
+      1,
+      0,
+      2
+    ],
+    "v0": [
+      4,
+      0,
+      1,
+      0,
+      2
+    ],
+    "v2": [
+      4,
+      0,
+      2,
+      0,
+      1
+    ]
+  },
+  "context_test_counts": {
+    "COUNT-01": 13126,
+    "COUNT-02": 13126
+  },
+  "reference_status_histogram": {
+    "empty": 1,
+    "equal-keys": 12631,
+    "boundary-key": 9438,
+    "max-size": 147
+  },
+  "corpus": "benchmarks/tasks/countsort-core/evidence/corpora/records.jsonl.gz",
+  "corpus_sha256": "d649191a31bcfa5a6fd87287395095701c3943a366ba634d2f3f9bed7d7a3753",
+  "registry_sha256": "5d58ecd5f07490d92e068ca432662c03be96fc9178b6f0b5ca2a170ec30d7414",
+  "generator_sha256": "23e9de63369191f45d298f8072252d55eff812f5ad5c1a26e03386922caab62d",
+  "corpus_generator_sha256": "2bf815d69f334209b1b9728ed7a1d618d1665eb0e11c81211f8872b4dd71b670",
+  "fixtures_sha256": "e3566b3a06430868d71e9287dfd6c6c520a3da027aabea01951d407ee131dc2f",
+  "clight_execution_tested": false,
+  "final_proof_attempted": false,
+  "smoke": false,
+  "status": "differential-passed; labels provisional"
+}

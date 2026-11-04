@@ -38,6 +38,10 @@ def main():
     if graphsuite_summary.exists():
         batches.append(json.loads(graphsuite_summary.read_text()));names.append(graphsuite_summary.name)
         registries.append(ROOT/"benchmarks/tasks/graphsuite-core/groups.json")
+    countsort_summary=AUDIT/"summary-countsort-v0.11.json"
+    if countsort_summary.exists():
+        batches.append(json.loads(countsort_summary.read_text()));names.append(countsort_summary.name)
+        registries.append(ROOT/"benchmarks/tasks/countsort-core/groups.json")
     policy_path=ROOT/"benchmarks/split-family-policy.json"
     split_policy=json.loads(policy_path.read_text()) if policy_path.exists() else {"canonical_group_aliases":{}}
     aliases=split_policy["canonical_group_aliases"]
@@ -53,7 +57,7 @@ def main():
     contexts=[c for g in groups for c in g["contexts"]]; assert len(set(contexts))==len(contexts)==sum(b["semantic_contexts"]for b in batches)
     asts=sum(b["clight_ast_count"]if "clight_ast_count"in b else len(b["compcert"]["exports"])for b in batches)
     entries=22+(4 if boundary_summary.exists()else 0)+(3 if stateful_summary.exists()else 0)+(5 if systems_summary.exists()else 0)+(1 if base64_summary.exists()else 0)+(2 if classics_summary.exists()else 0)+(2 if graphsuite_summary.exists()else 0)
-    slots=54+(8 if boundary_summary.exists()else 0)+(6 if stateful_summary.exists()else 0)+(10 if systems_summary.exists()else 0)+(2 if base64_summary.exists()else 0)+(5 if classics_summary.exists()else 0)+(6 if graphsuite_summary.exists()else 0)
+    slots=54+(8 if boundary_summary.exists()else 0)+(6 if stateful_summary.exists()else 0)+(10 if systems_summary.exists()else 0)+(2 if base64_summary.exists()else 0)+(5 if classics_summary.exists()else 0)+(6 if graphsuite_summary.exists()else 0)+(2 if countsort_summary.exists()else 0)
     active={"schema_version":1,"updated_utc":now(),"groups":groups,"implementation_groups":len(groups),
         "semantic_contexts":len(contexts),"platform_instances":3*len(contexts),"clight_ast_count":asts,
         "catalog_entries":entries,"catalog_context_slots":slots,"remaining_candidate_slots":slots-len(contexts),
@@ -83,11 +87,14 @@ def main():
         "batch_summaries":names}
     if classics_summary.exists(): total["shared_model_usage_batches"].append("batch-classics-v0.8.json")
     if graphsuite_summary.exists(): total["shared_model_usage_batches"].append("batch-classics-graphs-v0.10.json")
+    if countsort_summary.exists(): total["shared_model_usage_batches"].append("batch-construction-continuation-v0.11.json")
     if interface.exists():
         total["proof_acceptance_contract"]="benchmarks/proof-interface/v1/manifest.json"
         total["proof_acceptance_contract_sha256"]=hashlib.sha256(interface.read_bytes()).hexdigest()
         total["submission_interface_validation"]=json.loads((interface.parent/"validation.json").read_text())
     (AUDIT/"summary.json").write_text(json.dumps(total,indent=2)+"\n")
     print(json.dumps({k:total[k] for k in ("implementation_groups","semantic_contexts","platform_instances","input_records","unique_inputs","program_executions")}))
+    from summarize_total_cost import main as refresh_total_cost
+    refresh_total_cost()
 
 if __name__=="__main__": main()

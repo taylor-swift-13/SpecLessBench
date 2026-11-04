@@ -1,0 +1,9 @@
+{
+  "valid_counterexample_packages": 3,
+  "rejected_malformed_packages": 21,
+  "unproved_obligations_checked": 3,
+  "tranche": "countsort",
+  "final_target_proofs_attempted": false,
+  "gate_proofs_supplied": false,
+  "scope": "countsort tranche validator/generated obligation types; no final proofs or complete isolated grader"
+}

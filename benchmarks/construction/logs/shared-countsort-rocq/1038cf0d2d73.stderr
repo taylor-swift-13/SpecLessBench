@@ -1,0 +1,6 @@
+File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/benchmarks/tasks/countsort-core/rocq/CountSortExtract.v", line 4, characters 0-85:
+Warning: Setting extraction output directory by default to
+"/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/_build/construction-continuation-v0.11/rocq".
+Use "Set Extraction Output Directory" or command line option
+"-output-directory" to set a different directory for extracted files to
+appear in. [extraction-default-directory,extraction,default]

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_utc": "2026-11-04T03:46:09.979185+00:00",
+  "updated_utc": "2026-11-04T04:08:15.038188+00:00",
   "groups": [
     {
       "group_id": "qcip-bst-delete",
@@ -518,14 +518,30 @@
       ],
       "source_registry": "benchmarks/tasks/graphsuite-core/groups.json",
       "cost_record": "benchmarks/construction/groups/boyer-moore-search.json"
+    },
+    {
+      "group_id": "stable-counting-sort",
+      "split_group_id": "stable-record-sorting",
+      "source_split_group_id": "stable-record-sorting",
+      "contexts": [
+        "COUNT-01",
+        "COUNT-02"
+      ],
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ],
+      "source_registry": "benchmarks/tasks/countsort-core/groups.json",
+      "cost_record": "benchmarks/construction/groups/stable-counting-sort.json"
     }
   ],
-  "implementation_groups": 32,
-  "semantic_contexts": 69,
-  "platform_instances": 207,
-  "clight_ast_count": 100,
+  "implementation_groups": 33,
+  "semantic_contexts": 71,
+  "platform_instances": 213,
+  "clight_ast_count": 103,
   "catalog_entries": 39,
-  "catalog_context_slots": 91,
+  "catalog_context_slots": 93,
   "remaining_candidate_slots": 22,
   "catalog_count_scope": "versioned plan entries/slots, not independent family or released-task counts",
   "final_proofs_required_at_construction": false,
@@ -533,7 +549,7 @@
   "split_policy": "benchmarks/split-family-policy.json",
   "split_policy_sha256": "0e1752d144bbd1bf16ef3e6ce08675e3346cd9ab6e32a0a542d2187ec0808e21",
   "proof_acceptance_contract": "benchmarks/proof-interface/v1/manifest.json",
-  "proof_acceptance_contract_sha256": "3988289b7f83b80adce6b507f3f8c7080a9494af14e2b121e9066ffbbf056642",
+  "proof_acceptance_contract_sha256": "71099b131c1168833a0d72d022559ff00f159512e56b83c3fa635a8bc65dbdcf",
   "bare_logical_disjunction_is_sufficient": false,
   "literal_counterexample_data_required": true
 }

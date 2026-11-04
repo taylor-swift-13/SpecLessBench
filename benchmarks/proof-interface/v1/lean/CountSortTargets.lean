@@ -1,0 +1,7 @@
+import CountSortGoals
+namespace SpecLessBenchCountSortSubmission
+def COUNT_01_equivalence : Prop := SpecLessBenchCountSort.COUNT_01_equivalence
+def COUNT_01_refutationAt := SpecLessBenchCountSort.COUNT_01_refutationAt
+def COUNT_02_equivalence : Prop := SpecLessBenchCountSort.COUNT_02_equivalence
+def COUNT_02_refutationAt := SpecLessBenchCountSort.COUNT_02_refutationAt
+end SpecLessBenchCountSortSubmission

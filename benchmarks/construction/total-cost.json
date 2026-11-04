@@ -1,0 +1,276 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-11-04T04:08:15.227922+00:00",
+  "complete_project_total_available": false,
+  "scope": "observed construction and research batches; not proof-agent evaluation, not a complete bill",
+  "batch_count": 11,
+  "batch_records": [
+    {
+      "batch_id": "algorithms-v0.3",
+      "record": "benchmarks/construction/batch-algorithms-v0.3.json",
+      "sha256": "f21373ba04021c0f558d894b277834d5ffb8d627ef77b787b062a551914c3834",
+      "provider_interval_start_utc": "2026-11-03T12:22:59.329Z",
+      "provider_interval_end_utc": "2026-11-03T13:30:28.175Z",
+      "request_started_utc": "2026-11-03T12:24:27.468Z",
+      "request_wall_seconds_to_snapshot": 4119.954741,
+      "provider_delta": {
+        "input_tokens": 9830323,
+        "cached_input_tokens": 9799552,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 102353,
+        "reasoning_output_tokens": 57051,
+        "total_tokens": 9932676
+      },
+      "usage_status": "prefix-only until a post-turn snapshot; final reply may not yet be counted",
+      "session_id": "01a19d40-53c2-7811-8e47-5ac681576e1f"
+    },
+    {
+      "batch_id": "base64-v0.7",
+      "record": "benchmarks/construction/batch-base64-v0.7.json",
+      "sha256": "b67c424d30041a051a1ab7b7372a0ddb49ab5c708b7b0d0a12f6e5df65c2b92f",
+      "provider_interval_start_utc": "2026-11-04T02:29:25.972Z",
+      "provider_interval_end_utc": "2026-11-04T02:38:38.438Z",
+      "request_started_utc": "2026-11-04T02:29:46.442Z",
+      "request_wall_seconds_to_snapshot": 569.403188,
+      "provider_delta": {
+        "input_tokens": 10915370,
+        "cached_input_tokens": 10903168,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 12761,
+        "reasoning_output_tokens": 1841,
+        "total_tokens": 10928131
+      },
+      "usage_status": "prefix-only until a post-turn snapshot; final reply may not yet be counted",
+      "session_id": "01a19d40-53c2-7811-8e47-5ac681576e1f"
+    },
+    {
+      "batch_id": "boundaries-v0.4",
+      "record": "benchmarks/construction/batch-boundaries-v0.4.json",
+      "sha256": "bff97a9e46971e144eba4ae1908c9c576d551ad346dc0f782395b25149e33d08",
+      "provider_interval_start_utc": "2026-11-03T13:34:37.555Z",
+      "provider_interval_end_utc": "2026-11-03T14:37:33.975Z",
+      "request_started_utc": "2026-11-03T13:44:38.937Z",
+      "request_wall_seconds_to_snapshot": 3233.883871,
+      "provider_delta": {
+        "input_tokens": 6792606,
+        "cached_input_tokens": 6669568,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 89637,
+        "reasoning_output_tokens": 32345,
+        "total_tokens": 6882243
+      },
+      "usage_status": "prefix-only until a post-turn snapshot; final reply may not yet be counted",
+      "session_id": "01a19d40-53c2-7811-8e47-5ac681576e1f"
+    },
+    {
+      "batch_id": "classic-research-v0.9",
+      "record": "benchmarks/construction/batch-classic-research-v0.9.json",
+      "sha256": "518932885364c9fa121f2d6f70e593d88b882ed2adf9eac1af1bb5010eff92a8",
+      "provider_interval_start_utc": "2026-11-04T03:23:10.843Z",
+      "provider_interval_end_utc": "2026-11-04T03:27:34.210Z",
+      "request_started_utc": "2026-11-04T03:23:30.428Z",
+      "request_wall_seconds_to_snapshot": 257.362874,
+      "provider_delta": {
+        "input_tokens": 2303664,
+        "cached_input_tokens": 2278144,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 8184,
+        "reasoning_output_tokens": 2061,
+        "total_tokens": 2311848
+      },
+      "usage_status": "prefix-only until a post-turn snapshot; final reply may not yet be counted",
+      "session_id": "01a19d40-53c2-7811-8e47-5ac681576e1f"
+    },
+    {
+      "batch_id": "classics-graphs-v0.10",
+      "record": "benchmarks/construction/batch-classics-graphs-v0.10.json",
+      "sha256": "80f03ed9615f7a3bc889407137856388b1356d057a38137468df58f5ff2b2ad1",
+      "provider_interval_start_utc": "2026-11-04T03:28:41.876Z",
+      "provider_interval_end_utc": "2026-11-04T03:45:48.609Z",
+      "request_started_utc": "2026-11-04T03:29:25.424Z",
+      "request_wall_seconds_to_snapshot": 1006.253187,
+      "provider_delta": {
+        "input_tokens": 12329749,
+        "cached_input_tokens": 12296704,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 31571,
+        "reasoning_output_tokens": 6885,
+        "total_tokens": 12361320
+      },
+      "usage_status": "prefix-only until a post-turn snapshot; final reply may not yet be counted",
+      "session_id": "01a19d40-53c2-7811-8e47-5ac681576e1f"
+    },
+    {
+      "batch_id": "classics-v0.8",
+      "record": "benchmarks/construction/batch-classics-v0.8.json",
+      "sha256": "2e2fa3cf88d5e1178f4451944c19c14bb72a996600554a036c73ceb4ca4cf08c",
+      "provider_interval_start_utc": "2026-11-04T02:42:48.755Z",
+      "provider_interval_end_utc": "2026-11-04T03:20:01.485Z",
+      "request_started_utc": "2026-11-04T02:43:26.639Z",
+      "request_wall_seconds_to_snapshot": 2211.129931,
+      "provider_delta": {
+        "input_tokens": 20486908,
+        "cached_input_tokens": 20339200,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 48502,
+        "reasoning_output_tokens": 12100,
+        "total_tokens": 20535410
+      },
+      "usage_status": "prefix-only until a post-turn snapshot; final reply may not yet be counted",
+      "session_id": "01a19d40-53c2-7811-8e47-5ac681576e1f"
+    },
+    {
+      "batch_id": "construction-continuation-v0.11",
+      "record": "benchmarks/construction/batch-construction-continuation-v0.11.json",
+      "sha256": "244d1ce50ff6041ec16b2874b79a2ca89d1dc01facc09713dcd68d3f3e8e52d0",
+      "provider_interval_start_utc": "2026-11-04T03:55:02.830Z",
+      "provider_interval_end_utc": "2026-11-04T04:07:35.394Z",
+      "request_started_utc": "2026-11-04T03:55:02.842Z",
+      "request_wall_seconds_to_snapshot": 773.300829,
+      "provider_delta": {
+        "input_tokens": 11345007,
+        "cached_input_tokens": 11327616,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 25125,
+        "reasoning_output_tokens": 7627,
+        "total_tokens": 11370132
+      },
+      "usage_status": "prefix-only until a post-turn snapshot; final reply may not yet be counted",
+      "session_id": "01a19d40-53c2-7811-8e47-5ac681576e1f"
+    },
+    {
+      "batch_id": "stateful-v0.5",
+      "record": "benchmarks/construction/batch-stateful-v0.5.json",
+      "sha256": "0fd8fe8fc9f8e48592678f4b8d246fd98f89f542dad80a638a16e8646859d3ec",
+      "provider_interval_start_utc": "2026-11-03T14:38:53.898Z",
+      "provider_interval_end_utc": "2026-11-03T15:15:10.153Z",
+      "request_started_utc": "2026-11-03T14:39:21.761Z",
+      "request_wall_seconds_to_snapshot": 2247.858822,
+      "provider_delta": {
+        "input_tokens": 6046166,
+        "cached_input_tokens": 6011264,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 67698,
+        "reasoning_output_tokens": 25140,
+        "total_tokens": 6113864
+      },
+      "usage_status": "prefix-only until a post-turn snapshot; final reply may not yet be counted",
+      "session_id": "01a19d40-53c2-7811-8e47-5ac681576e1f"
+    },
+    {
+      "batch_id": "systems-v0.6",
+      "record": "benchmarks/construction/batch-systems-v0.6.json",
+      "sha256": "cd1caa619003faa7ab0ed3ca1b1bfd3fccaf5edfb82104f75d0fda4b6af105f8",
+      "provider_interval_start_utc": "2026-11-03T15:17:15.373Z",
+      "provider_interval_end_utc": "2026-11-04T02:28:58.698Z",
+      "request_started_utc": "2026-11-04T01:56:53.144Z",
+      "request_wall_seconds_to_snapshot": 1940.990759,
+      "provider_delta": {
+        "input_tokens": 27168167,
+        "cached_input_tokens": 26404864,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 53103,
+        "reasoning_output_tokens": 13120,
+        "total_tokens": 27221270
+      },
+      "usage_status": "prefix-only until a post-turn snapshot; final reply may not yet be counted",
+      "session_id": "01a19d40-53c2-7811-8e47-5ac681576e1f"
+    },
+    {
+      "batch_id": "three-platform-v0.2",
+      "record": "benchmarks/construction/batch-three-platform-v0.2.json",
+      "sha256": "04cfa5b7fe3e304e842a6d0fee6cc9912b0a91341c8e8e6fa7d040a6e8d6dae1",
+      "provider_interval_start_utc": "2026-11-03T11:31:29.246Z",
+      "provider_interval_end_utc": "2026-11-03T12:14:29.938Z",
+      "request_started_utc": "2026-11-03T11:35:50.132Z",
+      "request_wall_seconds_to_snapshot": 2365.353587,
+      "provider_delta": {
+        "input_tokens": 8046106,
+        "cached_input_tokens": 7996032,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 75933,
+        "reasoning_output_tokens": 25608,
+        "total_tokens": 8122039
+      },
+      "usage_status": "incomplete: no unambiguous post-final provider usage before collector deadline/next request",
+      "session_id": "01a19d40-53c2-7811-8e47-5ac681576e1f"
+    },
+    {
+      "batch_id": "total-cost-audit-v0.11",
+      "record": "benchmarks/construction/batch-total-cost-audit-v0.11.json",
+      "sha256": "fbf0c93738220b318fb9b059548691620ec46593c184f410d4599a239741f73c",
+      "provider_interval_start_utc": "2026-11-04T03:53:53.780Z",
+      "provider_interval_end_utc": "2026-11-04T04:07:35.394Z",
+      "request_started_utc": "2026-11-04T03:54:06.089Z",
+      "request_wall_seconds_to_snapshot": 831.040312,
+      "provider_delta": {
+        "input_tokens": 12469687,
+        "cached_input_tokens": 12443520,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 26573,
+        "reasoning_output_tokens": 8435,
+        "total_tokens": 12496260
+      },
+      "usage_status": "prefix-only until a post-turn snapshot; final reply may not yet be counted",
+      "session_id": "01a19d40-53c2-7811-8e47-5ac681576e1f"
+    }
+  ],
+  "skipped_batch_records": [],
+  "token_observation": {
+    "provider_interval_union": {
+      "input_tokens": 116388746,
+      "cached_input_tokens": 115142016,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 516315,
+      "reasoning_output_tokens": 184586,
+      "total_tokens": 116905061
+    },
+    "session_count": 1,
+    "merged_interval_count": 10,
+    "overlapping_intervals_deduplicated": 1,
+    "scope": "provider-reported cumulative counters between each recorded baseline and latest snapshot; intervals merged within a session before subtraction",
+    "limitations": [
+      "prefixes omit unrecorded history, gaps and final tails",
+      "windows may include other work in the same conversation; not exact task-only attribution",
+      "cached input is a subset of input and reasoning output is a subset of output; do not add them twice",
+      "shared authoring usage cannot be exactly assigned to implementation groups"
+    ],
+    "complete": false
+  },
+  "time_observation": {
+    "request_window_union_seconds": 18783.231271999997,
+    "request_window_count": 11,
+    "merged_request_window_count": 10,
+    "instrumented_command_window_union_seconds": 4435.581492000004,
+    "instrumented_command_count": 2374,
+    "invalid_command_timestamps": 0,
+    "command_log_prefix_bytes": 2973646,
+    "command_log_prefix_sha256": "84bff2d62f4a4112ec6a95912b9c29e38354e285c76e20d36705825a59418722",
+    "attribution_corrections_sha256": "bca3a5f6358b04992a03ba66bbe53f89f8cf4aef11d08ef554478d4ba00da20b",
+    "merged_instrumented_command_window_count": 1170,
+    "scope": "request start through recorded snapshot includes idle/wait; command interval union counts overlapping or nested commands once",
+    "limitations": [
+      "windows and command logs omit historical work, uninstrumented actions and post-snapshot tails",
+      "elapsed time is not person-hours or total CPU time"
+    ],
+    "complete": false
+  },
+  "memory_observation": {
+    "max_observed_single_process_rss_bytes": 1700548608,
+    "peak_attempt_id": "3d0305eba729",
+    "peak_group_id": "shared-boundaries",
+    "commands_with_rss": 2374,
+    "commands_without_rss": 0,
+    "exact_concurrent_process_tree_peak_bytes": null,
+    "hosted_model_inference_peak_bytes": null,
+    "scope": "GNU time/wait4 maximum process high-water among instrumented commands and waited descendants; not the simultaneous process-tree sum",
+    "limitations": [
+      "unmeasured commands or historical activity may have larger peaks",
+      "provider does not expose hosted inference memory"
+    ],
+    "complete": false
+  },
+  "monetary_cost": null,
+  "monetary_cost_reason": "Exact historical model identities and applicable billing rates are not consistently available.",
+  "refresh": "python3 scripts/construction/summarize_total_cost.py"
+}

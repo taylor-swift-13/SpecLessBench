@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "revision": "design-v0.11",
+  "curator_only": true,
+  "required_platforms": [
+    "lean",
+    "rocq",
+    "compcert"
+  ],
+  "final_target_proofs_required": false,
+  "groups": [
+    {
+      "group_id": "stable-counting-sort",
+      "family": "records",
+      "family_index": 0,
+      "proof_level": "L3",
+      "revision": "design-v0.11",
+      "cost_batch": "construction-continuation-v0.11",
+      "split_group_id": "stable-record-sorting",
+      "tasks": [
+        {
+          "id": "COUNT-01",
+          "left": 0,
+          "right": 1,
+          "domain_index": 0,
+          "expected_polarity": "EQ",
+          "label_status": "provisional; not proved",
+          "theorem": "COUNT_01",
+          "lean_goal": "lean/pending/COUNT_01.lean.goal",
+          "rocq_goal": "rocq/CountSortGoals.v::COUNT_01",
+          "compcert_goal": "compcert/RECORDSGoals.v::COUNT_01",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "id": "COUNT-02",
+          "left": 0,
+          "right": 2,
+          "domain_index": 0,
+          "expected_polarity": "CEX",
+          "label_status": "provisional; not proved",
+          "theorem": "COUNT_02",
+          "lean_goal": "lean/pending/COUNT_02.lean.goal",
+          "rocq_goal": "rocq/CountSortGoals.v::COUNT_02",
+          "compcert_goal": "compcert/RECORDSGoals.v::COUNT_02",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        }
+      ],
+      "variants": [
+        {
+          "id": "RECORDS_V0",
+          "c": "c/records/v0.c",
+          "lean": "CountSortNative.entry 0 0",
+          "rocq": "CountSortNative.entry 0 0",
+          "ast": "compcert/ast/RECORDS_V0.v"
+        },
+        {
+          "id": "RECORDS_V1",
+          "c": "c/records/v1.c",
+          "lean": "CountSortNative.entry 0 1",
+          "rocq": "CountSortNative.entry 0 1",
+          "ast": "compcert/ast/RECORDS_V1.v"
+        },
+        {
+          "id": "RECORDS_V2",
+          "c": "c/records/v2.c",
+          "lean": "CountSortNative.entry 0 2",
+          "rocq": "CountSortNative.entry 0 2",
+          "ast": "compcert/ast/RECORDS_V2.v"
+        }
+      ]
+    }
+  ],
+  "protected_files": [
+    {
+      "path": "c/CountSort.h",
+      "sha256": "861e193ebfca768fd9bdede6e473f42396074dd3ef0906aeac2b04ef8efccb0f"
+    },
+    {
+      "path": "c/records/v0.c",
+      "sha256": "d4446bc987dda82fcaeac11a23ff6f23afde3dd8982badedd81ae92309e29053"
+    },
+    {
+      "path": "c/records/v1.c",
+      "sha256": "e1210510a6fffba1106d70d2dcf411fe0002636b9c54d368bc8bb3cceda1f7ac"
+    },
+    {
+      "path": "c/records/v2.c",
+      "sha256": "5f4df9ac833046b919f1cf1e6de5dff9a386ab3d3b219ed07aa47699242a3e98"
+    },
+    {
+      "path": "lean/CountSortDomain.lean",
+      "sha256": "1a960853234b0a5cfb18067d36f0252733ca2593a5f17afce785a0bed8838e80"
+    },
+    {
+      "path": "lean/CountSortGoals.lean",
+      "sha256": "b4828df0aaa1900914fd31d064c3703cb8952d69e55ecb7bdc205e985834c7e8"
+    },
+    {
+      "path": "lean/CountSortNative.lean",
+      "sha256": "22238acd0b39da3f4faead172d0fe63060903ebe1108786e71b7082fa2498720"
+    },
+    {
+      "path": "lean/CountSortRunner.lean",
+      "sha256": "ad2cbc2e68e54be13accaf7146fa4780211007986aab79939e2f04ce0421d1fe"
+    },
+    {
+      "path": "lean/pending/COUNT_01.lean.goal",
+      "sha256": "9588c0197980991c73f04f01835f506f67c3c9b8d2548ceb959e71bb01bad60e"
+    },
+    {
+      "path": "lean/pending/COUNT_02.lean.goal",
+      "sha256": "0ccad851eafd277b512eea63a5cd7c3425ece270f1c1ebd3adf21d441ec0abd2"
+    },
+    {
+      "path": "rocq/CountSortDomain.v",
+      "sha256": "2b99309bfe5aae146ea4fb70fcab7580d2c358622a47eb67fd56d5650eaa6624"
+    },
+    {
+      "path": "rocq/CountSortExtract.v",
+      "sha256": "4aa05b31889f0f84bbf409b999e45c0c15e890fac427d8120033569215ff0e08"
+    },
+    {
+      "path": "rocq/CountSortGoals.v",
+      "sha256": "e313138ef9ccb781f224351f9973dc8d8fee02312f8d69c4dcfeab7d8591aac4"
+    },
+    {
+      "path": "rocq/CountSortNative.v",
+      "sha256": "411cd36ed023dec21aa3ad7a588c715968b2067710c5f1dd5a5fc99079f17a24"
+    },
+    {
+      "path": "compcert/CountSortDomain.v",
+      "sha256": "3cb729f11238dd25f3562ea7ae5423d3f413ca1613433d3de29fc78c0689ef97"
+    },
+    {
+      "path": "compcert/Execution.v",
+      "sha256": "d81e3e6d5dd762af0c447d635ad1c84d8a413f6bb37da4c64167860798264a44"
+    },
+    {
+      "path": "compcert/RECORDSGoals.v",
+      "sha256": "14dcb4a34410613939932ee82c341c8d6daacc6541b9afbfd3fc8980df6e1f4f"
+    }
+  ],
+  "c_environment_header": "../qcip-core/common/io.h",
+  "io_header_sha256": "1a15f691e351895887746a3039a9d6a56ec2e263489e7d8002dbb4ce6eebf954"
+}
