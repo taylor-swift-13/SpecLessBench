@@ -1,4 +1,4 @@
-From EqualBenchBoundary Require Import TREEGoals UNIONFINDGoals PRIORITYGoals EVALGoals TLVGoals QUOTESGoals PACKBITSGoals PATHGoals.
+From SpecLessBenchBoundary Require Import TREEGoals UNIONFINDGoals PRIORITYGoals EVALGoals TLVGoals QUOTESGoals PACKBITSGoals PATHGoals.
 Definition C_TREE_STACK_equivalence : Prop := TREEGoals.C_TREE_STACK_equivalence.
 Definition C_TREE_STACK_refutationAt := TREEGoals.C_TREE_STACK_refutationAt.
 Definition C_TREE_SUBTREE_equivalence : Prop := TREEGoals.C_TREE_SUBTREE_equivalence.

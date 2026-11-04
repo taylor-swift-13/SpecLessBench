@@ -1,16 +1,16 @@
-From EqualBenchBoundary Require Import BoundaryDomain Execution.
+From SpecLessBenchBoundary Require Import BoundaryDomain Execution.
 
-From EqualBenchBoundary.Generated Require Import PACKBITS_V0.
+From SpecLessBenchBoundary.Generated Require Import PACKBITS_V0.
 
 Definition impl_PACKBITS_V0 : implementation :=
  {| program := PACKBITS_V0.prog; input_symbol := PACKBITS_V0._eb_input; output_symbol := PACKBITS_V0._eb_output |}.
 
-From EqualBenchBoundary.Generated Require Import PACKBITS_V1.
+From SpecLessBenchBoundary.Generated Require Import PACKBITS_V1.
 
 Definition impl_PACKBITS_V1 : implementation :=
  {| program := PACKBITS_V1.prog; input_symbol := PACKBITS_V1._eb_input; output_symbol := PACKBITS_V1._eb_output |}.
 
-From EqualBenchBoundary.Generated Require Import PACKBITS_V2.
+From SpecLessBenchBoundary.Generated Require Import PACKBITS_V2.
 
 Definition impl_PACKBITS_V2 : implementation :=
  {| program := PACKBITS_V2.prog; input_symbol := PACKBITS_V2._eb_input; output_symbol := PACKBITS_V2._eb_output |}.

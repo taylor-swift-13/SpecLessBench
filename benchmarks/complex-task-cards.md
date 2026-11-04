@@ -1,4 +1,4 @@
-# EqualBench: complex data-structure and function-call task cards
+# SpecLessBench: complex data-structure and function-call task cards
 
 **Curator-only design draft.** Labels, proposed mutants, and witness seeds must be excluded from agent packages. These ten candidate families add 30 selected task slots to the original 12-family/24-slot inventory: 22 families and 54 slots in total. No new pair has been proved or refuted in this phase. BST, AVL, ring buffers and Dijkstra now have concrete derived C entries, precise domains/observations and twelve unproved targets in [tasks/qcip-core/TASKS.md](tasks/qcip-core/TASKS.md). That revision supersedes the broad cards below for these four families: it adds final map readouts, fixes the normalized ring API, and includes each Dijkstra provider in a single closed translation unit. These are refinements of existing slots, not twelve additional tasks. The source inspection report is in [research/qcip-candidate-review.md](research/qcip-candidate-review.md).
 
@@ -123,10 +123,10 @@ For representation-changing tasks, compare client observations. Tree shape, cach
 
 **Variants and three tasks:** `R` stores values in a linked list and traverses it for count; `E1` caches a sum and accepts only nonnegative additions that fit the integer range. (1) Under nonnegative bounded-prefix inputs and sufficient arena capacity, compare `R/E1`. (2) Compare `Triang_nth` linked against the two modules, under bounded `n`, as a client-level equivalence task. (3) Keep the same `R/E1` source pair but admit safe signed additions; require a counterexample certificate.
 
-**Witness seed for task 3:** add `-1`, then count. The source cached implementation ignores the addition, while the linked representation retains it. The wider domain is an EqualBench comparison boundary; this is not a defect claim about the source verification, whose contracts restrict callers. The distinction between source reuse and a changed task is central here.
+**Witness seed for task 3:** add `-1`, then count. The source cached implementation ignores the addition, while the linked representation retains it. The wider domain is an SpecLessBench comparison boundary; this is not a defect claim about the source verification, whose contracts restrict callers. The distinction between source reuse and a changed task is central here.
 
 ## Sampling and status
 
-The ten families have 30 proposed task slots; the two C-PILE equivalence slots are correlated client/module contexts and remain one family. Source alternatives and proposed alternatives are explicitly distinguished above. No listed positive relation or negative witness has yet received an EqualBench kernel certificate. The original simple pilot stays at six families/12 slots. A first complex slice selects C-DLL, C-RING, C-TREE, C-UF, C-PQ, and C-EVAL (18 slots), before the harder families are instantiated.
+The ten families have 30 proposed task slots; the two C-PILE equivalence slots are correlated client/module contexts and remain one family. Source alternatives and proposed alternatives are explicitly distinguished above. No listed positive relation or negative witness has yet received an SpecLessBench kernel certificate. The original simple pilot stays at six families/12 slots. A first complex slice selects C-DLL, C-RING, C-TREE, C-UF, C-PQ, and C-EVAL (18 slots), before the harder families are instantiated.
 
 The final 60--100 task target can select additional meaningful replacements or longer-trace mutants from these families. It must not count every possible implementation combination, or every client calling the same module, as an independent program family.

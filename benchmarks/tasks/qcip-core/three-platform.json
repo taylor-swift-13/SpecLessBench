@@ -483,71 +483,71 @@
   "protected_files": [
     {
       "path": "lean/Domain.lean",
-      "sha256": "71109d9e0e1035a13f9d83402a06e8a58765d70ef7d8f1a8f5fb0e72c10cefea"
+      "sha256": "3e17bf3f6327275f79c30403750d7d1c5926ac2f241ddb19a9bbc3acac1cb925"
     },
     {
       "path": "lean/Goals.lean",
-      "sha256": "546473f4292a6512a6f7f67b35033a3b8058973aede80414c3dcee48fd310833"
+      "sha256": "d17a539fb2260149984075c857a9dc6ad3ae6441c030f4db05ca29bdf1c74310"
     },
     {
       "path": "lean/Native.lean",
-      "sha256": "d804eb78169554a4dc3f888f44a2cfa17b464f08f47dc00558a94d9475850bd7"
+      "sha256": "53f296e5fa9eb485db0cb238258db14d413d156273cb0790172b34b683301e84"
     },
     {
       "path": "lean/pending/C_AVL_FACTOR.lean.goal",
-      "sha256": "acf60bdaf03f5e8a020f2e7295963aa9097594fdc2fbf7072675d8b081e0a8c9"
+      "sha256": "a940c9b524e2334f734149bae934338e16c551ecf79f7e729273471ced8b379e"
     },
     {
       "path": "lean/pending/C_AVL_MIDDLE.lean.goal",
-      "sha256": "5dea44b2022ad9c3726e1631cd9974eb40fa9fccb0668b13df302449ef955fda"
+      "sha256": "3e7f003936016cea3284f988cfd92eb6a480f49e541e34fad661e13d2a9fbd7f"
     },
     {
       "path": "lean/pending/C_AVL_STACK.lean.goal",
-      "sha256": "6708325be780118c962470df95b91983c03bba5f2082eac492db89e3f1c40de8"
+      "sha256": "d7e96164e88cf1327be8b7a17580f88e4378c21528d3e59ee6c5b8b7c1b7f1e1"
     },
     {
       "path": "lean/pending/C_BST_ROTATE.lean.goal",
-      "sha256": "901e6d8c5c8f943e869a2d2a0e36652b1e449c4e6679072d08dd500d8ef5ba28"
+      "sha256": "a7ac35c1c8d7f74789783adce61179aeaff5e54cc7fe6882d8e21c941f55c608"
     },
     {
       "path": "lean/pending/C_BST_SUCCESSOR.lean.goal",
-      "sha256": "3b98efc9a3c5ec130c2991075d039986bbdf1f1b3ebd01312c051d9b0b998992"
+      "sha256": "62ceaa6b94f04990176579499e98bc1d9f5db8547f55a52e77b6ad2b2b08a134"
     },
     {
       "path": "lean/pending/C_BST_VALUE.lean.goal",
-      "sha256": "1dfdf657e69f996d1466ab2ca524450b787a60612bb6906233ffb0200c384de6"
+      "sha256": "366d81cb23c5d23380991d6ab1327134b492cc25a58d3486d87556bcfe06ffb5"
     },
     {
       "path": "lean/pending/C_DIJK_HEAP.lean.goal",
-      "sha256": "fe8a05b055edb1f37b4e929772171146a407fc548b08818e189277db69b0047f"
+      "sha256": "d099759f5e501ff98910f9e480e27b3817773438ef7e3183ae45a64aee56b996"
     },
     {
       "path": "lean/pending/C_DIJK_SCAN.lean.goal",
-      "sha256": "77b70ff219d5df8f87431b6bd28f0ed05c3344ee00bbdeafb0cf51b9ed93e662"
+      "sha256": "f2aab87c0c3e87c28f4d2034ef18ba228af50e6f9ef654971c5107c3c34162d7"
     },
     {
       "path": "lean/pending/C_DIJK_SEEN.lean.goal",
-      "sha256": "3543b7c8b383ad6a6ffa46f707bffef06520dc4989d427ad8b1de22052a8d964"
+      "sha256": "878582c74f5688cbb4b0d470140dc35176119ce7d9a01d9be638acce474a3c43"
     },
     {
       "path": "lean/pending/C_RING_COPY.lean.goal",
-      "sha256": "df95489e70e7fe0a22d6c7e8ac79e6562ac31ddfa30498920383b42495f3c402"
+      "sha256": "a0488f8e76a4e2b48f0e21b01d6f12ef1e799ce1d9aab05374569ddfbfbeb2ea"
     },
     {
       "path": "lean/pending/C_RING_FULL.lean.goal",
-      "sha256": "532b6a2113c939f6ebc7d1429feabf0caa118667f3afeffc829fa8af2221dba5"
+      "sha256": "5edd68a845a5ab1335ce6cd6b74bed279c723121a07ef3e4fcdc9c1c3c06046f"
     },
     {
       "path": "lean/pending/C_RING_REP.lean.goal",
-      "sha256": "47842cf852987c7e05064663f987dbc33748f0e1efa8e62285cf2b870d587319"
+      "sha256": "f627854914cb4dac9a0dbee663600010c21854e19839fedd890a4ed839c99517"
     },
     {
       "path": "rocq_native/Extract.v",
-      "sha256": "cf087d33bd318eeaec1a328068c27e365c2ae775ecd7f89df63d936ad76b4cfc"
+      "sha256": "f36aa01d7438dbc252755f80a7bd9782bde363842dfd3bc40fd87bc73bf1e23b"
     },
     {
       "path": "rocq_native/Goals.v",
-      "sha256": "74cd991f386d75a59bef41d7becae5eaec2ed90f869b4180ffce5c5ac54d1e70"
+      "sha256": "9901da9a43ac5655fdf04e536716be8bd2a71b4d6b2a6505730d70c4c58dba80"
     },
     {
       "path": "rocq_native/Native.v",
@@ -555,39 +555,39 @@
     },
     {
       "path": "compcert/AVLBindings.v",
-      "sha256": "b0e96fb7a566241985478f2a6ca0543beb7d2be263bde331650574a17dd5df00"
+      "sha256": "826a5d58c4e3f7198d04999f7b83e97a7ae92a58df258fdf8309a3e6729d27ca"
     },
     {
       "path": "compcert/AVLCertificates.v",
-      "sha256": "c09d6a1a7035a975c7030ee1e20fef7d363ec90a9030da23622295be79c801aa"
+      "sha256": "b0f60adfa23d7aaee11931d5339c06a1859219670128aac6b839e29fe2dec6e7"
     },
     {
       "path": "compcert/AVLExpected.v",
-      "sha256": "ad6d4a86ad5bfddd251ea3fe7680938d1cc8c34257d79b71f9216365d306289a"
+      "sha256": "32270dd39948f7f4be768d08001c5c525916e365b77089de5d50f744c57375aa"
     },
     {
       "path": "compcert/BSTBindings.v",
-      "sha256": "f77c22f58741e6a931f73e637fe13ea747c05b335b4a457b2f3c44bbe8445937"
+      "sha256": "3aa08e664c640821421c54209d4c1fa28caaa895dd6abea4b85aa3e9562fc789"
     },
     {
       "path": "compcert/BSTCertificates.v",
-      "sha256": "b24d4eda0248c23ce1aed2d08783d45c1987881b181d9e7234f3b53eff9f95c1"
+      "sha256": "eeb8da0a2f941cecea87a6b40385e2119422b851af612d848a13f6c1739c45d7"
     },
     {
       "path": "compcert/BSTExpected.v",
-      "sha256": "c9710ff9ad3ffc76cb2758d596e97bfea49f16d4fe04946eeda8444bb39f093b"
+      "sha256": "0f0ea4cb397adbabeea823eabadad73d9b4501057e69f175ca5581492431c8e4"
     },
     {
       "path": "compcert/DIJKSTRABindings.v",
-      "sha256": "9b16da2300938d176dc89372e5e329cbddb47d7413aaa13fd6d9a659a1a1d6eb"
+      "sha256": "5aceda4da58f397fc1476a12cd9bb7c44953dd6f430e78f6e0a8cde37d1da1c6"
     },
     {
       "path": "compcert/DIJKSTRACertificates.v",
-      "sha256": "8a6649f252376d6a8b8286f9073a1dd6a7494cad0df8cd49ab6e32de98fbc5d2"
+      "sha256": "f6d7f73ef100cbded1e6d8743e058ebd33fde15dc48e78aa5d6b13f168e8dba2"
     },
     {
       "path": "compcert/DIJKSTRAExpected.v",
-      "sha256": "26bcd179dd6794d92f93d1d1da597438996bb4868aae401d11949597b1b21fc7"
+      "sha256": "dd61084b91963b77c688017023a77fa4b9d8373a3fd2b0f5f6ba1dcca3365524"
     },
     {
       "path": "compcert/Domain.v",
@@ -595,19 +595,19 @@
     },
     {
       "path": "compcert/Execution.v",
-      "sha256": "e4cbd75f36be508dd5e0fa7c2248a9755f9a95b5c902fe9c393fd1888b47e597"
+      "sha256": "5615755ddec17fbd020184de5c368d86f93a7e252be288ab6b9c204424bdce17"
     },
     {
       "path": "compcert/RINGBindings.v",
-      "sha256": "270495fc5263942b27ee11d55b82edb08838226ab7b7fcae40863e16c9e720b5"
+      "sha256": "84ee3d3c9c13f3d82fd5aeb67d206e0ed00eb78e220aee2463cace73ea62f145"
     },
     {
       "path": "compcert/RINGCertificates.v",
-      "sha256": "676dc43d21bdf908c30c86f5ea1bcafe1019c9e8fe8fe755e4b8fdbdffc72f7c"
+      "sha256": "e60cf1b7a3cb20b9e42f99fd788eb71467086bf723b8de90699e6a7cabb72571"
     },
     {
       "path": "compcert/RINGExpected.v",
-      "sha256": "5253b25cf0cc0e2fcd44d5904eefd547c93c73eb87aaed2d32e26b03a1d2f417"
+      "sha256": "6209b432d55d3f4a1451a334ef1f1c75fa0674f18eba70d1c63170cae41bc469"
     },
     {
       "path": "compcert/ast/AVL_V0.v",

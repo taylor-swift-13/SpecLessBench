@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "revision_id": "31940faa55c0",
+  "group_id": "minimum-spanning-forest",
+  "started_utc": "2026-11-04T03:16:34.101016+00:00",
+  "reason": "Forest test-driver domain dispatcher incorrectly admits a sorting-shaped mode-2 record",
+  "status": "committed-tests-invalidated",
+  "files": [
+    {
+      "path": "benchmarks/tasks/classics-core/lean/ClassicsDomain.lean",
+      "before_sha256": "fa8e7073815850e73d49890d96f5b306dd1d6e10313b16f8aa8489ca5d3d2255",
+      "snapshot": "benchmarks/construction/repairs/31940faa55c0/0.before",
+      "after_sha256": "6dbb83ca5b3b8fe8298ebd3f9d85ab2ad6610f5fec150f567caa465425d5dee0"
+    },
+    {
+      "path": "benchmarks/tasks/classics-core/rocq/ClassicsDomain.v",
+      "before_sha256": "8db44de9c4b2188c375723bf26acb2274cfc00178f0ec5061ef3ff21a56ccda4",
+      "snapshot": "benchmarks/construction/repairs/31940faa55c0/1.before",
+      "after_sha256": "e4186e9f845ca1b99d675f998c0ccbb362f40fc39de555920b85bae9f25acbf1"
+    },
+    {
+      "path": "scripts/construction/classics_cases.py",
+      "before_sha256": "4ed741d29dfd3197deb14c1a90e4929b6d780f42016ef5ef7351b5ade0b26f26",
+      "snapshot": "benchmarks/construction/repairs/31940faa55c0/2.before",
+      "after_sha256": "123a448d264b97065b28afc7e38d60cd51a9c6e449460bfe2a7532c6dc0bffb7"
+    },
+    {
+      "path": "scripts/construction/classics_common.py",
+      "before_sha256": "af235744cd5fc4f23f4f9d9e8af81192863d3f251c27a88b1f23ebf019e6b157",
+      "snapshot": "benchmarks/construction/repairs/31940faa55c0/3.before",
+      "after_sha256": "6e93a8bf4c12dcb3fa2bb9c6af5fe4c235811f14052e3accbb3904b08d1ba58b"
+    }
+  ],
+  "new_revision": "design-v0.8.3",
+  "affected_contexts": [
+    "MST-TIED-WEIGHT",
+    "MST-UNIQUE-EDGES",
+    "MST-MAX-COUNTEREXAMPLE"
+  ],
+  "ended_utc": "2026-11-04T03:17:28.281802+00:00",
+  "retest_required": true,
+  "label_revalidation_required": true
+}

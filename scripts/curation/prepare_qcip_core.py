@@ -37,24 +37,24 @@ def main():
         variants = []
         for v in range(4):
             relative = f"{folder}/v{v}.c"
-            write(CORE / relative, f'/* Fixed EqualBench implementation {folder.upper()}_V{v}. */\n#define EB_STYLE {v}\n#include "body.h"\n')
+            write(CORE / relative, f'/* Fixed SpecLessBench implementation {folder.upper()}_V{v}. */\n#define EB_STYLE {v}\n#include "body.h"\n')
             variants.append({"id": f"{folder.upper()}_V{v}", "source": relative,
                 "ast_module": f"{folder.upper()}_V{v}", "style_macro": v})
         bindings = ["(* Protected fixed program bindings. Generated ASTs are required.",
                     " * No Parameters/Axioms stand in for missing implementations. *)",
-                    "From EqualBench.QCIP Require Import Domain Execution."]
+                    "From SpecLessBench.QCIP Require Import Domain Execution."]
         for v in variants:
-            bindings.append(f'From EqualBench.QCIP.Generated Require Import {v["ast_module"]}.')
+            bindings.append(f'From SpecLessBench.QCIP.Generated Require Import {v["ast_module"]}.')
         for v in variants:
             m = v["ast_module"]
             bindings.append(f'Definition impl_{m} : implementation :=\n  {{| program := {m}.prog; input_symbol := {m}._eb_input;\n     output_symbol := {m}._eb_output |}}.')
         write(CORE / "rocq" / f"{folder.upper()}Bindings.v", "\n".join(bindings) + "\n")
         expected = ["(* Curator-only expected branch goals. Abort closes an UNPROVED",
                     " * declaration; it does not supply a certificate or an axiom. *)",
-                    f"From EqualBench.QCIP Require Import Domain Execution {folder.upper()}Bindings."]
+                    f"From SpecLessBench.QCIP Require Import Domain Execution {folder.upper()}Bindings."]
         public = ["(* Public disjunction goals. Packaging must rename variants neutrally",
                   " * and exclude curator IDs, expected branches, and witness seeds. *)",
-                  f"From EqualBench.QCIP Require Import Domain Execution {folder.upper()}Bindings."]
+                  f"From SpecLessBench.QCIP Require Import Domain Execution {folder.upper()}Bindings."]
         tasks = []
         task_levels = {"bst": ["L3", "L4", "W2"], "avl": ["L4", "L2", "W2"],
             "ring": ["L2-L3", "L3", "W1"], "dijkstra": ["L4", "L3-L4", "W2"]}[folder]

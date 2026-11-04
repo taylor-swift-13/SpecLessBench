@@ -17,7 +17,7 @@
 
 ## 最有价值的本地候选
 
-| 实际源文件／组 | 阅读到的程序结构 | 为什么适合 EqualBench | 需要补齐的边界 |
+| 实际源文件／组 | 阅读到的程序结构 | 为什么适合 SpecLessBench | 需要补齐的边界 |
 |---|---|---|---|
 | `QCP_demos_LLM/functional_queue.c`、`sll_queue.c`、`dll_queue.c` | 两列表队列有 `enqueue → push`、`dequeue → reverse/pop`；另有单链和双链队列 | 已有多种表示和调用分解，可比较操作序列 | 分配／释放及 `reverse` 只有声明时必须补实现；空队列调用须由固定 driver 处理 |
 | `QCP_demos_LLM/bst_delete_rec2.c` 与 `bst_delete_new.c` | 前者递归寻找前驱并复制键值，后者以指针到指针寻找后继并移植节点 | 现成的算法、递归和堆结构差异，且最终树形可以不同 | 不比较根地址或整棵树形；用 lookup 返回值轨迹比较映射，限定无外部节点句柄 |
@@ -46,13 +46,13 @@ flowchart LR
 
 ## OUTPUT 的证明记录怎么使用
 
-OUTPUT 的 README 有用，因为它们说明了输入形状、调用依赖、分配器假设和修复历史。但这里没有重放这些记录，也没有把它们当作 EqualBench 的已验证结果。例如：
+OUTPUT 的 README 有用，因为它们说明了输入形状、调用依赖、分配器假设和修复历史。但这里没有重放这些记录，也没有把它们当作 SpecLessBench 的已验证结果。例如：
 
 - `xizi_avl_insert/LEGACY_MODIFIED_README.md` 明确记载执行代码修复，不能称为未修改的 CRTOS 原版；
 - `xizi_avl_delete_crtos/README.md` 记载外部分配／日志契约及自动生成文件的信任边界，不能仅凭 manual 文件全为 `Qed` 就宣称整个开发没有假设；
 - 环形缓冲区与双链表的 callpoint 文件经常只含 callee 声明，证明一个调用点与交付所有 callee 函数体是不同的产物。
 
-EqualBench 应提取程序及调用关系，隐藏来源中的独立功能后置条件，并为冻结后的程序对重新构造自己的关系证书。求解者仍可自行发明、证明并组合辅助引理或函数级关系。
+SpecLessBench 应提取程序及调用关系，隐藏来源中的独立功能后置条件，并为冻结后的程序对重新构造自己的关系证书。求解者仍可自行发明、证明并组合辅助引理或函数级关系。
 
 ## 网上找到的补充材料
 
@@ -60,7 +60,7 @@ EqualBench 应提取程序及调用关系，隐藏来源中的独立功能后置
 
 更有辨识度的是 [VST `VSUpile`](https://github.com/PrincetonUniversity/VST/tree/08cb56d32d9ce42505cf8167c4d0bd15fb119d9e/progs/VSUpile)：普通 pile 每次查询遍历链表求和，fastpile 保存累计和，客户端 `Triang_nth` 跨 API 创建、添加、查询并释放。这直接对应维护中的数据结构替换。[相关原论文](https://doi.org/10.1007/978-3-030-30942-8_34)讨论了这些模块化验证例子。
 
-读源码还能发现很适合设计边界敏感任务的差异：fastpile 的添加函数拒绝负值，而链表版本直接保存负值。因此，两者在限定非负且不溢出的输入域上可作为等价候选；扩大到包含负值的安全输入域后可作为反例候选。这不是 VST 原证明有错的结论，较宽输入域是 EqualBench 新设的任务。
+读源码还能发现很适合设计边界敏感任务的差异：fastpile 的添加函数拒绝负值，而链表版本直接保存负值。因此，两者在限定非负且不溢出的输入域上可作为等价候选；扩大到包含负值的安全输入域后可作为反例候选。这不是 VST 原证明有错的结论，较宽输入域是 SpecLessBench 新设的任务。
 
 VST 查询固定在 commit `08cb56d32d9ce42505cf8167c4d0bd15fb119d9e`；7 个实际读取的文件及其原始字节 hash 见 [web-source-audit.json](web-source-audit.json)。其中 BST、pile、fastpile 和 triang 四份 C 源码已按原始字节保存到整理用源码库。
 
@@ -74,7 +74,7 @@ QCIP 根 LICENSE 是 MIT。XiZi/CRTOS 源码头声明 Mulan PSL v2；VST 的 LIC
 
 ## 重复源码盘点
 
-在 EqualBench 仓库根目录、WSL 中运行：
+在 SpecLessBench 仓库根目录、WSL 中运行：
 
 ```sh
 python3 scripts/curation/audit_qcip_sources.py \

@@ -36,7 +36,14 @@ def main():
         actual = hashlib.sha256((core / record["path"]).read_bytes()).hexdigest()
         assert actual == record["sha256"], record["path"]
     evidence = json.loads((core / "evidence/native-check.json").read_text())
-    assert evidence["tasks_manifest_sha256"] == hashlib.sha256((core / "tasks.json").read_bytes()).hexdigest()
+    current_manifest_sha = hashlib.sha256((core / "tasks.json").read_bytes()).hexdigest()
+    if evidence["tasks_manifest_sha256"] != current_manifest_sha:
+        migration=json.loads((root/"benchmarks/construction/rename-speclessbench.json").read_text())
+        digest=evidence["tasks_manifest_sha256"]
+        for r in migration["registry_rebindings"]:
+            if r["path"]=="benchmarks/tasks/qcip-core/tasks.json" and r["before_sha256"]==digest:
+                digest=r["after_sha256"]
+        assert digest==current_manifest_sha
 
     if (root / "benchmarks/active-groups.json").exists():
         active = json.loads((root / "benchmarks/active-groups.json").read_text())

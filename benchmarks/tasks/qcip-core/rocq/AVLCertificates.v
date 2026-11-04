@@ -2,7 +2,7 @@
 
  * and exclude curator IDs, expected branches, and witness seeds. *)
 
-From EqualBench.QCIP Require Import Domain Execution AVLBindings.
+From SpecLessBench.QCIP Require Import Domain Execution AVLBindings.
 
 Theorem task_01 :
   Certificate AVL.valid AVL.encode impl_AVL_V0 impl_AVL_V1.

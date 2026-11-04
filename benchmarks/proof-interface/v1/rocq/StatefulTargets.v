@@ -1,4 +1,4 @@
-From EqualBenchStatefulNative Require Import StatefulGoals.
+From SpecLessBenchStatefulNative Require Import StatefulGoals.
 Definition S_FRAME_RING_equivalence : Prop := StatefulGoals.S_FRAME_RING_equivalence.
 Definition S_FRAME_RING_refutationAt := StatefulGoals.S_FRAME_RING_refutationAt.
 Definition S_FRAME_EMPTY_equivalence : Prop := StatefulGoals.S_FRAME_EMPTY_equivalence.

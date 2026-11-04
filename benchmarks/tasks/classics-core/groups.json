@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": "design-v0.8.2",
+  "revision": "design-v0.8.3",
   "curator_only": true,
   "required_platforms": [
     "lean",
@@ -14,7 +14,7 @@
       "family": "forest",
       "family_index": 0,
       "proof_level": "L4",
-      "revision": "design-v0.8.2",
+      "revision": "design-v0.8.3",
       "cost_batch": "classics-v0.8",
       "tasks": [
         {
@@ -98,7 +98,7 @@
       "family": "sorting",
       "family_index": 1,
       "proof_level": "L3",
-      "revision": "design-v0.8.2",
+      "revision": "design-v0.8.3",
       "cost_batch": "classics-v0.8",
       "tasks": [
         {
@@ -192,51 +192,51 @@
     },
     {
       "path": "lean/ClassicsDomain.lean",
-      "sha256": "f474806c9185773732d908c8220394ddc0935d580f5fc02dec3e30e3791611c2"
+      "sha256": "6dbb83ca5b3b8fe8298ebd3f9d85ab2ad6610f5fec150f567caa465425d5dee0"
     },
     {
       "path": "lean/ClassicsGoals.lean",
-      "sha256": "d7ae5f41b3480c4474ca3b401d87cb2bda86452e3eaf10539e8c0ed2606bd2bf"
+      "sha256": "db47aded4973abad8f2a074a1841313a615455da65f26c0272b0fe7866990f10"
     },
     {
       "path": "lean/ClassicsNative.lean",
-      "sha256": "5f21245dbf0606289fad06f4ecd96868e8404cc60c63db13ee9a325e70c9f0c2"
+      "sha256": "8e86aee41ef4681bc6253b550e38eec2e5440d509a4e00a347bb14062d221c91"
     },
     {
       "path": "lean/ClassicsRunner.lean",
-      "sha256": "182283002e6167982e92352ce9638dddd25b3e9e7255764fd9f884fcd81dafd2"
+      "sha256": "e1cff2c3b282a8a029d569971b2b0f08050239cd3d1d45f30a3e7c17a415ca3f"
     },
     {
       "path": "lean/pending/MST_MAX_COUNTEREXAMPLE.lean.goal",
-      "sha256": "c1b26fd681bb36515b3cd8d29a1d5f1d0bd6688cc698bd8cc0e1831722ccd8de"
+      "sha256": "bf23e80b662576af730fd645a8bd89a3e53b5ea3f7f7ce131cee204ba86cd273"
     },
     {
       "path": "lean/pending/MST_TIED_WEIGHT.lean.goal",
-      "sha256": "8bf111311358c60faac15531d04db08385d7c41b0a620f3e373e4e1bfbc6c23d"
+      "sha256": "74bd83433fd5bca18a7f2abbd626bd44be6c75addc65a373fde9d6dd48a7c888"
     },
     {
       "path": "lean/pending/MST_UNIQUE_EDGES.lean.goal",
-      "sha256": "d8b05d295f6bad8709787aa7ecec06c13ecc0a455dbbe76fc9cf2ac7d3faa814"
+      "sha256": "61aef664626075821bee3310eef49f47ec4c776172809754c616798866ac0290"
     },
     {
       "path": "lean/pending/SORT_MERGE.lean.goal",
-      "sha256": "5a2bf2dd4ce458ae2e089c0e4a3f210783da1c713f1f5af262622e26b978568c"
+      "sha256": "63a4dda82f1f57d833955e0f22454d9b2832263f4682107e9d2f84936e2818ef"
     },
     {
       "path": "lean/pending/SORT_UNSTABLE.lean.goal",
-      "sha256": "d108ac53a430b5dce8f473feff48e8a9af03bec3539990d2e4560fb3a66a1dce"
+      "sha256": "9620e0065e3b2b75861b5a69c99ca22fdc92dc673672672f874cc6e7377d21d3"
     },
     {
       "path": "rocq/ClassicsDomain.v",
-      "sha256": "8db44de9c4b2188c375723bf26acb2274cfc00178f0ec5061ef3ff21a56ccda4"
+      "sha256": "e4186e9f845ca1b99d675f998c0ccbb362f40fc39de555920b85bae9f25acbf1"
     },
     {
       "path": "rocq/ClassicsExtract.v",
-      "sha256": "906be4c9e6f46e7695f773a5b4c7793d8e40b4d431b8e7e6aea8be9dc4b775ed"
+      "sha256": "366fa5720d8d7839f596ac33ed9dfd1761a52e4e89691c3719a20869ee2f676c"
     },
     {
       "path": "rocq/ClassicsGoals.v",
-      "sha256": "b0b85f3a4537fa826339fac84102738b77c757cd210da7a9b45ef165081f5d80"
+      "sha256": "f1566d33f31e4eb66f56c883bf3f2c405fea689513c8e10c130d97d15bb3aa9b"
     },
     {
       "path": "rocq/ClassicsNative.v",
@@ -244,7 +244,7 @@
     },
     {
       "path": "compcert/ClassicsDomain.v",
-      "sha256": "cdbac60d70df7fcb027c602817365bcea204f3091a474fb6875ea249498d0a73"
+      "sha256": "8001d676a5eb9e3eb9c04fbe5e379e4622acead01a793c2d432e6f6ce17e4c88"
     },
     {
       "path": "compcert/Execution.v",
@@ -252,11 +252,11 @@
     },
     {
       "path": "compcert/FORESTGoals.v",
-      "sha256": "bfae300c5132d9af3ce8e1cb82adb24d479325c5f585d9dd607b37d66a45f24e"
+      "sha256": "52efb4274ca2f75386b3574b71d0252a2c563d05d694b9fb77ad598a33eed68e"
     },
     {
       "path": "compcert/SORTINGGoals.v",
-      "sha256": "2466f2cbcf69ae44a6c04a4cdc20d8deab800ac7a811b8ab2e8310609315964a"
+      "sha256": "e518ac1c56905fafc2a84c300acdccfbbd4340166356355f3d1bae29840272c4"
     },
     {
       "path": "compcert/ast/FOREST_V0.v",
@@ -284,5 +284,5 @@
     }
   ],
   "c_environment_header": "../qcip-core/common/io.h",
-  "io_header_sha256": "ed3054989c3045aa35852ebe9d788f9927dbcf5b57a628723fc882d7e57dd43e"
+  "io_header_sha256": "1a15f691e351895887746a3039a9d6a56ec2e263489e7d8002dbb4ce6eebf954"
 }

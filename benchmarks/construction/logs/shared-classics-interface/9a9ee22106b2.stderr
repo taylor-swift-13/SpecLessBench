@@ -1,0 +1,12 @@
+File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/_build/classics-v0.8/contract-checks/ClassicsContractChecks_compcert.v", line 5, characters 0-207:
+Warning: To avoid stack overflow, large numbers in nat are interpreted as
+applications of Init.Nat.of_num_uint. [abstract-large-number,numbers,default]
+File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/_build/classics-v0.8/contract-checks/ClassicsContractChecks_compcert.v", line 5, characters 0-207:
+Warning: To avoid stack overflow, large numbers in nat are interpreted as
+applications of Init.Nat.of_num_uint. [abstract-large-number,numbers,default]
+File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/_build/classics-v0.8/contract-checks/ClassicsContractChecks_compcert.v", line 11, characters 0-207:
+Warning: To avoid stack overflow, large numbers in nat are interpreted as
+applications of Init.Nat.of_num_uint. [abstract-large-number,numbers,default]
+File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/_build/classics-v0.8/contract-checks/ClassicsContractChecks_compcert.v", line 11, characters 0-207:
+Warning: To avoid stack overflow, large numbers in nat are interpreted as
+applications of Init.Nat.of_num_uint. [abstract-large-number,numbers,default]

@@ -1,4 +1,4 @@
-From EqualBenchBoundaryNative Require Import BoundaryNative BoundaryDomain.
+From SpecLessBenchBoundaryNative Require Import BoundaryNative BoundaryDomain.
 
 Definition C_TREE_STACK_equivalence : Prop := BoundaryNative.Equivalent (BoundaryDomain.valid 0) (BoundaryNative.entry 0 0) (BoundaryNative.entry 0 1).
 

@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "updated_utc": "2026-11-04T02:58:19.250399+00:00",
+  "updated_utc": "2026-11-04T03:20:00.895415+00:00",
   "implementation_groups": 29,
   "semantic_contexts": 63,
   "platform_instances": 189,
@@ -475,7 +475,7 @@
       "family": "forest",
       "unique_inputs": 11064,
       "program_executions": 99576,
-      "validity_evaluations": 22140,
+      "validity_evaluations": 22142,
       "duplicates_removed": 3271,
       "negative_inputs": 5559,
       "source_derived_inputs": 0,
@@ -486,7 +486,7 @@
         "equal-weights": 6125
       },
       "unexpected_disagreements": 0,
-      "tool_wall_seconds": 71.92580133996671,
+      "tool_wall_seconds": 188.55711521295598,
       "max_process_rss_bytes": 1652039680,
       "cost_record": "benchmarks/construction/groups/minimum-spanning-forest.json"
     },
@@ -505,15 +505,15 @@
         "max-length": 145
       },
       "unexpected_disagreements": 0,
-      "tool_wall_seconds": 63.242195636063116,
-      "max_process_rss_bytes": 1652391936,
+      "tool_wall_seconds": 228.10412635807006,
+      "max_process_rss_bytes": 1652715520,
       "cost_record": "benchmarks/construction/groups/stable-record-sorting.json"
     }
   ],
   "input_records": 398453,
   "unique_inputs": 398296,
   "program_executions": 3676923,
-  "domain_evaluations_after_qcip": 736626,
+  "domain_evaluations_after_qcip": 736628,
   "unexpected_differences": 0,
   "labels_certified": false,
   "final_target_proofs_attempted": false,
@@ -540,7 +540,7 @@
     "summary-classics-v0.8.json"
   ],
   "proof_acceptance_contract": "benchmarks/proof-interface/v1/manifest.json",
-  "proof_acceptance_contract_sha256": "34e7b355638e7a53763a45f823697cf9c612120424dca0e7286fe614d18ccbab",
+  "proof_acceptance_contract_sha256": "3e561bd37b06892a3b5dc4da3db384dce87dccf94d077032f77f3da397498466",
   "submission_interface_validation": {
     "valid_counterexample_packages": 75,
     "rejected_malformed_packages": 507,

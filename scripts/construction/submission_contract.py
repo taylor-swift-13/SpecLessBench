@@ -87,7 +87,7 @@ def seq(values,lean=False): return "["+(" , " if lean else "; ").join(str(v) if 
 
 def input_term(context,x,lean):
     if context["tranche"] in ("algorithms","boundaries","stateful","systems","base64","classics"): return seq(x,lean)
-    f=context["family"]; ns="EqualBench." if lean else "EqualBench.QCIP.Domain."
+    f=context["family"]; ns="SpecLessBench." if lean else "SpecLessBench.QCIP.Domain."
     dom={"bst":"BST","avl":"AVL","ring":"Ring","dijkstra":"Dijkstra"}[f]
     def listing(items): return "["+(" , " if lean else "; ").join(items)+"]"
     def ctor(name,*args): return "("+ns+dom+(".Command." if lean else ".")+name+" "+" ".join((str(a) if a>=0 else f"({a})") if type(a) is int else a for a in args)+")"
@@ -114,7 +114,7 @@ def render(request,folder):
     context=validate(request); lean=request["platform"]=="lean"
     target=context["equivalence_goal"] if request["claim"]=="equivalence" else context["refutation_at_goal"]
     goal_module=context.get("goal_module","BranchTargets")
-    expression=(context.get("lean_namespace","EqualBenchSubmission")+"." if lean else goal_module+".")+target
+    expression=(context.get("lean_namespace","SpecLessBenchSubmission")+"." if lean else goal_module+".")+target
     if request["claim"]=="counterexample":
         expression+=" ("+input_term(context,request["input"],lean)+")"
         for key in ("left_observation","right_observation"):
@@ -128,8 +128,8 @@ def render(request,folder):
     folder.mkdir(parents=True,exist_ok=True)
     proof=request["proof_module"]+"."+request["proof_theorem"]
     if lean:
-        obligation=f"import {goal_module}\nnamespace EqualBenchObligation\ndef goal : Prop := "+expression+"\nend EqualBenchObligation\n"
-        gate=f"import Obligation\nimport {request['proof_module']}\nexample : EqualBenchObligation.goal := {proof}\n"
+        obligation=f"import {goal_module}\nnamespace SpecLessBenchObligation\ndef goal : Prop := "+expression+"\nend SpecLessBenchObligation\n"
+        gate=f"import Obligation\nimport {request['proof_module']}\nexample : SpecLessBenchObligation.goal := {proof}\n"
         suffix="lean"
     else:
         imports="From "+("Stdlib" if request["platform"]=="compcert" else "Coq")+" Require Import ZArith List.\nRequire Import "+goal_module+".\nImport ListNotations.\nOpen Scope Z_scope.\n"

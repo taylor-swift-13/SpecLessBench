@@ -1,4 +1,4 @@
-# EqualBench paper draft
+# SpecLessBench paper draft
 
 **Target:** ICML 2027  
 **Status:** research-design draft; not submission-ready.

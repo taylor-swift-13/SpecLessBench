@@ -1,4 +1,4 @@
-/* Newly authored EqualBench bounded algorithm variants. No external callees.
+/* Newly authored SpecLessBench bounded algorithm variants. No external callees.
  * EB_FAMILY: factorial/reverse/sum/matrix/search/queue = 0..5.
  * EB_STYLE: reference/replacement/retained mutant = 0/1/2. */
 #include "../../qcip-core/common/io.h"

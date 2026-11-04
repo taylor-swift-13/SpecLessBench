@@ -1,5 +1,5 @@
 import Lean
-namespace EqualBenchBasic
+namespace SpecLessBenchBasic
 abbrev Words := List Int
 def iz (xs : Words) (i : Nat) : Int := (xs[i]?).getD 0
 def put (xs : Words) (i : Nat) (v : Int) := xs.take i ++ [v] ++ xs.drop (i+1)
@@ -82,13 +82,13 @@ def Equivalent (valid : Words → Prop) (a b : Words → Option Words) : Prop :=
 def Counterexample (valid : Words → Prop) (a b : Words → Option Words) : Prop :=
   ∃ x oa ob, valid x ∧ a x = some oa ∧ b x = some ob ∧ oa ≠ ob
 def Certificate (valid : Words → Prop) (a b : Words → Option Words) : Prop := Equivalent valid a b ∨ Counterexample valid a b
-end EqualBenchBasic
+end SpecLessBenchBasic
 def basicRunnerMain : IO Unit := do
   let stdin ← IO.getStdin; let stdout ← IO.getStdout
   repeat
     let line ← stdin.getLine
     if line.isEmpty then break
     let fields := ((line.trimAscii.toString.splitOn " ").filter (· != "")).map (fun s => s.toInt?.getD 0)
-    match EqualBenchBasic.entry (EqualBenchBasic.iz fields 0).toNat (EqualBenchBasic.iz fields 1).toNat (fields.drop 2) with
+    match SpecLessBenchBasic.entry (SpecLessBenchBasic.iz fields 0).toNat (SpecLessBenchBasic.iz fields 1).toNat (fields.drop 2) with
     | none => stdout.putStrLn "FAIL"
     | some xs => stdout.putStrLn (String.intercalate " " (xs.map toString))

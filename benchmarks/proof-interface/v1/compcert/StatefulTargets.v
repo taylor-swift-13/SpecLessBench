@@ -1,4 +1,4 @@
-From EqualBenchStateful Require Import FRAMESGoals TRANSACTIONSGoals LRUGoals.
+From SpecLessBenchStateful Require Import FRAMESGoals TRANSACTIONSGoals LRUGoals.
 Definition S_FRAME_RING_equivalence : Prop := FRAMESGoals.S_FRAME_RING_equivalence.
 Definition S_FRAME_RING_refutationAt := FRAMESGoals.S_FRAME_RING_refutationAt.
 Definition S_FRAME_EMPTY_equivalence : Prop := FRAMESGoals.S_FRAME_EMPTY_equivalence.

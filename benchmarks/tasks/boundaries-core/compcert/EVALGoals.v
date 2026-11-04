@@ -1,16 +1,16 @@
-From EqualBenchBoundary Require Import BoundaryDomain Execution.
+From SpecLessBenchBoundary Require Import BoundaryDomain Execution.
 
-From EqualBenchBoundary.Generated Require Import EVAL_V0.
+From SpecLessBenchBoundary.Generated Require Import EVAL_V0.
 
 Definition impl_EVAL_V0 : implementation :=
  {| program := EVAL_V0.prog; input_symbol := EVAL_V0._eb_input; output_symbol := EVAL_V0._eb_output |}.
 
-From EqualBenchBoundary.Generated Require Import EVAL_V1.
+From SpecLessBenchBoundary.Generated Require Import EVAL_V1.
 
 Definition impl_EVAL_V1 : implementation :=
  {| program := EVAL_V1.prog; input_symbol := EVAL_V1._eb_input; output_symbol := EVAL_V1._eb_output |}.
 
-From EqualBenchBoundary.Generated Require Import EVAL_V2.
+From SpecLessBenchBoundary.Generated Require Import EVAL_V2.
 
 Definition impl_EVAL_V2 : implementation :=
  {| program := EVAL_V2.prog; input_symbol := EVAL_V2._eb_input; output_symbol := EVAL_V2._eb_output |}.

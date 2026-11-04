@@ -36,7 +36,7 @@ def measured(cmd, group, phase, cwd=None, stdin=None, timeout=300, stdin_path=No
     raw = metrics.read_text().splitlines()[-1].split() if metrics.exists() and metrics.stat().st_size else []
     values = [float(z) for z in raw] if len(raw) == 4 else None
     item = {"schema_version": 1, "attempt_id": attempt, "group_id": group, "phase": phase,
-        "batch_id": os.environ.get("EQUALBENCH_CONSTRUCTION_BATCH", "three-platform-v0.2"),
+        "batch_id": os.environ.get("SPECLESSBENCH_CONSTRUCTION_BATCH", "three-platform-v0.2"),
         "measurement_role": role,
         "started_utc": start, "ended_utc": dt.datetime.now(dt.timezone.utc).isoformat(),
         "wall_seconds": elapsed, "argv": cmd, "cwd": str(cwd or ROOT),
@@ -76,7 +76,7 @@ def measured(cmd, group, phase, cwd=None, stdin=None, timeout=300, stdin_path=No
         append(AUDIT / "issues.jsonl", {"schema_version": 1, "id": "CMD-"+attempt,
             "timestamp_utc": item["ended_utc"], "group_id": group, "kind": "construction-command-failed",
             "phase": phase, "attempt_id": attempt, "status": "open", "failure": failure,
-            "stderr": item["stderr"], "revision": os.environ.get("EQUALBENCH_CONSTRUCTION_REVISION", "design-v0.2")})
+            "stderr": item["stderr"], "revision": os.environ.get("SPECLESSBENCH_CONSTRUCTION_REVISION", "design-v0.2")})
         raise RuntimeError(f"{group}/{phase}: command failed; see {err}")
     return (b"" if stdout_path else out.read_bytes()), item
 

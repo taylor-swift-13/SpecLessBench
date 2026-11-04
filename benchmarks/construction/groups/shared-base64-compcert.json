@@ -3,11 +3,13 @@
   "group_id": "shared-base64-compcert",
   "attempt_ids": [
     "f243b3b45055",
-    "1b7179787568"
+    "1b7179787568",
+    "91b557c62626",
+    "2f6a9c009043"
   ],
-  "tool_wall_seconds": 2.202223206011695,
-  "cpu_user_seconds": 0.79,
-  "cpu_system_seconds": 1.02,
+  "tool_wall_seconds": 3.1945048110064818,
+  "cpu_user_seconds": 1.19,
+  "cpu_system_seconds": 1.33,
   "max_process_rss_bytes": 494985216,
   "exact_process_tree_peak_bytes": null,
   "model_tokens": null,
@@ -15,5 +17,5 @@
   "shared_batch_id": "base64-v0.7",
   "historical_cost_complete": false,
   "failed_attempts": 0,
-  "latest_updated_utc": "2026-11-04T02:34:11.803205+00:00"
+  "latest_updated_utc": "2026-11-04T03:07:32.656089+00:00"
 }

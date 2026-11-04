@@ -1,4 +1,4 @@
-/* EqualBench source-derived data-structure ports and newly authored clients.
+/* SpecLessBench source-derived data-structure ports and newly authored clients.
  * See PROVENANCE.md. STYLE 0/1/2 = reference/replacement/retained mutant. */
 #include "../../qcip-core/common/io.h"
 #if EB_FAMILY == 0

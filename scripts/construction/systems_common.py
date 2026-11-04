@@ -4,8 +4,8 @@ from accounting import ROOT
 
 BATCH = "systems-v0.6"
 REVISION = "design-v0.6.2"
-os.environ["EQUALBENCH_CONSTRUCTION_BATCH"] = BATCH
-os.environ["EQUALBENCH_CONSTRUCTION_REVISION"] = REVISION
+os.environ["SPECLESSBENCH_CONSTRUCTION_BATCH"] = BATCH
+os.environ["SPECLESSBENCH_CONSTRUCTION_REVISION"] = REVISION
 os.environ["ASAN_OPTIONS"] = "detect_leaks=0:halt_on_error=1"
 os.environ["UBSAN_OPTIONS"] = "halt_on_error=1"
 CORE = ROOT / "benchmarks/tasks/systems-core"

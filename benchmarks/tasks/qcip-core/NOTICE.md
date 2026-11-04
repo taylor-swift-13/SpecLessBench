@@ -6,4 +6,4 @@ BST rotation-based deletion derives from VST example `progs/bst.c`. The VST lice
 
 The ring family derives from QCIP's XiZi/CRTOS circular-area lineage. The original upstream headers name copyright (c) 2020 AIIT XUOS Lab and Mulan PSL v2. See `licenses/XiZi-MulanPSL-2.0.txt`. This implementation is an explicitly changed, normalized task adaptation; it is not presented as an unmodified upstream CRTOS artifact.
 
-Authored variants, clients, wrappers and task declarations were added for EqualBench. Retaining provenance and source licenses does not transfer upstream verification claims to these programs. No task in this directory has a new formal proof or counterexample certificate.
+Authored variants, clients, wrappers and task declarations were added for SpecLessBench. Retaining provenance and source licenses does not transfer upstream verification claims to these programs. No task in this directory has a new formal proof or counterexample certificate.

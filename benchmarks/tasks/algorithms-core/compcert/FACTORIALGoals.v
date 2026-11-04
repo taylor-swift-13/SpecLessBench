@@ -1,16 +1,16 @@
-From EqualBenchAlgorithms Require Import BasicDomain Execution.
+From SpecLessBenchAlgorithms Require Import BasicDomain Execution.
 
-From EqualBenchAlgorithms.Generated Require Import FACTORIAL_V0.
+From SpecLessBenchAlgorithms.Generated Require Import FACTORIAL_V0.
 
 Definition impl_FACTORIAL_V0 : implementation :=
   {| program := FACTORIAL_V0.prog; input_symbol := FACTORIAL_V0._eb_input; output_symbol := FACTORIAL_V0._eb_output |}.
 
-From EqualBenchAlgorithms.Generated Require Import FACTORIAL_V1.
+From SpecLessBenchAlgorithms.Generated Require Import FACTORIAL_V1.
 
 Definition impl_FACTORIAL_V1 : implementation :=
   {| program := FACTORIAL_V1.prog; input_symbol := FACTORIAL_V1._eb_input; output_symbol := FACTORIAL_V1._eb_output |}.
 
-From EqualBenchAlgorithms.Generated Require Import FACTORIAL_V2.
+From SpecLessBenchAlgorithms.Generated Require Import FACTORIAL_V2.
 
 Definition impl_FACTORIAL_V2 : implementation :=
   {| program := FACTORIAL_V2.prog; input_symbol := FACTORIAL_V2._eb_input; output_symbol := FACTORIAL_V2._eb_output |}.

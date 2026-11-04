@@ -64,7 +64,7 @@ V0用MRU顺序表，C中通过数组搬移；V1用8个结构体节点组成索�
 例如，Lean待证明定理为：
 
 ```lean
-theorem solve : EqualBenchStateful.S_TX_JOURNAL_equivalence := by
+theorem solve : SpecLessBenchStateful.S_TX_JOURNAL_equivalence := by
   -- pending final proof
 ```
 

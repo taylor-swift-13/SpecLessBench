@@ -1,0 +1,288 @@
+{
+  "schema_version": 1,
+  "revision": "design-v0.8.2",
+  "curator_only": true,
+  "required_platforms": [
+    "lean",
+    "rocq",
+    "compcert"
+  ],
+  "final_target_proofs_required": false,
+  "groups": [
+    {
+      "group_id": "minimum-spanning-forest",
+      "family": "forest",
+      "family_index": 0,
+      "proof_level": "L4",
+      "revision": "design-v0.8.2",
+      "cost_batch": "classics-v0.8",
+      "tasks": [
+        {
+          "id": "MST-TIED-WEIGHT",
+          "left": 0,
+          "right": 1,
+          "domain_index": 0,
+          "expected_polarity": "EQ",
+          "label_status": "provisional; not proved",
+          "theorem": "MST_TIED_WEIGHT",
+          "lean_goal": "lean/pending/MST_TIED_WEIGHT.lean.goal",
+          "rocq_goal": "rocq/ClassicsGoals.v::MST_TIED_WEIGHT",
+          "compcert_goal": "compcert/FORESTGoals.v::MST_TIED_WEIGHT",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "id": "MST-UNIQUE-EDGES",
+          "left": 0,
+          "right": 1,
+          "domain_index": 1,
+          "expected_polarity": "EQ",
+          "label_status": "provisional; not proved",
+          "theorem": "MST_UNIQUE_EDGES",
+          "lean_goal": "lean/pending/MST_UNIQUE_EDGES.lean.goal",
+          "rocq_goal": "rocq/ClassicsGoals.v::MST_UNIQUE_EDGES",
+          "compcert_goal": "compcert/FORESTGoals.v::MST_UNIQUE_EDGES",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "id": "MST-MAX-COUNTEREXAMPLE",
+          "left": 0,
+          "right": 2,
+          "domain_index": 0,
+          "expected_polarity": "CEX",
+          "label_status": "provisional; not proved",
+          "theorem": "MST_MAX_COUNTEREXAMPLE",
+          "lean_goal": "lean/pending/MST_MAX_COUNTEREXAMPLE.lean.goal",
+          "rocq_goal": "rocq/ClassicsGoals.v::MST_MAX_COUNTEREXAMPLE",
+          "compcert_goal": "compcert/FORESTGoals.v::MST_MAX_COUNTEREXAMPLE",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        }
+      ],
+      "variants": [
+        {
+          "id": "FOREST_V0",
+          "c": "c/forest/v0.c",
+          "lean": "ClassicsNative.entry 0 0",
+          "rocq": "ClassicsNative.entry 0 0",
+          "ast": "compcert/ast/FOREST_V0.v"
+        },
+        {
+          "id": "FOREST_V1",
+          "c": "c/forest/v1.c",
+          "lean": "ClassicsNative.entry 0 1",
+          "rocq": "ClassicsNative.entry 0 1",
+          "ast": "compcert/ast/FOREST_V1.v"
+        },
+        {
+          "id": "FOREST_V2",
+          "c": "c/forest/v2.c",
+          "lean": "ClassicsNative.entry 0 2",
+          "rocq": "ClassicsNative.entry 0 2",
+          "ast": "compcert/ast/FOREST_V2.v"
+        }
+      ]
+    },
+    {
+      "group_id": "stable-record-sorting",
+      "family": "sorting",
+      "family_index": 1,
+      "proof_level": "L3",
+      "revision": "design-v0.8.2",
+      "cost_batch": "classics-v0.8",
+      "tasks": [
+        {
+          "id": "SORT-MERGE",
+          "left": 0,
+          "right": 1,
+          "domain_index": 2,
+          "expected_polarity": "EQ",
+          "label_status": "provisional; not proved",
+          "theorem": "SORT_MERGE",
+          "lean_goal": "lean/pending/SORT_MERGE.lean.goal",
+          "rocq_goal": "rocq/ClassicsGoals.v::SORT_MERGE",
+          "compcert_goal": "compcert/SORTINGGoals.v::SORT_MERGE",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "id": "SORT-UNSTABLE",
+          "left": 0,
+          "right": 2,
+          "domain_index": 2,
+          "expected_polarity": "CEX",
+          "label_status": "provisional; not proved",
+          "theorem": "SORT_UNSTABLE",
+          "lean_goal": "lean/pending/SORT_UNSTABLE.lean.goal",
+          "rocq_goal": "rocq/ClassicsGoals.v::SORT_UNSTABLE",
+          "compcert_goal": "compcert/SORTINGGoals.v::SORT_UNSTABLE",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        }
+      ],
+      "variants": [
+        {
+          "id": "SORTING_V0",
+          "c": "c/sorting/v0.c",
+          "lean": "ClassicsNative.entry 1 0",
+          "rocq": "ClassicsNative.entry 1 0",
+          "ast": "compcert/ast/SORTING_V0.v"
+        },
+        {
+          "id": "SORTING_V1",
+          "c": "c/sorting/v1.c",
+          "lean": "ClassicsNative.entry 1 1",
+          "rocq": "ClassicsNative.entry 1 1",
+          "ast": "compcert/ast/SORTING_V1.v"
+        },
+        {
+          "id": "SORTING_V2",
+          "c": "c/sorting/v2.c",
+          "lean": "ClassicsNative.entry 1 2",
+          "rocq": "ClassicsNative.entry 1 2",
+          "ast": "compcert/ast/SORTING_V2.v"
+        }
+      ]
+    }
+  ],
+  "protected_files": [
+    {
+      "path": "c/Classics.h",
+      "sha256": "eed3cb04a4e77bc10e3679208f556e571f81d54a0ef1d68609344555cc5741cc"
+    },
+    {
+      "path": "c/forest/v0.c",
+      "sha256": "c46fa7b05ba6ffd5719dad690acd8cd61663381e03895cf893e0d07c1b99211d"
+    },
+    {
+      "path": "c/forest/v1.c",
+      "sha256": "0b13bfa52ddd27fdc4477a082be35504b9dbf6cfb983faeb34202eba8f607191"
+    },
+    {
+      "path": "c/forest/v2.c",
+      "sha256": "de59d70e9afdebcf206714d960d50c20d764e904d98bee0827e27aee551ab2a1"
+    },
+    {
+      "path": "c/sorting/v0.c",
+      "sha256": "5ba32fa86fb13185c36ab1da53a5c32ea7992ab370aa3b3897ca6927e4dce07e"
+    },
+    {
+      "path": "c/sorting/v1.c",
+      "sha256": "36d20de8d36f5ab2f8f05923c282c2f49b2fab8faf92df4352cfd1fbdd36509b"
+    },
+    {
+      "path": "c/sorting/v2.c",
+      "sha256": "6469a8ed20181d33df064bdc226f09100825b9d3450417601604b0294951f6d2"
+    },
+    {
+      "path": "lean/ClassicsDomain.lean",
+      "sha256": "fa8e7073815850e73d49890d96f5b306dd1d6e10313b16f8aa8489ca5d3d2255"
+    },
+    {
+      "path": "lean/ClassicsGoals.lean",
+      "sha256": "db47aded4973abad8f2a074a1841313a615455da65f26c0272b0fe7866990f10"
+    },
+    {
+      "path": "lean/ClassicsNative.lean",
+      "sha256": "8e86aee41ef4681bc6253b550e38eec2e5440d509a4e00a347bb14062d221c91"
+    },
+    {
+      "path": "lean/ClassicsRunner.lean",
+      "sha256": "e1cff2c3b282a8a029d569971b2b0f08050239cd3d1d45f30a3e7c17a415ca3f"
+    },
+    {
+      "path": "lean/pending/MST_MAX_COUNTEREXAMPLE.lean.goal",
+      "sha256": "bf23e80b662576af730fd645a8bd89a3e53b5ea3f7f7ce131cee204ba86cd273"
+    },
+    {
+      "path": "lean/pending/MST_TIED_WEIGHT.lean.goal",
+      "sha256": "74bd83433fd5bca18a7f2abbd626bd44be6c75addc65a373fde9d6dd48a7c888"
+    },
+    {
+      "path": "lean/pending/MST_UNIQUE_EDGES.lean.goal",
+      "sha256": "61aef664626075821bee3310eef49f47ec4c776172809754c616798866ac0290"
+    },
+    {
+      "path": "lean/pending/SORT_MERGE.lean.goal",
+      "sha256": "63a4dda82f1f57d833955e0f22454d9b2832263f4682107e9d2f84936e2818ef"
+    },
+    {
+      "path": "lean/pending/SORT_UNSTABLE.lean.goal",
+      "sha256": "9620e0065e3b2b75861b5a69c99ca22fdc92dc673672672f874cc6e7377d21d3"
+    },
+    {
+      "path": "rocq/ClassicsDomain.v",
+      "sha256": "8db44de9c4b2188c375723bf26acb2274cfc00178f0ec5061ef3ff21a56ccda4"
+    },
+    {
+      "path": "rocq/ClassicsExtract.v",
+      "sha256": "366fa5720d8d7839f596ac33ed9dfd1761a52e4e89691c3719a20869ee2f676c"
+    },
+    {
+      "path": "rocq/ClassicsGoals.v",
+      "sha256": "f1566d33f31e4eb66f56c883bf3f2c405fea689513c8e10c130d97d15bb3aa9b"
+    },
+    {
+      "path": "rocq/ClassicsNative.v",
+      "sha256": "e02f5887752fa65ec1aa726d18b558d5672248980dcebfeb48815c0455f64c3a"
+    },
+    {
+      "path": "compcert/ClassicsDomain.v",
+      "sha256": "cdbac60d70df7fcb027c602817365bcea204f3091a474fb6875ea249498d0a73"
+    },
+    {
+      "path": "compcert/Execution.v",
+      "sha256": "d81e3e6d5dd762af0c447d635ad1c84d8a413f6bb37da4c64167860798264a44"
+    },
+    {
+      "path": "compcert/FORESTGoals.v",
+      "sha256": "52efb4274ca2f75386b3574b71d0252a2c563d05d694b9fb77ad598a33eed68e"
+    },
+    {
+      "path": "compcert/SORTINGGoals.v",
+      "sha256": "e518ac1c56905fafc2a84c300acdccfbbd4340166356355f3d1bae29840272c4"
+    },
+    {
+      "path": "compcert/ast/FOREST_V0.v",
+      "sha256": "117a31ed5ce6c8a739db27a1a39f222371d63072e5d5beb03758212ca646e65f"
+    },
+    {
+      "path": "compcert/ast/FOREST_V1.v",
+      "sha256": "e7c4176f02c07a53236047e4fe9dd4ebc556f66a2cd4a22749f77b87ef82d0e8"
+    },
+    {
+      "path": "compcert/ast/FOREST_V2.v",
+      "sha256": "dd1791e643af53ee7ee8c55300d26e8d7c4109abd258387b5b1487821bc63495"
+    },
+    {
+      "path": "compcert/ast/SORTING_V0.v",
+      "sha256": "63929b6d9e31a8fb3d4264f376c2bd2e932685ec3d9e2f633eedce694008abb3"
+    },
+    {
+      "path": "compcert/ast/SORTING_V1.v",
+      "sha256": "4ff0b4e6a597418dab6564add3e4ab845397c0ee3b8e65d224dca3d0246324fa"
+    },
+    {
+      "path": "compcert/ast/SORTING_V2.v",
+      "sha256": "f9da1e9a3f1ead4ff24ccccd5d5a1a923be84988ff1dd40d0d20fe82baf86635"
+    }
+  ],
+  "c_environment_header": "../qcip-core/common/io.h",
+  "io_header_sha256": "1a15f691e351895887746a3039a9d6a56ec2e263489e7d8002dbb4ce6eebf954"
+}

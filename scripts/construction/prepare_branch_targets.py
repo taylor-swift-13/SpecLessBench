@@ -17,11 +17,11 @@ def sha(p): return hashlib.sha256(p.read_bytes()).hexdigest()
 
 def main():
     output=ROOT/"benchmarks/proof-interface/v1"
-    lean=["import Domain", "import BasicDomain", "namespace EqualBenchSubmission"]
-    native=["From Coq Require Import ZArith List.","From EqualBench.QCIP Require Import Domain.",
-        "From EqualBenchNative Require Import Native.","From EqualBenchBasic Require Import BasicNative BasicDomain."]
-    cc=["From Stdlib Require Import ZArith List.","From EqualBench.QCIP Require Import Domain Execution BSTBindings AVLBindings RINGBindings DIJKSTRABindings.",
-        "From EqualBenchAlgorithms Require Import BasicDomain Execution FACTORIALGoals REVERSEGoals SUMGoals MATRIXGoals SEARCHGoals QUEUEGoals."]
+    lean=["import Domain", "import BasicDomain", "namespace SpecLessBenchSubmission"]
+    native=["From Coq Require Import ZArith List.","From SpecLessBench.QCIP Require Import Domain.",
+        "From SpecLessBenchNative Require Import Native.","From SpecLessBenchBasic Require Import BasicNative BasicDomain."]
+    cc=["From Stdlib Require Import ZArith List.","From SpecLessBench.QCIP Require Import Domain Execution BSTBindings AVLBindings RINGBindings DIJKSTRABindings.",
+        "From SpecLessBenchAlgorithms Require Import BasicDomain Execution FACTORIALGoals REVERSEGoals SUMGoals MATRIXGoals SEARCHGoals QUEUEGoals."]
     bindings=[]
     qcip=json.loads((ROOT/"benchmarks/tasks/qcip-core/three-platform.json").read_text())
     basics=json.loads((CORE/"groups.json").read_text())
@@ -29,18 +29,18 @@ def main():
         family=g["family"]; dom={"bst":"BST","avl":"AVL","ring":"Ring","dijkstra":"Dijkstra"}[family]
         for t in g["tasks"]:
             name=t["context_id"].replace("-","_"); right=t["right_variant"]
-            lean_valid=f"EqualBench.{dom}.valid"; lean_type=f"EqualBench.{dom}.Input"
-            la=f"(fun x => EqualBench.{family} 0 (EqualBench.{dom}.encode x))"
-            lb=f"(fun x => EqualBench.{family} {right} (EqualBench.{dom}.encode x))"
-            lean += [f"def {name}_equivalence : Prop := EqualBench.Equivalent {lean_valid} {la} {lb}",
+            lean_valid=f"SpecLessBench.{dom}.valid"; lean_type=f"SpecLessBench.{dom}.Input"
+            la=f"(fun x => SpecLessBench.{family} 0 (SpecLessBench.{dom}.encode x))"
+            lb=f"(fun x => SpecLessBench.{family} {right} (SpecLessBench.{dom}.encode x))"
+            lean += [f"def {name}_equivalence : Prop := SpecLessBench.Equivalent {lean_valid} {la} {lb}",
                 f"def {name}_refutationAt (x : {lean_type}) (oa ob : List Int) : Prop :=\n  {lean_valid} x ∧ {la} x = some oa ∧ {lb} x = some ob ∧ oa ≠ ob"]
             rv=f"Domain.{dom}.valid"; rt=f"Domain.{dom}.input"
             a=f"(fun x => Native.{family} 0 (Domain.{dom}.encode x))"; b=f"(fun x => Native.{family} {right} (Domain.{dom}.encode x))"
             native += [f"Definition {name}_equivalence : Prop := Native.Equivalent {rv} {a} {b}.",
                 f"Definition {name}_refutationAt (x : {rt}) (oa ob : list Z) : Prop :=\n  {rv} x /\\ {a} x = Some oa /\\ {b} x = Some ob /\\ oa <> ob."]
-            ex="EqualBench.QCIP.Execution"; cv=f"EqualBench.QCIP.Domain.{dom}.valid"; ct=f"EqualBench.QCIP.Domain.{dom}.input"
-            enc=f"EqualBench.QCIP.Domain.{dom}.encode"; base=family.upper()
-            ca=f"EqualBench.QCIP.{base}Bindings.impl_{base}_V0"; cb=f"EqualBench.QCIP.{base}Bindings.impl_{base}_V{right}"
+            ex="SpecLessBench.QCIP.Execution"; cv=f"SpecLessBench.QCIP.Domain.{dom}.valid"; ct=f"SpecLessBench.QCIP.Domain.{dom}.input"
+            enc=f"SpecLessBench.QCIP.Domain.{dom}.encode"; base=family.upper()
+            ca=f"SpecLessBench.QCIP.{base}Bindings.impl_{base}_V0"; cb=f"SpecLessBench.QCIP.{base}Bindings.impl_{base}_V{right}"
             cc += [f"Definition {name}_equivalence : Prop := {ex}.Equivalent {cv} {enc} {ca} {cb}.",
                 f"Definition {name}_refutationAt (x : {ct}) (oa ob : {ex}.observation) : Prop :=\n  {cv} x /\\ {ex}.run {ca} ({enc} x) oa /\\ {ex}.run {cb} ({enc} x) ob /\\ oa <> ob."]
             bindings.append({"context_id":t["context_id"],"group_id":g["group_id"],"family":family,"tranche":"qcip",
@@ -49,31 +49,31 @@ def main():
         i=g["family_index"]; base=g["family"].upper()
         for t in g["tasks"]:
             name=t["id"].replace("-","_"); j=t["right"]
-            la=f"EqualBenchBasic.entry {i} 0 x"; lb=f"EqualBenchBasic.entry {i} {j} x"
-            lean += [f"def {name}_equivalence : Prop := EqualBenchBasic.Equivalent (EqualBenchBasic.valid {i}) (EqualBenchBasic.entry {i} 0) (EqualBenchBasic.entry {i} {j})",
-                f"def {name}_refutationAt (x oa ob : List Int) : Prop :=\n  EqualBenchBasic.valid {i} x ∧ {la} = some oa ∧ {lb} = some ob ∧ oa ≠ ob"]
+            la=f"SpecLessBenchBasic.entry {i} 0 x"; lb=f"SpecLessBenchBasic.entry {i} {j} x"
+            lean += [f"def {name}_equivalence : Prop := SpecLessBenchBasic.Equivalent (SpecLessBenchBasic.valid {i}) (SpecLessBenchBasic.entry {i} 0) (SpecLessBenchBasic.entry {i} {j})",
+                f"def {name}_refutationAt (x oa ob : List Int) : Prop :=\n  SpecLessBenchBasic.valid {i} x ∧ {la} = some oa ∧ {lb} = some ob ∧ oa ≠ ob"]
             native += [f"Definition {name}_equivalence : Prop := BasicNative.Equivalent (BasicDomain.valid {i}) (BasicNative.entry {i} 0) (BasicNative.entry {i} {j}).",
                 f"Definition {name}_refutationAt (x oa ob : list Z) : Prop :=\n  BasicDomain.valid {i} x /\\ BasicNative.entry {i} 0 x = Some oa /\\ BasicNative.entry {i} {j} x = Some ob /\\ oa <> ob."]
-            ex="EqualBenchAlgorithms.Execution"; cv=f"EqualBenchAlgorithms.BasicDomain.valid {i}"; enc="EqualBenchAlgorithms.BasicDomain.encode"
-            ca=f"EqualBenchAlgorithms.{base}Goals.impl_{base}_V0"; cb=f"EqualBenchAlgorithms.{base}Goals.impl_{base}_V{j}"
+            ex="SpecLessBenchAlgorithms.Execution"; cv=f"SpecLessBenchAlgorithms.BasicDomain.valid {i}"; enc="SpecLessBenchAlgorithms.BasicDomain.encode"
+            ca=f"SpecLessBenchAlgorithms.{base}Goals.impl_{base}_V0"; cb=f"SpecLessBenchAlgorithms.{base}Goals.impl_{base}_V{j}"
             cc += [f"Definition {name}_equivalence : Prop := {ex}.Equivalent ({cv}) {enc} {ca} {cb}.",
                 f"Definition {name}_refutationAt (x : list Z) (oa ob : {ex}.observation) : Prop :=\n  {cv} x /\\ {ex}.run {ca} ({enc} x) oa /\\ {ex}.run {cb} ({enc} x) ob /\\ oa <> ob."]
             bindings.append({"context_id":t["id"],"group_id":g["group_id"],"family_index":i,"tranche":"algorithms",
                 "equivalence_goal":name+"_equivalence","refutation_at_goal":name+"_refutationAt"})
-    lean += ["end EqualBenchSubmission"]
+    lean += ["end SpecLessBenchSubmission"]
     write(output/"lean/BranchTargets.lean","\n\n".join(lean)+"\n")
     write(output/"rocq/BranchTargets.v","\n\n".join(native)+"\n")
     write(output/"compcert/BranchTargets.v","\n\n".join(cc)+"\n")
     # Kernel declaration checks only, no final theorem proofs.
     measured([LEAN,"-o",str(output/"lean/BranchTargets.olean"),str(output/"lean/BranchTargets.lean")],"shared-algorithms-interface","check-lean-branch-targets")
     old=ROOT/"benchmarks/tasks/qcip-core"
-    paths=["-Q",str(old/"rocq"),"EqualBench.QCIP","-Q",str(old/"rocq_native"),"EqualBenchNative",
-           "-Q",str(CORE/"rocq"),"EqualBenchBasic"]
+    paths=["-Q",str(old/"rocq"),"SpecLessBench.QCIP","-Q",str(old/"rocq_native"),"SpecLessBenchNative",
+           "-Q",str(CORE/"rocq"),"SpecLessBenchBasic"]
     measured([COQC,*paths,str(output/"rocq/BranchTargets.v")],"shared-algorithms-interface","check-rocq-branch-targets")
     ast_old=old/"compcert/ast"; ast_new=CORE/"compcert/ast"
-    paths=["-Q",str(ROOT/"_build/three-platform/compcert"),"EqualBench.QCIP",
-           "-Q",str(ast_old),"EqualBench.QCIP.Generated","-Q",str(BUILD/"compcert"),"EqualBenchAlgorithms",
-           "-Q",str(ast_new),"EqualBenchAlgorithms.Generated"]
+    paths=["-Q",str(ROOT/"_build/three-platform/compcert"),"SpecLessBench.QCIP",
+           "-Q",str(ast_old),"SpecLessBench.QCIP.Generated","-Q",str(BUILD/"compcert"),"SpecLessBenchAlgorithms",
+           "-Q",str(ast_new),"SpecLessBenchAlgorithms.Generated"]
     measured([FIVE+"/coqc",*paths,str(output/"compcert/BranchTargets.v")],"shared-algorithms-interface","check-compcert-branch-targets")
     manifest={"schema_version":1,"version":"explicit-branch-v1","contexts":bindings,
         "accepted_modes":["equivalence","counterexample"],"bare_logical_disjunction_proof_accepted":False,

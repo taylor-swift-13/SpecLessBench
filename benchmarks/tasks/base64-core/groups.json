@@ -96,27 +96,27 @@
     },
     {
       "path": "lean/Base64Domain.lean",
-      "sha256": "d550c3650be81b292d59935f1f8b5bfd1bb824e80f16d5c3ecb35f23970f4771"
+      "sha256": "6df68d7a90d09059a1679c94f7e501bd4c109cac048494f8c1d8c1c88fab6bef"
     },
     {
       "path": "lean/Base64Goals.lean",
-      "sha256": "3d9eab1556631dc8ce0cd10a804dffcce5df07d353671093f28ffd76702cc1c4"
+      "sha256": "4f783e3d03b06de28b7d5d8d74c4e010278ead497048fec5c940118b002686e2"
     },
     {
       "path": "lean/Base64Native.lean",
-      "sha256": "f0e0e119f49c72dcb3e15ac62f9a729d878acf7c86ee7a83d679eee91462a7e3"
+      "sha256": "e4c4294641c5d5b0e620ee489ca1c969806fda603decd55f182a747b78867a0b"
     },
     {
       "path": "lean/Base64Runner.lean",
-      "sha256": "3c725d5f5d33299a46b0108d5c4c1d83324a23af0909d43a4a7a18e1dbbc9344"
+      "sha256": "cc726f1d7ecefa1d33d4c17664b7337a885f35430ef9a8bed6d79cf03fd4d904"
     },
     {
       "path": "lean/pending/A_BASE64_PADDING.lean.goal",
-      "sha256": "722b6a4908f80ae7791aab76b0efd81108d2c8d0889c56b7776ac35f4ea38a2c"
+      "sha256": "dc04933f61df883cd8c0ab17c0698105265b6576c5d35018d0114e4d40096df6"
     },
     {
       "path": "lean/pending/A_BASE64_STREAM.lean.goal",
-      "sha256": "fb027e33b60a96e16673083ebedbbad833cd0d8b0a3917d096ef0d1610aadebd"
+      "sha256": "718004a81fcb1f911a477cb587dc72bfb4ce64627aa5f48094ebdeb9d669a2a7"
     },
     {
       "path": "rocq/Base64Domain.v",
@@ -124,11 +124,11 @@
     },
     {
       "path": "rocq/Base64Extract.v",
-      "sha256": "1bd164436e49e599ae5244cd004c4e116dd7490fca386400f8e01301041e6f24"
+      "sha256": "84daf0eabd1aed9b42480ba57a56fd9715bfadfc9e91f2ec23fb1359f64442f6"
     },
     {
       "path": "rocq/Base64Goals.v",
-      "sha256": "543550098445888bde3825edbef367ff18deb2471036dda0e54203453734b694"
+      "sha256": "39a0872ea4ee732e17a90d7ded42432111de2c48ea8a18cc338e2acee3b20b67"
     },
     {
       "path": "rocq/Base64Native.v",
@@ -136,7 +136,7 @@
     },
     {
       "path": "compcert/BASE64Goals.v",
-      "sha256": "06a49dac7c0f2fcdf8f262179c802b6c3b3386114fe4d7e1f62170c3342eb643"
+      "sha256": "0870cfe76fe7155c8e12e66f71cec8223928482508a9f41f68e11589504f310f"
     },
     {
       "path": "compcert/Base64Domain.v",
@@ -148,5 +148,5 @@
     }
   ],
   "c_environment_header": "../qcip-core/common/io.h",
-  "io_header_sha256": "ed3054989c3045aa35852ebe9d788f9927dbcf5b57a628723fc882d7e57dd43e"
+  "io_header_sha256": "1a15f691e351895887746a3039a9d6a56ec2e263489e7d8002dbb4ce6eebf954"
 }

@@ -15,12 +15,12 @@ def main():
     manifest = {"schema_version": 1, "revision": "design-v0.3.1", "curator_only": True,
         "required_platforms": ["lean", "rocq", "compcert"], "final_target_proofs_required": False,
         "groups": [], "protected_files": [], "c_environment_header": "../qcip-core/common/io.h"}
-    lean = ["import BasicDomain", "namespace EqualBenchBasic"]
-    rocq = ["From EqualBenchBasic Require Import BasicNative BasicDomain."]
+    lean = ["import BasicDomain", "namespace SpecLessBenchBasic"]
+    rocq = ["From SpecLessBenchBasic Require Import BasicNative BasicDomain."]
     compcert_domain = (CORE / "rocq/BasicDomain.v").read_text().replace("From Coq Require", "From Stdlib Require")
     write(CORE / "compcert/BasicDomain.v", compcert_domain)
     adapter = (ROOT / "benchmarks/tasks/qcip-core/compcert/Execution.v").read_text()
-    adapter = adapter.replace("From EqualBench.QCIP Require Import Domain.", "Definition OutputWords : nat := 8192%nat.")
+    adapter = adapter.replace("From SpecLessBench.QCIP Require Import Domain.", "Definition OutputWords : nat := 8192%nat.")
     write(CORE / "compcert/Execution.v", adapter)
     for i, (name,gid,prefix,level,witness) in enumerate(GROUPS):
         g = {"group_id": gid, "family": name, "family_index": i, "catalog_entry": prefix,
@@ -32,10 +32,10 @@ def main():
             g["variants"].append({"id": f"{name.upper()}_V{v}", "c": path,
                 "lean": f"BasicNative.entry {i} {v}", "rocq": f"BasicNative.entry {i} {v}",
                 "ast": f"compcert/ast/{name.upper()}_V{v}.v"})
-        cc = ["From EqualBenchAlgorithms Require Import BasicDomain Execution."]
+        cc = ["From SpecLessBenchAlgorithms Require Import BasicDomain Execution."]
         for v in range(3):
             module = f"{name.upper()}_V{v}"
-            cc.append(f"From EqualBenchAlgorithms.Generated Require Import {module}.")
+            cc.append(f"From SpecLessBenchAlgorithms.Generated Require Import {module}.")
             cc.append(f"Definition impl_{module} : implementation :=\n  {{| program := {module}.prog; input_symbol := {module}._eb_input; output_symbol := {module}._eb_output |}}.")
         for j, polarity in ((1, "EQ"), (2, "CEX")):
             task_id = prefix+"-"+polarity; theorem = task_id.replace("-", "_")
@@ -44,7 +44,7 @@ def main():
             lean += [f"def {theorem} : Prop := {predicate} (valid {i}) {la} {lb}",
                 f"def {theorem}_certificate : Prop := Certificate (valid {i}) {la} {lb}"]
             pending = f"lean/pending/{theorem}.lean.goal"
-            write(CORE / pending, f"import BasicGoals\nopen EqualBenchBasic\ntheorem solve : {theorem}_certificate := by\n  -- pending final certificate; no proof supplied\n")
+            write(CORE / pending, f"import BasicGoals\nopen SpecLessBenchBasic\ntheorem solve : {theorem}_certificate := by\n  -- pending final certificate; no proof supplied\n")
             rocq += [f"Theorem {theorem} : BasicNative.{predicate} (BasicDomain.valid {i}) (BasicNative.entry {i} 0) (BasicNative.entry {i} {j}).\nAbort.",
                 f"Theorem {theorem}_certificate : BasicNative.Certificate (BasicDomain.valid {i}) (BasicNative.entry {i} 0) (BasicNative.entry {i} {j}).\nAbort."]
             a=f"impl_{name.upper()}_V0"; b=f"impl_{name.upper()}_V{j}"
@@ -57,10 +57,10 @@ def main():
                 "final_proofs": {"lean": None, "rocq": None, "compcert": None}})
         write(CORE / f"compcert/{name.upper()}Goals.v", "\n\n".join(cc)+"\n")
         manifest["groups"].append(g)
-    lean += ["end EqualBenchBasic"]
+    lean += ["end SpecLessBenchBasic"]
     write(CORE / "lean/BasicGoals.lean", "\n".join(lean)+"\n")
     write(CORE / "rocq/BasicGoals.v", "\n\n".join(rocq)+"\n")
-    write(CORE / "rocq/BasicExtract.v", 'From Coq Require Import Extraction ExtrOcamlBasic ExtrOcamlNatInt ExtrOcamlZInt.\nFrom EqualBenchBasic Require Import BasicNative BasicDomain.\nExtraction Language OCaml.\nExtraction "BasicExtract.ml" BasicNative.entry BasicDomain.validb.\n')
+    write(CORE / "rocq/BasicExtract.v", 'From Coq Require Import Extraction ExtrOcamlBasic ExtrOcamlNatInt ExtrOcamlZInt.\nFrom SpecLessBenchBasic Require Import BasicNative BasicDomain.\nExtraction Language OCaml.\nExtraction "BasicExtract.ml" BasicNative.entry BasicDomain.validb.\n')
     for folder in ("c", "lean", "rocq", "compcert"):
         for p in sorted((CORE / folder).rglob("*")):
             if p.is_file() and p.suffix in (".h", ".c", ".v", ".lean", ".goal"):

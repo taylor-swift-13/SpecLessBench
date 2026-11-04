@@ -1,4 +1,4 @@
-From EqualBenchStatefulNative Require Import StatefulNative StatefulDomain.
+From SpecLessBenchStatefulNative Require Import StatefulNative StatefulDomain.
 
 Definition S_FRAME_RING_equivalence : Prop := StatefulNative.Equivalent (StatefulDomain.valid 0) (StatefulNative.entry 0 0) (StatefulNative.entry 0 1).
 

@@ -1,6 +1,6 @@
 # Curator source material
 
-This directory contains exact source snapshots selected for EqualBench task design. It is **not an agent-facing task package**. QCIP snapshots contain source-system annotations and contracts. Those and reference proof material must not be supplied as independent function-level specifications in an EqualBench task.
+This directory contains exact source snapshots selected for SpecLessBench task design. It is **not an agent-facing task package**. QCIP snapshots contain source-system annotations and contracts. Those and reference proof material must not be supplied as independent function-level specifications in an SpecLessBench task.
 
 The import manifest records the upstream/local source path, revision where applicable, raw-byte SHA-256, and license lineage. Source bytes are kept unchanged. The broader QCIP audit includes modified/untracked files; each selected snapshot's HEAD-match status is recorded individually. Local-source content hashes remain the precise identity of the imported material.
 

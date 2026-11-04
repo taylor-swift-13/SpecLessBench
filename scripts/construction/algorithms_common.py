@@ -2,8 +2,8 @@
 import os
 from pathlib import Path
 from accounting import ROOT
-os.environ["EQUALBENCH_CONSTRUCTION_BATCH"] = "algorithms-v0.3"
-os.environ["EQUALBENCH_CONSTRUCTION_REVISION"] = "design-v0.3.1"
+os.environ["SPECLESSBENCH_CONSTRUCTION_BATCH"] = "algorithms-v0.3"
+os.environ["SPECLESSBENCH_CONSTRUCTION_REVISION"] = "design-v0.3.1"
 os.environ["ASAN_OPTIONS"] = "detect_leaks=0:halt_on_error=1"
 os.environ["UBSAN_OPTIONS"] = "halt_on_error=1"
 CORE = ROOT / "benchmarks/tasks/algorithms-core"

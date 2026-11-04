@@ -1,4 +1,4 @@
 import Goals
-open EqualBench
-theorem solve : EqualBench.C_AVL_STACK_certificate := by
+open SpecLessBench
+theorem solve : SpecLessBench.C_AVL_STACK_certificate := by
   -- Pending: supply a proof here; no sorry/axiom is supplied.

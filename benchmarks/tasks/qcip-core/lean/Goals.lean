@@ -1,5 +1,5 @@
 import Domain
-namespace EqualBench
+namespace SpecLessBench
 -- Checked proposition declarations, no theorem proofs.
 def C_BST_SUCCESSOR : Prop := Equivalent BST.valid (fun x => bst 0 (BST.encode x)) (fun x => bst 1 (BST.encode x))
 def C_BST_SUCCESSOR_certificate : Prop := Certificate BST.valid (fun x => bst 0 (BST.encode x)) (fun x => bst 1 (BST.encode x))
@@ -25,4 +25,4 @@ def C_DIJK_HEAP : Prop := Equivalent Dijkstra.valid (fun x => dijkstra 0 (Dijkst
 def C_DIJK_HEAP_certificate : Prop := Certificate Dijkstra.valid (fun x => dijkstra 0 (Dijkstra.encode x)) (fun x => dijkstra 2 (Dijkstra.encode x))
 def C_DIJK_SEEN : Prop := Counterexample Dijkstra.valid (fun x => dijkstra 0 (Dijkstra.encode x)) (fun x => dijkstra 3 (Dijkstra.encode x))
 def C_DIJK_SEEN_certificate : Prop := Certificate Dijkstra.valid (fun x => dijkstra 0 (Dijkstra.encode x)) (fun x => dijkstra 3 (Dijkstra.encode x))
-end EqualBench
+end SpecLessBench

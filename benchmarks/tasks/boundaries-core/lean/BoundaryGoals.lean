@@ -1,5 +1,5 @@
 import BoundaryDomain
-namespace EqualBenchBoundary
+namespace SpecLessBenchBoundary
 def C_TREE_STACK_equivalence : Prop := Equivalent (valid 0) (entry 0 0) (entry 0 1)
 def C_TREE_STACK_refutationAt (x oa ob : Words) : Prop := RefutationAt (valid 0) (entry 0 0) (entry 0 1) x oa ob
 def C_TREE_SUBTREE_equivalence : Prop := Equivalent (valid 0) (entry 0 0) (entry 0 2)
@@ -32,4 +32,4 @@ def B_PATH_REVERSE_equivalence : Prop := Equivalent (valid 8) (entry 7 0) (entry
 def B_PATH_REVERSE_refutationAt (x oa ob : Words) : Prop := RefutationAt (valid 8) (entry 7 0) (entry 7 1) x oa ob
 def B_PATH_PARENTS_equivalence : Prop := Equivalent (valid 8) (entry 7 0) (entry 7 2)
 def B_PATH_PARENTS_refutationAt (x oa ob : Words) : Prop := RefutationAt (valid 8) (entry 7 0) (entry 7 2) x oa ob
-end EqualBenchBoundary
+end SpecLessBenchBoundary

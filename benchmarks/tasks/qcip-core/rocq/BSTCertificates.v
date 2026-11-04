@@ -2,7 +2,7 @@
 
  * and exclude curator IDs, expected branches, and witness seeds. *)
 
-From EqualBench.QCIP Require Import Domain Execution BSTBindings.
+From SpecLessBench.QCIP Require Import Domain Execution BSTBindings.
 
 Theorem task_01 :
   Certificate BST.valid BST.encode impl_BST_V0 impl_BST_V1.

@@ -254,43 +254,43 @@
     },
     {
       "path": "lean/StatefulDomain.lean",
-      "sha256": "ba9a4eac6b3a4711cadeafb8d3942487257ef3e38cd18169e65eb2a6a3e20374"
+      "sha256": "07a8deb59ab8fe64aa3561cc887c307be3e040e64ee4ebc48d79742adc59f51b"
     },
     {
       "path": "lean/StatefulGoals.lean",
-      "sha256": "e195b579bac151747b9405d468d6b8710283f007e58a127d4b92edbfea94a9ed"
+      "sha256": "ce83f4b4986c9fd3612782101c570baa3a0c141833f8cbd3d1bf94ea053f03f6"
     },
     {
       "path": "lean/StatefulNative.lean",
-      "sha256": "b51ee6f5347487b1039d92519dda6c3a9f7c6379bf54bf53caf3ebf85e67e891"
+      "sha256": "59b959b7afbaf8dfcab699921b84fb1b8ec591752f8db2e0d7c5b35552011cbc"
     },
     {
       "path": "lean/StatefulRunner.lean",
-      "sha256": "af1fc023bef83fa458eaf9aad2b4b3baf2b43f94ba41b1d30957bcf587120815"
+      "sha256": "3078f060ddda17f5d02f5213e843c544cd2879e73623b27b9958f32ee048298e"
     },
     {
       "path": "lean/pending/S_FRAME_EMPTY.lean.goal",
-      "sha256": "ada60f2021ccb226c0712c9a387866d2e1439e2a9e6a27872a56ce654eab6462"
+      "sha256": "b480bbcf65d57d479b6f3da6e8f256e2e5eb69b642fb3f477bc41d56a0ef9a53"
     },
     {
       "path": "lean/pending/S_FRAME_RING.lean.goal",
-      "sha256": "d8c91f5455e832b923fad0a2cba7443f16883df3776ed8bec25f3e700476b535"
+      "sha256": "1cf9bb9d5f5ac9ff84c0b591a089461aa8f5e8dfdba6f7a7f8dd7ce1a3f928d7"
     },
     {
       "path": "lean/pending/S_LRU_LINKS.lean.goal",
-      "sha256": "8239259057e060ba41e10b6762926e9ab5bd358cef4f68a557a46127bf156d5e"
+      "sha256": "9e34037e7cc4baf41bf30a4efbdff2a84b67ff8a13d0134ce53ebccbf5f58c99"
     },
     {
       "path": "lean/pending/S_LRU_TOUCH.lean.goal",
-      "sha256": "dfc80c7d4b37bcba441b28d83bda4d97bd3f6807bdb5774adb4ea94c78a021e3"
+      "sha256": "1e6eb8a69ef98a1d2ef1de22051db3ea36c3509c2f2ea8487715042316282348"
     },
     {
       "path": "lean/pending/S_TX_COMMIT.lean.goal",
-      "sha256": "aa1701761e3ac9868a1031be13805d3c264fc3141b1bc72498f175f2e8d55e3e"
+      "sha256": "5ae4756d144f9920da08e0654cc53bbe6a78e56b86fd637ff0ddd58018bf6a6d"
     },
     {
       "path": "lean/pending/S_TX_JOURNAL.lean.goal",
-      "sha256": "bab87c11e35bc2918046a9b0564bed3b19d8073051ec05b093699ce13ca08cd3"
+      "sha256": "c7f2f2489fc66f8c19b449ebfb5bf8b749d4dc804f7b18b09130b1dbaa554a50"
     },
     {
       "path": "rocq/StatefulDomain.v",
@@ -298,11 +298,11 @@
     },
     {
       "path": "rocq/StatefulExtract.v",
-      "sha256": "89448e9e3ef248bfdb68a0c92b75b70933a2598e07d66f119afae859cec47b5d"
+      "sha256": "f2fb898a79448fe6d882d050d291a201c85e508b07f2420a8527c0922b08ea7e"
     },
     {
       "path": "rocq/StatefulGoals.v",
-      "sha256": "83a53d377e74a6ac1d680e76d1fc086ad224a61fc739c27a4c752fff7d6b5f64"
+      "sha256": "0192f08cc610dd313f51af3fb643e649a50fec12e5e925c8af6e01c231644c4c"
     },
     {
       "path": "rocq/StatefulNative.v",
@@ -314,11 +314,11 @@
     },
     {
       "path": "compcert/FRAMESGoals.v",
-      "sha256": "8f91d3d9a26f6d4598c21df27752db2b75cb3aac0d5b33796bf9f678efb17109"
+      "sha256": "39d703ffd860f7bf8153c9d39fe43e527ec9538a6734fabb1916d8598e8fe075"
     },
     {
       "path": "compcert/LRUGoals.v",
-      "sha256": "897284bf699283ab1056195f01201893e640a69d66165103ae62503ab0f9c51f"
+      "sha256": "5f28f8d1eeb3b1c66fcafcd93d1bacaf6ffdda1bff29f685d0f8db460f8bd8ce"
     },
     {
       "path": "compcert/StatefulDomain.v",
@@ -326,9 +326,9 @@
     },
     {
       "path": "compcert/TRANSACTIONSGoals.v",
-      "sha256": "776f0634efd4f5842008bc1f8c25656ab02d27935c72eebb5b9e55b25a6e0109"
+      "sha256": "e7faa0030ff98b91be3a8bac5998fd60ebdc98a483c1664f28e9e80dd02ab49e"
     }
   ],
   "c_environment_header": "../qcip-core/common/io.h",
-  "io_header_sha256": "ed3054989c3045aa35852ebe9d788f9927dbcf5b57a628723fc882d7e57dd43e"
+  "io_header_sha256": "1a15f691e351895887746a3039a9d6a56ec2e263489e7d8002dbb4ce6eebf954"
 }

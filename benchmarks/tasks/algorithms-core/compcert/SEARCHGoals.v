@@ -1,16 +1,16 @@
-From EqualBenchAlgorithms Require Import BasicDomain Execution.
+From SpecLessBenchAlgorithms Require Import BasicDomain Execution.
 
-From EqualBenchAlgorithms.Generated Require Import SEARCH_V0.
+From SpecLessBenchAlgorithms.Generated Require Import SEARCH_V0.
 
 Definition impl_SEARCH_V0 : implementation :=
   {| program := SEARCH_V0.prog; input_symbol := SEARCH_V0._eb_input; output_symbol := SEARCH_V0._eb_output |}.
 
-From EqualBenchAlgorithms.Generated Require Import SEARCH_V1.
+From SpecLessBenchAlgorithms.Generated Require Import SEARCH_V1.
 
 Definition impl_SEARCH_V1 : implementation :=
   {| program := SEARCH_V1.prog; input_symbol := SEARCH_V1._eb_input; output_symbol := SEARCH_V1._eb_output |}.
 
-From EqualBenchAlgorithms.Generated Require Import SEARCH_V2.
+From SpecLessBenchAlgorithms.Generated Require Import SEARCH_V2.
 
 Definition impl_SEARCH_V2 : implementation :=
   {| program := SEARCH_V2.prog; input_symbol := SEARCH_V2._eb_input; output_symbol := SEARCH_V2._eb_output |}.

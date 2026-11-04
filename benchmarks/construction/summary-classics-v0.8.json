@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "revision": "design-v0.8.2",
-  "timestamp_utc": "2026-11-04T02:58:19.008560+00:00",
+  "revision": "design-v0.8.3",
+  "timestamp_utc": "2026-11-04T03:20:00.655989+00:00",
   "implementation_groups": 2,
   "semantic_contexts": 5,
   "platform_instances": 15,
@@ -12,7 +12,7 @@
       "family": "forest",
       "unique_inputs": 11064,
       "program_executions": 99576,
-      "validity_evaluations": 22140,
+      "validity_evaluations": 22142,
       "duplicates_removed": 3271,
       "negative_inputs": 5559,
       "source_derived_inputs": 0,
@@ -23,7 +23,7 @@
         "equal-weights": 6125
       },
       "unexpected_disagreements": 0,
-      "tool_wall_seconds": 71.92580133996671,
+      "tool_wall_seconds": 188.55711521295598,
       "max_process_rss_bytes": 1652039680,
       "cost_record": "benchmarks/construction/groups/minimum-spanning-forest.json"
     },
@@ -42,18 +42,18 @@
         "max-length": 145
       },
       "unexpected_disagreements": 0,
-      "tool_wall_seconds": 63.242195636063116,
-      "max_process_rss_bytes": 1652391936,
+      "tool_wall_seconds": 228.10412635807006,
+      "max_process_rss_bytes": 1652715520,
       "cost_record": "benchmarks/construction/groups/stable-record-sorting.json"
     }
   ],
   "unique_inputs": 24183,
   "program_executions": 217647,
-  "validity_evaluations": 48390,
+  "validity_evaluations": 48392,
   "unexpected_disagreements": 0,
   "final_proof_attempted": false,
   "labels_certified": false,
-  "source_registry_sha256": "fb3a70cedf7882249d88980a74743d72a90868e45858b97a6cdd7cae06487f40",
+  "source_registry_sha256": "3ca7b3aa42458dffd2e548e366c8a1b50fe40e64a60f2e7901cd74a14148b7af",
   "compcert_build_sha256": "a12e92eece8b093e1b213c20fa2047fcbcc43bf4a87ef6e620afe394aca11a1e",
   "shared_usage_batch": "batch-classics-v0.8.json",
   "coverage_scope": "selected full runs only; smoke and failed attempts retained in costs",
@@ -61,7 +61,7 @@
   "exact_process_tree_peak_bytes": null,
   "hosted_inference_memory_bytes": null,
   "uninstrumented_housekeeping_costs": null,
-  "shared_tool_wall_seconds": 132.90729458293936,
+  "shared_tool_wall_seconds": 335.03308104792086,
   "shared_max_process_rss_bytes": 1672970240,
   "tools_at_audit": [
     {

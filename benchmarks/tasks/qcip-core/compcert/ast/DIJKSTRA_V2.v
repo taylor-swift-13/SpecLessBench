@@ -15,7 +15,7 @@ Module Info.
   Definition abi := "standard".
   Definition bitsize := 64.
   Definition big_endian := false.
-  Definition source_file := "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/_build/three-platform/compcert/DIJKSTRA_V2.c".
+  Definition source_file := "DIJKSTRA_V2.c".
   Definition normalized := true.
 End Info.
 

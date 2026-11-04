@@ -1,13 +1,13 @@
 import ClassicsGoals
-namespace EqualBenchClassicsSubmission
-def MST_TIED_WEIGHT_equivalence : Prop := EqualBenchClassics.MST_TIED_WEIGHT_equivalence
-def MST_TIED_WEIGHT_refutationAt := EqualBenchClassics.MST_TIED_WEIGHT_refutationAt
-def MST_UNIQUE_EDGES_equivalence : Prop := EqualBenchClassics.MST_UNIQUE_EDGES_equivalence
-def MST_UNIQUE_EDGES_refutationAt := EqualBenchClassics.MST_UNIQUE_EDGES_refutationAt
-def MST_MAX_COUNTEREXAMPLE_equivalence : Prop := EqualBenchClassics.MST_MAX_COUNTEREXAMPLE_equivalence
-def MST_MAX_COUNTEREXAMPLE_refutationAt := EqualBenchClassics.MST_MAX_COUNTEREXAMPLE_refutationAt
-def SORT_MERGE_equivalence : Prop := EqualBenchClassics.SORT_MERGE_equivalence
-def SORT_MERGE_refutationAt := EqualBenchClassics.SORT_MERGE_refutationAt
-def SORT_UNSTABLE_equivalence : Prop := EqualBenchClassics.SORT_UNSTABLE_equivalence
-def SORT_UNSTABLE_refutationAt := EqualBenchClassics.SORT_UNSTABLE_refutationAt
-end EqualBenchClassicsSubmission
+namespace SpecLessBenchClassicsSubmission
+def MST_TIED_WEIGHT_equivalence : Prop := SpecLessBenchClassics.MST_TIED_WEIGHT_equivalence
+def MST_TIED_WEIGHT_refutationAt := SpecLessBenchClassics.MST_TIED_WEIGHT_refutationAt
+def MST_UNIQUE_EDGES_equivalence : Prop := SpecLessBenchClassics.MST_UNIQUE_EDGES_equivalence
+def MST_UNIQUE_EDGES_refutationAt := SpecLessBenchClassics.MST_UNIQUE_EDGES_refutationAt
+def MST_MAX_COUNTEREXAMPLE_equivalence : Prop := SpecLessBenchClassics.MST_MAX_COUNTEREXAMPLE_equivalence
+def MST_MAX_COUNTEREXAMPLE_refutationAt := SpecLessBenchClassics.MST_MAX_COUNTEREXAMPLE_refutationAt
+def SORT_MERGE_equivalence : Prop := SpecLessBenchClassics.SORT_MERGE_equivalence
+def SORT_MERGE_refutationAt := SpecLessBenchClassics.SORT_MERGE_refutationAt
+def SORT_UNSTABLE_equivalence : Prop := SpecLessBenchClassics.SORT_UNSTABLE_equivalence
+def SORT_UNSTABLE_refutationAt := SpecLessBenchClassics.SORT_UNSTABLE_refutationAt
+end SpecLessBenchClassicsSubmission

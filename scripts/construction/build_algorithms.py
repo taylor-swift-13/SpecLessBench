@@ -23,7 +23,7 @@ def main():
         shutil.copyfile(lean_dir/(name+".olean"), prior_lib/(name+".olean"))
         print("Lean definitions/goal types:",name,flush=True)
     native = BUILD / "rocq"; native.mkdir(exist_ok=True)
-    paths = ["-Q",str(CORE/"rocq"),"EqualBenchBasic"]
+    paths = ["-Q",str(CORE/"rocq"),"SpecLessBenchBasic"]
     for name in ("BasicNative", "BasicDomain", "BasicGoals", "BasicExtract"):
         measured([COQC,*paths,str(CORE/"rocq"/(name+".v"))],"shared-algorithms-rocq","typecheck-"+name,cwd=native)
     driver = native/"driver.ml"
@@ -43,11 +43,11 @@ def main():
             module=name.upper()+f"_V{v}"; pre=cc/(module+".c"); out=ast/(module+".v")
             measured(["gcc","-E","-P","-std=c99",str(CORE/"c"/name/f"v{v}.c")],gid,"preprocess-for-clight",stdout_path=pre)
             measured([FIVE+"/clightgen","-clight","-normalize","-o",str(out),pre.name],gid,"export-clight",cwd=cc)
-            measured([FIVE+"/coqc","-Q",str(ast),"EqualBenchAlgorithms.Generated",str(out)],gid,"typecheck-ast")
+            measured([FIVE+"/coqc","-Q",str(ast),"SpecLessBenchAlgorithms.Generated",str(out)],gid,"typecheck-ast")
             metadata["exports"].append({"module":module,"preprocessed_sha256":sha(pre),"path":out.relative_to(CORE).as_posix(),"sha256":sha(out)})
         print("Exported Clight ASTs:",name,flush=True)
     for p in (CORE/"compcert").glob("*.v"): shutil.copyfile(p,cc/p.name)
-    args=["-Q",str(cc),"EqualBenchAlgorithms","-Q",str(ast),"EqualBenchAlgorithms.Generated"]
+    args=["-Q",str(cc),"SpecLessBenchAlgorithms","-Q",str(ast),"SpecLessBenchAlgorithms.Generated"]
     for name in ("BasicDomain","Execution"):
         measured([FIVE+"/coqc",*args,str(cc/(name+".v"))],"shared-algorithms-compcert","typecheck-"+name)
     for name,gid,_,_,_ in GROUPS:

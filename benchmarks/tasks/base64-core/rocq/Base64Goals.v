@@ -1,4 +1,4 @@
-From EqualBenchBase64Native Require Import Base64Native Base64Domain.
+From SpecLessBenchBase64Native Require Import Base64Native Base64Domain.
 
 Definition A_BASE64_STREAM_equivalence : Prop := Base64Native.Equivalent (Base64Domain.valid 0) (Base64Native.entry 0 0) (Base64Native.entry 0 1).
 

@@ -1,6 +1,6 @@
-From EqualBench.QCIP Require Import Domain.
+From SpecLessBench.QCIP Require Import Domain.
 
-From EqualBenchNative Require Import Native.
+From SpecLessBenchNative Require Import Native.
 
 Theorem C_BST_SUCCESSOR : Equivalent BST.valid (fun x => bst 0 (BST.encode x)) (fun x => bst 1 (BST.encode x)).
 Abort.

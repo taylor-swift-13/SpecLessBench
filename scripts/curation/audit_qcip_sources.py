@@ -1,4 +1,4 @@
-"""Read-only source inventory for EqualBench candidate selection.
+"""Read-only source inventory for SpecLessBench candidate selection.
 
 Function/call information is lexical and is explicitly not a C semantic analysis.
 The report records raw and comment-stripped hashes because local QCIP files can

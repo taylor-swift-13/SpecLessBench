@@ -7,9 +7,9 @@ def write(p,s):
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def main():
     out=ROOT/'benchmarks/proof-interface/v1';manifest=json.loads((out/'manifest.json').read_text())
-    ls=['import BoundaryGoals','namespace EqualBenchBoundarySubmission']
-    rs=['From EqualBenchBoundaryNative Require Import BoundaryGoals.']
-    cs=['From EqualBenchBoundary Require Import '+ ' '.join(g[0].upper()+'Goals'for g in GROUPS)+'.']
+    ls=['import BoundaryGoals','namespace SpecLessBenchBoundarySubmission']
+    rs=['From SpecLessBenchBoundaryNative Require Import BoundaryGoals.']
+    cs=['From SpecLessBenchBoundary Require Import '+ ' '.join(g[0].upper()+'Goals'for g in GROUPS)+'.']
     bindings=[]
     for i,(name,gid,contexts,_)in enumerate(GROUPS):
         for tid,right,d in contexts:
@@ -17,22 +17,22 @@ def main():
             for suffix in ('equivalence','refutationAt'):
                 nm=t+'_'+suffix
                 if suffix=='equivalence':
-                    ls.append(f'def {nm} : Prop := EqualBenchBoundary.{nm}')
+                    ls.append(f'def {nm} : Prop := SpecLessBenchBoundary.{nm}')
                     rs.append(f'Definition {nm} : Prop := BoundaryGoals.{nm}.')
                     cs.append(f'Definition {nm} : Prop := {name.upper()}Goals.{nm}.')
                 else:
-                    ls.append(f'def {nm} := EqualBenchBoundary.{nm}')
+                    ls.append(f'def {nm} := SpecLessBenchBoundary.{nm}')
                     rs.append(f'Definition {nm} := BoundaryGoals.{nm}.')
                     cs.append(f'Definition {nm} := {name.upper()}Goals.{nm}.')
             bindings.append({'context_id':tid,'group_id':gid,'family':name,'family_index':i,'domain_index':d,'tranche':'boundaries',
-                'goal_module':'BoundaryTargets','lean_namespace':'EqualBenchBoundarySubmission',
+                'goal_module':'BoundaryTargets','lean_namespace':'SpecLessBenchBoundarySubmission',
                 'equivalence_goal':t+'_equivalence','refutation_at_goal':t+'_refutationAt'})
-    write(out/'lean/BoundaryTargets.lean','\n'.join(ls+['end EqualBenchBoundarySubmission'])+'\n')
+    write(out/'lean/BoundaryTargets.lean','\n'.join(ls+['end SpecLessBenchBoundarySubmission'])+'\n')
     write(out/'rocq/BoundaryTargets.v','\n'.join(rs)+'\n');write(out/'compcert/BoundaryTargets.v','\n'.join(cs)+'\n')
     os.environ['LEAN_PATH']=str(BUILD/'lean')
     measured([LEAN,'-o',str(out/'lean/BoundaryTargets.olean'),str(out/'lean/BoundaryTargets.lean')],'shared-boundaries-interface','check-lean-branch-targets')
-    measured([COQC,'-Q',str(CORE/'rocq'),'EqualBenchBoundaryNative',str(out/'rocq/BoundaryTargets.v')],'shared-boundaries-interface','check-rocq-branch-targets')
-    measured([FIVE+'/coqc','-Q',str(BUILD/'compcert'),'EqualBenchBoundary','-Q',str(CORE/'compcert/ast'),'EqualBenchBoundary.Generated',str(out/'compcert/BoundaryTargets.v')],'shared-boundaries-interface','check-compcert-branch-targets')
+    measured([COQC,'-Q',str(CORE/'rocq'),'SpecLessBenchBoundaryNative',str(out/'rocq/BoundaryTargets.v')],'shared-boundaries-interface','check-rocq-branch-targets')
+    measured([FIVE+'/coqc','-Q',str(BUILD/'compcert'),'SpecLessBenchBoundary','-Q',str(CORE/'compcert/ast'),'SpecLessBenchBoundary.Generated',str(out/'compcert/BoundaryTargets.v')],'shared-boundaries-interface','check-compcert-branch-targets')
     manifest['contexts']=[c for c in manifest['contexts']if c['tranche']!='boundaries']+bindings
     manifest['files']=[{'path':p.relative_to(out).as_posix(),'sha256':sha(p)}for p in sorted(out.rglob('*'))if p.suffix in('.v','.lean')]
     manifest['submission_validator_sha256']=sha(ROOT/'scripts/construction/submission_contract.py')

@@ -1,5 +1,5 @@
 import BoundaryNative
-namespace EqualBenchBoundary
+namespace SpecLessBenchBoundary
 def inRange (v lo hi : Int) : Bool := lo ≤ v && v ≤ hi
 def validB (domain : Nat) (xs : Words) : Bool :=
   let a := iz xs 0; let b := iz xs 1
@@ -30,4 +30,4 @@ def familyDomain (family : Nat) (xs : Words) : Nat :=
   if family < 2 then family else if family == 2 then (if iz xs 0 == 0 then 2 else 3) else family+1
 def validFamilyB (family : Nat) (xs : Words) : Bool := validB (familyDomain family xs) xs
 def valid (domain : Nat) (xs : Words) : Prop := validB domain xs = true
-end EqualBenchBoundary
+end SpecLessBenchBoundary

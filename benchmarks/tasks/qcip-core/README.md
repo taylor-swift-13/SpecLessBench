@@ -34,8 +34,8 @@ python3 scripts/curation/check_qcip_core.py --export-clight
 导出命令生成 `_build/qcip-core/ast/*.v` 及 AST/source 哈希记录。它不自动安装工具，不产生证明，不自动把导出结果升级为受保护资产。后续还须记录 `clightgen` 二进制哈希、完整目标架构/ABI、CompCert 与 Rocq 的可复现依赖版本，再对导出 AST 做闭包检查并冻结。逻辑路径规划为：
 
 ```text
--Q benchmarks/tasks/qcip-core/rocq EqualBench.QCIP
--Q _build/qcip-core/ast EqualBench.QCIP.Generated
+-Q benchmarks/tasks/qcip-core/rocq SpecLessBench.QCIP
+-Q _build/qcip-core/ast SpecLessBench.QCIP.Generated
 ```
 
 `prepare_qcip_core.py --refresh` 是**有意修订题目**时才运行的整理命令：它重生成绑定和目标、更新哈希；评测过程不得调用它。

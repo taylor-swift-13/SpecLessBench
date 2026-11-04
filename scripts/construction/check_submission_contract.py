@@ -31,7 +31,7 @@ def main():
             validate(request); counts["valid_counterexample_packages"]+=1
             path=render(request,work/platform/context)
             text=path.read_text()
-            if platform=="lean": text=text.replace("import BranchTargets\n","").replace("EqualBenchObligation",f"ContractCheck{i}")
+            if platform=="lean": text=text.replace("import BranchTargets\n","").replace("SpecLessBenchObligation",f"ContractCheck{i}")
             else: text=text.replace("Definition goal :",f"Definition goal_{i} :")
             texts.append(text)
             for mutation in ("bare-disjunction","nonliteral-witness","identical-observations","extra-field","invalid-identifier","wrong-container"):
@@ -56,13 +56,13 @@ def main():
             os.environ["LEAN_PATH"]=str(ROOT/"_build/three-platform/lean")+":"+str(contracts/"lean")
             measured([LEAN,str(source)],"shared-algorithms-interface","validate-literal-lean-obligations")
         elif platform=="rocq":
-            args=["-Q",str(old/"rocq"),"EqualBench.QCIP","-Q",str(old/"rocq_native"),"EqualBenchNative",
-                  "-Q",str(CORE/"rocq"),"EqualBenchBasic","-Q",str(contracts/"rocq"),""]
+            args=["-Q",str(old/"rocq"),"SpecLessBench.QCIP","-Q",str(old/"rocq_native"),"SpecLessBenchNative",
+                  "-Q",str(CORE/"rocq"),"SpecLessBenchBasic","-Q",str(contracts/"rocq"),""]
             measured([COQC,*args,str(source)],"shared-algorithms-interface","validate-literal-rocq-obligations")
         else:
-            args=["-Q",str(ROOT/"_build/three-platform/compcert"),"EqualBench.QCIP",
-                  "-Q",str(old/"compcert/ast"),"EqualBench.QCIP.Generated","-Q",str(BUILD/"compcert"),"EqualBenchAlgorithms",
-                  "-Q",str(CORE/"compcert/ast"),"EqualBenchAlgorithms.Generated","-Q",str(contracts/"compcert"),""]
+            args=["-Q",str(ROOT/"_build/three-platform/compcert"),"SpecLessBench.QCIP",
+                  "-Q",str(old/"compcert/ast"),"SpecLessBench.QCIP.Generated","-Q",str(BUILD/"compcert"),"SpecLessBenchAlgorithms",
+                  "-Q",str(CORE/"compcert/ast"),"SpecLessBenchAlgorithms.Generated","-Q",str(contracts/"compcert"),""]
             measured([FIVE+"/coqc",*args,str(source)],"shared-algorithms-interface","validate-literal-compcert-obligations")
         counts["unproved_obligations_checked"]+=len(samples)
     counts.update(final_target_proofs_attempted=False,gate_proofs_supplied=False,

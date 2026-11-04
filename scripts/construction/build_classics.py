@@ -10,7 +10,7 @@ def main():
     for n in ("ClassicsNative","ClassicsDomain","ClassicsGoals","ClassicsRunner"):
         measured([LEAN,"-o",str(ld/(n+".olean")),str(CORE/"lean"/(n+".lean"))],"shared-classics","typecheck-"+n)
         print("Lean checked",n,flush=True)
-    nd=BUILD/"rocq";nd.mkdir(exist_ok=True);args=["-Q",str(CORE/"rocq"),"EqualBenchClassicsNative"]
+    nd=BUILD/"rocq";nd.mkdir(exist_ok=True);args=["-Q",str(CORE/"rocq"),"SpecLessBenchClassicsNative"]
     for n in ("ClassicsNative","ClassicsDomain","ClassicsGoals","ClassicsExtract"):
         measured([COQC,*args,str(CORE/"rocq"/(n+".v"))],"shared-classics-rocq","typecheck-"+n,cwd=nd)
     text=(ROOT/"scripts/construction/rocq_driver.ml").read_text().replace("NativeExtract.entry","ClassicsExtract.entry")
@@ -26,11 +26,11 @@ def main():
             mod=name.upper()+f"_V{v}";pre=cc/(mod+".c");out=ast/(mod+".v")
             measured(["gcc","-E","-P","-std=c99",str(CORE/"c"/name/f"v{v}.c")],gid,"preprocess-for-clight",stdout_path=pre)
             measured([FIVE+"/clightgen","-clight","-normalize","-o",str(out),pre.name],gid,"export-clight",cwd=cc)
-            measured([FIVE+"/coqc","-Q",str(ast),"EqualBenchClassics.Generated",str(out)],gid,"typecheck-ast")
+            measured([FIVE+"/coqc","-Q",str(ast),"SpecLessBenchClassics.Generated",str(out)],gid,"typecheck-ast")
             metadata["exports"].append({"module":mod,"preprocessed_sha256":sha(pre),"path":out.relative_to(CORE).as_posix(),"sha256":sha(out)})
         print("Exported Clight ASTs",name,flush=True)
     for p in (CORE/"compcert").glob("*.v"):shutil.copyfile(p,cc/p.name)
-    args=["-Q",str(cc),"EqualBenchClassics","-Q",str(ast),"EqualBenchClassics.Generated"]
+    args=["-Q",str(cc),"SpecLessBenchClassics","-Q",str(ast),"SpecLessBenchClassics.Generated"]
     for n in ("ClassicsDomain","Execution"):
         measured([FIVE+"/coqc",*args,str(cc/(n+".v"))],"shared-classics-compcert","typecheck-"+n)
     for name,gid,_,_ in GROUPS:

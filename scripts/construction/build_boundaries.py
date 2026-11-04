@@ -10,7 +10,7 @@ def main():
     for n in ("BoundaryNative","BoundaryDomain","BoundaryGoals","BoundaryRunner"):
         measured([LEAN,"-o",str(ld/(n+".olean")),str(CORE/"lean"/(n+".lean"))],"shared-boundaries","typecheck-"+n)
         print("Lean checked",n,flush=True)
-    nd=BUILD/"rocq";nd.mkdir(exist_ok=True);args=["-Q",str(CORE/"rocq"),"EqualBenchBoundaryNative"]
+    nd=BUILD/"rocq";nd.mkdir(exist_ok=True);args=["-Q",str(CORE/"rocq"),"SpecLessBenchBoundaryNative"]
     for n in ("BoundaryNative","BoundaryDomain","BoundaryGoals","BoundaryExtract"):
         measured([COQC,*args,str(CORE/"rocq"/(n+".v"))],"shared-boundaries-rocq","typecheck-"+n,cwd=nd)
     text=(ROOT/"scripts/construction/rocq_driver.ml").read_text().replace("NativeExtract.entry","BoundaryExtract.entry")
@@ -26,11 +26,11 @@ def main():
             mod=name.upper()+f"_V{v}";pre=cc/(mod+".c");out=ast/(mod+".v")
             measured(["gcc","-E","-P","-std=c99",str(CORE/"c"/name/f"v{v}.c")],gid,"preprocess-for-clight",stdout_path=pre)
             measured([FIVE+"/clightgen","-clight","-normalize","-o",str(out),pre.name],gid,"export-clight",cwd=cc)
-            measured([FIVE+"/coqc","-Q",str(ast),"EqualBenchBoundary.Generated",str(out)],gid,"typecheck-ast")
+            measured([FIVE+"/coqc","-Q",str(ast),"SpecLessBenchBoundary.Generated",str(out)],gid,"typecheck-ast")
             metadata["exports"].append({"module":mod,"preprocessed_sha256":sha(pre),"path":out.relative_to(CORE).as_posix(),"sha256":sha(out)})
         print("Exported Clight ASTs",name,flush=True)
     for p in (CORE/"compcert").glob("*.v"):shutil.copyfile(p,cc/p.name)
-    args=["-Q",str(cc),"EqualBenchBoundary","-Q",str(ast),"EqualBenchBoundary.Generated"]
+    args=["-Q",str(cc),"SpecLessBenchBoundary","-Q",str(ast),"SpecLessBenchBoundary.Generated"]
     for n in ("BoundaryDomain","Execution"):
         measured([FIVE+"/coqc",*args,str(cc/(n+".v"))],"shared-boundaries-compcert","typecheck-"+n)
     for name,gid,_,_ in GROUPS:

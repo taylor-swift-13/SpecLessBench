@@ -1,0 +1,1602 @@
+{
+  "schema_version": 1,
+  "baseline_commit": "6eee79ce03035c3bc7829d37a15d9d4a5e3993fa",
+  "scope": "mechanical project identifier replacement; historical construction logs and evidence retain original values",
+  "changed_files": [
+    {
+      "path": "README.md",
+      "before_sha256": "559a32660d3815d07f898393c5df3f5d3c342d5485040a3006daf2c54f57ea71",
+      "after_sha256": "dfc856ee5548e9935f010146282d6800558b1d386c30d92b24003c6d2a0cfbea"
+    },
+    {
+      "path": "benchmarks/complex-task-cards.md",
+      "before_sha256": "088f4db92dd7efeb3d329375f3ad1468a64c55d5cbaa0268b92a3c3304dba186",
+      "after_sha256": "5be1341063edc7938cf09599d854aa90fec0c956bceb14f854a1dd46f52b414d"
+    },
+    {
+      "path": "benchmarks/pilot/README.md",
+      "before_sha256": "ad20dc13d2e5eeb52094e9f333b499f0066a560c53641cadc2f6f3f0099a71a0",
+      "after_sha256": "548ec27998b4578d898f6609c7e8ae3b4cd8863b803fe7ba53e35a7c183f32d1"
+    },
+    {
+      "path": "benchmarks/proof-interface/v1/compcert/Base64Targets.v",
+      "before_sha256": "188c7b0fbef9ecabcc43f5ef6357d2e20ef668f300d849e5b8ff35e3afe57006",
+      "after_sha256": "9c8a8e4dac57aad5df5d5ef89d32963234d21a4d720c038370509a864d765798"
+    },
+    {
+      "path": "benchmarks/proof-interface/v1/compcert/BoundaryTargets.v",
+      "before_sha256": "e4487601a6a7dfa65193a35d8e96c34562e2ed6924a51f25644e952aa648a549",
+      "after_sha256": "185e31781701e19cf29189ea0493190b639826fd0420070171f8ddf104ec81f2"
+    },
+    {
+      "path": "benchmarks/proof-interface/v1/compcert/BranchTargets.v",
+      "before_sha256": "5726d413e83318294864e9be4a9dd66be08327e5c40d9032411e0f13dd682902",
+      "after_sha256": "696e019927bd9d8be563abe4b863ef7a754a706a220c4b8116fb47283e35fd70"
+    },
+    {
+      "path": "benchmarks/proof-interface/v1/compcert/ClassicsTargets.v",
+      "before_sha256": "c29bd253ac6aeaa204ce363df6ea06673599c4308cfa2254054516f0a3b4368a",
+      "after_sha256": "664ce6e953d84b2306ca42b7cb038f29d4bada59a159245ad52c33284c070841"
+    },
+    {
+      "path": "benchmarks/proof-interface/v1/compcert/StatefulTargets.v",
+      "before_sha256": "b03b3fabf93f8060b30786fa219408f47ed1b673e2af9b663bd033d8c0b77583",
+      "after_sha256": "b6c8974d468eb69a06b3f203fe43d792c611381bea4692e293031a82f1f21f74"
+    },
+    {
+      "path": "benchmarks/proof-interface/v1/compcert/SystemsTargets.v",
+      "before_sha256": "22766eda8cb17eb01e5e13e8df177e3cb1c88cfce7977d0ccc2a7e80bc968fea",
+      "after_sha256": "5476d2bdfeba27aaa591587ad60758bedf986a91d47e85e91bdf1e7ebbedd058"
+    },
+    {
+      "path": "benchmarks/proof-interface/v1/lean/Base64Targets.lean",
+      "before_sha256": "200c11c82a647856e949fefa1c7f726f20f6f4a25b9e83ed374871ef0db991a9",
+      "after_sha256": "f940a1d95c2ed2003459074dd59c69b333428a0bdfff9ada77dd73e7480fe0e4"
+    },
+    {
+      "path": "benchmarks/proof-interface/v1/lean/BoundaryTargets.lean",
+      "before_sha256": "5c6d301cef7b40238eb0277a2d0f10926bfa3e006dc8fca67280b988ead3bf1c",
+      "after_sha256": "1219d182e26c76411a4e75b420f37e604675821ec6a53c1a7b61a26a88e2a767"
+    },
+    {
+      "path": "benchmarks/proof-interface/v1/lean/BranchTargets.lean",
+      "before_sha256": "8dc9196961251725a138c6812ad3a0f6dba74810f936a3c04cc61c49a400b6c4",
+      "after_sha256": "84842833ddae5d44d5ba0f57e5d8828341ffcb26bfb34d66cf143bb54bcde442"
+    },
+    {
+      "path": "benchmarks/proof-interface/v1/lean/ClassicsTargets.lean",
+      "before_sha256": "ee250785aae8a30782c7963dbef1accf8e394bd29a834c48ceb26990a8613a02",
+      "after_sha256": "f540d664f32cfb5442b1edc283d59e289ff2f02127bccde0e0cbce4ff212047f"
+    },
+    {
+      "path": "benchmarks/proof-interface/v1/lean/StatefulTargets.lean",
+      "before_sha256": "5da46f2c74a24ef243a044936c0fdfef6e263bb15c9710b01739891c1b8321fd",
+      "after_sha256": "21232edf2334d359f06ca8d3bed6313407a9027a38b596cba62d6533be3191d8"
+    },
+    {
+      "path": "benchmarks/proof-interface/v1/lean/SystemsTargets.lean",
+      "before_sha256": "f723d7fe3761c490854ffb649d350569c54dfc4a3ae96fc91377465c8454f431",
+      "after_sha256": "1ee1eac6e7e200e6d5d7a03d137e69ee407f92f6a82f9334a811798720d4f3d3"
+    },
+    {
+      "path": "benchmarks/proof-interface/v1/rocq/Base64Targets.v",
+      "before_sha256": "7f0ec6b61a724ce6821a4c687186473a0b2abe961878f74f6534a23faa46124e",
+      "after_sha256": "f0c61db1fcabcc02ceb804962815463a35db81df1e27f435ba7eb2351c84e50f"
+    },
+    {
+      "path": "benchmarks/proof-interface/v1/rocq/BoundaryTargets.v",
+      "before_sha256": "95f6ea8da2b7536572b8090443583ff08dcb9e44a9eb2e1559c7a642beb8bd8c",
+      "after_sha256": "a99f95b7e6eb1afcb611f7922a8dfab70ce15b63c1df22d6ec9d42e12ce1ad32"
+    },
+    {
+      "path": "benchmarks/proof-interface/v1/rocq/BranchTargets.v",
+      "before_sha256": "c6f62dc7e6cf2a6b09f376c98d2d71fb8153c456d3d30675694c141d76c9659a",
+      "after_sha256": "d240393df75859039b13166bdbcdff5a4d9c8391e18f129337f0e8c043988a2f"
+    },
+    {
+      "path": "benchmarks/proof-interface/v1/rocq/ClassicsTargets.v",
+      "before_sha256": "99dee694acd9a55f302d110fc377a9799776c49f832a087555507309fb2780c4",
+      "after_sha256": "3586937bc8378bb886b4c186710cfbcf8d7cc9f8c8dd72f36870e9ccfb6abca5"
+    },
+    {
+      "path": "benchmarks/proof-interface/v1/rocq/StatefulTargets.v",
+      "before_sha256": "4debf714efaa11c5330205d36f30104897eae3d658ccd97caa4561d28a223458",
+      "after_sha256": "0710b9c6fa2467f9fc975f03403eddc7805b130bea0844115941053086c03238"
+    },
+    {
+      "path": "benchmarks/proof-interface/v1/rocq/SystemsTargets.v",
+      "before_sha256": "e454de933ce2685e86dfd480d8207f46c7facfef7e89a2aa1b94c90e554036f1",
+      "after_sha256": "77b3d6bc3365d1a5ecbebb2e479d8cc262a51604d22ac9712a16b64b58550b01"
+    },
+    {
+      "path": "benchmarks/research/qcip-candidate-review.md",
+      "before_sha256": "07008309543940b101ae93a928759e69efba2e92f9b26d3b69b02c4370fb28bf",
+      "after_sha256": "b69439f4503314615bc9f4adfcd067e3963460fa4ddb7a29e31c4914f13edab8"
+    },
+    {
+      "path": "benchmarks/source-material/NOTICE.md",
+      "before_sha256": "d75a7674b38e87b59ff80d4860786ce3c44ee38a44b586e27770bdc23082fdff",
+      "after_sha256": "fe8c93e0aeb20037069980f79c9297481dc8d352e8887cd319f5375e47ed41a1"
+    },
+    {
+      "path": "benchmarks/source-material/README.md",
+      "before_sha256": "b8c43c966a5c14faa434d409c8bdf551586dd77171340c1413217cbe23ef7e38",
+      "after_sha256": "93abeadb27e7608abfa44a92b98c6d3f6f8d6bfa4f3efa2e16921e20dee6bbf6"
+    },
+    {
+      "path": "benchmarks/sources.md",
+      "before_sha256": "4f3273a1b030a9854f79493b86ab83860d80cc52e91431dbb10400711895c714",
+      "after_sha256": "4f4c3873a20653aa7b01a706b2e0d5b9b054116e9500634bf2b0456c7c50a527"
+    },
+    {
+      "path": "benchmarks/task-cards.md",
+      "before_sha256": "2f9cb212f9e690824043f373f4f7700fc18610aa5cce229e84c4d01ecfe40d93",
+      "after_sha256": "7450fb8b41ee454f3868cb8a7a036d71c5fa5d153f7bc8686cfd0d3ffc58c831"
+    },
+    {
+      "path": "benchmarks/task-catalog.md",
+      "before_sha256": "ac6d1cca7bd2f1756595b5721042ab20c176b2ac6a01e7e6261b9612cf0dcec0",
+      "after_sha256": "c8ab10a7547e871b41dd91699b7b419b351a8792768bddf456d7f24dfbc722f6"
+    },
+    {
+      "path": "benchmarks/tasks/algorithms-core/compcert/FACTORIALGoals.v",
+      "before_sha256": "bd23a5f59e5899b30089e8c358297c3416581ddc3a24715af74fb4e2d734a1bc",
+      "after_sha256": "3810d867033dd5759d060588efe77af309733fcf54164ad262f5f61adeff3654"
+    },
+    {
+      "path": "benchmarks/tasks/algorithms-core/compcert/MATRIXGoals.v",
+      "before_sha256": "2af9062917368e90b90e9b7efa2e3a7476012ff7e2eda869e12bb919e0f088d5",
+      "after_sha256": "c86c09b1911c2e07d23e30cd8fe3de1783f2ea50d10d729f7a5627a0cec0845d"
+    },
+    {
+      "path": "benchmarks/tasks/algorithms-core/compcert/QUEUEGoals.v",
+      "before_sha256": "c1e3685a3bf6d629354cb915280d16938b2fda5801e59cacd874424fc9c8a39b",
+      "after_sha256": "b4ff8338c82e57c5029c29381698717b067c33a680d38bda289137699c345ca5"
+    },
+    {
+      "path": "benchmarks/tasks/algorithms-core/compcert/REVERSEGoals.v",
+      "before_sha256": "730b63e6355e864fce2d6b94c606057ac411a918fe903491919eb6ece3644079",
+      "after_sha256": "b9cf00dbd20331cc8daf502262c1d6b1b43b1926b3f88b988332a7471ca06f72"
+    },
+    {
+      "path": "benchmarks/tasks/algorithms-core/compcert/SEARCHGoals.v",
+      "before_sha256": "711182f689c4d3a3c0f755bf5058babd6791ba0c69d942c34136a5aa26a2c381",
+      "after_sha256": "1f1da7e17475b7078cfd8034627c9d62523a25de7783764c3a165dd5a36416b5"
+    },
+    {
+      "path": "benchmarks/tasks/algorithms-core/compcert/SUMGoals.v",
+      "before_sha256": "276519f55204f84f61c071a5345a35d13bbb9b8086ca3b6a2816ca9866c785e5",
+      "after_sha256": "797712a04686489c09989e1d5bdf23ebad03028a798a1957040cfcea9d64bdab"
+    },
+    {
+      "path": "benchmarks/tasks/algorithms-core/lean/BasicDomain.lean",
+      "before_sha256": "658a9b9878851ad4f25b92a4eef8450f9584d64938e3fd1f43517f70e2ebe852",
+      "after_sha256": "c4fe33ae5e788927549004ed6e53c4bc6c4ec510470d1dfa59fbf09054d1b0c1"
+    },
+    {
+      "path": "benchmarks/tasks/algorithms-core/lean/BasicGoals.lean",
+      "before_sha256": "1129102015f3606a83f078f7f33d92fe6334167fa817dd8ddb74f84a378f623d",
+      "after_sha256": "c38331415d70d7980082a04fe393886ad61feb64d4c61901d57e9f2be857cd22"
+    },
+    {
+      "path": "benchmarks/tasks/algorithms-core/lean/BasicNative.lean",
+      "before_sha256": "56bbfcab41446cf8509c8d6c6fd8a22344ba84b1575c454f2e906365a5b6e03e",
+      "after_sha256": "50e91bb6e939615a2d2abe1323fbb650f7700695d06dc792f729fc222c6bc842"
+    },
+    {
+      "path": "benchmarks/tasks/algorithms-core/lean/BasicRunner.lean",
+      "before_sha256": "158bfcef86c56e60affda38b6a4f43209ed910c43c0e5f2c86506cb7bea2c470",
+      "after_sha256": "0a2c390ba2c563304ab79d154e5bdbfa7c00a8a50df123b021e4535cd14dd3da"
+    },
+    {
+      "path": "benchmarks/tasks/algorithms-core/lean/pending/R_FAC_CEX.lean.goal",
+      "before_sha256": "5479b44f3b539826363396b59a30f151ede41874f6f4f52fe582738846ab67d8",
+      "after_sha256": "7ab65c223378851844b43a573dab7fa31d973fb9223a30510dee8a0131b13c54"
+    },
+    {
+      "path": "benchmarks/tasks/algorithms-core/lean/pending/R_FAC_EQ.lean.goal",
+      "before_sha256": "5a7adb1a6a10e5368bc7d052d8aa0fe6d4d8b875fed92801e2153695022cb59f",
+      "after_sha256": "28acddbb32c8a66dc12f69792f223efa351e74e6e798b1cb31e0d4d213fb860a"
+    },
+    {
+      "path": "benchmarks/tasks/algorithms-core/lean/pending/R_MAT_CEX.lean.goal",
+      "before_sha256": "74b7a27219a5ceff3ef7fc14b0f2ab7ca7176d6075db3b3cdd19879fcffd8fae",
+      "after_sha256": "83ea04027972bc3ff2265484df2f2ccb169b2bcd8973fe3f2e43a4691f88828c"
+    },
+    {
+      "path": "benchmarks/tasks/algorithms-core/lean/pending/R_MAT_EQ.lean.goal",
+      "before_sha256": "1036b1582c447db6144c76ab4a4b6631d1daa517d9c8fb6b89575b274ca3011c",
+      "after_sha256": "07f60da21599057ac3b867a08770d7563a3c01817fc78234d058f2b69727766c"
+    },
+    {
+      "path": "benchmarks/tasks/algorithms-core/lean/pending/R_QUE_CEX.lean.goal",
+      "before_sha256": "3b47bdfddb767af81386fdc2c48dac5ee08b80d9399cbe7c3b3b33560097fd2c",
+      "after_sha256": "d9046e46937857c75ea161b8e5a41c1d84abd61a869aa931ee23c52c7b950b40"
+    },
+    {
+      "path": "benchmarks/tasks/algorithms-core/lean/pending/R_QUE_EQ.lean.goal",
+      "before_sha256": "c094458e81ed24034b86534000fc43f6f578b6ec033a7e65ba800aae1d4d9a8d",
+      "after_sha256": "bcc4ea8cece5834de9ed4cf72e4fa40af84a8c0d7dbfb1bdd988141c8fb220d0"
+    },
+    {
+      "path": "benchmarks/tasks/algorithms-core/lean/pending/R_REV_CEX.lean.goal",
+      "before_sha256": "fd89eb1016417be127d9e75c224d71efdfcf681ea389ff5126cfd7df99e33314",
+      "after_sha256": "bc1a50e278f4e220c81c2a99e5b1b2e8f2d9e330c904c83abb405999a11c26c7"
+    },
+    {
+      "path": "benchmarks/tasks/algorithms-core/lean/pending/R_REV_EQ.lean.goal",
+      "before_sha256": "76b5de7b1c1108f547e4df199eab8d2104739abea5403407ad07d58ada5f9962",
+      "after_sha256": "dcf9840d39803802f748e817d8c73e518e5d63b94997dba9d61ba608d5316480"
+    },
+    {
+      "path": "benchmarks/tasks/algorithms-core/lean/pending/R_STR_CEX.lean.goal",
+      "before_sha256": "8c817ae3ad1e7a6cd515348891903ebe87a0bfc0d486f558e73b017270ceb72a",
+      "after_sha256": "e84cf90c932122ee89d072b90ef0d4c766ce8d3e8d08071123852256b2ef362f"
+    },
+    {
+      "path": "benchmarks/tasks/algorithms-core/lean/pending/R_STR_EQ.lean.goal",
+      "before_sha256": "61cb3002781dc50c711086b524088335de74640e45af018da0780219143b327a",
+      "after_sha256": "354ccdaef506551cf3017705941d2c3e64e1e54383db2e5415edfbb01d5a1e6b"
+    },
+    {
+      "path": "benchmarks/tasks/algorithms-core/lean/pending/R_SUM_CEX.lean.goal",
+      "before_sha256": "57d9833ea0be3cf0fa48b525349a0bb9a300bacf9c4d11bd5f52e0b72a393739",
+      "after_sha256": "cb0bbe78cd6abf94379f0be2001a62c24f470da5da79057b9cac940f7d08ecad"
+    },
+    {
+      "path": "benchmarks/tasks/algorithms-core/lean/pending/R_SUM_EQ.lean.goal",
+      "before_sha256": "c559e9b53201801c09cfcdf5b6b15dc288c5b6c4a3bba8bc87944ba8787dbfe2",
+      "after_sha256": "03fa553cd3965a337c5e8d2e2d04b746bfec4cceec2e2eef4d739a3e453651e5"
+    },
+    {
+      "path": "benchmarks/tasks/algorithms-core/rocq/BasicExtract.v",
+      "before_sha256": "887a6ac70fc465bf59db41c7aa209578ad9029edcdd32494f2c6853ad204d456",
+      "after_sha256": "6f5f25c80824277d5b6208ecfbc5ea4fa41b395bce65b37603979b93a6eb41dc"
+    },
+    {
+      "path": "benchmarks/tasks/algorithms-core/rocq/BasicGoals.v",
+      "before_sha256": "557d184236e7b624976cf0895ed7653ab0c5161e184851ee2b9b6b551ac6f9a3",
+      "after_sha256": "40d347bdffc22bb6219d8f367d84af702c07ae1fb3bb32f2fe6ab7ea80f31de1"
+    },
+    {
+      "path": "benchmarks/tasks/base64-core/compcert/BASE64Goals.v",
+      "before_sha256": "06a49dac7c0f2fcdf8f262179c802b6c3b3386114fe4d7e1f62170c3342eb643",
+      "after_sha256": "0870cfe76fe7155c8e12e66f71cec8223928482508a9f41f68e11589504f310f"
+    },
+    {
+      "path": "benchmarks/tasks/base64-core/lean/Base64Domain.lean",
+      "before_sha256": "d550c3650be81b292d59935f1f8b5bfd1bb824e80f16d5c3ecb35f23970f4771",
+      "after_sha256": "6df68d7a90d09059a1679c94f7e501bd4c109cac048494f8c1d8c1c88fab6bef"
+    },
+    {
+      "path": "benchmarks/tasks/base64-core/lean/Base64Goals.lean",
+      "before_sha256": "3d9eab1556631dc8ce0cd10a804dffcce5df07d353671093f28ffd76702cc1c4",
+      "after_sha256": "4f783e3d03b06de28b7d5d8d74c4e010278ead497048fec5c940118b002686e2"
+    },
+    {
+      "path": "benchmarks/tasks/base64-core/lean/Base64Native.lean",
+      "before_sha256": "f0e0e119f49c72dcb3e15ac62f9a729d878acf7c86ee7a83d679eee91462a7e3",
+      "after_sha256": "e4c4294641c5d5b0e620ee489ca1c969806fda603decd55f182a747b78867a0b"
+    },
+    {
+      "path": "benchmarks/tasks/base64-core/lean/Base64Runner.lean",
+      "before_sha256": "3c725d5f5d33299a46b0108d5c4c1d83324a23af0909d43a4a7a18e1dbbc9344",
+      "after_sha256": "cc726f1d7ecefa1d33d4c17664b7337a885f35430ef9a8bed6d79cf03fd4d904"
+    },
+    {
+      "path": "benchmarks/tasks/base64-core/lean/pending/A_BASE64_PADDING.lean.goal",
+      "before_sha256": "722b6a4908f80ae7791aab76b0efd81108d2c8d0889c56b7776ac35f4ea38a2c",
+      "after_sha256": "dc04933f61df883cd8c0ab17c0698105265b6576c5d35018d0114e4d40096df6"
+    },
+    {
+      "path": "benchmarks/tasks/base64-core/lean/pending/A_BASE64_STREAM.lean.goal",
+      "before_sha256": "fb027e33b60a96e16673083ebedbbad833cd0d8b0a3917d096ef0d1610aadebd",
+      "after_sha256": "718004a81fcb1f911a477cb587dc72bfb4ce64627aa5f48094ebdeb9d669a2a7"
+    },
+    {
+      "path": "benchmarks/tasks/base64-core/rocq/Base64Extract.v",
+      "before_sha256": "1bd164436e49e599ae5244cd004c4e116dd7490fca386400f8e01301041e6f24",
+      "after_sha256": "84daf0eabd1aed9b42480ba57a56fd9715bfadfc9e91f2ec23fb1359f64442f6"
+    },
+    {
+      "path": "benchmarks/tasks/base64-core/rocq/Base64Goals.v",
+      "before_sha256": "543550098445888bde3825edbef367ff18deb2471036dda0e54203453734b694",
+      "after_sha256": "39a0872ea4ee732e17a90d7ded42432111de2c48ea8a18cc338e2acee3b20b67"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/TASKS.md",
+      "before_sha256": "298669ddd69d15e567dfc9f460ef795e49afbf5558af23f5d3a2f9db63bf4c1e",
+      "after_sha256": "16bd21881456ccbd0de1a8b1d32e46b2cfd395aaae9fd69f95f9a1ab6ed94190"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/compcert/EVALGoals.v",
+      "before_sha256": "e4701048ad470fca304957b40a19eaff16b081ddcff6ac3d8ed37517870f2c0e",
+      "after_sha256": "6e57c7bc0344e0663244560abdcf0d184c9fda2e3fd46b61e8b67d83edac6beb"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/compcert/PACKBITSGoals.v",
+      "before_sha256": "ff26f5c60ce16a9fb03ddddb14d98d21bc85a94a06b5fe3a948227b663aba0b1",
+      "after_sha256": "82fddc1c28e378c0e2c723c7caed617843bd9cd6d1d0690932442bdff7fcd689"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/compcert/PATHGoals.v",
+      "before_sha256": "13653f33200a3490ae5a9939e71bcf83024e0fa280b900d0cd00778d0a82aecd",
+      "after_sha256": "2f342939f0ed0e27dc9eac0556451be5f91d2280852e00f7c08936f3b858aa93"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/compcert/PRIORITYGoals.v",
+      "before_sha256": "807cd747d02bb78e2278399137260b8a61035823fb99b53ec8440ef1400fb9aa",
+      "after_sha256": "d2f6cc02e9dd3c94f83a89ce8a64d374856b0c6174fb38b39f198792dce1f937"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/compcert/QUOTESGoals.v",
+      "before_sha256": "5e0dfa65d0dadf1a5bff5e301dc5e764f4d6568fec8ca2369b478bcdb65a635b",
+      "after_sha256": "e5991f70e2ee4c7a1cab29efb66d5c38d807215097cf866d2f1cf1815984121b"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/compcert/TLVGoals.v",
+      "before_sha256": "d2d69404b1b89e29d639d9b456f56fd28d4f2681ce315fd8cb5b675013d76a73",
+      "after_sha256": "86578b2a372aec218d46c891cee28e113c77cc5d0411e10be020880f682462df"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/compcert/TREEGoals.v",
+      "before_sha256": "5557779241eb67b85ec88b7d82f27cc396ab155254408faf669e76af946ebd12",
+      "after_sha256": "81194a306451775f2d510a40c7ae92cc6d8e2c8ecf30a696114ab02807feadb6"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/compcert/UNIONFINDGoals.v",
+      "before_sha256": "89bbddaa753288378670a3b02dabd5bf4f9b998f1d124dad383fc1990f25c48b",
+      "after_sha256": "844049f377ea4b02c18dcd534c7956399cbc8d9729915dcc101f7342ed6021e1"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/lean/BoundaryDomain.lean",
+      "before_sha256": "b40118acf5caddf8c265bfa58311d5c5391a3fefb69be176428e46598ebbe5dc",
+      "after_sha256": "17cb703257eef13e72933fa21e3d9d8d2a0c6f7eb137d598bafaa9e2d574a800"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/lean/BoundaryGoals.lean",
+      "before_sha256": "a486cacabdb7496e72ac5db46b384b1fa57ba721c3ca2772164f1ed715021428",
+      "after_sha256": "34ce305da498fb34d9106d23982078f261e8cea5f8ffbc9bd07ca668b59314f3"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/lean/BoundaryNative.lean",
+      "before_sha256": "3a42d05935603bcfc609daba0fe36e907aa2290a1eaa525c6b9d86d57ffd4657",
+      "after_sha256": "effed50867e02d5b5c263acbbb434eb11a9a421b8156c0f3e4b8efff0170377b"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/lean/BoundaryRunner.lean",
+      "before_sha256": "7658a7eb4c048d48c4c872548ada34ccb46a3f5139de74fa1817443164e02fb3",
+      "after_sha256": "3f6c147553ed6aa736570d0a88c4ffc7bf4f7a6b77eb7ec6518f55e729b95ddc"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/lean/pending/B_PACK_REPEAT.lean.goal",
+      "before_sha256": "5abcf0797ffb4d5e1b7767098484f780b1da87cda464abcb066841d6fbdce30e",
+      "after_sha256": "5bb8301d4ec619757654945cd01406ca435af7bfce245556fb544950f9a7af17"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/lean/pending/B_PACK_SUFFIX.lean.goal",
+      "before_sha256": "1482fe0f690619d4e7f680a997b5a5585260cdcf8129a3fcc239726a69f8f890",
+      "after_sha256": "fb59635f0d7b5024a1e371656fdf610f371832457cbc80b00b146c510800160f"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/lean/pending/B_PATH_PARENTS.lean.goal",
+      "before_sha256": "2e8fc96586fdd0aba97bb58e2a2a226344ac4343cf4e4c9e914eb69b0bb59c2a",
+      "after_sha256": "ad5a614bec11c7706f7a5be0c26a2b806b622dd5bf805e648db7b2e4e1085dd2"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/lean/pending/B_PATH_REVERSE.lean.goal",
+      "before_sha256": "dbf1f6ed180330122100125f85b45cc7fe7e9dc069863c3c89bd2c663d3e20cf",
+      "after_sha256": "7addbcb59aa33a9018d0510e3f816ae5f89a99add8005b264273ef70e083aa93"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/lean/pending/B_QUOTE_EMPTY.lean.goal",
+      "before_sha256": "ad583d74bd46f7b741dc94e9f78a9d5ca8081f8f8dd1cefeec45539bf6ac8be6",
+      "after_sha256": "1a0d52fed31ffe1791ec40dba7dc6efff08f10a90a9a3f1c182a082bc6041e77"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/lean/pending/B_QUOTE_SPANS.lean.goal",
+      "before_sha256": "2b584ad7b9bbf8b9025d2c73f9e7b57c6febb66039e338988557bb2402c8dfc6",
+      "after_sha256": "dab551650e9c2ca0f16edc541a890afba662e7bf9a4ce88b77b70385feeaa7eb"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/lean/pending/B_TLV_CURSOR.lean.goal",
+      "before_sha256": "20dcbbd843e443192de921aef4fae6fc1d82851eae2fad733edd2c06baa3642f",
+      "after_sha256": "a8f99af630738854c82c43a6bf474705795db9fc7984f33267dbea6c9aa56dcb"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/lean/pending/B_TLV_ENDIAN.lean.goal",
+      "before_sha256": "6735df51033a0d3a9918b94566194d6399695b6d44fda522bd6d1a90e839edbf",
+      "after_sha256": "3bbd5d3c6af82cf588b9c378a1e80cfdded8b7f01420c0835b21ee864621923b"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/lean/pending/C_EVAL_DP.lean.goal",
+      "before_sha256": "38a12660983bd99555f846bb212db02ed98f8b0b8e8b03a6a2b5783e2c88638c",
+      "after_sha256": "26668d8bbaa7dc735e73740995260f2216fa9a82336cde9fafb7c23a99b32136"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/lean/pending/C_EVAL_SHORTCIRCUIT.lean.goal",
+      "before_sha256": "01bca385bb5951cc9331dd80afd97ec3df8b5336bd2b0e604f13303526f65148",
+      "after_sha256": "c9d50c3c7fc92571d0ca3d733f2e0eba6fccf0f484c01dff4073139af01c05a2"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/lean/pending/C_PQ_CHILD.lean.goal",
+      "before_sha256": "30fd9b62e255cb25b1a2f5ace383c7f131ede7cea4181b6aca9f0c2495514035",
+      "after_sha256": "0d6b3f1bd91acf07de75bf383d1fdd383be20790f30b5eaf64ab96a487d05b35"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/lean/pending/C_PQ_REP.lean.goal",
+      "before_sha256": "fb12da255352fe29b2acdb14e94b9c58f8daf5893d41b58ec2e0eee96f02e110",
+      "after_sha256": "d6383b17958edcd42e616ccf2b65a0887d955f5ef105d3246eb40bcc1c3cf2c6"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/lean/pending/C_TREE_STACK.lean.goal",
+      "before_sha256": "397b41ac51adb1f8c22764eb98843e0be85b3bdf3e33bb2bfde336b457370b29",
+      "after_sha256": "27b6d05c0d3497325c4de1a9d39b29bdbc17d08c89b1820e95c1d8b99b98db27"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/lean/pending/C_TREE_SUBTREE.lean.goal",
+      "before_sha256": "346c7b1248be43fd5c6cebdddb701f1c1a094335735ba67188ad2fdc9397dcd7",
+      "after_sha256": "bff295ed2f87b6442392e70539f8226b050656217711c01ca0a66317ae33739e"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/lean/pending/C_UF_HALVING.lean.goal",
+      "before_sha256": "fb9a6d62e8047c4a98d550164150ad34af4345f736c76734c6d607b2162f3a45",
+      "after_sha256": "4018d391a69cd068a3efaa94648fd21a1fee01f6a6e9a6ab581c4927bc0637ae"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/lean/pending/C_UF_ONEHOP.lean.goal",
+      "before_sha256": "92b099e7b47af8642fe12fc0b5ce39bd8031a920020b1d8b38a458f35b266828",
+      "after_sha256": "70452858f2b585b92dc74d0dc39c1ae04364db771b2c1f9de618219a9ded5179"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/rocq/BoundaryExtract.v",
+      "before_sha256": "fb7cf01f71e83889bf95c0682981fc4ae603175fcb26a0797da53ef9a320e393",
+      "after_sha256": "acdd9c0393cc3bf326176dbcb80a585528cc6ec405377de4a67558a65b932a76"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/rocq/BoundaryGoals.v",
+      "before_sha256": "a03a7dec223a4e0c521cc35a53442b64cb9f367d24ebc22677937f9534ac274a",
+      "after_sha256": "09a1c2bdbd4ba189c6bf297fff27a664aa8ffdcd62043a755212b11c790ff532"
+    },
+    {
+      "path": "benchmarks/tasks/classics-core/compcert/FORESTGoals.v",
+      "before_sha256": "bfae300c5132d9af3ce8e1cb82adb24d479325c5f585d9dd607b37d66a45f24e",
+      "after_sha256": "52efb4274ca2f75386b3574b71d0252a2c563d05d694b9fb77ad598a33eed68e"
+    },
+    {
+      "path": "benchmarks/tasks/classics-core/compcert/SORTINGGoals.v",
+      "before_sha256": "2466f2cbcf69ae44a6c04a4cdc20d8deab800ac7a811b8ab2e8310609315964a",
+      "after_sha256": "e518ac1c56905fafc2a84c300acdccfbbd4340166356355f3d1bae29840272c4"
+    },
+    {
+      "path": "benchmarks/tasks/classics-core/lean/ClassicsDomain.lean",
+      "before_sha256": "f474806c9185773732d908c8220394ddc0935d580f5fc02dec3e30e3791611c2",
+      "after_sha256": "fa8e7073815850e73d49890d96f5b306dd1d6e10313b16f8aa8489ca5d3d2255"
+    },
+    {
+      "path": "benchmarks/tasks/classics-core/lean/ClassicsGoals.lean",
+      "before_sha256": "d7ae5f41b3480c4474ca3b401d87cb2bda86452e3eaf10539e8c0ed2606bd2bf",
+      "after_sha256": "db47aded4973abad8f2a074a1841313a615455da65f26c0272b0fe7866990f10"
+    },
+    {
+      "path": "benchmarks/tasks/classics-core/lean/ClassicsNative.lean",
+      "before_sha256": "5f21245dbf0606289fad06f4ecd96868e8404cc60c63db13ee9a325e70c9f0c2",
+      "after_sha256": "8e86aee41ef4681bc6253b550e38eec2e5440d509a4e00a347bb14062d221c91"
+    },
+    {
+      "path": "benchmarks/tasks/classics-core/lean/ClassicsRunner.lean",
+      "before_sha256": "182283002e6167982e92352ce9638dddd25b3e9e7255764fd9f884fcd81dafd2",
+      "after_sha256": "e1cff2c3b282a8a029d569971b2b0f08050239cd3d1d45f30a3e7c17a415ca3f"
+    },
+    {
+      "path": "benchmarks/tasks/classics-core/lean/pending/MST_MAX_COUNTEREXAMPLE.lean.goal",
+      "before_sha256": "c1b26fd681bb36515b3cd8d29a1d5f1d0bd6688cc698bd8cc0e1831722ccd8de",
+      "after_sha256": "bf23e80b662576af730fd645a8bd89a3e53b5ea3f7f7ce131cee204ba86cd273"
+    },
+    {
+      "path": "benchmarks/tasks/classics-core/lean/pending/MST_TIED_WEIGHT.lean.goal",
+      "before_sha256": "8bf111311358c60faac15531d04db08385d7c41b0a620f3e373e4e1bfbc6c23d",
+      "after_sha256": "74bd83433fd5bca18a7f2abbd626bd44be6c75addc65a373fde9d6dd48a7c888"
+    },
+    {
+      "path": "benchmarks/tasks/classics-core/lean/pending/MST_UNIQUE_EDGES.lean.goal",
+      "before_sha256": "d8b05d295f6bad8709787aa7ecec06c13ecc0a455dbbe76fc9cf2ac7d3faa814",
+      "after_sha256": "61aef664626075821bee3310eef49f47ec4c776172809754c616798866ac0290"
+    },
+    {
+      "path": "benchmarks/tasks/classics-core/lean/pending/SORT_MERGE.lean.goal",
+      "before_sha256": "5a2bf2dd4ce458ae2e089c0e4a3f210783da1c713f1f5af262622e26b978568c",
+      "after_sha256": "63a4dda82f1f57d833955e0f22454d9b2832263f4682107e9d2f84936e2818ef"
+    },
+    {
+      "path": "benchmarks/tasks/classics-core/lean/pending/SORT_UNSTABLE.lean.goal",
+      "before_sha256": "d108ac53a430b5dce8f473feff48e8a9af03bec3539990d2e4560fb3a66a1dce",
+      "after_sha256": "9620e0065e3b2b75861b5a69c99ca22fdc92dc673672672f874cc6e7377d21d3"
+    },
+    {
+      "path": "benchmarks/tasks/classics-core/rocq/ClassicsExtract.v",
+      "before_sha256": "906be4c9e6f46e7695f773a5b4c7793d8e40b4d431b8e7e6aea8be9dc4b775ed",
+      "after_sha256": "366fa5720d8d7839f596ac33ed9dfd1761a52e4e89691c3719a20869ee2f676c"
+    },
+    {
+      "path": "benchmarks/tasks/classics-core/rocq/ClassicsGoals.v",
+      "before_sha256": "b0b85f3a4537fa826339fac84102738b77c757cd210da7a9b45ef165081f5d80",
+      "after_sha256": "f1566d33f31e4eb66f56c883bf3f2c405fea689513c8e10c130d97d15bb3aa9b"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/NOTICE.md",
+      "before_sha256": "bc8ade93134d9e4f769cf1821df5c3237002e6d8aeb0bcb9b2cfec58d6e9fa6a",
+      "after_sha256": "3e7c30bc4440d56c3a544a541ad7f93fb4540d9f60647da6a55bf0a0f1548a74"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/README.md",
+      "before_sha256": "d179e1eb817559f8b95f3971c6a5dba21ae8a5a78fdffc786e91a15f27556463",
+      "after_sha256": "f9ff3c1054f431db78609029fe85fcd6cb86b52f6ac00c9061bd2d7b15cfc679"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/compcert/AVLBindings.v",
+      "before_sha256": "b0e96fb7a566241985478f2a6ca0543beb7d2be263bde331650574a17dd5df00",
+      "after_sha256": "826a5d58c4e3f7198d04999f7b83e97a7ae92a58df258fdf8309a3e6729d27ca"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/compcert/AVLCertificates.v",
+      "before_sha256": "c09d6a1a7035a975c7030ee1e20fef7d363ec90a9030da23622295be79c801aa",
+      "after_sha256": "b0f60adfa23d7aaee11931d5339c06a1859219670128aac6b839e29fe2dec6e7"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/compcert/AVLExpected.v",
+      "before_sha256": "ad6d4a86ad5bfddd251ea3fe7680938d1cc8c34257d79b71f9216365d306289a",
+      "after_sha256": "32270dd39948f7f4be768d08001c5c525916e365b77089de5d50f744c57375aa"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/compcert/BSTBindings.v",
+      "before_sha256": "f77c22f58741e6a931f73e637fe13ea747c05b335b4a457b2f3c44bbe8445937",
+      "after_sha256": "3aa08e664c640821421c54209d4c1fa28caaa895dd6abea4b85aa3e9562fc789"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/compcert/BSTCertificates.v",
+      "before_sha256": "b24d4eda0248c23ce1aed2d08783d45c1987881b181d9e7234f3b53eff9f95c1",
+      "after_sha256": "eeb8da0a2f941cecea87a6b40385e2119422b851af612d848a13f6c1739c45d7"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/compcert/BSTExpected.v",
+      "before_sha256": "c9710ff9ad3ffc76cb2758d596e97bfea49f16d4fe04946eeda8444bb39f093b",
+      "after_sha256": "0f0ea4cb397adbabeea823eabadad73d9b4501057e69f175ca5581492431c8e4"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/compcert/DIJKSTRABindings.v",
+      "before_sha256": "9b16da2300938d176dc89372e5e329cbddb47d7413aaa13fd6d9a659a1a1d6eb",
+      "after_sha256": "5aceda4da58f397fc1476a12cd9bb7c44953dd6f430e78f6e0a8cde37d1da1c6"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/compcert/DIJKSTRACertificates.v",
+      "before_sha256": "8a6649f252376d6a8b8286f9073a1dd6a7494cad0df8cd49ab6e32de98fbc5d2",
+      "after_sha256": "f6d7f73ef100cbded1e6d8743e058ebd33fde15dc48e78aa5d6b13f168e8dba2"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/compcert/DIJKSTRAExpected.v",
+      "before_sha256": "26bcd179dd6794d92f93d1d1da597438996bb4868aae401d11949597b1b21fc7",
+      "after_sha256": "dd61084b91963b77c688017023a77fa4b9d8373a3fd2b0f5f6ba1dcca3365524"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/compcert/Execution.v",
+      "before_sha256": "e4cbd75f36be508dd5e0fa7c2248a9755f9a95b5c902fe9c393fd1888b47e597",
+      "after_sha256": "5615755ddec17fbd020184de5c368d86f93a7e252be288ab6b9c204424bdce17"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/compcert/RINGBindings.v",
+      "before_sha256": "270495fc5263942b27ee11d55b82edb08838226ab7b7fcae40863e16c9e720b5",
+      "after_sha256": "84ee3d3c9c13f3d82fd5aeb67d206e0ed00eb78e220aee2463cace73ea62f145"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/compcert/RINGCertificates.v",
+      "before_sha256": "676dc43d21bdf908c30c86f5ea1bcafe1019c9e8fe8fe755e4b8fdbdffc72f7c",
+      "after_sha256": "e60cf1b7a3cb20b9e42f99fd788eb71467086bf723b8de90699e6a7cabb72571"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/compcert/RINGExpected.v",
+      "before_sha256": "5253b25cf0cc0e2fcd44d5904eefd547c93c73eb87aaed2d32e26b03a1d2f417",
+      "after_sha256": "6209b432d55d3f4a1451a334ef1f1c75fa0674f18eba70d1c63170cae41bc469"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/compcert/ast/AVL_V0.v",
+      "before_sha256": "1cf30959bdce801d94424e7f6c08fc0bc952513c80152a54a65b5644a48db540",
+      "after_sha256": "a3d9816bae57b0b42459d2f45102a7e8de989d54e6f96db9f48d3396e0289a11"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/compcert/ast/AVL_V1.v",
+      "before_sha256": "e19316f95847c8b3db91343221ca27637562ae52688f51e7e153df095fda85ee",
+      "after_sha256": "f6dcdd310da8e9edfd7430c16897451b3b06a289e597e3223a83bd58f34a9689"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/compcert/ast/AVL_V2.v",
+      "before_sha256": "eb6380412276f9e5ecd8440004e8c492362bb305256a022df199fe9aec05fa2a",
+      "after_sha256": "a961d44fecb93f02034db761705c8013c31f757e2f9f6d8b67c7590278475060"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/compcert/ast/AVL_V3.v",
+      "before_sha256": "482f5d288a7f6cf4606b7fc2643c69ce628933873851fad86f8a0d5b29e5dd33",
+      "after_sha256": "043b419a7b2827222135521a5b31e1a64b8eb2d4f8205950541401ee0000df0e"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/compcert/ast/BST_V0.v",
+      "before_sha256": "52dfa0b2b794b6bc57974f2d0ac63e12f3d4c5fa4393de65342c3d91b540daee",
+      "after_sha256": "42f9f757adbb99b1472c80505ea40472963e83a7c30c47e4285227e03f0bcd02"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/compcert/ast/BST_V1.v",
+      "before_sha256": "32a48987847f14c5b2beb902ca74de9a36edcc8a6a263690f4568f670c9cc331",
+      "after_sha256": "049139ba40c678427b83e683b838f80b5d09ddbb662f442b8bdb5c9146b381ee"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/compcert/ast/BST_V2.v",
+      "before_sha256": "9fbdac1ecd6204d831ce26e9cd58ac5ea58bcc4b7f177ec0dfeef238ec1a338a",
+      "after_sha256": "33ec7cacc122441889caab7e0046221dbf157d176347569258388770ec4cf965"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/compcert/ast/BST_V3.v",
+      "before_sha256": "39f4227986a7b6542b7a821432d84c3b621f98ce6a0f565262b3ae5ce66961f7",
+      "after_sha256": "aa70be47ab9108d5b3e3cf5a2fa58c41eec97e5cd6435d4710a4233783ec5d25"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/compcert/ast/DIJKSTRA_V0.v",
+      "before_sha256": "a935ec97e66cd376df6f81e5a154e999ec29e59594b7b15afbad8b74de4eb29e",
+      "after_sha256": "ecf022d9b218f4514b83fba9588f952cf44f3a06608db7e8a9c189f9e19588d6"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/compcert/ast/DIJKSTRA_V1.v",
+      "before_sha256": "6d593f8abe35c7c7db9bb03b1cb637f5077366e206a5583abc25c7c8249eb8b1",
+      "after_sha256": "1e95805294ab169832df1d73ef8c3cf5438680bda5ae02f1992a333b136b7f1e"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/compcert/ast/DIJKSTRA_V2.v",
+      "before_sha256": "3892b0b01444fe4cb2433a5a2bd97a2de27f9d308b02ae2428275f4d1a78093d",
+      "after_sha256": "846f808c34df28e1c7160800af36968515b7f6df8785d6f4236efb745b44c0e6"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/compcert/ast/DIJKSTRA_V3.v",
+      "before_sha256": "3b41c4d46e96131ea59baeb809f773b7ff63b40c6b4b61816f9686b90d791d31",
+      "after_sha256": "8737ea14758f87e68304b321140fef0bcd6024b6550a4e2c4b1efe2059a8f08e"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/compcert/ast/RING_V0.v",
+      "before_sha256": "44da0d8ef3873285260a0558c659db7ff3ab139d42f8d35140a0805435b71f18",
+      "after_sha256": "2568991a28d9875aaa617dc23532ca6fd5f163fe7ac2d8cb1481e94d6a9ff806"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/compcert/ast/RING_V1.v",
+      "before_sha256": "cdfad45c84dd8b641a170e856e2880c999d30ba813a16907244864dda8229ca7",
+      "after_sha256": "da1f9a523a133a5ec2e847a27697ac695d174b1c6a83e41d9cc12db1172b5fcf"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/compcert/ast/RING_V2.v",
+      "before_sha256": "f3f15cffa70afb66f99ab7da7920e09e0c374868e52352329467ed589cdd4d70",
+      "after_sha256": "aafcae667c24e9c3e5889a14950734cf33cfeb44ac26f3c561ad2b2813899c69"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/compcert/ast/RING_V3.v",
+      "before_sha256": "440bf3dcde5ac1598839f6adda78de253933ede34aa5caf13af670209c72071c",
+      "after_sha256": "6d937d0d9721ce6f40cdc0bc61a685d3bf98677d7ed64fe4a642e7b13c81a1ca"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/lean/Domain.lean",
+      "before_sha256": "71109d9e0e1035a13f9d83402a06e8a58765d70ef7d8f1a8f5fb0e72c10cefea",
+      "after_sha256": "3e17bf3f6327275f79c30403750d7d1c5926ac2f241ddb19a9bbc3acac1cb925"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/lean/Goals.lean",
+      "before_sha256": "546473f4292a6512a6f7f67b35033a3b8058973aede80414c3dcee48fd310833",
+      "after_sha256": "d17a539fb2260149984075c857a9dc6ad3ae6441c030f4db05ca29bdf1c74310"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/lean/Native.lean",
+      "before_sha256": "d804eb78169554a4dc3f888f44a2cfa17b464f08f47dc00558a94d9475850bd7",
+      "after_sha256": "53f296e5fa9eb485db0cb238258db14d413d156273cb0790172b34b683301e84"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/lean/pending/C_AVL_FACTOR.lean.goal",
+      "before_sha256": "acf60bdaf03f5e8a020f2e7295963aa9097594fdc2fbf7072675d8b081e0a8c9",
+      "after_sha256": "a940c9b524e2334f734149bae934338e16c551ecf79f7e729273471ced8b379e"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/lean/pending/C_AVL_MIDDLE.lean.goal",
+      "before_sha256": "5dea44b2022ad9c3726e1631cd9974eb40fa9fccb0668b13df302449ef955fda",
+      "after_sha256": "3e7f003936016cea3284f988cfd92eb6a480f49e541e34fad661e13d2a9fbd7f"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/lean/pending/C_AVL_STACK.lean.goal",
+      "before_sha256": "6708325be780118c962470df95b91983c03bba5f2082eac492db89e3f1c40de8",
+      "after_sha256": "d7e96164e88cf1327be8b7a17580f88e4378c21528d3e59ee6c5b8b7c1b7f1e1"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/lean/pending/C_BST_ROTATE.lean.goal",
+      "before_sha256": "901e6d8c5c8f943e869a2d2a0e36652b1e449c4e6679072d08dd500d8ef5ba28",
+      "after_sha256": "a7ac35c1c8d7f74789783adce61179aeaff5e54cc7fe6882d8e21c941f55c608"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/lean/pending/C_BST_SUCCESSOR.lean.goal",
+      "before_sha256": "3b98efc9a3c5ec130c2991075d039986bbdf1f1b3ebd01312c051d9b0b998992",
+      "after_sha256": "62ceaa6b94f04990176579499e98bc1d9f5db8547f55a52e77b6ad2b2b08a134"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/lean/pending/C_BST_VALUE.lean.goal",
+      "before_sha256": "1dfdf657e69f996d1466ab2ca524450b787a60612bb6906233ffb0200c384de6",
+      "after_sha256": "366d81cb23c5d23380991d6ab1327134b492cc25a58d3486d87556bcfe06ffb5"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/lean/pending/C_DIJK_HEAP.lean.goal",
+      "before_sha256": "fe8a05b055edb1f37b4e929772171146a407fc548b08818e189277db69b0047f",
+      "after_sha256": "d099759f5e501ff98910f9e480e27b3817773438ef7e3183ae45a64aee56b996"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/lean/pending/C_DIJK_SCAN.lean.goal",
+      "before_sha256": "77b70ff219d5df8f87431b6bd28f0ed05c3344ee00bbdeafb0cf51b9ed93e662",
+      "after_sha256": "f2aab87c0c3e87c28f4d2034ef18ba228af50e6f9ef654971c5107c3c34162d7"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/lean/pending/C_DIJK_SEEN.lean.goal",
+      "before_sha256": "3543b7c8b383ad6a6ffa46f707bffef06520dc4989d427ad8b1de22052a8d964",
+      "after_sha256": "878582c74f5688cbb4b0d470140dc35176119ce7d9a01d9be638acce474a3c43"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/lean/pending/C_RING_COPY.lean.goal",
+      "before_sha256": "df95489e70e7fe0a22d6c7e8ac79e6562ac31ddfa30498920383b42495f3c402",
+      "after_sha256": "a0488f8e76a4e2b48f0e21b01d6f12ef1e799ce1d9aab05374569ddfbfbeb2ea"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/lean/pending/C_RING_FULL.lean.goal",
+      "before_sha256": "532b6a2113c939f6ebc7d1429feabf0caa118667f3afeffc829fa8af2221dba5",
+      "after_sha256": "5edd68a845a5ab1335ce6cd6b74bed279c723121a07ef3e4fcdc9c1c3c06046f"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/lean/pending/C_RING_REP.lean.goal",
+      "before_sha256": "47842cf852987c7e05064663f987dbc33748f0e1efa8e62285cf2b870d587319",
+      "after_sha256": "f627854914cb4dac9a0dbee663600010c21854e19839fedd890a4ed839c99517"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/rocq/AVLBindings.v",
+      "before_sha256": "b0e96fb7a566241985478f2a6ca0543beb7d2be263bde331650574a17dd5df00",
+      "after_sha256": "826a5d58c4e3f7198d04999f7b83e97a7ae92a58df258fdf8309a3e6729d27ca"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/rocq/AVLCertificates.v",
+      "before_sha256": "c09d6a1a7035a975c7030ee1e20fef7d363ec90a9030da23622295be79c801aa",
+      "after_sha256": "b0f60adfa23d7aaee11931d5339c06a1859219670128aac6b839e29fe2dec6e7"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/rocq/AVLExpected.v",
+      "before_sha256": "ad6d4a86ad5bfddd251ea3fe7680938d1cc8c34257d79b71f9216365d306289a",
+      "after_sha256": "32270dd39948f7f4be768d08001c5c525916e365b77089de5d50f744c57375aa"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/rocq/BSTBindings.v",
+      "before_sha256": "f77c22f58741e6a931f73e637fe13ea747c05b335b4a457b2f3c44bbe8445937",
+      "after_sha256": "3aa08e664c640821421c54209d4c1fa28caaa895dd6abea4b85aa3e9562fc789"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/rocq/BSTCertificates.v",
+      "before_sha256": "b24d4eda0248c23ce1aed2d08783d45c1987881b181d9e7234f3b53eff9f95c1",
+      "after_sha256": "eeb8da0a2f941cecea87a6b40385e2119422b851af612d848a13f6c1739c45d7"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/rocq/BSTExpected.v",
+      "before_sha256": "c9710ff9ad3ffc76cb2758d596e97bfea49f16d4fe04946eeda8444bb39f093b",
+      "after_sha256": "0f0ea4cb397adbabeea823eabadad73d9b4501057e69f175ca5581492431c8e4"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/rocq/DIJKSTRABindings.v",
+      "before_sha256": "9b16da2300938d176dc89372e5e329cbddb47d7413aaa13fd6d9a659a1a1d6eb",
+      "after_sha256": "5aceda4da58f397fc1476a12cd9bb7c44953dd6f430e78f6e0a8cde37d1da1c6"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/rocq/DIJKSTRACertificates.v",
+      "before_sha256": "8a6649f252376d6a8b8286f9073a1dd6a7494cad0df8cd49ab6e32de98fbc5d2",
+      "after_sha256": "f6d7f73ef100cbded1e6d8743e058ebd33fde15dc48e78aa5d6b13f168e8dba2"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/rocq/DIJKSTRAExpected.v",
+      "before_sha256": "26bcd179dd6794d92f93d1d1da597438996bb4868aae401d11949597b1b21fc7",
+      "after_sha256": "dd61084b91963b77c688017023a77fa4b9d8373a3fd2b0f5f6ba1dcca3365524"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/rocq/Execution.v",
+      "before_sha256": "ac9ebafd87c5d91b8c14a2690ea218e2f84dde83be2ee2382e0f0325920f3013",
+      "after_sha256": "3ddb9a467c8d7d67dc4e2f9810bd545819bd47c3e4cdebb6464ff000f619f989"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/rocq/RINGBindings.v",
+      "before_sha256": "270495fc5263942b27ee11d55b82edb08838226ab7b7fcae40863e16c9e720b5",
+      "after_sha256": "84ee3d3c9c13f3d82fd5aeb67d206e0ed00eb78e220aee2463cace73ea62f145"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/rocq/RINGCertificates.v",
+      "before_sha256": "676dc43d21bdf908c30c86f5ea1bcafe1019c9e8fe8fe755e4b8fdbdffc72f7c",
+      "after_sha256": "e60cf1b7a3cb20b9e42f99fd788eb71467086bf723b8de90699e6a7cabb72571"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/rocq/RINGExpected.v",
+      "before_sha256": "5253b25cf0cc0e2fcd44d5904eefd547c93c73eb87aaed2d32e26b03a1d2f417",
+      "after_sha256": "6209b432d55d3f4a1451a334ef1f1c75fa0674f18eba70d1c63170cae41bc469"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/rocq_native/Extract.v",
+      "before_sha256": "cf087d33bd318eeaec1a328068c27e365c2ae775ecd7f89df63d936ad76b4cfc",
+      "after_sha256": "f36aa01d7438dbc252755f80a7bd9782bde363842dfd3bc40fd87bc73bf1e23b"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/rocq_native/Goals.v",
+      "before_sha256": "74cd991f386d75a59bef41d7becae5eaec2ed90f869b4180ffce5c5ac54d1e70",
+      "after_sha256": "9901da9a43ac5655fdf04e536716be8bd2a71b4d6b2a6505730d70c4c58dba80"
+    },
+    {
+      "path": "benchmarks/tasks/stateful-core/TASKS.md",
+      "before_sha256": "be05f5b964cc3129ecffcc3eff4e07ac1a3b1bcfbfc4157729eb2e66651bc27f",
+      "after_sha256": "15847645f514da0b25e94a256da395df461f33d721d9304ec1c05e43ee3dcf38"
+    },
+    {
+      "path": "benchmarks/tasks/stateful-core/compcert/FRAMESGoals.v",
+      "before_sha256": "8f91d3d9a26f6d4598c21df27752db2b75cb3aac0d5b33796bf9f678efb17109",
+      "after_sha256": "39d703ffd860f7bf8153c9d39fe43e527ec9538a6734fabb1916d8598e8fe075"
+    },
+    {
+      "path": "benchmarks/tasks/stateful-core/compcert/LRUGoals.v",
+      "before_sha256": "897284bf699283ab1056195f01201893e640a69d66165103ae62503ab0f9c51f",
+      "after_sha256": "5f28f8d1eeb3b1c66fcafcd93d1bacaf6ffdda1bff29f685d0f8db460f8bd8ce"
+    },
+    {
+      "path": "benchmarks/tasks/stateful-core/compcert/TRANSACTIONSGoals.v",
+      "before_sha256": "776f0634efd4f5842008bc1f8c25656ab02d27935c72eebb5b9e55b25a6e0109",
+      "after_sha256": "e7faa0030ff98b91be3a8bac5998fd60ebdc98a483c1664f28e9e80dd02ab49e"
+    },
+    {
+      "path": "benchmarks/tasks/stateful-core/lean/StatefulDomain.lean",
+      "before_sha256": "ba9a4eac6b3a4711cadeafb8d3942487257ef3e38cd18169e65eb2a6a3e20374",
+      "after_sha256": "07a8deb59ab8fe64aa3561cc887c307be3e040e64ee4ebc48d79742adc59f51b"
+    },
+    {
+      "path": "benchmarks/tasks/stateful-core/lean/StatefulGoals.lean",
+      "before_sha256": "e195b579bac151747b9405d468d6b8710283f007e58a127d4b92edbfea94a9ed",
+      "after_sha256": "ce83f4b4986c9fd3612782101c570baa3a0c141833f8cbd3d1bf94ea053f03f6"
+    },
+    {
+      "path": "benchmarks/tasks/stateful-core/lean/StatefulNative.lean",
+      "before_sha256": "b51ee6f5347487b1039d92519dda6c3a9f7c6379bf54bf53caf3ebf85e67e891",
+      "after_sha256": "59b959b7afbaf8dfcab699921b84fb1b8ec591752f8db2e0d7c5b35552011cbc"
+    },
+    {
+      "path": "benchmarks/tasks/stateful-core/lean/StatefulRunner.lean",
+      "before_sha256": "af1fc023bef83fa458eaf9aad2b4b3baf2b43f94ba41b1d30957bcf587120815",
+      "after_sha256": "3078f060ddda17f5d02f5213e843c544cd2879e73623b27b9958f32ee048298e"
+    },
+    {
+      "path": "benchmarks/tasks/stateful-core/lean/pending/S_FRAME_EMPTY.lean.goal",
+      "before_sha256": "ada60f2021ccb226c0712c9a387866d2e1439e2a9e6a27872a56ce654eab6462",
+      "after_sha256": "b480bbcf65d57d479b6f3da6e8f256e2e5eb69b642fb3f477bc41d56a0ef9a53"
+    },
+    {
+      "path": "benchmarks/tasks/stateful-core/lean/pending/S_FRAME_RING.lean.goal",
+      "before_sha256": "d8c91f5455e832b923fad0a2cba7443f16883df3776ed8bec25f3e700476b535",
+      "after_sha256": "1cf9bb9d5f5ac9ff84c0b591a089461aa8f5e8dfdba6f7a7f8dd7ce1a3f928d7"
+    },
+    {
+      "path": "benchmarks/tasks/stateful-core/lean/pending/S_LRU_LINKS.lean.goal",
+      "before_sha256": "8239259057e060ba41e10b6762926e9ab5bd358cef4f68a557a46127bf156d5e",
+      "after_sha256": "9e34037e7cc4baf41bf30a4efbdff2a84b67ff8a13d0134ce53ebccbf5f58c99"
+    },
+    {
+      "path": "benchmarks/tasks/stateful-core/lean/pending/S_LRU_TOUCH.lean.goal",
+      "before_sha256": "dfc80c7d4b37bcba441b28d83bda4d97bd3f6807bdb5774adb4ea94c78a021e3",
+      "after_sha256": "1e6eb8a69ef98a1d2ef1de22051db3ea36c3509c2f2ea8487715042316282348"
+    },
+    {
+      "path": "benchmarks/tasks/stateful-core/lean/pending/S_TX_COMMIT.lean.goal",
+      "before_sha256": "aa1701761e3ac9868a1031be13805d3c264fc3141b1bc72498f175f2e8d55e3e",
+      "after_sha256": "5ae4756d144f9920da08e0654cc53bbe6a78e56b86fd637ff0ddd58018bf6a6d"
+    },
+    {
+      "path": "benchmarks/tasks/stateful-core/lean/pending/S_TX_JOURNAL.lean.goal",
+      "before_sha256": "bab87c11e35bc2918046a9b0564bed3b19d8073051ec05b093699ce13ca08cd3",
+      "after_sha256": "c7f2f2489fc66f8c19b449ebfb5bf8b749d4dc804f7b18b09130b1dbaa554a50"
+    },
+    {
+      "path": "benchmarks/tasks/stateful-core/rocq/StatefulExtract.v",
+      "before_sha256": "89448e9e3ef248bfdb68a0c92b75b70933a2598e07d66f119afae859cec47b5d",
+      "after_sha256": "f2fb898a79448fe6d882d050d291a201c85e508b07f2420a8527c0922b08ea7e"
+    },
+    {
+      "path": "benchmarks/tasks/stateful-core/rocq/StatefulGoals.v",
+      "before_sha256": "83a53d377e74a6ac1d680e76d1fc086ad224a61fc739c27a4c752fff7d6b5f64",
+      "after_sha256": "0192f08cc610dd313f51af3fb643e649a50fec12e5e925c8af6e01c231644c4c"
+    },
+    {
+      "path": "benchmarks/tasks/systems-core/TASKS.md",
+      "before_sha256": "95cefa8ac0bd198d4071718420cd28f128814e3163511e63b8b4f1f784ee9aba",
+      "after_sha256": "de8ee498c6a4d230d39372d12e7ea8470f0877dd16216eb0b2346ff2df78dc00"
+    },
+    {
+      "path": "benchmarks/tasks/systems-core/compcert/ALIGNMENTGoals.v",
+      "before_sha256": "0bfa987dd711196235476d096053cdc341d11f0c48b1ca078018fe62a610910f",
+      "after_sha256": "4e75668d3a9bbdbb8c8243244ea7be48c35aadcb3452949a4a3b7346de69555f"
+    },
+    {
+      "path": "benchmarks/tasks/systems-core/compcert/GRAPHGoals.v",
+      "before_sha256": "d07a5a9926ede5492b4ed865ebadccc4b33a469002038cbaf98a4b0a6231d768",
+      "after_sha256": "742deea6b4c036056882c1b9f8991b5431ca04813fd0f1914d4681fc5140de7c"
+    },
+    {
+      "path": "benchmarks/tasks/systems-core/compcert/LEASESGoals.v",
+      "before_sha256": "6ca57147a604085a8d9d5b658d943c1d30d5b23cf0db94286da165a055197a08",
+      "after_sha256": "6e85324b6c535c5a5f2a059feeae7ba15fd74bc54f1e750119cc07d94f3fe33e"
+    },
+    {
+      "path": "benchmarks/tasks/systems-core/compcert/RESAMPLEGoals.v",
+      "before_sha256": "3424814d2b15ce8142ea20f30685d06915cf00094e068b528ced241ac8530c10",
+      "after_sha256": "ec32ac9b30c4236e3362f598ae92603bd9b008f5a77b49df097279927b011903"
+    },
+    {
+      "path": "benchmarks/tasks/systems-core/compcert/SCOPESGoals.v",
+      "before_sha256": "dd01708ce910fcff3ba10c74317a74b53ed8c00d796b5c3d0ef16502b065a051",
+      "after_sha256": "3d478f8c7b712e43abe926285accfc1a206e914e595486ba65fe697125dd7489"
+    },
+    {
+      "path": "benchmarks/tasks/systems-core/lean/SystemsDomain.lean",
+      "before_sha256": "53f5ba191d14cbc7cfe6a083b3fad4e7322c5ecf86f35a1244c2539234d22438",
+      "after_sha256": "c1771e55ca3573df973c2df7a1bed398f7efe9a0c218fe7df5fa90f3a25a4b94"
+    },
+    {
+      "path": "benchmarks/tasks/systems-core/lean/SystemsGoals.lean",
+      "before_sha256": "e6df80a7e57d98679d366c2d2dfaaaa3df636687697f71f61d2ee7466666e048",
+      "after_sha256": "6cea642cf6d249d1bab2eb2da6a7c2929037f92506e5d6f8581e30cda8e6ce8c"
+    },
+    {
+      "path": "benchmarks/tasks/systems-core/lean/SystemsNative.lean",
+      "before_sha256": "9e6245afa70137ed0bb7bcb90003c6d96f0fa2d0a35ffd9ee3c0264964f2207f",
+      "after_sha256": "77ef5d21d09ffe676954d87a36c26ca54644992e1b94c595062e9842a257acae"
+    },
+    {
+      "path": "benchmarks/tasks/systems-core/lean/SystemsRunner.lean",
+      "before_sha256": "32071cd86026109391ef5f354e0fa259dfe126698543e6bd6ee01bf0e8a45b22",
+      "after_sha256": "0cd120830ae231e532280591258be19da91523f12b36bfc5f6a7c7b35697e9e6"
+    },
+    {
+      "path": "benchmarks/tasks/systems-core/lean/pending/A_ALIGN_MINIMA.lean.goal",
+      "before_sha256": "863f19eddafcef795a859513aa387812a51fac691c55d3c17271db301706cb60",
+      "after_sha256": "3b4f93ce18ecc41450fb65915fd7e91702bdfb0b103dff9a7f63679653ae4dd8"
+    },
+    {
+      "path": "benchmarks/tasks/systems-core/lean/pending/A_ALIGN_TIES.lean.goal",
+      "before_sha256": "96426477b0ac827fdd3fb6f32fd595efe798ca416c2eaba88eb013cbe8d1d71f",
+      "after_sha256": "b6078ab71fbe52b26ec14d38de74721d2bfc3fce1eefbb09891b2644ac1c57a3"
+    },
+    {
+      "path": "benchmarks/tasks/systems-core/lean/pending/A_RESAMPLE_HALF.lean.goal",
+      "before_sha256": "19c81e7fee7d2a2e7ab7c656f42f37b6e9f94ee3d6720e2e2c8021905bd7f26e",
+      "after_sha256": "9d031771dde371cdc2817739e752c7fae0d4a9353df7e06394992035e733194a"
+    },
+    {
+      "path": "benchmarks/tasks/systems-core/lean/pending/A_RESAMPLE_PHASE.lean.goal",
+      "before_sha256": "9626147f32f49a1be64c2a03a82ad8f1dad0ad7e88a254c492b75d534e6dbd15",
+      "after_sha256": "bda1410d2dd3e34c81b5a52160fc289efa6686c5f226eff02de07b0b9175177a"
+    },
+    {
+      "path": "benchmarks/tasks/systems-core/lean/pending/G_INVALIDATE_DIRTY.lean.goal",
+      "before_sha256": "775b36249b64ac7b45e1f99fc26af7f749610fb871afbd044a134aa2e4000e58",
+      "after_sha256": "72df8096a57afa9af9347caf903e4e536599068f2606851ac8aaff6191f85e6b"
+    },
+    {
+      "path": "benchmarks/tasks/systems-core/lean/pending/G_INVALIDATE_WORKLIST.lean.goal",
+      "before_sha256": "88eb88ab0a4969ca3ecac49224366aa761d67c5f97155317a235ec46e994e9b3",
+      "after_sha256": "fb576ecd030d7336ef40c3332922bb643cac33931e27690147ec39b93c706f24"
+    },
+    {
+      "path": "benchmarks/tasks/systems-core/lean/pending/N_SCOPE_OVERLAY.lean.goal",
+      "before_sha256": "703ded1b218ddbdaaef06b57e0d0320d9693d8568b46d8adc37e26973cff8239",
+      "after_sha256": "634c250c479e68352c0b46adbd633358920d0cf1fe77863ca47c80d1d4243b2d"
+    },
+    {
+      "path": "benchmarks/tasks/systems-core/lean/pending/N_SCOPE_TOMBSTONE.lean.goal",
+      "before_sha256": "dbc7b52e89d77b939da4e5873b49a754d8bc30d6a4672c5905ce88e546dc4192",
+      "after_sha256": "d038e7b855bc047e389a339955b9df15848d948fdad7e6fc5975571b4a077c3a"
+    },
+    {
+      "path": "benchmarks/tasks/systems-core/lean/pending/T_LEASE_STALE.lean.goal",
+      "before_sha256": "b32e63316fc4a01b454811f14344ebcc75afee8a14d3fa481b30301e70c75129",
+      "after_sha256": "ac5aeca644436a14d4e18746fafdc47fdbcd5e9f766b8d1d1a12c1ab4e0c7907"
+    },
+    {
+      "path": "benchmarks/tasks/systems-core/lean/pending/T_LEASE_WHEEL.lean.goal",
+      "before_sha256": "b454effd77b84fc6d04aa7fd50cd917aa327691170a8f7cea37e5e2a8ee70fe1",
+      "after_sha256": "5a7dad5ebab768fbb61163cd53e1e429b6c0b208a7b0ce251995faf8d00380e4"
+    },
+    {
+      "path": "benchmarks/tasks/systems-core/rocq/SystemsExtract.v",
+      "before_sha256": "f00025c8c5d5d712138ea87e56a2583cc348947ae9ca76749ba71cbc20a6ca72",
+      "after_sha256": "b31fb3fb38b5f82b9231f66d5955c19f77bd4c4c460ada5a2655acbb719ddb65"
+    },
+    {
+      "path": "benchmarks/tasks/systems-core/rocq/SystemsGoals.v",
+      "before_sha256": "7cf7a81b1b80e9cc84152d7ae15d947cc74e9fecc47c1eb79117e378935a53c8",
+      "after_sha256": "0752a13900e7c6db9b8d16ee0d1f4e4d931bf50b9487992c70fdf880f224ebfa"
+    },
+    {
+      "path": "docs/construction-method.md",
+      "before_sha256": "d6c1dee77f4ff620d2fb3b542b684395dcf02206aa2b1ab0fcd9a643b62ae6cb",
+      "after_sha256": "0be6482a651cb5985868e1a67f0551ee9311e16508e42951ce1b138606456300"
+    },
+    {
+      "path": "docs/task-contract.md",
+      "before_sha256": "d06e546fad2dc1c280692c04574e31709750535fce798677634854f91d5195a9",
+      "after_sha256": "103938deb02caf7745a038a1b9340609d3c33cd521b17f40b48f14592863f566"
+    },
+    {
+      "path": "docs/v1-design.md",
+      "before_sha256": "4b8acf3afae10b75af2da686386918a7a5ab4861b336ab13078e144ebd28d7dd",
+      "after_sha256": "87cf7b078e86baa85dd0293912fa4f7ae9ab4ca00450efd778491b91831d9143"
+    },
+    {
+      "path": "paper/README.md",
+      "before_sha256": "820982247fb615121c8668eb8ea1acd6d43cac4bc24d56b936d185e485e9eda2",
+      "after_sha256": "bb655b851e2943dc2eafb0dd0fbb237138ddedf41d427b5e86372cdb98898a92"
+    },
+    {
+      "path": "paper/main.tex",
+      "before_sha256": "78c7556e48469cc0b641185833c36efc095c727180ddcf3968f3d3c7bdb3e64f",
+      "after_sha256": "3a33ac6a2e6f4f8bd18a2f7087b2832d34004ae240f9c154f55f495f2e266951"
+    },
+    {
+      "path": "scripts/construction/algorithms_common.py",
+      "before_sha256": "a2774dcd2fe13ba65bde725c4b9d1fa6ec8e3a9eda7bdfd39b13c9a1f220de47",
+      "after_sha256": "4cd6149aa2c91935ab0644e942d2771a4982e0768e65aab3862019ef2c06be57"
+    },
+    {
+      "path": "scripts/construction/base64_common.py",
+      "before_sha256": "b7b586d1788a2648aa30f96218cf31d9d9c4bbc364377c598e3b55799d6aedf9",
+      "after_sha256": "9db8e03506f5ce12d6764adb1bae929cec3c2b55c0b25a842c65b7bfab73436b"
+    },
+    {
+      "path": "scripts/construction/boundaries_common.py",
+      "before_sha256": "44379219c29bdd2ffdace65618843b347709d2ae836523b4a3fa431c1222bc17",
+      "after_sha256": "ec2e5c19ad3840d290f0a9e148492323c33c48aff64407a76ca878f96675df48"
+    },
+    {
+      "path": "scripts/construction/build_algorithms.py",
+      "before_sha256": "11cc3cda52dd22990ba0a391d68e0de6d2fe26995fef5327e55561be9be85fa2",
+      "after_sha256": "003abba414ed6b0ea3c6ac46445ec5ab4c66bad5d4bc77d27851be5ad6ece8c1"
+    },
+    {
+      "path": "scripts/construction/build_base64.py",
+      "before_sha256": "a75a957eadda889e5f4a14e84d0397fc970bcf454b790df65212abb1e9ad5181",
+      "after_sha256": "88e545cdfd0cd25f5fc9762c8700bbb7790b76f79edacdbad09e6da39cb66c26"
+    },
+    {
+      "path": "scripts/construction/build_boundaries.py",
+      "before_sha256": "5531777ee22f4b4232a4eed171a248eedbe355af2028fa820dc9e827e7abe331",
+      "after_sha256": "873f464fb7565dd8e2edc20296b475bbd6491e2c4f29eb073cd8571415d1ef50"
+    },
+    {
+      "path": "scripts/construction/build_classics.py",
+      "before_sha256": "ecc1eed32d8be0ddf14fa41beaeb90fb183616a7495fc6c5f9e6d8dbf38d7b7a",
+      "after_sha256": "c8489935e1c0c218360f7913c595755863fcf10b9dc2e45def84747b9a8acb07"
+    },
+    {
+      "path": "scripts/construction/build_stateful.py",
+      "before_sha256": "6a3b546cc90da13d48227020dc21713e126ea30dc510467914815fd479f471a2",
+      "after_sha256": "f31467f1970330b830258faf8c7f25f8e2218b7c48d106cc8fb656d5b252fbbf"
+    },
+    {
+      "path": "scripts/construction/build_systems.py",
+      "before_sha256": "6a8cb5625f533eeba5f7aca08e9ebff1cb3bebe2eb5e54b8e0db385b724ae06b",
+      "after_sha256": "efc8bbfc86628fb802f009fd0c85325fec7c26aec104dbd2a2540a45a3d79bff"
+    },
+    {
+      "path": "scripts/construction/build_three_platform.py",
+      "before_sha256": "b625f53c7d13530f9d16f9c0fa3b2d8bfdeda28a58ea63c860cd94807da4ca77",
+      "after_sha256": "440ae840d917e35fc203a298e0e3283912e88adc90ce4da65ab87ad3288fbd77"
+    },
+    {
+      "path": "scripts/construction/check_base64_contract.py",
+      "before_sha256": "e6f4590d568bd1fbade71108c68b28dd887b9ba5712060184f0873963c1fb42f",
+      "after_sha256": "1afaf725164d2e6cf576e9a2066815693c973d09bebbe3f4acdbaf7bb1b6c1eb"
+    },
+    {
+      "path": "scripts/construction/check_boundary_contract.py",
+      "before_sha256": "1c6f30c6a5976d343578d46503f069db20c728a22b1918816d324930e01d68fc",
+      "after_sha256": "d0750bc5f30474a6dd04b7dcbbe51c69a25fe0147e71f4d52844674ccd78deec"
+    },
+    {
+      "path": "scripts/construction/check_classics_contract.py",
+      "before_sha256": "daacbf67fcaf8535d91de0422ee179dfa1ea4957291214738bc997ae200df945",
+      "after_sha256": "c22026a96e343209d1141335ff3b2730c4acf9984f7fe1ccde6f05d84b54807f"
+    },
+    {
+      "path": "scripts/construction/check_stateful_contract.py",
+      "before_sha256": "537a7b4057541be6b6eb8787bd915d186dd09e65c7fc09cf19612a8a73dea730",
+      "after_sha256": "375257bf242db90a45df7430fd7ff1c9f83c741e654271e9475dd2867c297540"
+    },
+    {
+      "path": "scripts/construction/check_submission_contract.py",
+      "before_sha256": "6373f06e3d23cb07bc61c2b442dac78ea0d35a6bd1749b099dfb4224399e7139",
+      "after_sha256": "a5413aaceff0166bcc99dc42d0719dd897d6a43b0b7118ee2f00bfda5164d495"
+    },
+    {
+      "path": "scripts/construction/check_systems_contract.py",
+      "before_sha256": "f7faa48f206254715919ad5894e98b77b39bd793fa9da83c797764f5ad014de9",
+      "after_sha256": "ebcaff28f30556099e2ec93c462e9d95ea350503aa6efcacc6d8c466e7bd3219"
+    },
+    {
+      "path": "scripts/construction/classics_common.py",
+      "before_sha256": "ff57ab907cfae10344e34a22f08f5b64229d70cb8b92ff5aeb82f141e3f7662f",
+      "after_sha256": "af235744cd5fc4f23f4f9d9e8af81192863d3f251c27a88b1f23ebf019e6b157"
+    },
+    {
+      "path": "scripts/construction/export_compcert.py",
+      "before_sha256": "8a2e360d8c2e33da876fa15c7e3a9c6ed4260e162b318993c4b346d8e3b0063c",
+      "after_sha256": "89180d49e61affa1f5d5b851c4fc2137e8969cf006bbd06997811debb8d0362a"
+    },
+    {
+      "path": "scripts/construction/measure.py",
+      "before_sha256": "8b7e327cb75a54180831623c9d071ed94dd19bb9c5802c1c9afc2b335c9357a6",
+      "after_sha256": "7b6583fb833d35025fd39efffb20a68c0d7b943f2616df33acbba52bc28a1b11"
+    },
+    {
+      "path": "scripts/construction/prepare_algorithms.py",
+      "before_sha256": "fdbfbc6907a8349ce242dd40a4ee1f0e1ef9040ec29b009011478452f07a8a4a",
+      "after_sha256": "42fab59e889bce7edb475f9328dd76136935d3535f68d3c8f0fe84149fb1a297"
+    },
+    {
+      "path": "scripts/construction/prepare_base64.py",
+      "before_sha256": "3e4413ac308850da2e366f1d0cf1bd17f73fe3a28942fdeaa3abb4f336f6b1c6",
+      "after_sha256": "d070c9877822d4c2db254cd1d42826730d6e10f13e45243fb6268f0a1f1c7bdf"
+    },
+    {
+      "path": "scripts/construction/prepare_base64_targets.py",
+      "before_sha256": "ab3406ee517f03451eb133b0b9a5a5de9e5dacb06f6e1787765ec72cfb2ccac0",
+      "after_sha256": "02cd50db503a247619af8217c5beb44980bcd72acca652366e2c1e594d71680f"
+    },
+    {
+      "path": "scripts/construction/prepare_boundaries.py",
+      "before_sha256": "581d0318306a9ac7de43fa1edce422adaf8c4147f0dd0329e67b880b9fed2cb6",
+      "after_sha256": "2e6ab1bce7af08e9638d53286212c76364b077fd8ac09d0184696817e6f6874a"
+    },
+    {
+      "path": "scripts/construction/prepare_boundary_targets.py",
+      "before_sha256": "bd003e8842b10f5f9f62da260c284884a5caa8737c0b76776f97ac414d859071",
+      "after_sha256": "61f27f682b32fc026b3fd7f5ac83a22bdb21d033776049bace6dc63cf708a340"
+    },
+    {
+      "path": "scripts/construction/prepare_branch_targets.py",
+      "before_sha256": "9f96dfc3f19e8b942cb031cc625487d045db7da5eae798ccccca0b837656fc3e",
+      "after_sha256": "2173032bbad0e5f741c040e1667279153f9f113443c03be3a08a1f09fbbf7058"
+    },
+    {
+      "path": "scripts/construction/prepare_classics.py",
+      "before_sha256": "349d0823819cbba33a23cc3dbb83c6695cc3c77d65c5e50061dcf1b8bd002e55",
+      "after_sha256": "1be0799fe69676a22c21782074ae98ef0417871172dcf697f42f0293d24ffcbe"
+    },
+    {
+      "path": "scripts/construction/prepare_classics_targets.py",
+      "before_sha256": "bd401a3755a7a20057fbf59c3d664d2f5623523e1970147de5ce7bcb93e478da",
+      "after_sha256": "aff9f4aa9ad9cd569708a38c28502f3868c5c25e42affa4ca2b8b118b23ea42e"
+    },
+    {
+      "path": "scripts/construction/prepare_stateful.py",
+      "before_sha256": "e7054dd6120c90b7f07e469a51d4e34f0dc2233e1a1f6f9d517df41744d83849",
+      "after_sha256": "f97f3758d38f2b8921d3f4f98abc1a7f56315f380376b7a9e9626a08c1f64f5f"
+    },
+    {
+      "path": "scripts/construction/prepare_stateful_targets.py",
+      "before_sha256": "ceeeb5279d5580a5e607c9c947cf146320332050ae51ea0ed64a1bfee487703b",
+      "after_sha256": "8bc13c45d41a19eba90942b0b8b34da7d2ec48ba14f3b66e5c9c417fcd8d10ff"
+    },
+    {
+      "path": "scripts/construction/prepare_systems.py",
+      "before_sha256": "595874555fdc32a4af8b26344c905a2e3b19af35aa6f5c609c601ad273113645",
+      "after_sha256": "3cd29150eebe574b3a680ed0d7c7ec826c5fa9e47a8efeafb905f3b88a650c23"
+    },
+    {
+      "path": "scripts/construction/prepare_systems_targets.py",
+      "before_sha256": "5917f9125f525bc63b2f4e9f0da7d1899e1a1f5e2229b15726966c1c713d7fc7",
+      "after_sha256": "fa276fe0a903452fb73fc6175cb6507ed31d060852933baaae0859326705e317"
+    },
+    {
+      "path": "scripts/construction/prepare_three_platform.py",
+      "before_sha256": "ecab5d313e3894450ef42b03298a5fc3ce31451767b71efde2c2d70650fb180d",
+      "after_sha256": "64f0c96d4ef9d60644fe9bdd4e6267c3738372add02b1f1134c1520635c661fe"
+    },
+    {
+      "path": "scripts/construction/stateful_common.py",
+      "before_sha256": "60d3b875186308d479ebe0ee82e36ae5e6c4523fa0feabf0f98006814f0ddc60",
+      "after_sha256": "d46701a4e5ee0129f5f0df772c16d98ba3d366b36dd27559c901733716914e49"
+    },
+    {
+      "path": "scripts/construction/submission_contract.py",
+      "before_sha256": "4828dbb77a8425bdfedfc1ea39395d9bbcb002446fb1ecd34bfed0771eedc41a",
+      "after_sha256": "d8a4a55ba89852a853cfdfad140c79e022f62390262d343b81cc4d981603127a"
+    },
+    {
+      "path": "scripts/construction/systems_common.py",
+      "before_sha256": "1454d65edd0fa5b4780d605b4fa7b6fecf848aed7b77a21813e8ba0200551185",
+      "after_sha256": "9a24e5c4b71d901cdfea02053fd44bdae17eec15cadbb43847ec530fd6bc36e0"
+    },
+    {
+      "path": "scripts/construction/update_manuscript.py",
+      "before_sha256": "153828a8bb29743ffb14d14e3519b4aedc8cc51a3f5576addba661ad1e094638",
+      "after_sha256": "c0eb469d4da89776743cd13dd3f17b91bf16849b6710e525f3ad39bb1d89ffd2"
+    },
+    {
+      "path": "scripts/curation/audit_qcip_sources.py",
+      "before_sha256": "92b857bcd0eef8b37ea261fe39e9e01c95b57a320b3e36494910d5d877acb9bc",
+      "after_sha256": "e894bdcb7ca36e1980f0878db725957fc5d9fcede86905adc7f9ef1f621ba645"
+    },
+    {
+      "path": "scripts/curation/prepare_qcip_core.py",
+      "before_sha256": "fd1459970a29d16e751d78e8ffa93f1816d3a1564a837db1a40abd1451c7750e",
+      "after_sha256": "dc75b04b62ac21a2b5cd904851a6049078d9e910d58adad010d48dee1c5ab33a"
+    },
+    {
+      "path": "benchmarks/research/qcip-selection.json",
+      "before_sha256": "6422c0c4c7650140b8d401c4b0a1c72336d8d8787e35653d7a4b056cf9fe138f",
+      "after_sha256": "e9234bb05a1abbe9c9c891b5307d7355fa826fe734b12b03d2cf201aff1577ca"
+    },
+    {
+      "path": "benchmarks/tasks/systems-core/fixtures.json",
+      "before_sha256": "512da156e7c1e533d8256753873265a44aeeeef2181b58e9dc228a8e7e7d2ac8",
+      "after_sha256": "fbdd8fc937c7a01ed52028d9e9ca75048d18c2c7ffa0c1639d15b104d4de4ccb"
+    },
+    {
+      "path": "benchmarks/tasks/algorithms-core/c/Algorithms.h",
+      "before_sha256": "892f853fbfd726e0d4450ae82e8bfd59595411445c1913dfc952d64096fb5089",
+      "after_sha256": "11e0c3c43bb0dd65b48e3c2528e18e3b120bb3e193b78a7a60e7bc93440d4c60"
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/c/Structures.h",
+      "before_sha256": "96b7011b677e38865d80aa09e6d297b9be35933d232a4b5f051d272609caa545",
+      "after_sha256": "0f00acaa58768bc942a2e44e924d1a2a89827691da171ad44a8ed81accb79b7c"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/avl/v0.c",
+      "before_sha256": "d43e1417eb999f5e96821885bff4a180d8f4857747954301d1be41738eef5d12",
+      "after_sha256": "eeb028fa804da95c83115ea26795fcdd80c74dbb8db01cebd68c7bcd8f42d141"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/avl/v1.c",
+      "before_sha256": "a49bf25d2b3eeb2b4834514e66756dd781149282cfa6321d68f64e9c75c6fe14",
+      "after_sha256": "f8e7ff4ebe3234ee805e5f144bf138fcd0a5c01a4b441bfdd7f04021872229bf"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/avl/v2.c",
+      "before_sha256": "0584409ad1776d87574f45737d1e0caae83bcdb6632faf990af38feb45729583",
+      "after_sha256": "703a0a481e4187348ce51d62aea7a30f6709961b7bb9571cce6b0a02bdb59ec9"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/avl/v3.c",
+      "before_sha256": "35df5f9ca62d7931542f7f24f4b5efb807dc44b7c31e7f0e56b728a27833d9cf",
+      "after_sha256": "bfef0613972034184eee0d0495aab8fcbab082e0d206c93fa387b596d8421fed"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/bst/v0.c",
+      "before_sha256": "4d2d454af0b6b0d60e4ef3ba834f4ae8d2be78e384cb2dd056e802b308d24d70",
+      "after_sha256": "a0faf86fd13a73c6740cf59725896cdd68a801376f3ac317a380f01aeaeabd00"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/bst/v1.c",
+      "before_sha256": "f8ba2ddce1b3b1ae8607960a34cca17f083149553eef63022b3c92258e57254a",
+      "after_sha256": "a06c1b35cfdc628deb0258a9dacc29d19d602b921af1f4495e747ff32f4a4cbe"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/bst/v2.c",
+      "before_sha256": "b75590edb74b08c7da941ed99f0bb9d4d710a8d3fce3d27e18c8601bd8f74aa1",
+      "after_sha256": "d586b268b4df0bce7500938b2fa64e9ecd9abe10112e9b7e2ca0dbd0ec335e81"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/bst/v3.c",
+      "before_sha256": "8d7814989eef02fe6694beab6ab75fe330d4c8547eabab643c1e36ed7478d973",
+      "after_sha256": "5eb8b0bfe4bfa0abde3faa30244de2314da845024450fbaa40abcf317af645a3"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/common/io.h",
+      "before_sha256": "ed3054989c3045aa35852ebe9d788f9927dbcf5b57a628723fc882d7e57dd43e",
+      "after_sha256": "1a15f691e351895887746a3039a9d6a56ec2e263489e7d8002dbb4ce6eebf954"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/dijkstra/v0.c",
+      "before_sha256": "108cd4278b9a025d7f882eb6210aeefb4c357628ffeb4f4c09bb7c001f97e1f0",
+      "after_sha256": "11957bc6ce036832176863fcd3e32ab77a3747d59515dcf558bff2aeb4a0b6f9"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/dijkstra/v1.c",
+      "before_sha256": "9202525fc4e0bef54aaee10def7bbf8d591719e7d66bfc51de00f132539b8042",
+      "after_sha256": "110ef58d179ab9718e092f9cf31fab07cf13741eca582f661eefe58238ac9420"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/dijkstra/v2.c",
+      "before_sha256": "b559ce98c4d4f31eadce99224442d63cf8fc5e1704efdcb61367bed160966719",
+      "after_sha256": "fc881bbb9d04724aa95b3d98247aa2491246f02d95f0c6ddfa8662088247486e"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/dijkstra/v3.c",
+      "before_sha256": "36502eaa98ea5dfbd114049c100e5c5589c0eaa5e68d4f01da249cfa25e2716a",
+      "after_sha256": "562f2d83f63f6b1659ae17c8951b8fdae55289e1d0944e20379c80cd0d147a5a"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/ring/v0.c",
+      "before_sha256": "c80e6135cee2d170f1582f237fefb3d18eb27816016ff367a625809760e60726",
+      "after_sha256": "0d9757a520f0f7b6323c748d947e5c4a5a1000b1caf7c06321dbc135597119d7"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/ring/v1.c",
+      "before_sha256": "f46e24b5718628273dd699e0034072a8b59db7ecb5c6d7deccab07322090e6a7",
+      "after_sha256": "191784a1976c6aad6565a802e55416675a7a9987da0a699fb3fa396d21c99692"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/ring/v2.c",
+      "before_sha256": "913c41978c935985103ec6ab867f427fb00e58bccf5e4b04515b3f6cce5b8e4c",
+      "after_sha256": "405d475b85982534a83c16e4cc311ef8a97e71a2cfe537268469f5f85f3ef1c1"
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/ring/v3.c",
+      "before_sha256": "3665e953dd557494223bd98e015e3b3336a795bdb68f9e446bcd7dd74c04025a",
+      "after_sha256": "baeb4432697e6f2de89e34549c3dfcb83b26cfc066a564aa5ee8cfb768dbf889"
+    }
+  ],
+  "verification": "new revision requires rebuilding and refreshed source bindings; previous reports describe pre-rename sources",
+  "registry_rebindings": [
+    {
+      "path": "benchmarks/tasks/qcip-core/three-platform.json",
+      "before_sha256": "3c173688274645ad708c54ed5d0770e4b129fa381ab36db8461f67b15fcb7abc",
+      "after_sha256": "0c9c37ce84b4f8560573c0f3e89d41f45b50eb2b37001c1df34638b817a71cf2",
+      "updated_sources": [
+        "benchmarks/tasks/qcip-core/lean/Domain.lean",
+        "benchmarks/tasks/qcip-core/lean/Goals.lean",
+        "benchmarks/tasks/qcip-core/lean/Native.lean",
+        "benchmarks/tasks/qcip-core/lean/pending/C_AVL_FACTOR.lean.goal",
+        "benchmarks/tasks/qcip-core/lean/pending/C_AVL_MIDDLE.lean.goal",
+        "benchmarks/tasks/qcip-core/lean/pending/C_AVL_STACK.lean.goal",
+        "benchmarks/tasks/qcip-core/lean/pending/C_BST_ROTATE.lean.goal",
+        "benchmarks/tasks/qcip-core/lean/pending/C_BST_SUCCESSOR.lean.goal",
+        "benchmarks/tasks/qcip-core/lean/pending/C_BST_VALUE.lean.goal",
+        "benchmarks/tasks/qcip-core/lean/pending/C_DIJK_HEAP.lean.goal",
+        "benchmarks/tasks/qcip-core/lean/pending/C_DIJK_SCAN.lean.goal",
+        "benchmarks/tasks/qcip-core/lean/pending/C_DIJK_SEEN.lean.goal",
+        "benchmarks/tasks/qcip-core/lean/pending/C_RING_COPY.lean.goal",
+        "benchmarks/tasks/qcip-core/lean/pending/C_RING_FULL.lean.goal",
+        "benchmarks/tasks/qcip-core/lean/pending/C_RING_REP.lean.goal",
+        "benchmarks/tasks/qcip-core/rocq_native/Extract.v",
+        "benchmarks/tasks/qcip-core/rocq_native/Goals.v",
+        "benchmarks/tasks/qcip-core/compcert/AVLBindings.v",
+        "benchmarks/tasks/qcip-core/compcert/AVLCertificates.v",
+        "benchmarks/tasks/qcip-core/compcert/AVLExpected.v",
+        "benchmarks/tasks/qcip-core/compcert/BSTBindings.v",
+        "benchmarks/tasks/qcip-core/compcert/BSTCertificates.v",
+        "benchmarks/tasks/qcip-core/compcert/BSTExpected.v",
+        "benchmarks/tasks/qcip-core/compcert/DIJKSTRABindings.v",
+        "benchmarks/tasks/qcip-core/compcert/DIJKSTRACertificates.v",
+        "benchmarks/tasks/qcip-core/compcert/DIJKSTRAExpected.v",
+        "benchmarks/tasks/qcip-core/compcert/Execution.v",
+        "benchmarks/tasks/qcip-core/compcert/RINGBindings.v",
+        "benchmarks/tasks/qcip-core/compcert/RINGCertificates.v",
+        "benchmarks/tasks/qcip-core/compcert/RINGExpected.v"
+      ]
+    },
+    {
+      "path": "benchmarks/tasks/algorithms-core/groups.json",
+      "before_sha256": "03e759ddc6358a39ddeb6c13ecf4dae0f9e10092e1d4f88b66f8f377afb9761b",
+      "after_sha256": "48ed81828e482d27a742aca64b522899b056966f4c42ddce89889250e7e75e96",
+      "updated_sources": [
+        "benchmarks/tasks/algorithms-core/lean/BasicDomain.lean",
+        "benchmarks/tasks/algorithms-core/lean/BasicGoals.lean",
+        "benchmarks/tasks/algorithms-core/lean/BasicNative.lean",
+        "benchmarks/tasks/algorithms-core/lean/BasicRunner.lean",
+        "benchmarks/tasks/algorithms-core/lean/pending/R_FAC_CEX.lean.goal",
+        "benchmarks/tasks/algorithms-core/lean/pending/R_FAC_EQ.lean.goal",
+        "benchmarks/tasks/algorithms-core/lean/pending/R_MAT_CEX.lean.goal",
+        "benchmarks/tasks/algorithms-core/lean/pending/R_MAT_EQ.lean.goal",
+        "benchmarks/tasks/algorithms-core/lean/pending/R_QUE_CEX.lean.goal",
+        "benchmarks/tasks/algorithms-core/lean/pending/R_QUE_EQ.lean.goal",
+        "benchmarks/tasks/algorithms-core/lean/pending/R_REV_CEX.lean.goal",
+        "benchmarks/tasks/algorithms-core/lean/pending/R_REV_EQ.lean.goal",
+        "benchmarks/tasks/algorithms-core/lean/pending/R_STR_CEX.lean.goal",
+        "benchmarks/tasks/algorithms-core/lean/pending/R_STR_EQ.lean.goal",
+        "benchmarks/tasks/algorithms-core/lean/pending/R_SUM_CEX.lean.goal",
+        "benchmarks/tasks/algorithms-core/lean/pending/R_SUM_EQ.lean.goal",
+        "benchmarks/tasks/algorithms-core/rocq/BasicExtract.v",
+        "benchmarks/tasks/algorithms-core/rocq/BasicGoals.v",
+        "benchmarks/tasks/algorithms-core/compcert/FACTORIALGoals.v",
+        "benchmarks/tasks/algorithms-core/compcert/MATRIXGoals.v",
+        "benchmarks/tasks/algorithms-core/compcert/QUEUEGoals.v",
+        "benchmarks/tasks/algorithms-core/compcert/REVERSEGoals.v",
+        "benchmarks/tasks/algorithms-core/compcert/SEARCHGoals.v",
+        "benchmarks/tasks/algorithms-core/compcert/SUMGoals.v"
+      ]
+    },
+    {
+      "path": "benchmarks/tasks/base64-core/groups.json",
+      "before_sha256": "bdf6f812fe543245c99a10e9c343feb394a68e6f6ca510504072c4966b25b755",
+      "after_sha256": "9808c16b20714aa86ecc533caf458377c9b5dcc7891361a40bb76e80c0b4d9f4",
+      "updated_sources": [
+        "benchmarks/tasks/base64-core/lean/Base64Domain.lean",
+        "benchmarks/tasks/base64-core/lean/Base64Goals.lean",
+        "benchmarks/tasks/base64-core/lean/Base64Native.lean",
+        "benchmarks/tasks/base64-core/lean/Base64Runner.lean",
+        "benchmarks/tasks/base64-core/lean/pending/A_BASE64_PADDING.lean.goal",
+        "benchmarks/tasks/base64-core/lean/pending/A_BASE64_STREAM.lean.goal",
+        "benchmarks/tasks/base64-core/rocq/Base64Extract.v",
+        "benchmarks/tasks/base64-core/rocq/Base64Goals.v",
+        "benchmarks/tasks/base64-core/compcert/BASE64Goals.v"
+      ]
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/groups.json",
+      "before_sha256": "a6e11cd34c5ee211049344dd63befe86bdd6b0def666b0ad8725e5630789ef0f",
+      "after_sha256": "d6e0f210ff14963732ea0e237086ce162a34f1ef5b0b634b686215485dda278d",
+      "updated_sources": [
+        "benchmarks/tasks/boundaries-core/lean/BoundaryDomain.lean",
+        "benchmarks/tasks/boundaries-core/lean/BoundaryGoals.lean",
+        "benchmarks/tasks/boundaries-core/lean/BoundaryNative.lean",
+        "benchmarks/tasks/boundaries-core/lean/BoundaryRunner.lean",
+        "benchmarks/tasks/boundaries-core/lean/pending/B_PACK_REPEAT.lean.goal",
+        "benchmarks/tasks/boundaries-core/lean/pending/B_PACK_SUFFIX.lean.goal",
+        "benchmarks/tasks/boundaries-core/lean/pending/B_PATH_PARENTS.lean.goal",
+        "benchmarks/tasks/boundaries-core/lean/pending/B_PATH_REVERSE.lean.goal",
+        "benchmarks/tasks/boundaries-core/lean/pending/B_QUOTE_EMPTY.lean.goal",
+        "benchmarks/tasks/boundaries-core/lean/pending/B_QUOTE_SPANS.lean.goal",
+        "benchmarks/tasks/boundaries-core/lean/pending/B_TLV_CURSOR.lean.goal",
+        "benchmarks/tasks/boundaries-core/lean/pending/B_TLV_ENDIAN.lean.goal",
+        "benchmarks/tasks/boundaries-core/lean/pending/C_EVAL_DP.lean.goal",
+        "benchmarks/tasks/boundaries-core/lean/pending/C_EVAL_SHORTCIRCUIT.lean.goal",
+        "benchmarks/tasks/boundaries-core/lean/pending/C_PQ_CHILD.lean.goal",
+        "benchmarks/tasks/boundaries-core/lean/pending/C_PQ_REP.lean.goal",
+        "benchmarks/tasks/boundaries-core/lean/pending/C_TREE_STACK.lean.goal",
+        "benchmarks/tasks/boundaries-core/lean/pending/C_TREE_SUBTREE.lean.goal",
+        "benchmarks/tasks/boundaries-core/lean/pending/C_UF_HALVING.lean.goal",
+        "benchmarks/tasks/boundaries-core/lean/pending/C_UF_ONEHOP.lean.goal",
+        "benchmarks/tasks/boundaries-core/rocq/BoundaryExtract.v",
+        "benchmarks/tasks/boundaries-core/rocq/BoundaryGoals.v",
+        "benchmarks/tasks/boundaries-core/compcert/EVALGoals.v",
+        "benchmarks/tasks/boundaries-core/compcert/PACKBITSGoals.v",
+        "benchmarks/tasks/boundaries-core/compcert/PATHGoals.v",
+        "benchmarks/tasks/boundaries-core/compcert/PRIORITYGoals.v",
+        "benchmarks/tasks/boundaries-core/compcert/QUOTESGoals.v",
+        "benchmarks/tasks/boundaries-core/compcert/TLVGoals.v",
+        "benchmarks/tasks/boundaries-core/compcert/TREEGoals.v",
+        "benchmarks/tasks/boundaries-core/compcert/UNIONFINDGoals.v"
+      ]
+    },
+    {
+      "path": "benchmarks/tasks/stateful-core/groups.json",
+      "before_sha256": "3d0890b2b6e766510f30c83d5436d166452bec26292955dfbdb7f511548633ab",
+      "after_sha256": "43c7d547f815897c7b9288c9f3ed3b36b4eb0df074f7687b8d54e4ffd603ff74",
+      "updated_sources": [
+        "benchmarks/tasks/stateful-core/lean/StatefulDomain.lean",
+        "benchmarks/tasks/stateful-core/lean/StatefulGoals.lean",
+        "benchmarks/tasks/stateful-core/lean/StatefulNative.lean",
+        "benchmarks/tasks/stateful-core/lean/StatefulRunner.lean",
+        "benchmarks/tasks/stateful-core/lean/pending/S_FRAME_EMPTY.lean.goal",
+        "benchmarks/tasks/stateful-core/lean/pending/S_FRAME_RING.lean.goal",
+        "benchmarks/tasks/stateful-core/lean/pending/S_LRU_LINKS.lean.goal",
+        "benchmarks/tasks/stateful-core/lean/pending/S_LRU_TOUCH.lean.goal",
+        "benchmarks/tasks/stateful-core/lean/pending/S_TX_COMMIT.lean.goal",
+        "benchmarks/tasks/stateful-core/lean/pending/S_TX_JOURNAL.lean.goal",
+        "benchmarks/tasks/stateful-core/rocq/StatefulExtract.v",
+        "benchmarks/tasks/stateful-core/rocq/StatefulGoals.v",
+        "benchmarks/tasks/stateful-core/compcert/FRAMESGoals.v",
+        "benchmarks/tasks/stateful-core/compcert/LRUGoals.v",
+        "benchmarks/tasks/stateful-core/compcert/TRANSACTIONSGoals.v"
+      ]
+    },
+    {
+      "path": "benchmarks/tasks/systems-core/groups.json",
+      "before_sha256": "a56f60c2fbd7816b246cd1bf5b3ec5d2d8355dcb00101fa6b7c019f7307f6adf",
+      "after_sha256": "6285b7228623ca5a7dd488e9a3e6c2cc093b6d693b5bc29641680464bed86314",
+      "updated_sources": [
+        "benchmarks/tasks/systems-core/lean/SystemsDomain.lean",
+        "benchmarks/tasks/systems-core/lean/SystemsGoals.lean",
+        "benchmarks/tasks/systems-core/lean/SystemsNative.lean",
+        "benchmarks/tasks/systems-core/lean/SystemsRunner.lean",
+        "benchmarks/tasks/systems-core/lean/pending/A_ALIGN_MINIMA.lean.goal",
+        "benchmarks/tasks/systems-core/lean/pending/A_ALIGN_TIES.lean.goal",
+        "benchmarks/tasks/systems-core/lean/pending/A_RESAMPLE_HALF.lean.goal",
+        "benchmarks/tasks/systems-core/lean/pending/A_RESAMPLE_PHASE.lean.goal",
+        "benchmarks/tasks/systems-core/lean/pending/G_INVALIDATE_DIRTY.lean.goal",
+        "benchmarks/tasks/systems-core/lean/pending/G_INVALIDATE_WORKLIST.lean.goal",
+        "benchmarks/tasks/systems-core/lean/pending/N_SCOPE_OVERLAY.lean.goal",
+        "benchmarks/tasks/systems-core/lean/pending/N_SCOPE_TOMBSTONE.lean.goal",
+        "benchmarks/tasks/systems-core/lean/pending/T_LEASE_STALE.lean.goal",
+        "benchmarks/tasks/systems-core/lean/pending/T_LEASE_WHEEL.lean.goal",
+        "benchmarks/tasks/systems-core/rocq/SystemsExtract.v",
+        "benchmarks/tasks/systems-core/rocq/SystemsGoals.v",
+        "benchmarks/tasks/systems-core/compcert/ALIGNMENTGoals.v",
+        "benchmarks/tasks/systems-core/compcert/GRAPHGoals.v",
+        "benchmarks/tasks/systems-core/compcert/LEASESGoals.v",
+        "benchmarks/tasks/systems-core/compcert/RESAMPLEGoals.v",
+        "benchmarks/tasks/systems-core/compcert/SCOPESGoals.v"
+      ]
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/tasks.json",
+      "before_sha256": "97c77fe7a363ddd51630b4c20a4725ac4570dbf4f016efe29cdac7c7865a91c6",
+      "after_sha256": "cf6f9fece661b860411e7d61debc30f4c3b53ebb4fcb838211fef63b4b91d22c",
+      "updated_sources": [
+        "benchmarks/tasks/qcip-core/rocq/AVLBindings.v",
+        "benchmarks/tasks/qcip-core/rocq/AVLCertificates.v",
+        "benchmarks/tasks/qcip-core/rocq/AVLExpected.v",
+        "benchmarks/tasks/qcip-core/rocq/BSTBindings.v",
+        "benchmarks/tasks/qcip-core/rocq/BSTCertificates.v",
+        "benchmarks/tasks/qcip-core/rocq/BSTExpected.v",
+        "benchmarks/tasks/qcip-core/rocq/DIJKSTRABindings.v",
+        "benchmarks/tasks/qcip-core/rocq/DIJKSTRACertificates.v",
+        "benchmarks/tasks/qcip-core/rocq/DIJKSTRAExpected.v",
+        "benchmarks/tasks/qcip-core/rocq/Execution.v",
+        "benchmarks/tasks/qcip-core/rocq/RINGBindings.v",
+        "benchmarks/tasks/qcip-core/rocq/RINGCertificates.v",
+        "benchmarks/tasks/qcip-core/rocq/RINGExpected.v"
+      ]
+    },
+    {
+      "path": "benchmarks/tasks/qcip-core/tasks.json",
+      "before_sha256": "cf6f9fece661b860411e7d61debc30f4c3b53ebb4fcb838211fef63b4b91d22c",
+      "after_sha256": "e7b31e9e39f4ed0584fee7daf1816a70d9c053061c0fbdb534d8b8904e43c212",
+      "updated_sources": [
+        "benchmarks/tasks/qcip-core/avl/v0.c",
+        "benchmarks/tasks/qcip-core/avl/v1.c",
+        "benchmarks/tasks/qcip-core/avl/v2.c",
+        "benchmarks/tasks/qcip-core/avl/v3.c",
+        "benchmarks/tasks/qcip-core/bst/v0.c",
+        "benchmarks/tasks/qcip-core/bst/v1.c",
+        "benchmarks/tasks/qcip-core/bst/v2.c",
+        "benchmarks/tasks/qcip-core/bst/v3.c",
+        "benchmarks/tasks/qcip-core/common/io.h",
+        "benchmarks/tasks/qcip-core/dijkstra/v0.c",
+        "benchmarks/tasks/qcip-core/dijkstra/v1.c",
+        "benchmarks/tasks/qcip-core/dijkstra/v2.c",
+        "benchmarks/tasks/qcip-core/dijkstra/v3.c",
+        "benchmarks/tasks/qcip-core/ring/v0.c",
+        "benchmarks/tasks/qcip-core/ring/v1.c",
+        "benchmarks/tasks/qcip-core/ring/v2.c",
+        "benchmarks/tasks/qcip-core/ring/v3.c"
+      ]
+    },
+    {
+      "path": "benchmarks/tasks/algorithms-core/groups.json",
+      "before_sha256": "48ed81828e482d27a742aca64b522899b056966f4c42ddce89889250e7e75e96",
+      "after_sha256": "49d528789a57f173941f51f80a607c08e44c5a1ca7f2d428a6f311fd1709aa74",
+      "updated_sources": [
+        "benchmarks/tasks/algorithms-core/c/Algorithms.h",
+        "benchmarks/tasks/qcip-core/common/io.h"
+      ]
+    },
+    {
+      "path": "benchmarks/tasks/base64-core/groups.json",
+      "before_sha256": "9808c16b20714aa86ecc533caf458377c9b5dcc7891361a40bb76e80c0b4d9f4",
+      "after_sha256": "96bde3ce668125723249abba41e8fb773d9a69ec59fb01538fbc78873e73c4f1",
+      "updated_sources": [
+        "benchmarks/tasks/qcip-core/common/io.h"
+      ]
+    },
+    {
+      "path": "benchmarks/tasks/boundaries-core/groups.json",
+      "before_sha256": "d6e0f210ff14963732ea0e237086ce162a34f1ef5b0b634b686215485dda278d",
+      "after_sha256": "d24270438bc1a005075b1fb563b5229eceda38a9c3cd9c5c924de4de7cff5257",
+      "updated_sources": [
+        "benchmarks/tasks/boundaries-core/c/Structures.h",
+        "benchmarks/tasks/qcip-core/common/io.h"
+      ]
+    },
+    {
+      "path": "benchmarks/tasks/stateful-core/groups.json",
+      "before_sha256": "43c7d547f815897c7b9288c9f3ed3b36b4eb0df074f7687b8d54e4ffd603ff74",
+      "after_sha256": "95aea1b67946538cf5a20b986454ecb77f6870a03232b30a82ebd1da178f0688",
+      "updated_sources": [
+        "benchmarks/tasks/qcip-core/common/io.h"
+      ]
+    },
+    {
+      "path": "benchmarks/tasks/systems-core/groups.json",
+      "before_sha256": "6285b7228623ca5a7dd488e9a3e6c2cc093b6d693b5bc29641680464bed86314",
+      "after_sha256": "7b3e0361ab3bc40bfdf611abd0976d73c79fec33597178c89ee7f886e08f2279",
+      "updated_sources": [
+        "benchmarks/tasks/qcip-core/common/io.h"
+      ]
+    }
+  ]
+}

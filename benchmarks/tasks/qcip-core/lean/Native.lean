@@ -2,7 +2,7 @@ import Lean
 
 /- Executable native implementations; no task proof or admitted theorem.
    Fuel exhaustion is explicit failure and never an equal successful result. -/
-namespace EqualBench
+namespace SpecLessBench
 abbrev Words := List Int
 def getOr (xs : List α) (i : Nat) (fallback : α) : α := (xs[i]?).getD fallback
 def iz (xs : Words) (i : Nat) : Int := getOr xs i 0
@@ -262,7 +262,7 @@ def Equivalent (valid : α → Prop) (a b : α → Option Words) : Prop :=
 def Counterexample (valid : α → Prop) (a b : α → Option Words) : Prop :=
   ∃ x oa ob, valid x ∧ a x = some oa ∧ b x = some ob ∧ oa ≠ ob
 def Certificate (valid : α → Prop) (a b : α → Option Words) : Prop := Equivalent valid a b ∨ Counterexample valid a b
-end EqualBench
+end SpecLessBench
 
 def main : IO Unit := do
   let stdin ← IO.getStdin; let stdout ← IO.getStdout
@@ -270,8 +270,8 @@ def main : IO Unit := do
     let line ← stdin.getLine
     if line.isEmpty then break
     let fields := ((line.trimAscii.toString.splitOn " ").filter (· != "")).map (fun s => s.toInt?.getD 0)
-    let family := (EqualBench.iz fields 0).toNat
-    let style := (EqualBench.iz fields 1).toNat
-    match EqualBench.entry family style (fields.drop 2) with
+    let family := (SpecLessBench.iz fields 0).toNat
+    let style := (SpecLessBench.iz fields 1).toNat
+    match SpecLessBench.entry family style (fields.drop 2) with
     | none => stdout.putStrLn "FAIL"
     | some xs => stdout.putStrLn (String.intercalate " " (xs.map toString))

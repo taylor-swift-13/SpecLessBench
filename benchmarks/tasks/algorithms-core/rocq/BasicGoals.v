@@ -1,4 +1,4 @@
-From EqualBenchBasic Require Import BasicNative BasicDomain.
+From SpecLessBenchBasic Require Import BasicNative BasicDomain.
 
 Theorem R_FAC_EQ : BasicNative.Equivalent (BasicDomain.valid 0) (BasicNative.entry 0 0) (BasicNative.entry 0 1).
 Abort.

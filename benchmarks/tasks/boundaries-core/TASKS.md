@@ -82,7 +82,7 @@ tag=0常量（a±1000,b=0），1变量（a为0–15,b=0，可未绑定），2加
 将ID中`-`换为`_`后加`_equivalence`或`_refutationAt`，即为各平台的具体目标名称。例如Lean原生待证明命题为：
 
 ```lean
-theorem solve : EqualBenchBoundary.C_EVAL_DP_equivalence := by
+theorem solve : SpecLessBenchBoundary.C_EVAL_DP_equivalence := by
   -- pending
 ```
 

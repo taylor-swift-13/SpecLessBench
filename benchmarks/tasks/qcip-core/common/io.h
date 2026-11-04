@@ -1,6 +1,6 @@
-/* EqualBench derived tasks. No I/O, allocation, or unspecified callees. */
-#ifndef EQUALBENCH_IO_H
-#define EQUALBENCH_IO_H
+/* SpecLessBench derived tasks. No I/O, allocation, or unspecified callees. */
+#ifndef SPECLESSBENCH_IO_H
+#define SPECLESSBENCH_IO_H
 #define EB_INPUT_WORDS 8192
 #define EB_OUTPUT_WORDS 8192
 int eb_input[EB_INPUT_WORDS];

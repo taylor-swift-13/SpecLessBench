@@ -3,11 +3,13 @@
   "group_id": "shared-stateful-compcert",
   "attempt_ids": [
     "23326b97059c",
-    "ca22303afa6c"
+    "ca22303afa6c",
+    "8190fff5c30e",
+    "e0eff3722c47"
   ],
-  "tool_wall_seconds": 1.1925298729911447,
-  "cpu_user_seconds": 0.49,
-  "cpu_system_seconds": 0.31000000000000005,
+  "tool_wall_seconds": 2.284490577992983,
+  "cpu_user_seconds": 0.9,
+  "cpu_system_seconds": 0.6100000000000001,
   "max_process_rss_bytes": 495427584,
   "exact_process_tree_peak_bytes": null,
   "model_tokens": null,
@@ -15,5 +17,5 @@
   "shared_batch_id": "stateful-v0.5",
   "historical_cost_complete": false,
   "failed_attempts": 0,
-  "latest_updated_utc": "2026-11-03T14:52:58.769941+00:00"
+  "latest_updated_utc": "2026-11-04T03:05:54.792041+00:00"
 }

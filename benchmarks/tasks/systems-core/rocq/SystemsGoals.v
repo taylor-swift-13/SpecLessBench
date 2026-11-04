@@ -1,4 +1,4 @@
-From EqualBenchSystemsNative Require Import SystemsNative SystemsDomain.
+From SpecLessBenchSystemsNative Require Import SystemsNative SystemsDomain.
 
 Definition G_INVALIDATE_WORKLIST_equivalence : Prop := SystemsNative.Equivalent (SystemsDomain.valid 0) (SystemsNative.entry 0 0) (SystemsNative.entry 0 1).
 

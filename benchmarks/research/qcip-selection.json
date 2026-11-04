@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "purpose": "Candidate source inspection only; these are not EqualBench tasks or accepted reference certificates.",
+  "purpose": "Candidate source inspection only; these are not SpecLessBench tasks or accepted reference certificates.",
   "paths": [
     "QCP_examples/QCP_demos_LLM/sll_queue.c",
     "QCP_examples/QCP_demos_LLM/dll_queue.c",

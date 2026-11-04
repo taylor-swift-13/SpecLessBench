@@ -1,8 +1,8 @@
 """Three stateful groups; no final target proofs during construction."""
 import os
 from accounting import ROOT
-os.environ['EQUALBENCH_CONSTRUCTION_BATCH']='stateful-v0.5'
-os.environ['EQUALBENCH_CONSTRUCTION_REVISION']='design-v0.5.1'
+os.environ['SPECLESSBENCH_CONSTRUCTION_BATCH']='stateful-v0.5'
+os.environ['SPECLESSBENCH_CONSTRUCTION_REVISION']='design-v0.5.1'
 os.environ['ASAN_OPTIONS']='detect_leaks=0:halt_on_error=1'
 os.environ['UBSAN_OPTIONS']='halt_on_error=1'
 CORE=ROOT/'benchmarks/tasks/stateful-core'

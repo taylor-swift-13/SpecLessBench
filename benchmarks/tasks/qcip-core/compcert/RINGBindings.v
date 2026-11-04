@@ -1,10 +1,10 @@
 (* Protected fixed program bindings. Generated ASTs are required.
  * No Parameters/Axioms stand in for missing implementations. *)
-From EqualBench.QCIP Require Import Domain Execution.
-From EqualBench.QCIP.Generated Require Import RING_V0.
-From EqualBench.QCIP.Generated Require Import RING_V1.
-From EqualBench.QCIP.Generated Require Import RING_V2.
-From EqualBench.QCIP.Generated Require Import RING_V3.
+From SpecLessBench.QCIP Require Import Domain Execution.
+From SpecLessBench.QCIP.Generated Require Import RING_V0.
+From SpecLessBench.QCIP.Generated Require Import RING_V1.
+From SpecLessBench.QCIP.Generated Require Import RING_V2.
+From SpecLessBench.QCIP.Generated Require Import RING_V3.
 Definition impl_RING_V0 : implementation :=
   {| program := RING_V0.prog; input_symbol := RING_V0._eb_input;
      output_symbol := RING_V0._eb_output |}.

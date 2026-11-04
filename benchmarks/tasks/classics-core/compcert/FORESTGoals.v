@@ -1,16 +1,16 @@
-From EqualBenchClassics Require Import ClassicsDomain Execution.
+From SpecLessBenchClassics Require Import ClassicsDomain Execution.
 
-From EqualBenchClassics.Generated Require Import FOREST_V0.
+From SpecLessBenchClassics.Generated Require Import FOREST_V0.
 
 Definition impl_FOREST_V0 : implementation :=
  {| program := FOREST_V0.prog; input_symbol := FOREST_V0._eb_input; output_symbol := FOREST_V0._eb_output |}.
 
-From EqualBenchClassics.Generated Require Import FOREST_V1.
+From SpecLessBenchClassics.Generated Require Import FOREST_V1.
 
 Definition impl_FOREST_V1 : implementation :=
  {| program := FOREST_V1.prog; input_symbol := FOREST_V1._eb_input; output_symbol := FOREST_V1._eb_output |}.
 
-From EqualBenchClassics.Generated Require Import FOREST_V2.
+From SpecLessBenchClassics.Generated Require Import FOREST_V2.
 
 Definition impl_FOREST_V2 : implementation :=
  {| program := FOREST_V2.prog; input_symbol := FOREST_V2._eb_input; output_symbol := FOREST_V2._eb_output |}.

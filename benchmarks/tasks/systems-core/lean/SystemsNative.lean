@@ -1,6 +1,6 @@
 import Lean
 
-namespace EqualBenchSystems
+namespace SpecLessBenchSystems
 
 abbrev Words := List Int
 
@@ -242,4 +242,4 @@ def Equivalent (valid : Words → Prop) (a b : Words → Option Words) : Prop :=
 def RefutationAt (valid : Words → Prop) (a b : Words → Option Words) (x oa ob : Words) : Prop :=
   valid x ∧ a x = some oa ∧ b x = some ob ∧ oa ≠ ob
 
-end EqualBenchSystems
+end SpecLessBenchSystems

@@ -1,5 +1,5 @@
 import Lean
-namespace EqualBenchClassics
+namespace SpecLessBenchClassics
 abbrev Words := List Int
 abbrev Edge := Nat × Nat × Int × Nat
 abbrev Record := Int × Int
@@ -100,4 +100,4 @@ def Equivalent (valid : Words → Prop) (a b : Words → Option Words) : Prop :=
   ∀ x, valid x → ∃ o, a x=some o ∧ b x=some o
 def RefutationAt (valid : Words → Prop) (a b : Words → Option Words) (x oa ob : Words) : Prop :=
   valid x ∧ a x=some oa ∧ b x=some ob ∧ oa≠ob
-end EqualBenchClassics
+end SpecLessBenchClassics

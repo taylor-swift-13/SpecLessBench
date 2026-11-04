@@ -31,8 +31,8 @@ def main():
             "manifest": "compcert/manifest.json", "manifest_sha256": sha(ast_manifest),
             "goal_typecheck": compcert["target_typecheck"]}
         result["status"] = "three-platform sources/ASTs and target types checked; differential labels provisional; final proofs deferred; accounting gaps explicit"
-    lean = ["import Domain", "namespace EqualBench", "-- Checked proposition declarations, no theorem proofs."]
-    rocq = ["From EqualBench.QCIP Require Import Domain.", "From EqualBenchNative Require Import Native."]
+    lean = ["import Domain", "namespace SpecLessBench", "-- Checked proposition declarations, no theorem proofs."]
+    rocq = ["From SpecLessBench.QCIP Require Import Domain.", "From SpecLessBenchNative Require Import Native."]
     for i, family in enumerate(c["families"]):
         fid = family["id"]; domain = family["domain"]; algo = "dijkstra" if fid == "dijkstra" else fid
         group = {"group_id": family["split_group_id"], "family": fid, "revision": "design-v0.2",
@@ -53,7 +53,7 @@ def main():
             statement = f"{predicate} {domain}.valid {lean_a} {lean_b}"
             lean += [f"def {name} : Prop := {statement}",
                      f"def {name}_certificate : Prop := Certificate {domain}.valid {lean_a} {lean_b}"]
-            goal = f"import Goals\nopen EqualBench\ntheorem solve : EqualBench.{name}_certificate := by\n  -- Pending: supply a proof here; no sorry/axiom is supplied.\n"
+            goal = f"import Goals\nopen SpecLessBench\ntheorem solve : SpecLessBench.{name}_certificate := by\n  -- Pending: supply a proof here; no sorry/axiom is supplied.\n"
             p = CORE / "lean/pending" / (name+".lean.goal")
             p.parent.mkdir(parents=True, exist_ok=True); p.write_text(goal)
             a = f"(fun x => {algo} 0 ({domain}.encode x))"
@@ -68,7 +68,7 @@ def main():
                     "ast_status": "exported and type-checked; goal type checked, unproved" if compcert else "not exported; target interface not type-checked"},
                 "proofs": {"lean": None, "rocq": None, "compcert": None}})
         result["groups"].append(group)
-    lean += ["end EqualBench"]
+    lean += ["end SpecLessBench"]
     (CORE / "lean/Goals.lean").write_text("\n".join(lean)+"\n")
     (CORE / "rocq_native/Goals.v").write_text("\n\n".join(rocq)+"\n")
     for folder in (("lean", "rocq_native", "compcert") if compcert else ("lean", "rocq_native")):

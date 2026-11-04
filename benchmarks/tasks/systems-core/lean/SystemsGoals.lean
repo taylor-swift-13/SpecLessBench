@@ -1,5 +1,5 @@
 import SystemsDomain
-namespace EqualBenchSystems
+namespace SpecLessBenchSystems
 def G_INVALIDATE_WORKLIST_equivalence : Prop := Equivalent (valid 0) (entry 0 0) (entry 0 1)
 def G_INVALIDATE_WORKLIST_refutationAt (x oa ob : Words) : Prop := RefutationAt (valid 0) (entry 0 0) (entry 0 1) x oa ob
 def G_INVALIDATE_DIRTY_equivalence : Prop := Equivalent (valid 0) (entry 0 0) (entry 0 2)
@@ -20,4 +20,4 @@ def A_RESAMPLE_PHASE_equivalence : Prop := Equivalent (valid 4) (entry 4 0) (ent
 def A_RESAMPLE_PHASE_refutationAt (x oa ob : Words) : Prop := RefutationAt (valid 4) (entry 4 0) (entry 4 1) x oa ob
 def A_RESAMPLE_HALF_equivalence : Prop := Equivalent (valid 4) (entry 4 0) (entry 4 2)
 def A_RESAMPLE_HALF_refutationAt (x oa ob : Words) : Prop := RefutationAt (valid 4) (entry 4 0) (entry 4 2) x oa ob
-end EqualBenchSystems
+end SpecLessBenchSystems

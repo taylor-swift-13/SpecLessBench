@@ -17,7 +17,7 @@ def main():
               'input':witness['input'],'left_observation':{'return':0,'payload':witness['v0'][1:]},'right_observation':{'return':0,'payload':witness['v2'][1:]}}
             validate(request);counts['valid_counterexample_packages']+=1
             path=render(request,work/platform/name);text=path.read_text()
-            if platform=='lean':text=text.replace('import SystemsTargets\n','').replace('EqualBenchObligation',f'SystemsContractCheck{i}')
+            if platform=='lean':text=text.replace('import SystemsTargets\n','').replace('SpecLessBenchObligation',f'SystemsContractCheck{i}')
             else:text=text.replace('Definition goal :',f'Definition goal_{i} :')
             texts.append(text)
             for mutation in ('bare-disjunction','nonliteral-witness','identical-observations','extra-field','invalid-identifier','wrong-container','outside-domain'):
@@ -38,9 +38,9 @@ def main():
             os.environ['LEAN_PATH']=str(BUILD/'lean')+':'+str(contracts/'lean')
             measured([LEAN,str(source)],'shared-systems-interface','validate-literal-lean-obligations')
         elif platform=='rocq':
-            measured([COQC,'-Q',str(CORE/'rocq'),'EqualBenchSystemsNative','-Q',str(contracts/'rocq'),'',str(source)],'shared-systems-interface','validate-literal-rocq-obligations')
+            measured([COQC,'-Q',str(CORE/'rocq'),'SpecLessBenchSystemsNative','-Q',str(contracts/'rocq'),'',str(source)],'shared-systems-interface','validate-literal-rocq-obligations')
         else:
-            measured([FIVE+'/coqc','-Q',str(BUILD/'compcert'),'EqualBenchSystems','-Q',str(CORE/'compcert/ast'),'EqualBenchSystems.Generated','-Q',str(contracts/'compcert'),'',str(source)],'shared-systems-interface','validate-literal-compcert-obligations')
+            measured([FIVE+'/coqc','-Q',str(BUILD/'compcert'),'SpecLessBenchSystems','-Q',str(CORE/'compcert/ast'),'SpecLessBenchSystems.Generated','-Q',str(contracts/'compcert'),'',str(source)],'shared-systems-interface','validate-literal-compcert-obligations')
         counts['unproved_obligations_checked']+=len(GROUPS)
     counts.update(tranche='systems',final_target_proofs_attempted=False,gate_proofs_supplied=False,scope='systems tranche validator/generated obligation types; no final proofs or complete isolated grader')
     totals={k:sum(b[k]for b in prior_batches)+counts[k]for k in ('valid_counterexample_packages','rejected_malformed_packages','unproved_obligations_checked')}

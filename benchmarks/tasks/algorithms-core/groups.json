@@ -415,7 +415,7 @@
   "protected_files": [
     {
       "path": "c/Algorithms.h",
-      "sha256": "892f853fbfd726e0d4450ae82e8bfd59595411445c1913dfc952d64096fb5089"
+      "sha256": "11e0c3c43bb0dd65b48e3c2528e18e3b120bb3e193b78a7a60e7bc93440d4c60"
     },
     {
       "path": "c/factorial/v0.c",
@@ -491,67 +491,67 @@
     },
     {
       "path": "lean/BasicDomain.lean",
-      "sha256": "658a9b9878851ad4f25b92a4eef8450f9584d64938e3fd1f43517f70e2ebe852"
+      "sha256": "c4fe33ae5e788927549004ed6e53c4bc6c4ec510470d1dfa59fbf09054d1b0c1"
     },
     {
       "path": "lean/BasicGoals.lean",
-      "sha256": "1129102015f3606a83f078f7f33d92fe6334167fa817dd8ddb74f84a378f623d"
+      "sha256": "c38331415d70d7980082a04fe393886ad61feb64d4c61901d57e9f2be857cd22"
     },
     {
       "path": "lean/BasicNative.lean",
-      "sha256": "56bbfcab41446cf8509c8d6c6fd8a22344ba84b1575c454f2e906365a5b6e03e"
+      "sha256": "50e91bb6e939615a2d2abe1323fbb650f7700695d06dc792f729fc222c6bc842"
     },
     {
       "path": "lean/BasicRunner.lean",
-      "sha256": "158bfcef86c56e60affda38b6a4f43209ed910c43c0e5f2c86506cb7bea2c470"
+      "sha256": "0a2c390ba2c563304ab79d154e5bdbfa7c00a8a50df123b021e4535cd14dd3da"
     },
     {
       "path": "lean/pending/R_FAC_CEX.lean.goal",
-      "sha256": "5479b44f3b539826363396b59a30f151ede41874f6f4f52fe582738846ab67d8"
+      "sha256": "7ab65c223378851844b43a573dab7fa31d973fb9223a30510dee8a0131b13c54"
     },
     {
       "path": "lean/pending/R_FAC_EQ.lean.goal",
-      "sha256": "5a7adb1a6a10e5368bc7d052d8aa0fe6d4d8b875fed92801e2153695022cb59f"
+      "sha256": "28acddbb32c8a66dc12f69792f223efa351e74e6e798b1cb31e0d4d213fb860a"
     },
     {
       "path": "lean/pending/R_MAT_CEX.lean.goal",
-      "sha256": "74b7a27219a5ceff3ef7fc14b0f2ab7ca7176d6075db3b3cdd19879fcffd8fae"
+      "sha256": "83ea04027972bc3ff2265484df2f2ccb169b2bcd8973fe3f2e43a4691f88828c"
     },
     {
       "path": "lean/pending/R_MAT_EQ.lean.goal",
-      "sha256": "1036b1582c447db6144c76ab4a4b6631d1daa517d9c8fb6b89575b274ca3011c"
+      "sha256": "07f60da21599057ac3b867a08770d7563a3c01817fc78234d058f2b69727766c"
     },
     {
       "path": "lean/pending/R_QUE_CEX.lean.goal",
-      "sha256": "3b47bdfddb767af81386fdc2c48dac5ee08b80d9399cbe7c3b3b33560097fd2c"
+      "sha256": "d9046e46937857c75ea161b8e5a41c1d84abd61a869aa931ee23c52c7b950b40"
     },
     {
       "path": "lean/pending/R_QUE_EQ.lean.goal",
-      "sha256": "c094458e81ed24034b86534000fc43f6f578b6ec033a7e65ba800aae1d4d9a8d"
+      "sha256": "bcc4ea8cece5834de9ed4cf72e4fa40af84a8c0d7dbfb1bdd988141c8fb220d0"
     },
     {
       "path": "lean/pending/R_REV_CEX.lean.goal",
-      "sha256": "fd89eb1016417be127d9e75c224d71efdfcf681ea389ff5126cfd7df99e33314"
+      "sha256": "bc1a50e278f4e220c81c2a99e5b1b2e8f2d9e330c904c83abb405999a11c26c7"
     },
     {
       "path": "lean/pending/R_REV_EQ.lean.goal",
-      "sha256": "76b5de7b1c1108f547e4df199eab8d2104739abea5403407ad07d58ada5f9962"
+      "sha256": "dcf9840d39803802f748e817d8c73e518e5d63b94997dba9d61ba608d5316480"
     },
     {
       "path": "lean/pending/R_STR_CEX.lean.goal",
-      "sha256": "8c817ae3ad1e7a6cd515348891903ebe87a0bfc0d486f558e73b017270ceb72a"
+      "sha256": "e84cf90c932122ee89d072b90ef0d4c766ce8d3e8d08071123852256b2ef362f"
     },
     {
       "path": "lean/pending/R_STR_EQ.lean.goal",
-      "sha256": "61cb3002781dc50c711086b524088335de74640e45af018da0780219143b327a"
+      "sha256": "354ccdaef506551cf3017705941d2c3e64e1e54383db2e5415edfbb01d5a1e6b"
     },
     {
       "path": "lean/pending/R_SUM_CEX.lean.goal",
-      "sha256": "57d9833ea0be3cf0fa48b525349a0bb9a300bacf9c4d11bd5f52e0b72a393739"
+      "sha256": "cb0bbe78cd6abf94379f0be2001a62c24f470da5da79057b9cac940f7d08ecad"
     },
     {
       "path": "lean/pending/R_SUM_EQ.lean.goal",
-      "sha256": "c559e9b53201801c09cfcdf5b6b15dc288c5b6c4a3bba8bc87944ba8787dbfe2"
+      "sha256": "03fa553cd3965a337c5e8d2e2d04b746bfec4cceec2e2eef4d739a3e453651e5"
     },
     {
       "path": "rocq/BasicDomain.v",
@@ -559,11 +559,11 @@
     },
     {
       "path": "rocq/BasicExtract.v",
-      "sha256": "887a6ac70fc465bf59db41c7aa209578ad9029edcdd32494f2c6853ad204d456"
+      "sha256": "6f5f25c80824277d5b6208ecfbc5ea4fa41b395bce65b37603979b93a6eb41dc"
     },
     {
       "path": "rocq/BasicGoals.v",
-      "sha256": "557d184236e7b624976cf0895ed7653ab0c5161e184851ee2b9b6b551ac6f9a3"
+      "sha256": "40d347bdffc22bb6219d8f367d84af702c07ae1fb3bb32f2fe6ab7ea80f31de1"
     },
     {
       "path": "rocq/BasicNative.v",
@@ -579,27 +579,27 @@
     },
     {
       "path": "compcert/FACTORIALGoals.v",
-      "sha256": "bd23a5f59e5899b30089e8c358297c3416581ddc3a24715af74fb4e2d734a1bc"
+      "sha256": "3810d867033dd5759d060588efe77af309733fcf54164ad262f5f61adeff3654"
     },
     {
       "path": "compcert/MATRIXGoals.v",
-      "sha256": "2af9062917368e90b90e9b7efa2e3a7476012ff7e2eda869e12bb919e0f088d5"
+      "sha256": "c86c09b1911c2e07d23e30cd8fe3de1783f2ea50d10d729f7a5627a0cec0845d"
     },
     {
       "path": "compcert/QUEUEGoals.v",
-      "sha256": "c1e3685a3bf6d629354cb915280d16938b2fda5801e59cacd874424fc9c8a39b"
+      "sha256": "b4ff8338c82e57c5029c29381698717b067c33a680d38bda289137699c345ca5"
     },
     {
       "path": "compcert/REVERSEGoals.v",
-      "sha256": "730b63e6355e864fce2d6b94c606057ac411a918fe903491919eb6ece3644079"
+      "sha256": "b9cf00dbd20331cc8daf502262c1d6b1b43b1926b3f88b988332a7471ca06f72"
     },
     {
       "path": "compcert/SEARCHGoals.v",
-      "sha256": "711182f689c4d3a3c0f755bf5058babd6791ba0c69d942c34136a5aa26a2c381"
+      "sha256": "1f1da7e17475b7078cfd8034627c9d62523a25de7783764c3a165dd5a36416b5"
     },
     {
       "path": "compcert/SUMGoals.v",
-      "sha256": "276519f55204f84f61c071a5345a35d13bbb9b8086ca3b6a2816ca9866c785e5"
+      "sha256": "797712a04686489c09989e1d5bdf23ebad03028a798a1957040cfcea9d64bdab"
     },
     {
       "path": "compcert/ast/FACTORIAL_V0.v",
@@ -675,5 +675,5 @@
     }
   ],
   "c_environment_header": "../qcip-core/common/io.h",
-  "io_header_sha256": "ed3054989c3045aa35852ebe9d788f9927dbcf5b57a628723fc882d7e57dd43e"
+  "io_header_sha256": "1a15f691e351895887746a3039a9d6a56ec2e263489e7d8002dbb4ce6eebf954"
 }

@@ -1,5 +1,5 @@
 import BasicNative
-namespace EqualBenchBasic
+namespace SpecLessBenchBasic
 def inRange (v lo hi : Int) : Bool := lo ≤ v && v ≤ hi
 def validB (family : Nat) (xs : Words) : Bool :=
   let a := iz xs 0; let b := iz xs 1; let c := iz xs 2
@@ -14,4 +14,4 @@ def validB (family : Nat) (xs : Words) : Bool :=
       let op := iz xs (1+2*i); let v := iz xs (2+2*i)
       inRange op 0 2 && (if op == 0 then inRange v (-1000000) 1000000 else v == 0))
 def valid (family : Nat) (xs : Words) : Prop := validB family xs = true
-end EqualBenchBasic
+end SpecLessBenchBasic

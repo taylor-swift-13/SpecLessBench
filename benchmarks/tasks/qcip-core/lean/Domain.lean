@@ -1,5 +1,5 @@
 import Native
-namespace EqualBench
+namespace SpecLessBench
 namespace BST
 inductive Command where | delete (key : Int) | lookup (key : Int)
 structure Input where
@@ -61,4 +61,4 @@ def valid (x : Input) : Prop := 1 ≤ x.vertices ∧ x.vertices ≤ 10 ∧ 0 ≤
 def encode (x : Input) : Words := pad 8192
   ([x.vertices,Int.ofNat x.edges.length,x.start] ++ x.edges.flatMap (fun e => [e.source,e.destination,e.weight]))
 end Dijkstra
-end EqualBench
+end SpecLessBench

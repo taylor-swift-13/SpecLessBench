@@ -1,4 +1,4 @@
-From EqualBenchClassics Require Import FORESTGoals SORTINGGoals.
+From SpecLessBenchClassics Require Import FORESTGoals SORTINGGoals.
 Definition MST_TIED_WEIGHT_equivalence : Prop := FORESTGoals.MST_TIED_WEIGHT_equivalence.
 Definition MST_TIED_WEIGHT_refutationAt := FORESTGoals.MST_TIED_WEIGHT_refutationAt.
 Definition MST_UNIQUE_EDGES_equivalence : Prop := FORESTGoals.MST_UNIQUE_EDGES_equivalence.

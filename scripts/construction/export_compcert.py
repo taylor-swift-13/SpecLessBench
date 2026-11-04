@@ -37,7 +37,7 @@ def main():
             pre = BUILD / (name+".c")
             measured(["gcc", "-E", "-P", "-std=c99", str(CORE / v["source"])], gid, "preprocess-for-clight", stdout_path=pre)
             dest = ast / (name+".v")
-            measured([str(BIN / "clightgen"), "-clight", "-normalize", "-o", str(dest), str(pre)], gid, "export-clight")
+            measured([str(BIN / "clightgen"), "-clight", "-normalize", "-o", str(dest), pre.name], gid, "export-clight", cwd=BUILD)
             record["exports"].append({"variant": name, "group_id": gid,
                 "c_entry": v["source"], "preprocessed_sha256": sha(pre),
                 "ast": dest.relative_to(CORE).as_posix(), "ast_sha256": sha(dest)})
@@ -58,10 +58,10 @@ def main():
     # Source copies in BUILD get .vo products; protected source files stay clean.
     for p in OUT.glob("*.v"): shutil.copyfile(p, BUILD / p.name)
     for p in ast.glob("*.v"): shutil.copyfile(p, BUILD / p.name)
-    args = ["-Q", str(BUILD), "EqualBench.QCIP", "-Q", str(ast), "EqualBench.QCIP.Generated"]
+    args = ["-Q", str(BUILD), "SpecLessBench.QCIP", "-Q", str(ast), "SpecLessBench.QCIP.Generated"]
     # ASTs are compiled in-place under the generated namespace; .vo files ignored.
     for row in record["exports"]:
-        measured([str(BIN / "coqc"), "-Q", str(ast), "EqualBench.QCIP.Generated", str(CORE / row["ast"])],
+        measured([str(BIN / "coqc"), "-Q", str(ast), "SpecLessBench.QCIP.Generated", str(CORE / row["ast"])],
             row["group_id"], "typecheck-clight-ast")
     for name in ("Domain", "Execution"):
         measured([str(BIN / "coqc"), *args, str(BUILD / (name+".v"))], "shared-compcert", "typecheck-"+name)

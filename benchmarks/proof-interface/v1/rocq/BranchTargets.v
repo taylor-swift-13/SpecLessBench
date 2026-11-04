@@ -1,10 +1,10 @@
 From Coq Require Import ZArith List.
 
-From EqualBench.QCIP Require Import Domain.
+From SpecLessBench.QCIP Require Import Domain.
 
-From EqualBenchNative Require Import Native.
+From SpecLessBenchNative Require Import Native.
 
-From EqualBenchBasic Require Import BasicNative BasicDomain.
+From SpecLessBenchBasic Require Import BasicNative BasicDomain.
 
 Definition C_BST_SUCCESSOR_equivalence : Prop := Native.Equivalent Domain.BST.valid (fun x => Native.bst 0 (Domain.BST.encode x)) (fun x => Native.bst 1 (Domain.BST.encode x)).
 

@@ -1,4 +1,4 @@
-From EqualBenchSystems Require Import GRAPHGoals SCOPESGoals LEASESGoals ALIGNMENTGoals RESAMPLEGoals.
+From SpecLessBenchSystems Require Import GRAPHGoals SCOPESGoals LEASESGoals ALIGNMENTGoals RESAMPLEGoals.
 Definition G_INVALIDATE_WORKLIST_equivalence : Prop := GRAPHGoals.G_INVALIDATE_WORKLIST_equivalence.
 Definition G_INVALIDATE_WORKLIST_refutationAt := GRAPHGoals.G_INVALIDATE_WORKLIST_refutationAt.
 Definition G_INVALIDATE_DIRTY_equivalence : Prop := GRAPHGoals.G_INVALIDATE_DIRTY_equivalence.

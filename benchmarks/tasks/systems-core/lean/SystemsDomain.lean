@@ -1,6 +1,6 @@
 import SystemsNative
 
-namespace EqualBenchSystems
+namespace SpecLessBenchSystems
 
 def between (x lo hi : Int) : Bool := lo ≤ x && x ≤ hi
 
@@ -36,4 +36,4 @@ def validFamilyB (family : Nat) (xs : Words) : Bool :=
 
 def valid (family : Nat) (xs : Words) : Prop := validFamilyB family xs = true
 
-end EqualBenchSystems
+end SpecLessBenchSystems

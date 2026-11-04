@@ -318,19 +318,19 @@
     },
     {
       "path": "avl/v0.c",
-      "sha256": "d43e1417eb999f5e96821885bff4a180d8f4857747954301d1be41738eef5d12"
+      "sha256": "eeb028fa804da95c83115ea26795fcdd80c74dbb8db01cebd68c7bcd8f42d141"
     },
     {
       "path": "avl/v1.c",
-      "sha256": "a49bf25d2b3eeb2b4834514e66756dd781149282cfa6321d68f64e9c75c6fe14"
+      "sha256": "f8e7ff4ebe3234ee805e5f144bf138fcd0a5c01a4b441bfdd7f04021872229bf"
     },
     {
       "path": "avl/v2.c",
-      "sha256": "0584409ad1776d87574f45737d1e0caae83bcdb6632faf990af38feb45729583"
+      "sha256": "703a0a481e4187348ce51d62aea7a30f6709961b7bb9571cce6b0a02bdb59ec9"
     },
     {
       "path": "avl/v3.c",
-      "sha256": "35df5f9ca62d7931542f7f24f4b5efb807dc44b7c31e7f0e56b728a27833d9cf"
+      "sha256": "bfef0613972034184eee0d0495aab8fcbab082e0d206c93fa387b596d8421fed"
     },
     {
       "path": "bst/body.h",
@@ -338,23 +338,23 @@
     },
     {
       "path": "bst/v0.c",
-      "sha256": "4d2d454af0b6b0d60e4ef3ba834f4ae8d2be78e384cb2dd056e802b308d24d70"
+      "sha256": "a0faf86fd13a73c6740cf59725896cdd68a801376f3ac317a380f01aeaeabd00"
     },
     {
       "path": "bst/v1.c",
-      "sha256": "f8ba2ddce1b3b1ae8607960a34cca17f083149553eef63022b3c92258e57254a"
+      "sha256": "a06c1b35cfdc628deb0258a9dacc29d19d602b921af1f4495e747ff32f4a4cbe"
     },
     {
       "path": "bst/v2.c",
-      "sha256": "b75590edb74b08c7da941ed99f0bb9d4d710a8d3fce3d27e18c8601bd8f74aa1"
+      "sha256": "d586b268b4df0bce7500938b2fa64e9ecd9abe10112e9b7e2ca0dbd0ec335e81"
     },
     {
       "path": "bst/v3.c",
-      "sha256": "8d7814989eef02fe6694beab6ab75fe330d4c8547eabab643c1e36ed7478d973"
+      "sha256": "5eb8b0bfe4bfa0abde3faa30244de2314da845024450fbaa40abcf317af645a3"
     },
     {
       "path": "common/io.h",
-      "sha256": "ed3054989c3045aa35852ebe9d788f9927dbcf5b57a628723fc882d7e57dd43e"
+      "sha256": "1a15f691e351895887746a3039a9d6a56ec2e263489e7d8002dbb4ce6eebf954"
     },
     {
       "path": "dijkstra/body.h",
@@ -366,19 +366,19 @@
     },
     {
       "path": "dijkstra/v0.c",
-      "sha256": "108cd4278b9a025d7f882eb6210aeefb4c357628ffeb4f4c09bb7c001f97e1f0"
+      "sha256": "11957bc6ce036832176863fcd3e32ab77a3747d59515dcf558bff2aeb4a0b6f9"
     },
     {
       "path": "dijkstra/v1.c",
-      "sha256": "9202525fc4e0bef54aaee10def7bbf8d591719e7d66bfc51de00f132539b8042"
+      "sha256": "110ef58d179ab9718e092f9cf31fab07cf13741eca582f661eefe58238ac9420"
     },
     {
       "path": "dijkstra/v2.c",
-      "sha256": "b559ce98c4d4f31eadce99224442d63cf8fc5e1704efdcb61367bed160966719"
+      "sha256": "fc881bbb9d04724aa95b3d98247aa2491246f02d95f0c6ddfa8662088247486e"
     },
     {
       "path": "dijkstra/v3.c",
-      "sha256": "36502eaa98ea5dfbd114049c100e5c5589c0eaa5e68d4f01da249cfa25e2716a"
+      "sha256": "562f2d83f63f6b1659ae17c8951b8fdae55289e1d0944e20379c80cd0d147a5a"
     },
     {
       "path": "licenses/QCIP-MIT.txt",
@@ -398,55 +398,55 @@
     },
     {
       "path": "ring/v0.c",
-      "sha256": "c80e6135cee2d170f1582f237fefb3d18eb27816016ff367a625809760e60726"
+      "sha256": "0d9757a520f0f7b6323c748d947e5c4a5a1000b1caf7c06321dbc135597119d7"
     },
     {
       "path": "ring/v1.c",
-      "sha256": "f46e24b5718628273dd699e0034072a8b59db7ecb5c6d7deccab07322090e6a7"
+      "sha256": "191784a1976c6aad6565a802e55416675a7a9987da0a699fb3fa396d21c99692"
     },
     {
       "path": "ring/v2.c",
-      "sha256": "913c41978c935985103ec6ab867f427fb00e58bccf5e4b04515b3f6cce5b8e4c"
+      "sha256": "405d475b85982534a83c16e4cc311ef8a97e71a2cfe537268469f5f85f3ef1c1"
     },
     {
       "path": "ring/v3.c",
-      "sha256": "3665e953dd557494223bd98e015e3b3336a795bdb68f9e446bcd7dd74c04025a"
+      "sha256": "baeb4432697e6f2de89e34549c3dfcb83b26cfc066a564aa5ee8cfb768dbf889"
     },
     {
       "path": "rocq/AVLBindings.v",
-      "sha256": "b0e96fb7a566241985478f2a6ca0543beb7d2be263bde331650574a17dd5df00"
+      "sha256": "826a5d58c4e3f7198d04999f7b83e97a7ae92a58df258fdf8309a3e6729d27ca"
     },
     {
       "path": "rocq/AVLCertificates.v",
-      "sha256": "c09d6a1a7035a975c7030ee1e20fef7d363ec90a9030da23622295be79c801aa"
+      "sha256": "b0f60adfa23d7aaee11931d5339c06a1859219670128aac6b839e29fe2dec6e7"
     },
     {
       "path": "rocq/AVLExpected.v",
-      "sha256": "ad6d4a86ad5bfddd251ea3fe7680938d1cc8c34257d79b71f9216365d306289a"
+      "sha256": "32270dd39948f7f4be768d08001c5c525916e365b77089de5d50f744c57375aa"
     },
     {
       "path": "rocq/BSTBindings.v",
-      "sha256": "f77c22f58741e6a931f73e637fe13ea747c05b335b4a457b2f3c44bbe8445937"
+      "sha256": "3aa08e664c640821421c54209d4c1fa28caaa895dd6abea4b85aa3e9562fc789"
     },
     {
       "path": "rocq/BSTCertificates.v",
-      "sha256": "b24d4eda0248c23ce1aed2d08783d45c1987881b181d9e7234f3b53eff9f95c1"
+      "sha256": "eeb8da0a2f941cecea87a6b40385e2119422b851af612d848a13f6c1739c45d7"
     },
     {
       "path": "rocq/BSTExpected.v",
-      "sha256": "c9710ff9ad3ffc76cb2758d596e97bfea49f16d4fe04946eeda8444bb39f093b"
+      "sha256": "0f0ea4cb397adbabeea823eabadad73d9b4501057e69f175ca5581492431c8e4"
     },
     {
       "path": "rocq/DIJKSTRABindings.v",
-      "sha256": "9b16da2300938d176dc89372e5e329cbddb47d7413aaa13fd6d9a659a1a1d6eb"
+      "sha256": "5aceda4da58f397fc1476a12cd9bb7c44953dd6f430e78f6e0a8cde37d1da1c6"
     },
     {
       "path": "rocq/DIJKSTRACertificates.v",
-      "sha256": "8a6649f252376d6a8b8286f9073a1dd6a7494cad0df8cd49ab6e32de98fbc5d2"
+      "sha256": "f6d7f73ef100cbded1e6d8743e058ebd33fde15dc48e78aa5d6b13f168e8dba2"
     },
     {
       "path": "rocq/DIJKSTRAExpected.v",
-      "sha256": "26bcd179dd6794d92f93d1d1da597438996bb4868aae401d11949597b1b21fc7"
+      "sha256": "dd61084b91963b77c688017023a77fa4b9d8373a3fd2b0f5f6ba1dcca3365524"
     },
     {
       "path": "rocq/Domain.v",
@@ -454,19 +454,19 @@
     },
     {
       "path": "rocq/Execution.v",
-      "sha256": "ac9ebafd87c5d91b8c14a2690ea218e2f84dde83be2ee2382e0f0325920f3013"
+      "sha256": "3ddb9a467c8d7d67dc4e2f9810bd545819bd47c3e4cdebb6464ff000f619f989"
     },
     {
       "path": "rocq/RINGBindings.v",
-      "sha256": "270495fc5263942b27ee11d55b82edb08838226ab7b7fcae40863e16c9e720b5"
+      "sha256": "84ee3d3c9c13f3d82fd5aeb67d206e0ed00eb78e220aee2463cace73ea62f145"
     },
     {
       "path": "rocq/RINGCertificates.v",
-      "sha256": "676dc43d21bdf908c30c86f5ea1bcafe1019c9e8fe8fe755e4b8fdbdffc72f7c"
+      "sha256": "e60cf1b7a3cb20b9e42f99fd788eb71467086bf723b8de90699e6a7cabb72571"
     },
     {
       "path": "rocq/RINGExpected.v",
-      "sha256": "5253b25cf0cc0e2fcd44d5904eefd547c93c73eb87aaed2d32e26b03a1d2f417"
+      "sha256": "6209b432d55d3f4a1451a334ef1f1c75fa0674f18eba70d1c63170cae41bc469"
     }
   ]
 }

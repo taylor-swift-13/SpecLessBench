@@ -1,8 +1,8 @@
 """Boundary-rich programs plus data-structure controls; no final proofs."""
 import os
 from accounting import ROOT
-os.environ["EQUALBENCH_CONSTRUCTION_BATCH"]="boundaries-v0.4"
-os.environ["EQUALBENCH_CONSTRUCTION_REVISION"]="design-v0.4"
+os.environ["SPECLESSBENCH_CONSTRUCTION_BATCH"]="boundaries-v0.4"
+os.environ["SPECLESSBENCH_CONSTRUCTION_REVISION"]="design-v0.4"
 os.environ["ASAN_OPTIONS"]="detect_leaks=0:halt_on_error=1"
 os.environ["UBSAN_OPTIONS"]="halt_on_error=1"
 CORE=ROOT/"benchmarks/tasks/boundaries-core"

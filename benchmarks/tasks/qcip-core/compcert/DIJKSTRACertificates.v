@@ -2,7 +2,7 @@
 
  * and exclude curator IDs, expected branches, and witness seeds. *)
 
-From EqualBench.QCIP Require Import Domain Execution DIJKSTRABindings.
+From SpecLessBench.QCIP Require Import Domain Execution DIJKSTRABindings.
 
 Theorem task_01 :
   Certificate Dijkstra.valid Dijkstra.encode impl_DIJKSTRA_V0 impl_DIJKSTRA_V1.

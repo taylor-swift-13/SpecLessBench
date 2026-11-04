@@ -5,7 +5,7 @@
 From Coq Require Import ZArith List.
 From compcert Require Import lib.Integers common.AST common.Values common.Memory
   common.Events common.Globalenvs common.Smallstep cfrontend.Ctypes cfrontend.Clight.
-From EqualBench.QCIP Require Import Domain.
+From SpecLessBench.QCIP Require Import Domain.
 Import ListNotations.
 Open Scope Z_scope.
 

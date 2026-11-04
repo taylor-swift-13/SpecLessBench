@@ -1,16 +1,16 @@
-From EqualBenchSystems Require Import SystemsDomain Execution.
+From SpecLessBenchSystems Require Import SystemsDomain Execution.
 
-From EqualBenchSystems.Generated Require Import GRAPH_V0.
+From SpecLessBenchSystems.Generated Require Import GRAPH_V0.
 
 Definition impl_GRAPH_V0 : implementation :=
  {| program := GRAPH_V0.prog; input_symbol := GRAPH_V0._eb_input; output_symbol := GRAPH_V0._eb_output |}.
 
-From EqualBenchSystems.Generated Require Import GRAPH_V1.
+From SpecLessBenchSystems.Generated Require Import GRAPH_V1.
 
 Definition impl_GRAPH_V1 : implementation :=
  {| program := GRAPH_V1.prog; input_symbol := GRAPH_V1._eb_input; output_symbol := GRAPH_V1._eb_output |}.
 
-From EqualBenchSystems.Generated Require Import GRAPH_V2.
+From SpecLessBenchSystems.Generated Require Import GRAPH_V2.
 
 Definition impl_GRAPH_V2 : implementation :=
  {| program := GRAPH_V2.prog; input_symbol := GRAPH_V2._eb_input; output_symbol := GRAPH_V2._eb_output |}.

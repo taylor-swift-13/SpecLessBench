@@ -3,11 +3,13 @@
   "group_id": "shared-boundaries-compcert",
   "attempt_ids": [
     "d71a75318d40",
-    "e981ab9bfc3a"
+    "e981ab9bfc3a",
+    "c4095b9ce514",
+    "3fd3ccb6c696"
   ],
-  "tool_wall_seconds": 1.4440896369924303,
-  "cpu_user_seconds": 0.45999999999999996,
-  "cpu_system_seconds": 0.37,
+  "tool_wall_seconds": 3.037207760993624,
+  "cpu_user_seconds": 0.96,
+  "cpu_system_seconds": 0.7,
   "max_process_rss_bytes": 495431680,
   "exact_process_tree_peak_bytes": null,
   "model_tokens": null,
@@ -15,5 +17,5 @@
   "shared_batch_id": "boundaries-v0.4",
   "historical_cost_complete": false,
   "failed_attempts": 0,
-  "latest_updated_utc": "2026-11-03T14:16:49.784419+00:00"
+  "latest_updated_utc": "2026-11-04T03:05:00.321211+00:00"
 }

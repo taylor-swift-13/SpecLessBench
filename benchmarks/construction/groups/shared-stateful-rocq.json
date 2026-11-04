@@ -8,17 +8,24 @@
     "ec0c9d53fcd5",
     "23a3ecf42b26",
     "3ab12ea6771a",
-    "fb34875a58d1"
+    "fb34875a58d1",
+    "eac917992cb0",
+    "a786a0b6ecd0",
+    "e7e070b9b296",
+    "ab53f4203f6e",
+    "cf6f6d3059fb",
+    "0438edd459b9",
+    "da8e0ed88a30"
   ],
-  "tool_wall_seconds": 4.304201221981202,
-  "cpu_user_seconds": 0.6700000000000002,
-  "cpu_system_seconds": 1.0,
-  "max_process_rss_bytes": 384901120,
+  "tool_wall_seconds": 8.981739503971767,
+  "cpu_user_seconds": 1.37,
+  "cpu_system_seconds": 1.9000000000000004,
+  "max_process_rss_bytes": 385396736,
   "exact_process_tree_peak_bytes": null,
   "model_tokens": null,
   "model_tokens_reason": "shared authoring session usage is recorded once in the referenced batch",
   "shared_batch_id": "stateful-v0.5",
   "historical_cost_complete": false,
   "failed_attempts": 0,
-  "latest_updated_utc": "2026-11-03T14:52:47.699167+00:00"
+  "latest_updated_utc": "2026-11-04T03:05:43.769247+00:00"
 }

@@ -1,5 +1,5 @@
 import StatefulNative
-namespace EqualBenchStateful
+namespace SpecLessBenchStateful
 def inRange (v lo hi : Int) : Bool := lo ≤ v && v ≤ hi
 def validB (family : Nat) (xs : Words) : Bool :=
   let a := iz xs 0; let b := iz xs 1
@@ -17,4 +17,4 @@ def validB (family : Nat) (xs : Words) : Bool :=
       inRange op 0 4 && inRange key 0 (if op == 4 then 8 else 15) && (if op == 0 then inRange v (-1000) 1000 else v == 0))
 def validFamilyB := validB
 def valid (family : Nat) (xs : Words) : Prop := validB family xs = true
-end EqualBenchStateful
+end SpecLessBenchStateful

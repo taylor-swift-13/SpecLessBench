@@ -1,4 +1,4 @@
-From EqualBenchClassicsNative Require Import ClassicsNative ClassicsDomain.
+From SpecLessBenchClassicsNative Require Import ClassicsNative ClassicsDomain.
 
 Definition MST_TIED_WEIGHT_equivalence : Prop := ClassicsNative.Equivalent (ClassicsDomain.valid 0) (ClassicsNative.entry 0 0) (ClassicsNative.entry 0 1).
 

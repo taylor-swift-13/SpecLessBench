@@ -15,7 +15,7 @@ def main():
         measured([LEAN, "-o", str(lean_dir / (name+".olean")), str(CORE / "lean" / (name+".lean"))],
             "shared-lean", "typecheck-"+name, timeout=300)
         print("Lean checked definitions/goal types:", name, flush=True)
-    paths = ["-Q", str(CORE / "rocq"), "EqualBench.QCIP", "-Q", str(CORE / "rocq_native"), "EqualBenchNative"]
+    paths = ["-Q", str(CORE / "rocq"), "SpecLessBench.QCIP", "-Q", str(CORE / "rocq_native"), "SpecLessBenchNative"]
     for folder, name in (("rocq", "Domain"), ("rocq_native", "Native"), ("rocq_native", "Goals")):
         measured([COQC, *paths, str(CORE / folder / (name+".v"))], "shared-rocq", "typecheck-"+name)
         print("Rocq checked definitions/goal types:", name, flush=True)

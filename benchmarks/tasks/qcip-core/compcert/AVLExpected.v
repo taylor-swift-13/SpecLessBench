@@ -2,7 +2,7 @@
 
  * declaration; it does not supply a certificate or an axiom. *)
 
-From EqualBench.QCIP Require Import Domain Execution AVLBindings.
+From SpecLessBench.QCIP Require Import Domain Execution AVLBindings.
 
 Theorem C_AVL_STACK :
   Equivalent AVL.valid AVL.encode impl_AVL_V0 impl_AVL_V1.

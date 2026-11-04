@@ -5,17 +5,21 @@
     "3f5f67df8c7d",
     "9cf3039460b3",
     "23646ef2aa5d",
-    "ae29dddf4b56"
+    "ae29dddf4b56",
+    "3d0305eba729",
+    "84788028340b",
+    "a30fc06eea32",
+    "77c916f59e2f"
   ],
-  "tool_wall_seconds": 37.13220846002514,
-  "cpu_user_seconds": 3.1500000000000004,
-  "cpu_system_seconds": 6.04,
-  "max_process_rss_bytes": 1692614656,
+  "tool_wall_seconds": 66.64475581602892,
+  "cpu_user_seconds": 6.33,
+  "cpu_system_seconds": 10.120000000000001,
+  "max_process_rss_bytes": 1700548608,
   "exact_process_tree_peak_bytes": null,
   "model_tokens": null,
   "model_tokens_reason": "shared authoring session usage is recorded once in the referenced batch",
   "shared_batch_id": "boundaries-v0.4",
   "historical_cost_complete": false,
   "failed_attempts": 0,
-  "latest_updated_utc": "2026-11-03T14:16:18.069789+00:00"
+  "latest_updated_utc": "2026-11-04T03:04:25.609833+00:00"
 }

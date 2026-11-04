@@ -1,7 +1,7 @@
 import Base64Goals
-namespace EqualBenchBase64Submission
-def A_BASE64_STREAM_equivalence : Prop := EqualBenchBase64.A_BASE64_STREAM_equivalence
-def A_BASE64_STREAM_refutationAt := EqualBenchBase64.A_BASE64_STREAM_refutationAt
-def A_BASE64_PADDING_equivalence : Prop := EqualBenchBase64.A_BASE64_PADDING_equivalence
-def A_BASE64_PADDING_refutationAt := EqualBenchBase64.A_BASE64_PADDING_refutationAt
-end EqualBenchBase64Submission
+namespace SpecLessBenchBase64Submission
+def A_BASE64_STREAM_equivalence : Prop := SpecLessBenchBase64.A_BASE64_STREAM_equivalence
+def A_BASE64_STREAM_refutationAt := SpecLessBenchBase64.A_BASE64_STREAM_refutationAt
+def A_BASE64_PADDING_equivalence : Prop := SpecLessBenchBase64.A_BASE64_PADDING_equivalence
+def A_BASE64_PADDING_refutationAt := SpecLessBenchBase64.A_BASE64_PADDING_refutationAt
+end SpecLessBenchBase64Submission

@@ -1,4 +1,4 @@
-# EqualBench candidate task cards
+# SpecLessBench candidate task cards
 
 This file covers the original 12-family/24-slot base slice. Ten additional data-structure and function-call families (30 slots) are in [complex-task-cards.md](complex-task-cards.md); see the combined [catalog](task-catalog.md).
 
@@ -56,7 +56,7 @@ For each family, `R` is the behavior reference, `E` is a replacement proposed fo
 - **Positive pair:** compare result matrices for all well-shaped inputs.
 - **Negative seed:** `m=1,n=k=2`, `A=[[1,0]]`, `B=[[1,2],[3,4]]`; the reference returns `[[1,2]]`, while the mutant returns `[[1,3]]`.
 - **Witness level:** W2, requires a nonsymmetric matrix and compatible dimensions that expose the transposed index.
-- **Reasoning label:** relate nested traversals, indexing, and accumulator state. AlgoVeri's `matrix_multiplication` is a candidate source; its own function-level contract is not the EqualBench goal.
+- **Reasoning label:** relate nested traversals, indexing, and accumulator state. AlgoVeri's `matrix_multiplication` is a candidate source; its own function-level contract is not the SpecLessBench goal.
 
 ### R-STR — naive first-match search versus KMP (L3)
 

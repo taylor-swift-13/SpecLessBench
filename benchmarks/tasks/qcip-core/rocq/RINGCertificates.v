@@ -2,7 +2,7 @@
 
  * and exclude curator IDs, expected branches, and witness seeds. *)
 
-From EqualBench.QCIP Require Import Domain Execution RINGBindings.
+From SpecLessBench.QCIP Require Import Domain Execution RINGBindings.
 
 Theorem task_01 :
   Certificate Ring.valid Ring.encode impl_RING_V0 impl_RING_V1.

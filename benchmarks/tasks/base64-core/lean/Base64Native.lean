@@ -1,5 +1,5 @@
 import Lean
-namespace EqualBenchBase64
+namespace SpecLessBenchBase64
 abbrev Words := List Int
 def get (xs : Words) (i : Nat) : Int := (xs[i]?).getD 0
 def alphabet (x : Nat) : Int :=
@@ -36,4 +36,4 @@ def Equivalent (valid : Words → Prop) (a b : Words → Option Words) : Prop :=
   ∀ x, valid x → ∃ o, a x=some o ∧ b x=some o
 def RefutationAt (valid : Words → Prop) (a b : Words → Option Words) (x oa ob : Words) : Prop :=
   valid x ∧ a x=some oa ∧ b x=some ob ∧ oa≠ob
-end EqualBenchBase64
+end SpecLessBenchBase64

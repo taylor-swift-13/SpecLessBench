@@ -1,5 +1,5 @@
 import Lean
-namespace EqualBenchBoundary
+namespace SpecLessBenchBoundary
 abbrev Words := List Int
 def getOr (xs : List α) (i : Nat) (fallback : α) := (xs[i]?).getD fallback
 def iz (xs : Words) (i : Nat) : Int := getOr xs i 0
@@ -299,4 +299,4 @@ def entry (family style : Nat) (xs : Words) : Option Words :=
   | 4 => tlv style xs | 5 => quotes style xs | 6 => packbits style xs | _ => path style xs
 def Equivalent (valid : Words → Prop) (a b : Words → Option Words) : Prop := ∀ x, valid x → ∃ o, a x=some o ∧ b x=some o
 def RefutationAt (valid : Words → Prop) (a b : Words → Option Words) (x oa ob : Words) : Prop := valid x ∧ a x=some oa ∧ b x=some ob ∧ oa≠ob
-end EqualBenchBoundary
+end SpecLessBenchBoundary

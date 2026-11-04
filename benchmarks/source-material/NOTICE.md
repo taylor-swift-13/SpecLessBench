@@ -4,4 +4,4 @@
 - `qcip/OUTPUT/xizi/` is QCIP's annotated/adapted source material with XiZi/CRTOS lineage. The original upstream `kernel/thread` source headers name copyright (c) 2020 AIIT XUOS Lab and Mulan PSL v2. The upstream license is retained in `licenses/XiZi-MulanPSL-2.0.txt`. These snapshots are not represented as unchanged CRTOS originals; the manifest pins QCIP bytes, and the curation review records adaptations and missing dependencies.
 - `vst/progs/` contains example programs from the Verified Software Toolchain. VST's license assigns BSD 2-Clause to these test/example programs. Copyright holders and full terms are retained in `licenses/VST-LICENSE.txt`.
 
-All source-system annotations remain curator material. No original verification claim is transferred to EqualBench by copying a source file.
+All source-system annotations remain curator material. No original verification claim is transferred to SpecLessBench by copying a source file.

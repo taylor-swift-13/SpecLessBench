@@ -1,16 +1,16 @@
-From EqualBenchAlgorithms Require Import BasicDomain Execution.
+From SpecLessBenchAlgorithms Require Import BasicDomain Execution.
 
-From EqualBenchAlgorithms.Generated Require Import REVERSE_V0.
+From SpecLessBenchAlgorithms.Generated Require Import REVERSE_V0.
 
 Definition impl_REVERSE_V0 : implementation :=
   {| program := REVERSE_V0.prog; input_symbol := REVERSE_V0._eb_input; output_symbol := REVERSE_V0._eb_output |}.
 
-From EqualBenchAlgorithms.Generated Require Import REVERSE_V1.
+From SpecLessBenchAlgorithms.Generated Require Import REVERSE_V1.
 
 Definition impl_REVERSE_V1 : implementation :=
   {| program := REVERSE_V1.prog; input_symbol := REVERSE_V1._eb_input; output_symbol := REVERSE_V1._eb_output |}.
 
-From EqualBenchAlgorithms.Generated Require Import REVERSE_V2.
+From SpecLessBenchAlgorithms.Generated Require Import REVERSE_V2.
 
 Definition impl_REVERSE_V2 : implementation :=
   {| program := REVERSE_V2.prog; input_symbol := REVERSE_V2._eb_input; output_symbol := REVERSE_V2._eb_output |}.

@@ -1,4 +1,4 @@
-From EqualBenchClassicsNative Require Import ClassicsGoals.
+From SpecLessBenchClassicsNative Require Import ClassicsGoals.
 Definition MST_TIED_WEIGHT_equivalence : Prop := ClassicsGoals.MST_TIED_WEIGHT_equivalence.
 Definition MST_TIED_WEIGHT_refutationAt := ClassicsGoals.MST_TIED_WEIGHT_refutationAt.
 Definition MST_UNIQUE_EDGES_equivalence : Prop := ClassicsGoals.MST_UNIQUE_EDGES_equivalence.

@@ -1,16 +1,16 @@
-From EqualBenchSystems Require Import SystemsDomain Execution.
+From SpecLessBenchSystems Require Import SystemsDomain Execution.
 
-From EqualBenchSystems.Generated Require Import LEASES_V0.
+From SpecLessBenchSystems.Generated Require Import LEASES_V0.
 
 Definition impl_LEASES_V0 : implementation :=
  {| program := LEASES_V0.prog; input_symbol := LEASES_V0._eb_input; output_symbol := LEASES_V0._eb_output |}.
 
-From EqualBenchSystems.Generated Require Import LEASES_V1.
+From SpecLessBenchSystems.Generated Require Import LEASES_V1.
 
 Definition impl_LEASES_V1 : implementation :=
  {| program := LEASES_V1.prog; input_symbol := LEASES_V1._eb_input; output_symbol := LEASES_V1._eb_output |}.
 
-From EqualBenchSystems.Generated Require Import LEASES_V2.
+From SpecLessBenchSystems.Generated Require Import LEASES_V2.
 
 Definition impl_LEASES_V2 : implementation :=
  {| program := LEASES_V2.prog; input_symbol := LEASES_V2._eb_input; output_symbol := LEASES_V2._eb_output |}.

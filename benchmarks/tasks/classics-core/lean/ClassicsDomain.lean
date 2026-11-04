@@ -1,5 +1,5 @@
 import ClassicsNative
-namespace EqualBenchClassics
+namespace SpecLessBenchClassics
 def between (x lo hi : Int) : Bool := lo ≤ x && x ≤ hi
 def validB (domain : Nat) (xs : Words) : Bool :=
   if domain == 2 then
@@ -16,6 +16,6 @@ def validB (domain : Nat) (xs : Words) : Bool :=
         (u != word xs (3+3*j) || v != word xs (4+3*j)) &&
         (domain != 1 || w != word xs (5+3*j))))
 def validFamilyB (family : Nat) (xs : Words) : Bool :=
-  if family == 0 then validB (word xs 0).toNat xs else validB 2 xs
+  if family == 0 then (word xs 0 == 0 || word xs 0 == 1) && validB (word xs 0).toNat xs else validB 2 xs
 def valid (domain : Nat) (xs : Words) : Prop := validB domain xs = true
-end EqualBenchClassics
+end SpecLessBenchClassics

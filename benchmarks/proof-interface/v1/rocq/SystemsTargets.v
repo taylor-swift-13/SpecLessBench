@@ -1,4 +1,4 @@
-From EqualBenchSystemsNative Require Import SystemsGoals.
+From SpecLessBenchSystemsNative Require Import SystemsGoals.
 Definition G_INVALIDATE_WORKLIST_equivalence : Prop := SystemsGoals.G_INVALIDATE_WORKLIST_equivalence.
 Definition G_INVALIDATE_WORKLIST_refutationAt := SystemsGoals.G_INVALIDATE_WORKLIST_refutationAt.
 Definition G_INVALIDATE_DIRTY_equivalence : Prop := SystemsGoals.G_INVALIDATE_DIRTY_equivalence.

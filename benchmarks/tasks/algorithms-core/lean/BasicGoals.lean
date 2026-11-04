@@ -1,5 +1,5 @@
 import BasicDomain
-namespace EqualBenchBasic
+namespace SpecLessBenchBasic
 def R_FAC_EQ : Prop := Equivalent (valid 0) (entry 0 0) (entry 0 1)
 def R_FAC_EQ_certificate : Prop := Certificate (valid 0) (entry 0 0) (entry 0 1)
 def R_FAC_CEX : Prop := Counterexample (valid 0) (entry 0 0) (entry 0 2)
@@ -24,4 +24,4 @@ def R_QUE_EQ : Prop := Equivalent (valid 5) (entry 5 0) (entry 5 1)
 def R_QUE_EQ_certificate : Prop := Certificate (valid 5) (entry 5 0) (entry 5 1)
 def R_QUE_CEX : Prop := Counterexample (valid 5) (entry 5 0) (entry 5 2)
 def R_QUE_CEX_certificate : Prop := Certificate (valid 5) (entry 5 0) (entry 5 2)
-end EqualBenchBasic
+end SpecLessBenchBasic

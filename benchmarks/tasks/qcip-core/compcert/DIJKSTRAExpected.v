@@ -2,7 +2,7 @@
 
  * declaration; it does not supply a certificate or an axiom. *)
 
-From EqualBench.QCIP Require Import Domain Execution DIJKSTRABindings.
+From SpecLessBench.QCIP Require Import Domain Execution DIJKSTRABindings.
 
 Theorem C_DIJK_SCAN :
   Equivalent Dijkstra.valid Dijkstra.encode impl_DIJKSTRA_V0 impl_DIJKSTRA_V1.

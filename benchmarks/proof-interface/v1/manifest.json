@@ -202,7 +202,7 @@
       "domain_index": 0,
       "tranche": "boundaries",
       "goal_module": "BoundaryTargets",
-      "lean_namespace": "EqualBenchBoundarySubmission",
+      "lean_namespace": "SpecLessBenchBoundarySubmission",
       "equivalence_goal": "C_TREE_STACK_equivalence",
       "refutation_at_goal": "C_TREE_STACK_refutationAt"
     },
@@ -214,7 +214,7 @@
       "domain_index": 0,
       "tranche": "boundaries",
       "goal_module": "BoundaryTargets",
-      "lean_namespace": "EqualBenchBoundarySubmission",
+      "lean_namespace": "SpecLessBenchBoundarySubmission",
       "equivalence_goal": "C_TREE_SUBTREE_equivalence",
       "refutation_at_goal": "C_TREE_SUBTREE_refutationAt"
     },
@@ -226,7 +226,7 @@
       "domain_index": 1,
       "tranche": "boundaries",
       "goal_module": "BoundaryTargets",
-      "lean_namespace": "EqualBenchBoundarySubmission",
+      "lean_namespace": "SpecLessBenchBoundarySubmission",
       "equivalence_goal": "C_UF_HALVING_equivalence",
       "refutation_at_goal": "C_UF_HALVING_refutationAt"
     },
@@ -238,7 +238,7 @@
       "domain_index": 1,
       "tranche": "boundaries",
       "goal_module": "BoundaryTargets",
-      "lean_namespace": "EqualBenchBoundarySubmission",
+      "lean_namespace": "SpecLessBenchBoundarySubmission",
       "equivalence_goal": "C_UF_ONEHOP_equivalence",
       "refutation_at_goal": "C_UF_ONEHOP_refutationAt"
     },
@@ -250,7 +250,7 @@
       "domain_index": 2,
       "tranche": "boundaries",
       "goal_module": "BoundaryTargets",
-      "lean_namespace": "EqualBenchBoundarySubmission",
+      "lean_namespace": "SpecLessBenchBoundarySubmission",
       "equivalence_goal": "C_PQ_REP_equivalence",
       "refutation_at_goal": "C_PQ_REP_refutationAt"
     },
@@ -262,7 +262,7 @@
       "domain_index": 3,
       "tranche": "boundaries",
       "goal_module": "BoundaryTargets",
-      "lean_namespace": "EqualBenchBoundarySubmission",
+      "lean_namespace": "SpecLessBenchBoundarySubmission",
       "equivalence_goal": "C_PQ_CHILD_equivalence",
       "refutation_at_goal": "C_PQ_CHILD_refutationAt"
     },
@@ -274,7 +274,7 @@
       "domain_index": 4,
       "tranche": "boundaries",
       "goal_module": "BoundaryTargets",
-      "lean_namespace": "EqualBenchBoundarySubmission",
+      "lean_namespace": "SpecLessBenchBoundarySubmission",
       "equivalence_goal": "C_EVAL_DP_equivalence",
       "refutation_at_goal": "C_EVAL_DP_refutationAt"
     },
@@ -286,7 +286,7 @@
       "domain_index": 4,
       "tranche": "boundaries",
       "goal_module": "BoundaryTargets",
-      "lean_namespace": "EqualBenchBoundarySubmission",
+      "lean_namespace": "SpecLessBenchBoundarySubmission",
       "equivalence_goal": "C_EVAL_SHORTCIRCUIT_equivalence",
       "refutation_at_goal": "C_EVAL_SHORTCIRCUIT_refutationAt"
     },
@@ -298,7 +298,7 @@
       "domain_index": 5,
       "tranche": "boundaries",
       "goal_module": "BoundaryTargets",
-      "lean_namespace": "EqualBenchBoundarySubmission",
+      "lean_namespace": "SpecLessBenchBoundarySubmission",
       "equivalence_goal": "B_TLV_CURSOR_equivalence",
       "refutation_at_goal": "B_TLV_CURSOR_refutationAt"
     },
@@ -310,7 +310,7 @@
       "domain_index": 5,
       "tranche": "boundaries",
       "goal_module": "BoundaryTargets",
-      "lean_namespace": "EqualBenchBoundarySubmission",
+      "lean_namespace": "SpecLessBenchBoundarySubmission",
       "equivalence_goal": "B_TLV_ENDIAN_equivalence",
       "refutation_at_goal": "B_TLV_ENDIAN_refutationAt"
     },
@@ -322,7 +322,7 @@
       "domain_index": 6,
       "tranche": "boundaries",
       "goal_module": "BoundaryTargets",
-      "lean_namespace": "EqualBenchBoundarySubmission",
+      "lean_namespace": "SpecLessBenchBoundarySubmission",
       "equivalence_goal": "B_QUOTE_SPANS_equivalence",
       "refutation_at_goal": "B_QUOTE_SPANS_refutationAt"
     },
@@ -334,7 +334,7 @@
       "domain_index": 6,
       "tranche": "boundaries",
       "goal_module": "BoundaryTargets",
-      "lean_namespace": "EqualBenchBoundarySubmission",
+      "lean_namespace": "SpecLessBenchBoundarySubmission",
       "equivalence_goal": "B_QUOTE_EMPTY_equivalence",
       "refutation_at_goal": "B_QUOTE_EMPTY_refutationAt"
     },
@@ -346,7 +346,7 @@
       "domain_index": 7,
       "tranche": "boundaries",
       "goal_module": "BoundaryTargets",
-      "lean_namespace": "EqualBenchBoundarySubmission",
+      "lean_namespace": "SpecLessBenchBoundarySubmission",
       "equivalence_goal": "B_PACK_SUFFIX_equivalence",
       "refutation_at_goal": "B_PACK_SUFFIX_refutationAt"
     },
@@ -358,7 +358,7 @@
       "domain_index": 7,
       "tranche": "boundaries",
       "goal_module": "BoundaryTargets",
-      "lean_namespace": "EqualBenchBoundarySubmission",
+      "lean_namespace": "SpecLessBenchBoundarySubmission",
       "equivalence_goal": "B_PACK_REPEAT_equivalence",
       "refutation_at_goal": "B_PACK_REPEAT_refutationAt"
     },
@@ -370,7 +370,7 @@
       "domain_index": 8,
       "tranche": "boundaries",
       "goal_module": "BoundaryTargets",
-      "lean_namespace": "EqualBenchBoundarySubmission",
+      "lean_namespace": "SpecLessBenchBoundarySubmission",
       "equivalence_goal": "B_PATH_REVERSE_equivalence",
       "refutation_at_goal": "B_PATH_REVERSE_refutationAt"
     },
@@ -382,7 +382,7 @@
       "domain_index": 8,
       "tranche": "boundaries",
       "goal_module": "BoundaryTargets",
-      "lean_namespace": "EqualBenchBoundarySubmission",
+      "lean_namespace": "SpecLessBenchBoundarySubmission",
       "equivalence_goal": "B_PATH_PARENTS_equivalence",
       "refutation_at_goal": "B_PATH_PARENTS_refutationAt"
     },
@@ -394,7 +394,7 @@
       "domain_index": 0,
       "tranche": "stateful",
       "goal_module": "StatefulTargets",
-      "lean_namespace": "EqualBenchStatefulSubmission",
+      "lean_namespace": "SpecLessBenchStatefulSubmission",
       "equivalence_goal": "S_FRAME_RING_equivalence",
       "refutation_at_goal": "S_FRAME_RING_refutationAt"
     },
@@ -406,7 +406,7 @@
       "domain_index": 0,
       "tranche": "stateful",
       "goal_module": "StatefulTargets",
-      "lean_namespace": "EqualBenchStatefulSubmission",
+      "lean_namespace": "SpecLessBenchStatefulSubmission",
       "equivalence_goal": "S_FRAME_EMPTY_equivalence",
       "refutation_at_goal": "S_FRAME_EMPTY_refutationAt"
     },
@@ -418,7 +418,7 @@
       "domain_index": 1,
       "tranche": "stateful",
       "goal_module": "StatefulTargets",
-      "lean_namespace": "EqualBenchStatefulSubmission",
+      "lean_namespace": "SpecLessBenchStatefulSubmission",
       "equivalence_goal": "S_TX_JOURNAL_equivalence",
       "refutation_at_goal": "S_TX_JOURNAL_refutationAt"
     },
@@ -430,7 +430,7 @@
       "domain_index": 1,
       "tranche": "stateful",
       "goal_module": "StatefulTargets",
-      "lean_namespace": "EqualBenchStatefulSubmission",
+      "lean_namespace": "SpecLessBenchStatefulSubmission",
       "equivalence_goal": "S_TX_COMMIT_equivalence",
       "refutation_at_goal": "S_TX_COMMIT_refutationAt"
     },
@@ -442,7 +442,7 @@
       "domain_index": 2,
       "tranche": "stateful",
       "goal_module": "StatefulTargets",
-      "lean_namespace": "EqualBenchStatefulSubmission",
+      "lean_namespace": "SpecLessBenchStatefulSubmission",
       "equivalence_goal": "S_LRU_LINKS_equivalence",
       "refutation_at_goal": "S_LRU_LINKS_refutationAt"
     },
@@ -454,7 +454,7 @@
       "domain_index": 2,
       "tranche": "stateful",
       "goal_module": "StatefulTargets",
-      "lean_namespace": "EqualBenchStatefulSubmission",
+      "lean_namespace": "SpecLessBenchStatefulSubmission",
       "equivalence_goal": "S_LRU_TOUCH_equivalence",
       "refutation_at_goal": "S_LRU_TOUCH_refutationAt"
     },
@@ -466,7 +466,7 @@
       "domain_index": 0,
       "tranche": "systems",
       "goal_module": "SystemsTargets",
-      "lean_namespace": "EqualBenchSystemsSubmission",
+      "lean_namespace": "SpecLessBenchSystemsSubmission",
       "equivalence_goal": "G_INVALIDATE_WORKLIST_equivalence",
       "refutation_at_goal": "G_INVALIDATE_WORKLIST_refutationAt"
     },
@@ -478,7 +478,7 @@
       "domain_index": 0,
       "tranche": "systems",
       "goal_module": "SystemsTargets",
-      "lean_namespace": "EqualBenchSystemsSubmission",
+      "lean_namespace": "SpecLessBenchSystemsSubmission",
       "equivalence_goal": "G_INVALIDATE_DIRTY_equivalence",
       "refutation_at_goal": "G_INVALIDATE_DIRTY_refutationAt"
     },
@@ -490,7 +490,7 @@
       "domain_index": 1,
       "tranche": "systems",
       "goal_module": "SystemsTargets",
-      "lean_namespace": "EqualBenchSystemsSubmission",
+      "lean_namespace": "SpecLessBenchSystemsSubmission",
       "equivalence_goal": "N_SCOPE_OVERLAY_equivalence",
       "refutation_at_goal": "N_SCOPE_OVERLAY_refutationAt"
     },
@@ -502,7 +502,7 @@
       "domain_index": 1,
       "tranche": "systems",
       "goal_module": "SystemsTargets",
-      "lean_namespace": "EqualBenchSystemsSubmission",
+      "lean_namespace": "SpecLessBenchSystemsSubmission",
       "equivalence_goal": "N_SCOPE_TOMBSTONE_equivalence",
       "refutation_at_goal": "N_SCOPE_TOMBSTONE_refutationAt"
     },
@@ -514,7 +514,7 @@
       "domain_index": 2,
       "tranche": "systems",
       "goal_module": "SystemsTargets",
-      "lean_namespace": "EqualBenchSystemsSubmission",
+      "lean_namespace": "SpecLessBenchSystemsSubmission",
       "equivalence_goal": "T_LEASE_WHEEL_equivalence",
       "refutation_at_goal": "T_LEASE_WHEEL_refutationAt"
     },
@@ -526,7 +526,7 @@
       "domain_index": 2,
       "tranche": "systems",
       "goal_module": "SystemsTargets",
-      "lean_namespace": "EqualBenchSystemsSubmission",
+      "lean_namespace": "SpecLessBenchSystemsSubmission",
       "equivalence_goal": "T_LEASE_STALE_equivalence",
       "refutation_at_goal": "T_LEASE_STALE_refutationAt"
     },
@@ -538,7 +538,7 @@
       "domain_index": 3,
       "tranche": "systems",
       "goal_module": "SystemsTargets",
-      "lean_namespace": "EqualBenchSystemsSubmission",
+      "lean_namespace": "SpecLessBenchSystemsSubmission",
       "equivalence_goal": "A_ALIGN_MINIMA_equivalence",
       "refutation_at_goal": "A_ALIGN_MINIMA_refutationAt"
     },
@@ -550,7 +550,7 @@
       "domain_index": 3,
       "tranche": "systems",
       "goal_module": "SystemsTargets",
-      "lean_namespace": "EqualBenchSystemsSubmission",
+      "lean_namespace": "SpecLessBenchSystemsSubmission",
       "equivalence_goal": "A_ALIGN_TIES_equivalence",
       "refutation_at_goal": "A_ALIGN_TIES_refutationAt"
     },
@@ -562,7 +562,7 @@
       "domain_index": 4,
       "tranche": "systems",
       "goal_module": "SystemsTargets",
-      "lean_namespace": "EqualBenchSystemsSubmission",
+      "lean_namespace": "SpecLessBenchSystemsSubmission",
       "equivalence_goal": "A_RESAMPLE_PHASE_equivalence",
       "refutation_at_goal": "A_RESAMPLE_PHASE_refutationAt"
     },
@@ -574,7 +574,7 @@
       "domain_index": 4,
       "tranche": "systems",
       "goal_module": "SystemsTargets",
-      "lean_namespace": "EqualBenchSystemsSubmission",
+      "lean_namespace": "SpecLessBenchSystemsSubmission",
       "equivalence_goal": "A_RESAMPLE_HALF_equivalence",
       "refutation_at_goal": "A_RESAMPLE_HALF_refutationAt"
     },
@@ -586,7 +586,7 @@
       "domain_index": 0,
       "tranche": "base64",
       "goal_module": "Base64Targets",
-      "lean_namespace": "EqualBenchBase64Submission",
+      "lean_namespace": "SpecLessBenchBase64Submission",
       "equivalence_goal": "A_BASE64_STREAM_equivalence",
       "refutation_at_goal": "A_BASE64_STREAM_refutationAt"
     },
@@ -598,7 +598,7 @@
       "domain_index": 0,
       "tranche": "base64",
       "goal_module": "Base64Targets",
-      "lean_namespace": "EqualBenchBase64Submission",
+      "lean_namespace": "SpecLessBenchBase64Submission",
       "equivalence_goal": "A_BASE64_PADDING_equivalence",
       "refutation_at_goal": "A_BASE64_PADDING_refutationAt"
     },
@@ -610,7 +610,7 @@
       "domain_index": 0,
       "tranche": "classics",
       "goal_module": "ClassicsTargets",
-      "lean_namespace": "EqualBenchClassicsSubmission",
+      "lean_namespace": "SpecLessBenchClassicsSubmission",
       "equivalence_goal": "MST_TIED_WEIGHT_equivalence",
       "refutation_at_goal": "MST_TIED_WEIGHT_refutationAt"
     },
@@ -622,7 +622,7 @@
       "domain_index": 1,
       "tranche": "classics",
       "goal_module": "ClassicsTargets",
-      "lean_namespace": "EqualBenchClassicsSubmission",
+      "lean_namespace": "SpecLessBenchClassicsSubmission",
       "equivalence_goal": "MST_UNIQUE_EDGES_equivalence",
       "refutation_at_goal": "MST_UNIQUE_EDGES_refutationAt"
     },
@@ -634,7 +634,7 @@
       "domain_index": 0,
       "tranche": "classics",
       "goal_module": "ClassicsTargets",
-      "lean_namespace": "EqualBenchClassicsSubmission",
+      "lean_namespace": "SpecLessBenchClassicsSubmission",
       "equivalence_goal": "MST_MAX_COUNTEREXAMPLE_equivalence",
       "refutation_at_goal": "MST_MAX_COUNTEREXAMPLE_refutationAt"
     },
@@ -646,7 +646,7 @@
       "domain_index": 2,
       "tranche": "classics",
       "goal_module": "ClassicsTargets",
-      "lean_namespace": "EqualBenchClassicsSubmission",
+      "lean_namespace": "SpecLessBenchClassicsSubmission",
       "equivalence_goal": "SORT_MERGE_equivalence",
       "refutation_at_goal": "SORT_MERGE_refutationAt"
     },
@@ -658,7 +658,7 @@
       "domain_index": 2,
       "tranche": "classics",
       "goal_module": "ClassicsTargets",
-      "lean_namespace": "EqualBenchClassicsSubmission",
+      "lean_namespace": "SpecLessBenchClassicsSubmission",
       "equivalence_goal": "SORT_UNSTABLE_equivalence",
       "refutation_at_goal": "SORT_UNSTABLE_refutationAt"
     }
@@ -674,78 +674,77 @@
   "files": [
     {
       "path": "compcert/Base64Targets.v",
-      "sha256": "188c7b0fbef9ecabcc43f5ef6357d2e20ef668f300d849e5b8ff35e3afe57006"
+      "sha256": "9c8a8e4dac57aad5df5d5ef89d32963234d21a4d720c038370509a864d765798"
     },
     {
       "path": "compcert/BoundaryTargets.v",
-      "sha256": "e4487601a6a7dfa65193a35d8e96c34562e2ed6924a51f25644e952aa648a549"
+      "sha256": "185e31781701e19cf29189ea0493190b639826fd0420070171f8ddf104ec81f2"
     },
     {
       "path": "compcert/BranchTargets.v",
-      "sha256": "5726d413e83318294864e9be4a9dd66be08327e5c40d9032411e0f13dd682902"
+      "sha256": "696e019927bd9d8be563abe4b863ef7a754a706a220c4b8116fb47283e35fd70"
     },
     {
       "path": "compcert/ClassicsTargets.v",
-      "sha256": "c29bd253ac6aeaa204ce363df6ea06673599c4308cfa2254054516f0a3b4368a"
+      "sha256": "664ce6e953d84b2306ca42b7cb038f29d4bada59a159245ad52c33284c070841"
     },
     {
       "path": "compcert/StatefulTargets.v",
-      "sha256": "b03b3fabf93f8060b30786fa219408f47ed1b673e2af9b663bd033d8c0b77583"
+      "sha256": "b6c8974d468eb69a06b3f203fe43d792c611381bea4692e293031a82f1f21f74"
     },
     {
       "path": "compcert/SystemsTargets.v",
-      "sha256": "22766eda8cb17eb01e5e13e8df177e3cb1c88cfce7977d0ccc2a7e80bc968fea"
+      "sha256": "5476d2bdfeba27aaa591587ad60758bedf986a91d47e85e91bdf1e7ebbedd058"
     },
     {
       "path": "lean/Base64Targets.lean",
-      "sha256": "200c11c82a647856e949fefa1c7f726f20f6f4a25b9e83ed374871ef0db991a9"
+      "sha256": "f940a1d95c2ed2003459074dd59c69b333428a0bdfff9ada77dd73e7480fe0e4"
     },
     {
       "path": "lean/BoundaryTargets.lean",
-      "sha256": "5c6d301cef7b40238eb0277a2d0f10926bfa3e006dc8fca67280b988ead3bf1c"
+      "sha256": "1219d182e26c76411a4e75b420f37e604675821ec6a53c1a7b61a26a88e2a767"
     },
     {
       "path": "lean/BranchTargets.lean",
-      "sha256": "8dc9196961251725a138c6812ad3a0f6dba74810f936a3c04cc61c49a400b6c4"
+      "sha256": "84842833ddae5d44d5ba0f57e5d8828341ffcb26bfb34d66cf143bb54bcde442"
     },
     {
       "path": "lean/ClassicsTargets.lean",
-      "sha256": "ee250785aae8a30782c7963dbef1accf8e394bd29a834c48ceb26990a8613a02"
+      "sha256": "f540d664f32cfb5442b1edc283d59e289ff2f02127bccde0e0cbce4ff212047f"
     },
     {
       "path": "lean/StatefulTargets.lean",
-      "sha256": "5da46f2c74a24ef243a044936c0fdfef6e263bb15c9710b01739891c1b8321fd"
+      "sha256": "21232edf2334d359f06ca8d3bed6313407a9027a38b596cba62d6533be3191d8"
     },
     {
       "path": "lean/SystemsTargets.lean",
-      "sha256": "f723d7fe3761c490854ffb649d350569c54dfc4a3ae96fc91377465c8454f431"
+      "sha256": "1ee1eac6e7e200e6d5d7a03d137e69ee407f92f6a82f9334a811798720d4f3d3"
     },
     {
       "path": "rocq/Base64Targets.v",
-      "sha256": "7f0ec6b61a724ce6821a4c687186473a0b2abe961878f74f6534a23faa46124e"
+      "sha256": "f0c61db1fcabcc02ceb804962815463a35db81df1e27f435ba7eb2351c84e50f"
     },
     {
       "path": "rocq/BoundaryTargets.v",
-      "sha256": "95f6ea8da2b7536572b8090443583ff08dcb9e44a9eb2e1559c7a642beb8bd8c"
+      "sha256": "a99f95b7e6eb1afcb611f7922a8dfab70ce15b63c1df22d6ec9d42e12ce1ad32"
     },
     {
       "path": "rocq/BranchTargets.v",
-      "sha256": "c6f62dc7e6cf2a6b09f376c98d2d71fb8153c456d3d30675694c141d76c9659a"
+      "sha256": "d240393df75859039b13166bdbcdff5a4d9c8391e18f129337f0e8c043988a2f"
     },
     {
       "path": "rocq/ClassicsTargets.v",
-      "sha256": "99dee694acd9a55f302d110fc377a9799776c49f832a087555507309fb2780c4"
+      "sha256": "3586937bc8378bb886b4c186710cfbcf8d7cc9f8c8dd72f36870e9ccfb6abca5"
     },
     {
       "path": "rocq/StatefulTargets.v",
-      "sha256": "4debf714efaa11c5330205d36f30104897eae3d658ccd97caa4561d28a223458"
+      "sha256": "0710b9c6fa2467f9fc975f03403eddc7805b130bea0844115941053086c03238"
     },
     {
       "path": "rocq/SystemsTargets.v",
-      "sha256": "e454de933ce2685e86dfd480d8207f46c7facfef7e89a2aa1b94c90e554036f1"
+      "sha256": "77b3d6bc3365d1a5ecbebb2e479d8cc262a51604d22ac9712a16b64b58550b01"
     }
   ],
-  "submission_validator_sha256": "4828dbb77a8425bdfedfc1ea39395d9bbcb002446fb1ecd34bfed0771eedc41a",
-  "validation_evidence": "validation.json",
+  "submission_validator_sha256": "d8a4a55ba89852a853cfdfad140c79e022f62390262d343b81cc4d981603127a",
   "validation_evidence_sha256": "3fa6d8e89f6f4f420f301431866530c0e373d6d8713bdb71195a539532429932"
 }

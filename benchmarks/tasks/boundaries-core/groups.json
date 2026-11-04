@@ -553,7 +553,7 @@
     },
     {
       "path": "c/Structures.h",
-      "sha256": "96b7011b677e38865d80aa09e6d297b9be35933d232a4b5f051d272609caa545"
+      "sha256": "0f00acaa58768bc942a2e44e924d1a2a89827691da171ad44a8ed81accb79b7c"
     },
     {
       "path": "c/eval/v0.c",
@@ -653,83 +653,83 @@
     },
     {
       "path": "lean/BoundaryDomain.lean",
-      "sha256": "b40118acf5caddf8c265bfa58311d5c5391a3fefb69be176428e46598ebbe5dc"
+      "sha256": "17cb703257eef13e72933fa21e3d9d8d2a0c6f7eb137d598bafaa9e2d574a800"
     },
     {
       "path": "lean/BoundaryGoals.lean",
-      "sha256": "a486cacabdb7496e72ac5db46b384b1fa57ba721c3ca2772164f1ed715021428"
+      "sha256": "34ce305da498fb34d9106d23982078f261e8cea5f8ffbc9bd07ca668b59314f3"
     },
     {
       "path": "lean/BoundaryNative.lean",
-      "sha256": "3a42d05935603bcfc609daba0fe36e907aa2290a1eaa525c6b9d86d57ffd4657"
+      "sha256": "effed50867e02d5b5c263acbbb434eb11a9a421b8156c0f3e4b8efff0170377b"
     },
     {
       "path": "lean/BoundaryRunner.lean",
-      "sha256": "7658a7eb4c048d48c4c872548ada34ccb46a3f5139de74fa1817443164e02fb3"
+      "sha256": "3f6c147553ed6aa736570d0a88c4ffc7bf4f7a6b77eb7ec6518f55e729b95ddc"
     },
     {
       "path": "lean/pending/B_PACK_REPEAT.lean.goal",
-      "sha256": "5abcf0797ffb4d5e1b7767098484f780b1da87cda464abcb066841d6fbdce30e"
+      "sha256": "5bb8301d4ec619757654945cd01406ca435af7bfce245556fb544950f9a7af17"
     },
     {
       "path": "lean/pending/B_PACK_SUFFIX.lean.goal",
-      "sha256": "1482fe0f690619d4e7f680a997b5a5585260cdcf8129a3fcc239726a69f8f890"
+      "sha256": "fb59635f0d7b5024a1e371656fdf610f371832457cbc80b00b146c510800160f"
     },
     {
       "path": "lean/pending/B_PATH_PARENTS.lean.goal",
-      "sha256": "2e8fc96586fdd0aba97bb58e2a2a226344ac4343cf4e4c9e914eb69b0bb59c2a"
+      "sha256": "ad5a614bec11c7706f7a5be0c26a2b806b622dd5bf805e648db7b2e4e1085dd2"
     },
     {
       "path": "lean/pending/B_PATH_REVERSE.lean.goal",
-      "sha256": "dbf1f6ed180330122100125f85b45cc7fe7e9dc069863c3c89bd2c663d3e20cf"
+      "sha256": "7addbcb59aa33a9018d0510e3f816ae5f89a99add8005b264273ef70e083aa93"
     },
     {
       "path": "lean/pending/B_QUOTE_EMPTY.lean.goal",
-      "sha256": "ad583d74bd46f7b741dc94e9f78a9d5ca8081f8f8dd1cefeec45539bf6ac8be6"
+      "sha256": "1a0d52fed31ffe1791ec40dba7dc6efff08f10a90a9a3f1c182a082bc6041e77"
     },
     {
       "path": "lean/pending/B_QUOTE_SPANS.lean.goal",
-      "sha256": "2b584ad7b9bbf8b9025d2c73f9e7b57c6febb66039e338988557bb2402c8dfc6"
+      "sha256": "dab551650e9c2ca0f16edc541a890afba662e7bf9a4ce88b77b70385feeaa7eb"
     },
     {
       "path": "lean/pending/B_TLV_CURSOR.lean.goal",
-      "sha256": "20dcbbd843e443192de921aef4fae6fc1d82851eae2fad733edd2c06baa3642f"
+      "sha256": "a8f99af630738854c82c43a6bf474705795db9fc7984f33267dbea6c9aa56dcb"
     },
     {
       "path": "lean/pending/B_TLV_ENDIAN.lean.goal",
-      "sha256": "6735df51033a0d3a9918b94566194d6399695b6d44fda522bd6d1a90e839edbf"
+      "sha256": "3bbd5d3c6af82cf588b9c378a1e80cfdded8b7f01420c0835b21ee864621923b"
     },
     {
       "path": "lean/pending/C_EVAL_DP.lean.goal",
-      "sha256": "38a12660983bd99555f846bb212db02ed98f8b0b8e8b03a6a2b5783e2c88638c"
+      "sha256": "26668d8bbaa7dc735e73740995260f2216fa9a82336cde9fafb7c23a99b32136"
     },
     {
       "path": "lean/pending/C_EVAL_SHORTCIRCUIT.lean.goal",
-      "sha256": "01bca385bb5951cc9331dd80afd97ec3df8b5336bd2b0e604f13303526f65148"
+      "sha256": "c9d50c3c7fc92571d0ca3d733f2e0eba6fccf0f484c01dff4073139af01c05a2"
     },
     {
       "path": "lean/pending/C_PQ_CHILD.lean.goal",
-      "sha256": "30fd9b62e255cb25b1a2f5ace383c7f131ede7cea4181b6aca9f0c2495514035"
+      "sha256": "0d6b3f1bd91acf07de75bf383d1fdd383be20790f30b5eaf64ab96a487d05b35"
     },
     {
       "path": "lean/pending/C_PQ_REP.lean.goal",
-      "sha256": "fb12da255352fe29b2acdb14e94b9c58f8daf5893d41b58ec2e0eee96f02e110"
+      "sha256": "d6383b17958edcd42e616ccf2b65a0887d955f5ef105d3246eb40bcc1c3cf2c6"
     },
     {
       "path": "lean/pending/C_TREE_STACK.lean.goal",
-      "sha256": "397b41ac51adb1f8c22764eb98843e0be85b3bdf3e33bb2bfde336b457370b29"
+      "sha256": "27b6d05c0d3497325c4de1a9d39b29bdbc17d08c89b1820e95c1d8b99b98db27"
     },
     {
       "path": "lean/pending/C_TREE_SUBTREE.lean.goal",
-      "sha256": "346c7b1248be43fd5c6cebdddb701f1c1a094335735ba67188ad2fdc9397dcd7"
+      "sha256": "bff295ed2f87b6442392e70539f8226b050656217711c01ca0a66317ae33739e"
     },
     {
       "path": "lean/pending/C_UF_HALVING.lean.goal",
-      "sha256": "fb9a6d62e8047c4a98d550164150ad34af4345f736c76734c6d607b2162f3a45"
+      "sha256": "4018d391a69cd068a3efaa94648fd21a1fee01f6a6e9a6ab581c4927bc0637ae"
     },
     {
       "path": "lean/pending/C_UF_ONEHOP.lean.goal",
-      "sha256": "92b099e7b47af8642fe12fc0b5ce39bd8031a920020b1d8b38a458f35b266828"
+      "sha256": "70452858f2b585b92dc74d0dc39c1ae04364db771b2c1f9de618219a9ded5179"
     },
     {
       "path": "rocq/BoundaryDomain.v",
@@ -737,11 +737,11 @@
     },
     {
       "path": "rocq/BoundaryExtract.v",
-      "sha256": "fb7cf01f71e83889bf95c0682981fc4ae603175fcb26a0797da53ef9a320e393"
+      "sha256": "acdd9c0393cc3bf326176dbcb80a585528cc6ec405377de4a67558a65b932a76"
     },
     {
       "path": "rocq/BoundaryGoals.v",
-      "sha256": "a03a7dec223a4e0c521cc35a53442b64cb9f367d24ebc22677937f9534ac274a"
+      "sha256": "09a1c2bdbd4ba189c6bf297fff27a664aa8ffdcd62043a755212b11c790ff532"
     },
     {
       "path": "rocq/BoundaryNative.v",
@@ -753,7 +753,7 @@
     },
     {
       "path": "compcert/EVALGoals.v",
-      "sha256": "e4701048ad470fca304957b40a19eaff16b081ddcff6ac3d8ed37517870f2c0e"
+      "sha256": "6e57c7bc0344e0663244560abdcf0d184c9fda2e3fd46b61e8b67d83edac6beb"
     },
     {
       "path": "compcert/Execution.v",
@@ -761,33 +761,33 @@
     },
     {
       "path": "compcert/PACKBITSGoals.v",
-      "sha256": "ff26f5c60ce16a9fb03ddddb14d98d21bc85a94a06b5fe3a948227b663aba0b1"
+      "sha256": "82fddc1c28e378c0e2c723c7caed617843bd9cd6d1d0690932442bdff7fcd689"
     },
     {
       "path": "compcert/PATHGoals.v",
-      "sha256": "13653f33200a3490ae5a9939e71bcf83024e0fa280b900d0cd00778d0a82aecd"
+      "sha256": "2f342939f0ed0e27dc9eac0556451be5f91d2280852e00f7c08936f3b858aa93"
     },
     {
       "path": "compcert/PRIORITYGoals.v",
-      "sha256": "807cd747d02bb78e2278399137260b8a61035823fb99b53ec8440ef1400fb9aa"
+      "sha256": "d2f6cc02e9dd3c94f83a89ce8a64d374856b0c6174fb38b39f198792dce1f937"
     },
     {
       "path": "compcert/QUOTESGoals.v",
-      "sha256": "5e0dfa65d0dadf1a5bff5e301dc5e764f4d6568fec8ca2369b478bcdb65a635b"
+      "sha256": "e5991f70e2ee4c7a1cab29efb66d5c38d807215097cf866d2f1cf1815984121b"
     },
     {
       "path": "compcert/TLVGoals.v",
-      "sha256": "d2d69404b1b89e29d639d9b456f56fd28d4f2681ce315fd8cb5b675013d76a73"
+      "sha256": "86578b2a372aec218d46c891cee28e113c77cc5d0411e10be020880f682462df"
     },
     {
       "path": "compcert/TREEGoals.v",
-      "sha256": "5557779241eb67b85ec88b7d82f27cc396ab155254408faf669e76af946ebd12"
+      "sha256": "81194a306451775f2d510a40c7ae92cc6d8e2c8ecf30a696114ab02807feadb6"
     },
     {
       "path": "compcert/UNIONFINDGoals.v",
-      "sha256": "89bbddaa753288378670a3b02dabd5bf4f9b998f1d124dad383fc1990f25c48b"
+      "sha256": "844049f377ea4b02c18dcd534c7956399cbc8d9729915dcc101f7342ed6021e1"
     }
   ],
   "c_environment_header": "../qcip-core/common/io.h",
-  "io_header_sha256": "ed3054989c3045aa35852ebe9d788f9927dbcf5b57a628723fc882d7e57dd43e"
+  "io_header_sha256": "1a15f691e351895887746a3039a9d6a56ec2e263489e7d8002dbb4ce6eebf954"
 }

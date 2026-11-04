@@ -1,4 +1,4 @@
 import Goals
-open EqualBench
-theorem solve : EqualBench.C_BST_ROTATE_certificate := by
+open SpecLessBench
+theorem solve : SpecLessBench.C_BST_ROTATE_certificate := by
   -- Pending: supply a proof here; no sorry/axiom is supplied.

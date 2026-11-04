@@ -38,30 +38,30 @@
     "source": "local Codex rollout event_msg/token_count total_token_usage",
     "session_id": "01a19d40-53c2-7811-8e47-5ac681576e1f",
     "construction_request_timestamp": "2026-11-04T02:43:26.639Z",
-    "provider_timestamp": "2026-11-04T02:59:28.793Z",
+    "provider_timestamp": "2026-11-04T03:20:01.485Z",
     "usage": {
-      "input_tokens": 119509219,
-      "cached_input_tokens": 117198208,
+      "input_tokens": 130542465,
+      "cached_input_tokens": 128185088,
       "cache_write_input_tokens": 0,
-      "output_tokens": 739514,
-      "reasoning_output_tokens": 323811,
-      "total_tokens": 120248733
+      "output_tokens": 764359,
+      "reasoning_output_tokens": 331995,
+      "total_tokens": 131306824
     },
-    "session_prefix_bytes": 17747565,
-    "session_prefix_sha256": "fa2de717c5ed13382e7d26c969304dfd7d187f135aa1fd90966ed294d4e19258"
+    "session_prefix_bytes": 18884736,
+    "session_prefix_sha256": "88121f63436d67a5e5961f0298782834454845cf71aba267eb19a108b7a9ce15"
   },
   "request_started_utc": "2026-11-04T02:43:26.639Z",
-  "elapsed_request_wall_seconds_to_snapshot": 974.396109,
+  "elapsed_request_wall_seconds_to_snapshot": 2211.129931,
   "elapsed_wall_scope": "whole shared request, including model/tool/idle latency; not per-group authoring attribution",
   "provider_token_delta": {
-    "input_tokens": 9453662,
-    "cached_input_tokens": 9352320,
+    "input_tokens": 20486908,
+    "cached_input_tokens": 20339200,
     "cache_write_input_tokens": 0,
-    "output_tokens": 23657,
-    "reasoning_output_tokens": 3916,
-    "total_tokens": 9477319
+    "output_tokens": 48502,
+    "reasoning_output_tokens": 12100,
+    "total_tokens": 20535410
   },
-  "usage_complete_through": "2026-11-04T02:59:28.793Z",
+  "usage_complete_through": "2026-11-04T03:20:01.485Z",
   "usage_status": "prefix-only until a post-turn snapshot; final reply may not yet be counted",
   "reasoning_tokens_rule": "reasoning_output_tokens is a subset of output_tokens; do not add twice"
 }

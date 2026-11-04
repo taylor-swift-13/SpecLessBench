@@ -1,4 +1,4 @@
 import BasicGoals
-open EqualBenchBasic
+open SpecLessBenchBasic
 theorem solve : R_SUM_EQ_certificate := by
   -- pending final certificate; no proof supplied

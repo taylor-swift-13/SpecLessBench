@@ -1,4 +1,4 @@
-From EqualBenchBoundaryNative Require Import BoundaryGoals.
+From SpecLessBenchBoundaryNative Require Import BoundaryGoals.
 Definition C_TREE_STACK_equivalence : Prop := BoundaryGoals.C_TREE_STACK_equivalence.
 Definition C_TREE_STACK_refutationAt := BoundaryGoals.C_TREE_STACK_refutationAt.
 Definition C_TREE_SUBTREE_equivalence : Prop := BoundaryGoals.C_TREE_SUBTREE_equivalence.

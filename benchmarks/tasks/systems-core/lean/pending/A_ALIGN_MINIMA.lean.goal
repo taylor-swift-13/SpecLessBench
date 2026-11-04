@@ -1,5 +1,5 @@
 import SystemsGoals
-open EqualBenchSystems
+open SpecLessBenchSystems
 -- Select equivalence or literal-witness refutation using the submission contract.
 -- Pending universal branch (no final proof supplied):
 theorem solve : A_ALIGN_MINIMA_equivalence := by

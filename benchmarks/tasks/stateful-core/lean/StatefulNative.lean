@@ -1,5 +1,5 @@
 import Lean
-namespace EqualBenchStateful
+namespace SpecLessBenchStateful
 abbrev Words := List Int
 abbrev Item := Int × Int
 def getOr (xs : List α) (i : Nat) (fallback : α) := (xs[i]?).getD fallback
@@ -195,4 +195,4 @@ def entry (family style : Nat) (xs : Words) : Option Words :=
   match family with | 0 => frames style xs | 1 => transactions style xs | _ => lru style xs
 def Equivalent (valid : Words → Prop) (a b : Words → Option Words) : Prop := ∀ x, valid x → ∃ o, a x=some o ∧ b x=some o
 def RefutationAt (valid : Words → Prop) (a b : Words → Option Words) (x oa ob : Words) : Prop := valid x ∧ a x=some oa ∧ b x=some ob ∧ oa≠ob
-end EqualBenchStateful
+end SpecLessBenchStateful
