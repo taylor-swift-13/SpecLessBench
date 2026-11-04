@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "scope": "exploratory Python only; not a benchmark task or proof",
+  "kind": "string",
+  "seed": 2026110410,
+  "unique_inputs": 13883,
+  "duplicate_inputs_removed": 54,
+  "input_stream_sha256": "a6b24e32be50407396341124d7bac3af824f1b89cfc8de01c563bec68d94f1be",
+  "random_attempts": 10000,
+  "unexpected_positive_differences": 0,
+  "negative_distinguishing_inputs": 782,
+  "witness": {
+    "input": [
+      [
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        1
+      ]
+    ],
+    "reference": 1,
+    "mutant": -1
+  },
+  "coverage": {
+    "empty_patterns": 700,
+    "matches": 3040
+  },
+  "wall_seconds": 0.20222257199930027,
+  "max_process_rss_bytes_linux": 17788928,
+  "script_sha256": "6bde1eeb5f94c2bbb553f19cdc476cc2df91de7223b5e2f55e3357c05933032f",
+  "final_proofs_attempted": false,
+  "lean_rocq_compcert_implementations": false
+}

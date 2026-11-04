@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "scope": "exploratory Python only; not a benchmark task or proof",
+  "kind": "graph",
+  "seed": 2026110409,
+  "unique_inputs": 11749,
+  "duplicate_inputs_removed": 2347,
+  "input_stream_sha256": "51405fa1bbd68c7c2a42ec57957682a8707ce323d61623415161170d4068a357",
+  "random_attempts": 10000,
+  "unexpected_positive_differences": 0,
+  "negative_distinguishing_inputs": 9214,
+  "witness": {
+    "input": [
+      [
+        null,
+        4
+      ],
+      [
+        0,
+        null
+      ]
+    ],
+    "reference": [
+      [
+        0,
+        4
+      ],
+      [
+        0,
+        0
+      ]
+    ],
+    "mutant": [
+      [
+        0,
+        4
+      ],
+      [
+        null,
+        0
+      ]
+    ]
+  },
+  "coverage": {
+    "zero_weight_graphs": 9214,
+    "unreachable_graphs": 1715
+  },
+  "wall_seconds": 1.4526912580040516,
+  "max_process_rss_bytes_linux": 17813504,
+  "script_sha256": "6bde1eeb5f94c2bbb553f19cdc476cc2df91de7223b5e2f55e3357c05933032f",
+  "final_proofs_attempted": false,
+  "lean_rocq_compcert_implementations": false
+}

@@ -44,6 +44,7 @@ Lean 原生版与Rocq原生版分别比较各自平台中的两个实现；C/Com
 - [五组图、状态和计算算法的输入观察与十题目标](benchmarks/tasks/systems-core/TASKS.md)
 - [Prim/Kruskal、稳定排序及三平台目标](benchmarks/tasks/classics-core/README.md)
 - [后续经典算法与数据结构候选](benchmarks/classic-candidates.md)
+- [经典算法候选的来源、观察语义与初步筛查](benchmarks/research/classic-comparisons.md)
 - [Base64 计算参考、RFC 向量与两题目标](benchmarks/tasks/base64-core/README.md)
 - [全局63个活跃上下文登记](benchmarks/active-groups.json)
 - [实际构造方法与停止条件](docs/construction-method.md)
