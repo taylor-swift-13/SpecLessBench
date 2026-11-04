@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "group_id": "shared-graphsuite-rocq",
+  "attempt_ids": [
+    "29d40f02b1ce",
+    "324c1e1f50ed",
+    "723c06898116",
+    "c062a3c57523",
+    "5c1c5b67b31e",
+    "bee73386894c",
+    "d8053daed750"
+  ],
+  "tool_wall_seconds": 4.86367676401278,
+  "cpu_user_seconds": 0.65,
+  "cpu_system_seconds": 1.07,
+  "max_process_rss_bytes": 336801792,
+  "exact_process_tree_peak_bytes": null,
+  "model_tokens": null,
+  "model_tokens_reason": "shared authoring session usage is recorded once in the referenced batch",
+  "shared_batch_id": "classics-graphs-v0.10",
+  "historical_cost_complete": false,
+  "failed_attempts": 0,
+  "latest_updated_utc": "2026-11-04T03:37:08.761639+00:00"
+}

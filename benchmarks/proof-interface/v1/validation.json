@@ -1,7 +1,7 @@
 {
-  "valid_counterexample_packages": 75,
-  "rejected_malformed_packages": 507,
-  "unproved_obligations_checked": 75,
+  "valid_counterexample_packages": 84,
+  "rejected_malformed_packages": 570,
+  "unproved_obligations_checked": 84,
   "batches": [
     {
       "valid_counterexample_packages": 18,
@@ -54,6 +54,15 @@
       "final_target_proofs_attempted": false,
       "gate_proofs_supplied": false,
       "scope": "classics tranche validator/generated obligation types; no final proofs or complete isolated grader"
+    },
+    {
+      "valid_counterexample_packages": 9,
+      "rejected_malformed_packages": 63,
+      "unproved_obligations_checked": 9,
+      "tranche": "graphsuite",
+      "final_target_proofs_attempted": false,
+      "gate_proofs_supplied": false,
+      "scope": "graphsuite tranche validator/generated obligation types; no final proofs or complete isolated grader"
     }
   ],
   "final_target_proofs_attempted": false,

@@ -661,6 +661,78 @@
       "lean_namespace": "SpecLessBenchClassicsSubmission",
       "equivalence_goal": "SORT_UNSTABLE_equivalence",
       "refutation_at_goal": "SORT_UNSTABLE_refutationAt"
+    },
+    {
+      "context_id": "APSP-01",
+      "group_id": "all-pairs-shortest-path",
+      "family": "apsp",
+      "family_index": 0,
+      "domain_index": 0,
+      "tranche": "graphsuite",
+      "goal_module": "GraphSuiteTargets",
+      "lean_namespace": "SpecLessBenchGraphSuiteSubmission",
+      "equivalence_goal": "APSP_01_equivalence",
+      "refutation_at_goal": "APSP_01_refutationAt"
+    },
+    {
+      "context_id": "APSP-02",
+      "group_id": "all-pairs-shortest-path",
+      "family": "apsp",
+      "family_index": 0,
+      "domain_index": 0,
+      "tranche": "graphsuite",
+      "goal_module": "GraphSuiteTargets",
+      "lean_namespace": "SpecLessBenchGraphSuiteSubmission",
+      "equivalence_goal": "APSP_02_equivalence",
+      "refutation_at_goal": "APSP_02_refutationAt"
+    },
+    {
+      "context_id": "SCC-01",
+      "group_id": "strongly-connected-components",
+      "family": "scc",
+      "family_index": 1,
+      "domain_index": 1,
+      "tranche": "graphsuite",
+      "goal_module": "GraphSuiteTargets",
+      "lean_namespace": "SpecLessBenchGraphSuiteSubmission",
+      "equivalence_goal": "SCC_01_equivalence",
+      "refutation_at_goal": "SCC_01_refutationAt"
+    },
+    {
+      "context_id": "SCC-02",
+      "group_id": "strongly-connected-components",
+      "family": "scc",
+      "family_index": 1,
+      "domain_index": 1,
+      "tranche": "graphsuite",
+      "goal_module": "GraphSuiteTargets",
+      "lean_namespace": "SpecLessBenchGraphSuiteSubmission",
+      "equivalence_goal": "SCC_02_equivalence",
+      "refutation_at_goal": "SCC_02_refutationAt"
+    },
+    {
+      "context_id": "BM-01",
+      "group_id": "boyer-moore-search",
+      "family": "search",
+      "family_index": 2,
+      "domain_index": 2,
+      "tranche": "graphsuite",
+      "goal_module": "GraphSuiteTargets",
+      "lean_namespace": "SpecLessBenchGraphSuiteSubmission",
+      "equivalence_goal": "BM_01_equivalence",
+      "refutation_at_goal": "BM_01_refutationAt"
+    },
+    {
+      "context_id": "BM-02",
+      "group_id": "boyer-moore-search",
+      "family": "search",
+      "family_index": 2,
+      "domain_index": 2,
+      "tranche": "graphsuite",
+      "goal_module": "GraphSuiteTargets",
+      "lean_namespace": "SpecLessBenchGraphSuiteSubmission",
+      "equivalence_goal": "BM_02_equivalence",
+      "refutation_at_goal": "BM_02_refutationAt"
     }
   ],
   "accepted_modes": [
@@ -689,6 +761,10 @@
       "sha256": "664ce6e953d84b2306ca42b7cb038f29d4bada59a159245ad52c33284c070841"
     },
     {
+      "path": "compcert/GraphSuiteTargets.v",
+      "sha256": "2cb85af2769fe8c0b96185eba4e0830e63ffd0a9e0ec30c939a611efbb19f036"
+    },
+    {
       "path": "compcert/StatefulTargets.v",
       "sha256": "b6c8974d468eb69a06b3f203fe43d792c611381bea4692e293031a82f1f21f74"
     },
@@ -711,6 +787,10 @@
     {
       "path": "lean/ClassicsTargets.lean",
       "sha256": "f540d664f32cfb5442b1edc283d59e289ff2f02127bccde0e0cbce4ff212047f"
+    },
+    {
+      "path": "lean/GraphSuiteTargets.lean",
+      "sha256": "c1682d838e3ee049d87501d45f86cc5bff47545ff948279cdcbfb5ae47159081"
     },
     {
       "path": "lean/StatefulTargets.lean",
@@ -737,6 +817,10 @@
       "sha256": "3586937bc8378bb886b4c186710cfbcf8d7cc9f8c8dd72f36870e9ccfb6abca5"
     },
     {
+      "path": "rocq/GraphSuiteTargets.v",
+      "sha256": "2e15ddfb433dc34015fc2c8721bd14c6aee620e3cf43e2e0461a64c98f987daf"
+    },
+    {
       "path": "rocq/StatefulTargets.v",
       "sha256": "0710b9c6fa2467f9fc975f03403eddc7805b130bea0844115941053086c03238"
     },
@@ -745,6 +829,6 @@
       "sha256": "77b3d6bc3365d1a5ecbebb2e479d8cc262a51604d22ac9712a16b64b58550b01"
     }
   ],
-  "submission_validator_sha256": "d8a4a55ba89852a853cfdfad140c79e022f62390262d343b81cc4d981603127a",
-  "validation_evidence_sha256": "3fa6d8e89f6f4f420f301431866530c0e373d6d8713bdb71195a539532429932"
+  "submission_validator_sha256": "4eac263bb86d127a3a962d8c664eb9b33402f196c0e4510ef43bce9fcdb8d148",
+  "validation_evidence_sha256": "871683d63a9278f441d4a1bb602641c38c72a9468b740d68b067adfa368a7769"
 }

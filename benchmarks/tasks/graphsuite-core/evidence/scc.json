@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "revision": "design-v0.10",
+  "group_id": "strongly-connected-components",
+  "family": "scc",
+  "case_count": 6442,
+  "program_executions": 57978,
+  "validity_evaluations": 12896,
+  "cases_by_origin": {
+    "witness": 1,
+    "boundary": 3,
+    "exhaustive": 512,
+    "random": 5926
+  },
+  "duplicate_inputs_removed": 4074,
+  "rng_seed": 2026110412,
+  "random_cases_requested": 10000,
+  "exhaustive_scope": "explicit small transport/content subdomains in graphsuite_cases.py; not entire domain",
+  "unexpected_disagreements": 0,
+  "negative_distinguishing_inputs": 5670,
+  "witness": {
+    "input": [
+      2,
+      0,
+      1,
+      0,
+      0
+    ],
+    "v0": [
+      4,
+      1,
+      0,
+      0,
+      1
+    ],
+    "v2": [
+      4,
+      1,
+      1,
+      1,
+      1
+    ]
+  },
+  "context_test_counts": {
+    "SCC-01": 6442,
+    "SCC-02": 6442
+  },
+  "reference_status_histogram": {
+    "separate-components": 5871,
+    "nontrivial-component": 4489,
+    "max-size": 1203
+  },
+  "corpus": "benchmarks/tasks/graphsuite-core/evidence/corpora/scc.jsonl.gz",
+  "corpus_sha256": "2cc49c28baeb62ca090cb0897dcd8069ef26fcb2c48ecf2da8eed8fb9d4a26e1",
+  "registry_sha256": "4119237bfec59e4c72cd40f523319239cb01757e109c990b952b995593c57316",
+  "generator_sha256": "3582d2b2ecc7ff529835bf572dfa4b64ab33d19947acb6eb82ba1500df466b3b",
+  "corpus_generator_sha256": "bf30332e9c76275f95986e1f019d3e9a3bbbb8b05f1887b6d28d8ee91d71ef1b",
+  "fixtures_sha256": "e3566b3a06430868d71e9287dfd6c6c520a3da027aabea01951d407ee131dc2f",
+  "clight_execution_tested": false,
+  "final_proof_attempted": false,
+  "smoke": false,
+  "status": "differential-passed; labels provisional"
+}

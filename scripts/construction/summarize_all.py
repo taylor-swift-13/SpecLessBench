@@ -34,23 +34,34 @@ def main():
     if classics_summary.exists():
         batches.append(json.loads(classics_summary.read_text()));names.append(classics_summary.name)
         registries.append(ROOT/"benchmarks/tasks/classics-core/groups.json")
+    graphsuite_summary=AUDIT/"summary-graphsuite-v0.10.json"
+    if graphsuite_summary.exists():
+        batches.append(json.loads(graphsuite_summary.read_text()));names.append(graphsuite_summary.name)
+        registries.append(ROOT/"benchmarks/tasks/graphsuite-core/groups.json")
+    policy_path=ROOT/"benchmarks/split-family-policy.json"
+    split_policy=json.loads(policy_path.read_text()) if policy_path.exists() else {"canonical_group_aliases":{}}
+    aliases=split_policy["canonical_group_aliases"]
     groups=[]
     for p in registries:
         reg=json.loads(p.read_text())
         for g in reg["groups"]:
             ids=[t.get("context_id",t.get("id")) for t in g["tasks"]]
-            groups.append({"group_id":g["group_id"],"contexts":ids,"platforms":["lean","rocq","compcert"],
+            original_split=g.get("split_group_id",g["group_id"])
+            groups.append({"group_id":g["group_id"],"split_group_id":aliases.get(original_split,original_split),"source_split_group_id":original_split,"contexts":ids,"platforms":["lean","rocq","compcert"],
                 "source_registry":p.relative_to(ROOT).as_posix(),"cost_record":"benchmarks/construction/groups/"+g["group_id"]+".json"})
     assert len({g["group_id"] for g in groups})==len(groups)==sum(b["implementation_groups"]for b in batches)
     contexts=[c for g in groups for c in g["contexts"]]; assert len(set(contexts))==len(contexts)==sum(b["semantic_contexts"]for b in batches)
     asts=sum(b["clight_ast_count"]if "clight_ast_count"in b else len(b["compcert"]["exports"])for b in batches)
-    entries=22+(4 if boundary_summary.exists()else 0)+(3 if stateful_summary.exists()else 0)+(5 if systems_summary.exists()else 0)+(1 if base64_summary.exists()else 0)+(2 if classics_summary.exists()else 0)
-    slots=54+(8 if boundary_summary.exists()else 0)+(6 if stateful_summary.exists()else 0)+(10 if systems_summary.exists()else 0)+(2 if base64_summary.exists()else 0)+(5 if classics_summary.exists()else 0)
+    entries=22+(4 if boundary_summary.exists()else 0)+(3 if stateful_summary.exists()else 0)+(5 if systems_summary.exists()else 0)+(1 if base64_summary.exists()else 0)+(2 if classics_summary.exists()else 0)+(2 if graphsuite_summary.exists()else 0)
+    slots=54+(8 if boundary_summary.exists()else 0)+(6 if stateful_summary.exists()else 0)+(10 if systems_summary.exists()else 0)+(2 if base64_summary.exists()else 0)+(5 if classics_summary.exists()else 0)+(6 if graphsuite_summary.exists()else 0)
     active={"schema_version":1,"updated_utc":now(),"groups":groups,"implementation_groups":len(groups),
         "semantic_contexts":len(contexts),"platform_instances":3*len(contexts),"clight_ast_count":asts,
         "catalog_entries":entries,"catalog_context_slots":slots,"remaining_candidate_slots":slots-len(contexts),
         "catalog_count_scope":"versioned plan entries/slots, not independent family or released-task counts",
         "final_proofs_required_at_construction":False,"reference_certified_contexts":0}
+    if policy_path.exists():
+        active["split_policy"]="benchmarks/split-family-policy.json"
+        active["split_policy_sha256"]=hashlib.sha256(policy_path.read_bytes()).hexdigest()
     interface=ROOT/"benchmarks/proof-interface/v1/manifest.json"
     if interface.exists():
         active["proof_acceptance_contract"]="benchmarks/proof-interface/v1/manifest.json"
@@ -71,6 +82,7 @@ def main():
         "all_historical_costs_known":False,"exact_concurrent_tree_memory_known":False,
         "batch_summaries":names}
     if classics_summary.exists(): total["shared_model_usage_batches"].append("batch-classics-v0.8.json")
+    if graphsuite_summary.exists(): total["shared_model_usage_batches"].append("batch-classics-graphs-v0.10.json")
     if interface.exists():
         total["proof_acceptance_contract"]="benchmarks/proof-interface/v1/manifest.json"
         total["proof_acceptance_contract_sha256"]=hashlib.sha256(interface.read_bytes()).hexdigest()

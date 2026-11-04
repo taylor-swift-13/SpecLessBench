@@ -12,7 +12,7 @@ SpecLessBench 聚焦于两个固定、结构不同的实现之间的行为对应
 
 ## 第一版赛道
 
-**每道任务提供 Lean、原生 Rocq 和 C/CompCert 三种平台实现。** 成本与划分以实现组为单位。当前 29 组包含 63 个语义任务，对应 189 个平台实例。构造阶段可根据差分反例修订实现和目标，并保留问题和修订记录。最终命题处于待证明状态。
+**每道任务提供 Lean、原生 Rocq 和 C/CompCert 三种平台实现。** 成本以实现组记录，相关实现组按共同家族划分。当前 32 组包含 69 个语义任务，对应 207 个平台实例。构造阶段可根据差分反例修订实现和目标，并保留问题和修订记录。最终命题处于待证明状态。
 
 - **原生 Rocq**：对两个 Rocq 函数提交全域等价证明，或提交满足输入前提且结果不同的输入及其证明。
 - **C／Clight**：以 `clightgen` 导出的 Clight AST 和 CompCert 语义为证明对象。提交行为等价证明，或提交相关初始状态和安全执行证书，证明返回值／指定输出内存观察不同。题目不要求整个最终内存相等。
@@ -25,7 +25,7 @@ Lean 原生版与Rocq原生版分别比较各自平台中的两个实现；C/Com
 
 最新五组包括依赖图传播、作用域遮蔽、租约续期、带宽对齐和定点重采样。对齐保留并列最优末步，重采样保留舍入、越界与饱和标记。来源清单区分 Ninja、Bash、Redis 的改编场景与 R AirPassengers 的实际数值。Clight AST 中直接调用链最长为 4–5 条边。修订目录共 35 个候选条目和 80 个上下文槽位。
 
-三平台定义与目标类型已检查，并导出 91 个实际 Clight AST。行为覆盖与输入域判断见 [累计汇总](benchmarks/construction/summary.json)。C 差分使用 GCC 和 ASan/UBSan，Clight 负责语义目标的类型检查。失败和重试计入成本，覆盖取选定的全量及补充语料。共享 token 精确拆组、编辑开销、并发进程树峰值和远端内存仍有计量缺口。
+三平台定义与目标类型已检查，并导出 100 个实际 Clight AST。行为覆盖与输入域判断见 [累计汇总](benchmarks/construction/summary.json)。C 差分使用 GCC 和 ASan/UBSan，Clight 负责语义目标的类型检查。失败和重试计入成本，覆盖取选定的全量及补充语料。共享 token 精确拆组、编辑开销、并发进程树峰值和远端内存仍有计量缺口。
 
 - [第一版设计](docs/v1-design.md)
 - [任务契约](docs/task-contract.md)
@@ -42,11 +42,12 @@ Lean 原生版与Rocq原生版分别比较各自平台中的两个实现；C/Com
 - [新增三组状态历史与多层调用任务](benchmarks/tasks/stateful-core/README.md)
 - [分帧、事务、缓存的具体输入观察与六题目标](benchmarks/tasks/stateful-core/TASKS.md)
 - [五组图、状态和计算算法的输入观察与十题目标](benchmarks/tasks/systems-core/TASKS.md)
+- [全源最短路、强连通分量和 Boyer–Moore 三平台任务](benchmarks/tasks/graphsuite-core/README.md)
 - [Prim/Kruskal、稳定排序及三平台目标](benchmarks/tasks/classics-core/README.md)
 - [后续经典算法与数据结构候选](benchmarks/classic-candidates.md)
 - [经典算法候选的来源、观察语义与初步筛查](benchmarks/research/classic-comparisons.md)
 - [Base64 计算参考、RFC 向量与两题目标](benchmarks/tasks/base64-core/README.md)
-- [全局63个活跃上下文登记](benchmarks/active-groups.json)
+- [全局69个活跃上下文登记](benchmarks/active-groups.json)
 - [实际构造方法与停止条件](docs/construction-method.md)
 - [显式分支、具体见证与受保护证明目标](benchmarks/proof-interface/v1/README.md)
 - [构造、修订、问题日志与严格成本口径](benchmarks/construction/PROTOCOL.md)

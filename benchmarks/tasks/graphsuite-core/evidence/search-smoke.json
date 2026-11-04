@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "revision": "design-v0.10",
+  "group_id": "boyer-moore-search",
+  "family": "search",
+  "case_count": 11,
+  "program_executions": 99,
+  "validity_evaluations": 36,
+  "cases_by_origin": {
+    "witness": 1,
+    "boundary": 2,
+    "random": 8
+  },
+  "duplicate_inputs_removed": 0,
+  "rng_seed": 2026110413,
+  "random_cases_requested": 8,
+  "exhaustive_scope": "explicit small transport/content subdomains in graphsuite_cases.py; not entire domain",
+  "unexpected_disagreements": 0,
+  "negative_distinguishing_inputs": 1,
+  "witness": {
+    "input": [
+      3,
+      2,
+      0,
+      0,
+      1,
+      0,
+      1
+    ],
+    "v0": [
+      1,
+      1
+    ],
+    "v2": [
+      1,
+      -1
+    ]
+  },
+  "context_test_counts": {
+    "BM-01": 11,
+    "BM-02": 11
+  },
+  "reference_status_histogram": {
+    "match": 5,
+    "empty-pattern": 2,
+    "max-text": 1
+  },
+  "corpus": "_build/classics-graphs-v0.10/runs/search-2026-11-04T033757232864+0000/cases.jsonl.gz",
+  "corpus_sha256": "440bf2cf27b61cecc5dab31ac9a8b5cd7ac2f9fc0fcc102da1ea5903dc48454a",
+  "registry_sha256": "4119237bfec59e4c72cd40f523319239cb01757e109c990b952b995593c57316",
+  "generator_sha256": "3582d2b2ecc7ff529835bf572dfa4b64ab33d19947acb6eb82ba1500df466b3b",
+  "corpus_generator_sha256": "bf30332e9c76275f95986e1f019d3e9a3bbbb8b05f1887b6d28d8ee91d71ef1b",
+  "fixtures_sha256": "e3566b3a06430868d71e9287dfd6c6c520a3da027aabea01951d407ee131dc2f",
+  "clight_execution_tested": false,
+  "final_proof_attempted": false,
+  "smoke": true,
+  "status": "differential-passed; labels provisional"
+}

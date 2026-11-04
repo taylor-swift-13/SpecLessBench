@@ -1,0 +1,337 @@
+{
+  "schema_version": 1,
+  "revision": "design-v0.10",
+  "curator_only": true,
+  "required_platforms": [
+    "lean",
+    "rocq",
+    "compcert"
+  ],
+  "final_target_proofs_required": false,
+  "groups": [
+    {
+      "group_id": "all-pairs-shortest-path",
+      "family": "apsp",
+      "family_index": 0,
+      "proof_level": "L4",
+      "revision": "design-v0.10",
+      "cost_batch": "classics-graphs-v0.10",
+      "split_group_id": "all-pairs-shortest-path",
+      "tasks": [
+        {
+          "id": "APSP-01",
+          "left": 0,
+          "right": 1,
+          "domain_index": 0,
+          "expected_polarity": "EQ",
+          "label_status": "provisional; not proved",
+          "theorem": "APSP_01",
+          "lean_goal": "lean/pending/APSP_01.lean.goal",
+          "rocq_goal": "rocq/GraphSuiteGoals.v::APSP_01",
+          "compcert_goal": "compcert/APSPGoals.v::APSP_01",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "id": "APSP-02",
+          "left": 0,
+          "right": 2,
+          "domain_index": 0,
+          "expected_polarity": "CEX",
+          "label_status": "provisional; not proved",
+          "theorem": "APSP_02",
+          "lean_goal": "lean/pending/APSP_02.lean.goal",
+          "rocq_goal": "rocq/GraphSuiteGoals.v::APSP_02",
+          "compcert_goal": "compcert/APSPGoals.v::APSP_02",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        }
+      ],
+      "variants": [
+        {
+          "id": "APSP_V0",
+          "c": "c/apsp/v0.c",
+          "lean": "GraphSuiteNative.entry 0 0",
+          "rocq": "GraphSuiteNative.entry 0 0",
+          "ast": "compcert/ast/APSP_V0.v"
+        },
+        {
+          "id": "APSP_V1",
+          "c": "c/apsp/v1.c",
+          "lean": "GraphSuiteNative.entry 0 1",
+          "rocq": "GraphSuiteNative.entry 0 1",
+          "ast": "compcert/ast/APSP_V1.v"
+        },
+        {
+          "id": "APSP_V2",
+          "c": "c/apsp/v2.c",
+          "lean": "GraphSuiteNative.entry 0 2",
+          "rocq": "GraphSuiteNative.entry 0 2",
+          "ast": "compcert/ast/APSP_V2.v"
+        }
+      ]
+    },
+    {
+      "group_id": "strongly-connected-components",
+      "family": "scc",
+      "family_index": 1,
+      "proof_level": "L4",
+      "revision": "design-v0.10",
+      "cost_batch": "classics-graphs-v0.10",
+      "split_group_id": "strongly-connected-components",
+      "tasks": [
+        {
+          "id": "SCC-01",
+          "left": 0,
+          "right": 1,
+          "domain_index": 1,
+          "expected_polarity": "EQ",
+          "label_status": "provisional; not proved",
+          "theorem": "SCC_01",
+          "lean_goal": "lean/pending/SCC_01.lean.goal",
+          "rocq_goal": "rocq/GraphSuiteGoals.v::SCC_01",
+          "compcert_goal": "compcert/SCCGoals.v::SCC_01",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "id": "SCC-02",
+          "left": 0,
+          "right": 2,
+          "domain_index": 1,
+          "expected_polarity": "CEX",
+          "label_status": "provisional; not proved",
+          "theorem": "SCC_02",
+          "lean_goal": "lean/pending/SCC_02.lean.goal",
+          "rocq_goal": "rocq/GraphSuiteGoals.v::SCC_02",
+          "compcert_goal": "compcert/SCCGoals.v::SCC_02",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        }
+      ],
+      "variants": [
+        {
+          "id": "SCC_V0",
+          "c": "c/scc/v0.c",
+          "lean": "GraphSuiteNative.entry 1 0",
+          "rocq": "GraphSuiteNative.entry 1 0",
+          "ast": "compcert/ast/SCC_V0.v"
+        },
+        {
+          "id": "SCC_V1",
+          "c": "c/scc/v1.c",
+          "lean": "GraphSuiteNative.entry 1 1",
+          "rocq": "GraphSuiteNative.entry 1 1",
+          "ast": "compcert/ast/SCC_V1.v"
+        },
+        {
+          "id": "SCC_V2",
+          "c": "c/scc/v2.c",
+          "lean": "GraphSuiteNative.entry 1 2",
+          "rocq": "GraphSuiteNative.entry 1 2",
+          "ast": "compcert/ast/SCC_V2.v"
+        }
+      ]
+    },
+    {
+      "group_id": "boyer-moore-search",
+      "family": "search",
+      "family_index": 2,
+      "proof_level": "L4",
+      "revision": "design-v0.10",
+      "cost_batch": "classics-graphs-v0.10",
+      "split_group_id": "first-match-search",
+      "tasks": [
+        {
+          "id": "BM-01",
+          "left": 0,
+          "right": 1,
+          "domain_index": 2,
+          "expected_polarity": "EQ",
+          "label_status": "provisional; not proved",
+          "theorem": "BM_01",
+          "lean_goal": "lean/pending/BM_01.lean.goal",
+          "rocq_goal": "rocq/GraphSuiteGoals.v::BM_01",
+          "compcert_goal": "compcert/SEARCHGoals.v::BM_01",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        },
+        {
+          "id": "BM-02",
+          "left": 0,
+          "right": 2,
+          "domain_index": 2,
+          "expected_polarity": "CEX",
+          "label_status": "provisional; not proved",
+          "theorem": "BM_02",
+          "lean_goal": "lean/pending/BM_02.lean.goal",
+          "rocq_goal": "rocq/GraphSuiteGoals.v::BM_02",
+          "compcert_goal": "compcert/SEARCHGoals.v::BM_02",
+          "final_proofs": {
+            "lean": null,
+            "rocq": null,
+            "compcert": null
+          }
+        }
+      ],
+      "variants": [
+        {
+          "id": "SEARCH_V0",
+          "c": "c/search/v0.c",
+          "lean": "GraphSuiteNative.entry 2 0",
+          "rocq": "GraphSuiteNative.entry 2 0",
+          "ast": "compcert/ast/SEARCH_V0.v"
+        },
+        {
+          "id": "SEARCH_V1",
+          "c": "c/search/v1.c",
+          "lean": "GraphSuiteNative.entry 2 1",
+          "rocq": "GraphSuiteNative.entry 2 1",
+          "ast": "compcert/ast/SEARCH_V1.v"
+        },
+        {
+          "id": "SEARCH_V2",
+          "c": "c/search/v2.c",
+          "lean": "GraphSuiteNative.entry 2 2",
+          "rocq": "GraphSuiteNative.entry 2 2",
+          "ast": "compcert/ast/SEARCH_V2.v"
+        }
+      ]
+    }
+  ],
+  "protected_files": [
+    {
+      "path": "c/GraphSuite.h",
+      "sha256": "81a95438aa5cad961f849f219c956346fbe7e49a90bf29b62b095143ed17a6c1"
+    },
+    {
+      "path": "c/apsp/v0.c",
+      "sha256": "bf8bf466cb61ff3cc62fbbc821ac38343696a565b3b9eb143571f71a20845b82"
+    },
+    {
+      "path": "c/apsp/v1.c",
+      "sha256": "b5c8bb1b0b732554a7aa0741f8f71e5e636bb768b0e3ecf9ff67d79cd61274ea"
+    },
+    {
+      "path": "c/apsp/v2.c",
+      "sha256": "5e8dd074eebcd289c8971074da29fa2dd655fe2a24c1f08efc460ea432552161"
+    },
+    {
+      "path": "c/scc/v0.c",
+      "sha256": "c989bd31fbaaf83c3f5e12a804ebd146b6ad95d8f4ebb8bc84bd3b4f7a1149c7"
+    },
+    {
+      "path": "c/scc/v1.c",
+      "sha256": "07899656e2b4e86a99066912a05c42b792a8cd904e089a320fef05a7eb304f6b"
+    },
+    {
+      "path": "c/scc/v2.c",
+      "sha256": "2cd2d3811526341519539e0f02c94772735c391e864fe1becbcc27f189f177f3"
+    },
+    {
+      "path": "c/search/v0.c",
+      "sha256": "ee9fb086f8d47d2d6bf14f463a89bbb1d77f0d662b488b091b04336b9ee91788"
+    },
+    {
+      "path": "c/search/v1.c",
+      "sha256": "f9d7776e5edeef5004557ca4a863876970ba99988317c8253d4c8d51ade871d0"
+    },
+    {
+      "path": "c/search/v2.c",
+      "sha256": "a3e3a4324152ff34f6cf7f2bbf6b04d68302d8a245d0d3d93694085590138966"
+    },
+    {
+      "path": "lean/GraphSuiteDomain.lean",
+      "sha256": "0b233d4a823fd1ab9fbbef161909276f6036e7f1f398c7aa354a06b05cdebcb0"
+    },
+    {
+      "path": "lean/GraphSuiteGoals.lean",
+      "sha256": "da446e0699cefd8576da6057c800b0f4e23093c95c4f20718d3a780bf0cb1525"
+    },
+    {
+      "path": "lean/GraphSuiteNative.lean",
+      "sha256": "c7bbb4aba479beacdc4f834b19398693c618779f97e0a2e1aaa06cd8d5efe626"
+    },
+    {
+      "path": "lean/GraphSuiteRunner.lean",
+      "sha256": "7343ece12b369d2aced43edc73ec25713b48238d86b3d11add27f5371e0e215e"
+    },
+    {
+      "path": "lean/pending/APSP_01.lean.goal",
+      "sha256": "daf70d7371bf68ec54d3a71081cb971c4181accabd36d54ae3520c57362a631d"
+    },
+    {
+      "path": "lean/pending/APSP_02.lean.goal",
+      "sha256": "f150df3ac5c70c381ff3fe1c85d3d987cd9b6b131f8a3502f2b3fe7df5608f05"
+    },
+    {
+      "path": "lean/pending/BM_01.lean.goal",
+      "sha256": "c04a5a5a3a967f1bcc43963a95ff339d807974e34f720bef3e7a2a496c747991"
+    },
+    {
+      "path": "lean/pending/BM_02.lean.goal",
+      "sha256": "bad0a45771d6dac5ecec9df555fc5105db5f2b04e5e85f3879c84c047031894f"
+    },
+    {
+      "path": "lean/pending/SCC_01.lean.goal",
+      "sha256": "b30779b60a432ad2bbdc03fe64273084521a85a726540ffb4f1c7763cbcf0947"
+    },
+    {
+      "path": "lean/pending/SCC_02.lean.goal",
+      "sha256": "d283a02cc691416af2adc7e268e8524a7069c3fd231fdd7ae982e898824bdad1"
+    },
+    {
+      "path": "rocq/GraphSuiteDomain.v",
+      "sha256": "26994a3553580fe906dbe4904117f72cd5710a580a2d36e717455dbcaa0a323e"
+    },
+    {
+      "path": "rocq/GraphSuiteExtract.v",
+      "sha256": "36dc181e2c5c582eb507123e3f27d9887c614fa35d989c01ca5eb56e8b0a9639"
+    },
+    {
+      "path": "rocq/GraphSuiteGoals.v",
+      "sha256": "a172b384c51b775ae00ce0b437748cf0beaa6ace6c55cb11c0ba78990e82fb6f"
+    },
+    {
+      "path": "rocq/GraphSuiteNative.v",
+      "sha256": "08eb3e55820f6f80d048c47787369e398f3b778dbe7b7cb120261d56f5f03037"
+    },
+    {
+      "path": "compcert/APSPGoals.v",
+      "sha256": "b608e6d7a73579644b097790b563fd2c42c50bc81eb52e3d6351a75fa34af2fc"
+    },
+    {
+      "path": "compcert/Execution.v",
+      "sha256": "d81e3e6d5dd762af0c447d635ad1c84d8a413f6bb37da4c64167860798264a44"
+    },
+    {
+      "path": "compcert/GraphSuiteDomain.v",
+      "sha256": "853599613cdfce3c4a1cd50bbefbf1ee6536ec9566f90ae0a48836a74ab2db83"
+    },
+    {
+      "path": "compcert/SCCGoals.v",
+      "sha256": "bb187831fe76bf25769a20baa753b82d0ffe52630a27f566a1d99850bc92ab46"
+    },
+    {
+      "path": "compcert/SEARCHGoals.v",
+      "sha256": "d3a9d4273a372d1b3fb26c11d6fe9eec6f59fbc614193e61813814c83c4771c1"
+    }
+  ],
+  "c_environment_header": "../qcip-core/common/io.h",
+  "io_header_sha256": "1a15f691e351895887746a3039a9d6a56ec2e263489e7d8002dbb4ce6eebf954"
+}

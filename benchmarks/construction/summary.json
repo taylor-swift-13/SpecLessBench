@@ -1,10 +1,10 @@
 {
   "schema_version": 2,
-  "updated_utc": "2026-11-04T03:20:00.895415+00:00",
-  "implementation_groups": 29,
-  "semantic_contexts": 63,
-  "platform_instances": 189,
-  "clight_ast_count": 91,
+  "updated_utc": "2026-11-04T03:46:09.990764+00:00",
+  "implementation_groups": 32,
+  "semantic_contexts": 69,
+  "platform_instances": 207,
+  "clight_ast_count": 100,
   "groups": [
     {
       "group_id": "qcip-bst-delete",
@@ -508,12 +508,72 @@
       "tool_wall_seconds": 228.10412635807006,
       "max_process_rss_bytes": 1652715520,
       "cost_record": "benchmarks/construction/groups/stable-record-sorting.json"
+    },
+    {
+      "group_id": "all-pairs-shortest-path",
+      "family": "apsp",
+      "unique_inputs": 12495,
+      "program_executions": 112455,
+      "validity_evaluations": 25002,
+      "duplicates_removed": 1604,
+      "negative_inputs": 4737,
+      "source_derived_inputs": 0,
+      "reference_event_counts": {
+        "zero-edge": 4737,
+        "unreachable": 1835,
+        "max-size": 1266
+      },
+      "unexpected_disagreements": 0,
+      "independent_oracle": "repeated Bellman\u2013Ford relaxation",
+      "tool_wall_seconds": 54.38166577700758,
+      "max_process_rss_bytes": 1649868800,
+      "cost_record": "benchmarks/construction/groups/all-pairs-shortest-path.json"
+    },
+    {
+      "group_id": "strongly-connected-components",
+      "family": "scc",
+      "unique_inputs": 6442,
+      "program_executions": 57978,
+      "validity_evaluations": 12896,
+      "duplicates_removed": 4074,
+      "negative_inputs": 5670,
+      "source_derived_inputs": 0,
+      "reference_event_counts": {
+        "separate-components": 5871,
+        "nontrivial-component": 4489,
+        "max-size": 1203
+      },
+      "unexpected_disagreements": 0,
+      "independent_oracle": "per-vertex breadth-first reachability",
+      "tool_wall_seconds": 32.41186677303631,
+      "max_process_rss_bytes": 1652330496,
+      "cost_record": "benchmarks/construction/groups/strongly-connected-components.json"
+    },
+    {
+      "group_id": "boyer-moore-search",
+      "family": "search",
+      "unique_inputs": 13859,
+      "program_executions": 124731,
+      "validity_evaluations": 27732,
+      "duplicates_removed": 81,
+      "negative_inputs": 794,
+      "source_derived_inputs": 0,
+      "reference_event_counts": {
+        "match": 3047,
+        "empty-pattern": 681,
+        "max-text": 201
+      },
+      "unexpected_disagreements": 0,
+      "independent_oracle": "direct Python slice scan",
+      "tool_wall_seconds": 48.107608720994904,
+      "max_process_rss_bytes": 1652314112,
+      "cost_record": "benchmarks/construction/groups/boyer-moore-search.json"
     }
   ],
-  "input_records": 398453,
-  "unique_inputs": 398296,
-  "program_executions": 3676923,
-  "domain_evaluations_after_qcip": 736628,
+  "input_records": 431249,
+  "unique_inputs": 431092,
+  "program_executions": 3972087,
+  "domain_evaluations_after_qcip": 802258,
   "unexpected_differences": 0,
   "labels_certified": false,
   "final_target_proofs_attempted": false,
@@ -524,7 +584,8 @@
     "batch-stateful-v0.5.json",
     "batch-systems-v0.6.json",
     "batch-base64-v0.7.json",
-    "batch-classics-v0.8.json"
+    "batch-classics-v0.8.json",
+    "batch-classics-graphs-v0.10.json"
   ],
   "cost_aggregation": "each group once, shared batch once; never multiply by targets/platforms",
   "coverage_scope": "selected successful full/supplemental evidence; smoke and failed/repeated attempts are retained as costs, not additional unique coverage",
@@ -537,14 +598,15 @@
     "summary-stateful-v0.5.json",
     "summary-systems-v0.6.json",
     "summary-base64-v0.7.json",
-    "summary-classics-v0.8.json"
+    "summary-classics-v0.8.json",
+    "summary-graphsuite-v0.10.json"
   ],
   "proof_acceptance_contract": "benchmarks/proof-interface/v1/manifest.json",
-  "proof_acceptance_contract_sha256": "3e561bd37b06892a3b5dc4da3db384dce87dccf94d077032f77f3da397498466",
+  "proof_acceptance_contract_sha256": "3988289b7f83b80adce6b507f3f8c7080a9494af14e2b121e9066ffbbf056642",
   "submission_interface_validation": {
-    "valid_counterexample_packages": 75,
-    "rejected_malformed_packages": 507,
-    "unproved_obligations_checked": 75,
+    "valid_counterexample_packages": 84,
+    "rejected_malformed_packages": 570,
+    "unproved_obligations_checked": 84,
     "batches": [
       {
         "valid_counterexample_packages": 18,
@@ -597,6 +659,15 @@
         "final_target_proofs_attempted": false,
         "gate_proofs_supplied": false,
         "scope": "classics tranche validator/generated obligation types; no final proofs or complete isolated grader"
+      },
+      {
+        "valid_counterexample_packages": 9,
+        "rejected_malformed_packages": 63,
+        "unproved_obligations_checked": 9,
+        "tranche": "graphsuite",
+        "final_target_proofs_attempted": false,
+        "gate_proofs_supplied": false,
+        "scope": "graphsuite tranche validator/generated obligation types; no final proofs or complete isolated grader"
       }
     ],
     "final_target_proofs_attempted": false,

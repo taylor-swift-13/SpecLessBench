@@ -1,9 +1,11 @@
 {
   "schema_version": 1,
-  "updated_utc": "2026-11-04T03:20:00.886046+00:00",
+  "updated_utc": "2026-11-04T03:46:09.979185+00:00",
   "groups": [
     {
       "group_id": "qcip-bst-delete",
+      "split_group_id": "qcip-bst-delete",
+      "source_split_group_id": "qcip-bst-delete",
       "contexts": [
         "C-BST-SUCCESSOR",
         "C-BST-ROTATE",
@@ -19,6 +21,8 @@
     },
     {
       "group_id": "qcip-avl-insert",
+      "split_group_id": "qcip-avl-insert",
+      "source_split_group_id": "qcip-avl-insert",
       "contexts": [
         "C-AVL-STACK",
         "C-AVL-FACTOR",
@@ -34,6 +38,8 @@
     },
     {
       "group_id": "qcip-xizi-ring",
+      "split_group_id": "qcip-xizi-ring",
+      "source_split_group_id": "qcip-xizi-ring",
       "contexts": [
         "C-RING-COPY",
         "C-RING-REP",
@@ -49,6 +55,8 @@
     },
     {
       "group_id": "qcip-dijkstra",
+      "split_group_id": "qcip-dijkstra",
+      "source_split_group_id": "qcip-dijkstra",
       "contexts": [
         "C-DIJK-SCAN",
         "C-DIJK-HEAP",
@@ -64,6 +72,8 @@
     },
     {
       "group_id": "basic-factorial",
+      "split_group_id": "basic-factorial",
+      "source_split_group_id": "basic-factorial",
       "contexts": [
         "R-FAC-EQ",
         "R-FAC-CEX"
@@ -78,6 +88,8 @@
     },
     {
       "group_id": "sequence-reversal",
+      "split_group_id": "sequence-reversal",
+      "source_split_group_id": "sequence-reversal",
       "contexts": [
         "R-REV-EQ",
         "R-REV-CEX"
@@ -92,6 +104,8 @@
     },
     {
       "group_id": "sequence-sum",
+      "split_group_id": "sequence-sum",
+      "source_split_group_id": "sequence-sum",
       "contexts": [
         "R-SUM-EQ",
         "R-SUM-CEX"
@@ -106,6 +120,8 @@
     },
     {
       "group_id": "matrix-product",
+      "split_group_id": "matrix-product",
+      "source_split_group_id": "matrix-product",
       "contexts": [
         "R-MAT-EQ",
         "R-MAT-CEX"
@@ -120,6 +136,8 @@
     },
     {
       "group_id": "first-match-search",
+      "split_group_id": "first-match-search",
+      "source_split_group_id": "first-match-search",
       "contexts": [
         "R-STR-EQ",
         "R-STR-CEX"
@@ -134,6 +152,8 @@
     },
     {
       "group_id": "queue-traces",
+      "split_group_id": "queue-traces",
+      "source_split_group_id": "queue-traces",
       "contexts": [
         "R-QUE-EQ",
         "R-QUE-CEX"
@@ -148,6 +168,8 @@
     },
     {
       "group_id": "pointer-tree-mirror",
+      "split_group_id": "pointer-tree-mirror",
+      "source_split_group_id": "pointer-tree-mirror",
       "contexts": [
         "C-TREE-STACK",
         "C-TREE-SUBTREE"
@@ -162,6 +184,8 @@
     },
     {
       "group_id": "union-find-connectivity",
+      "split_group_id": "union-find-connectivity",
+      "source_split_group_id": "union-find-connectivity",
       "contexts": [
         "C-UF-HALVING",
         "C-UF-ONEHOP"
@@ -176,6 +200,8 @@
     },
     {
       "group_id": "max-priority-queue",
+      "split_group_id": "max-priority-queue",
+      "source_split_group_id": "max-priority-queue",
       "contexts": [
         "C-PQ-REP",
         "C-PQ-CHILD"
@@ -190,6 +216,8 @@
     },
     {
       "group_id": "tagged-evaluator",
+      "split_group_id": "tagged-evaluator",
+      "source_split_group_id": "tagged-evaluator",
       "contexts": [
         "C-EVAL-DP",
         "C-EVAL-SHORTCIRCUIT"
@@ -204,6 +232,8 @@
     },
     {
       "group_id": "binary-tlv-decoder",
+      "split_group_id": "binary-tlv-decoder",
+      "source_split_group_id": "binary-tlv-decoder",
       "contexts": [
         "B-TLV-CURSOR",
         "B-TLV-ENDIAN"
@@ -218,6 +248,8 @@
     },
     {
       "group_id": "quoted-tokenizer",
+      "split_group_id": "quoted-tokenizer",
+      "source_split_group_id": "quoted-tokenizer",
       "contexts": [
         "B-QUOTE-SPANS",
         "B-QUOTE-EMPTY"
@@ -232,6 +264,8 @@
     },
     {
       "group_id": "packbits-decoder",
+      "split_group_id": "packbits-decoder",
+      "source_split_group_id": "packbits-decoder",
       "contexts": [
         "B-PACK-SUFFIX",
         "B-PACK-REPEAT"
@@ -246,6 +280,8 @@
     },
     {
       "group_id": "lexical-path-normalizer",
+      "split_group_id": "lexical-path-normalizer",
+      "source_split_group_id": "lexical-path-normalizer",
       "contexts": [
         "B-PATH-REVERSE",
         "B-PATH-PARENTS"
@@ -260,6 +296,8 @@
     },
     {
       "group_id": "incremental-frame-stream",
+      "split_group_id": "incremental-frame-stream",
+      "source_split_group_id": "incremental-frame-stream",
       "contexts": [
         "S-FRAME-RING",
         "S-FRAME-EMPTY"
@@ -274,6 +312,8 @@
     },
     {
       "group_id": "nested-transaction-store",
+      "split_group_id": "nested-transaction-store",
+      "source_split_group_id": "nested-transaction-store",
       "contexts": [
         "S-TX-JOURNAL",
         "S-TX-COMMIT"
@@ -288,6 +328,8 @@
     },
     {
       "group_id": "intrusive-lru-cache",
+      "split_group_id": "intrusive-lru-cache",
+      "source_split_group_id": "intrusive-lru-cache",
       "contexts": [
         "S-LRU-LINKS",
         "S-LRU-TOUCH"
@@ -302,6 +344,8 @@
     },
     {
       "group_id": "dependency-invalidation",
+      "split_group_id": "dependency-invalidation",
+      "source_split_group_id": "dependency-invalidation",
       "contexts": [
         "G-INVALIDATE-WORKLIST",
         "G-INVALIDATE-DIRTY"
@@ -316,6 +360,8 @@
     },
     {
       "group_id": "scoped-bindings",
+      "split_group_id": "scoped-bindings",
+      "source_split_group_id": "scoped-bindings",
       "contexts": [
         "N-SCOPE-OVERLAY",
         "N-SCOPE-TOMBSTONE"
@@ -330,6 +376,8 @@
     },
     {
       "group_id": "lease-expiration",
+      "split_group_id": "lease-expiration",
+      "source_split_group_id": "lease-expiration",
       "contexts": [
         "T-LEASE-WHEEL",
         "T-LEASE-STALE"
@@ -344,6 +392,8 @@
     },
     {
       "group_id": "banded-affine-alignment",
+      "split_group_id": "banded-affine-alignment",
+      "source_split_group_id": "banded-affine-alignment",
       "contexts": [
         "A-ALIGN-MINIMA",
         "A-ALIGN-TIES"
@@ -358,6 +408,8 @@
     },
     {
       "group_id": "fixed-point-resampling",
+      "split_group_id": "fixed-point-resampling",
+      "source_split_group_id": "fixed-point-resampling",
       "contexts": [
         "A-RESAMPLE-PHASE",
         "A-RESAMPLE-HALF"
@@ -372,6 +424,8 @@
     },
     {
       "group_id": "base64-encoding",
+      "split_group_id": "base64-encoding",
+      "source_split_group_id": "base64-encoding",
       "contexts": [
         "A-BASE64-STREAM",
         "A-BASE64-PADDING"
@@ -386,6 +440,8 @@
     },
     {
       "group_id": "minimum-spanning-forest",
+      "split_group_id": "minimum-spanning-forest",
+      "source_split_group_id": "minimum-spanning-forest",
       "contexts": [
         "MST-TIED-WEIGHT",
         "MST-UNIQUE-EDGES",
@@ -401,6 +457,8 @@
     },
     {
       "group_id": "stable-record-sorting",
+      "split_group_id": "stable-record-sorting",
+      "source_split_group_id": "stable-record-sorting",
       "contexts": [
         "SORT-MERGE",
         "SORT-UNSTABLE"
@@ -412,20 +470,70 @@
       ],
       "source_registry": "benchmarks/tasks/classics-core/groups.json",
       "cost_record": "benchmarks/construction/groups/stable-record-sorting.json"
+    },
+    {
+      "group_id": "all-pairs-shortest-path",
+      "split_group_id": "qcip-dijkstra",
+      "source_split_group_id": "all-pairs-shortest-path",
+      "contexts": [
+        "APSP-01",
+        "APSP-02"
+      ],
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ],
+      "source_registry": "benchmarks/tasks/graphsuite-core/groups.json",
+      "cost_record": "benchmarks/construction/groups/all-pairs-shortest-path.json"
+    },
+    {
+      "group_id": "strongly-connected-components",
+      "split_group_id": "strongly-connected-components",
+      "source_split_group_id": "strongly-connected-components",
+      "contexts": [
+        "SCC-01",
+        "SCC-02"
+      ],
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ],
+      "source_registry": "benchmarks/tasks/graphsuite-core/groups.json",
+      "cost_record": "benchmarks/construction/groups/strongly-connected-components.json"
+    },
+    {
+      "group_id": "boyer-moore-search",
+      "split_group_id": "first-match-search",
+      "source_split_group_id": "first-match-search",
+      "contexts": [
+        "BM-01",
+        "BM-02"
+      ],
+      "platforms": [
+        "lean",
+        "rocq",
+        "compcert"
+      ],
+      "source_registry": "benchmarks/tasks/graphsuite-core/groups.json",
+      "cost_record": "benchmarks/construction/groups/boyer-moore-search.json"
     }
   ],
-  "implementation_groups": 29,
-  "semantic_contexts": 63,
-  "platform_instances": 189,
-  "clight_ast_count": 91,
-  "catalog_entries": 37,
-  "catalog_context_slots": 85,
+  "implementation_groups": 32,
+  "semantic_contexts": 69,
+  "platform_instances": 207,
+  "clight_ast_count": 100,
+  "catalog_entries": 39,
+  "catalog_context_slots": 91,
   "remaining_candidate_slots": 22,
   "catalog_count_scope": "versioned plan entries/slots, not independent family or released-task counts",
   "final_proofs_required_at_construction": false,
   "reference_certified_contexts": 0,
+  "split_policy": "benchmarks/split-family-policy.json",
+  "split_policy_sha256": "0e1752d144bbd1bf16ef3e6ce08675e3346cd9ab6e32a0a542d2187ec0808e21",
   "proof_acceptance_contract": "benchmarks/proof-interface/v1/manifest.json",
-  "proof_acceptance_contract_sha256": "3e561bd37b06892a3b5dc4da3db384dce87dccf94d077032f77f3da397498466",
+  "proof_acceptance_contract_sha256": "3988289b7f83b80adce6b507f3f8c7080a9494af14e2b121e9066ffbbf056642",
   "bare_logical_disjunction_is_sufficient": false,
   "literal_counterexample_data_required": true
 }

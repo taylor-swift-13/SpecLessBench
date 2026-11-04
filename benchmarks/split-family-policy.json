@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "authority": "Curator-side canonical split-family mapping; applied after implementation-group manifests.",
+  "canonical_group_aliases": {
+    "all-pairs-shortest-path": "qcip-dijkstra"
+  },
+  "rationale": {
+    "all-pairs-shortest-path": "Repeated Dijkstra shares the shortest-path algorithm family with the existing single-source Dijkstra programs; keep them in one data split."
+  },
+  "independent_of_tested_implementation_or_goal": true
+}

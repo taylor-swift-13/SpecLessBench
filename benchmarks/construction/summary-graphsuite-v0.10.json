@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "revision": "design-v0.10",
+  "timestamp_utc": "2026-11-04T03:46:09.675653+00:00",
+  "implementation_groups": 3,
+  "semantic_contexts": 6,
+  "platform_instances": 18,
+  "clight_ast_count": 9,
+  "groups": [
+    {
+      "group_id": "all-pairs-shortest-path",
+      "family": "apsp",
+      "unique_inputs": 12495,
+      "program_executions": 112455,
+      "validity_evaluations": 25002,
+      "duplicates_removed": 1604,
+      "negative_inputs": 4737,
+      "source_derived_inputs": 0,
+      "reference_event_counts": {
+        "zero-edge": 4737,
+        "unreachable": 1835,
+        "max-size": 1266
+      },
+      "unexpected_disagreements": 0,
+      "independent_oracle": "repeated Bellman\u2013Ford relaxation",
+      "tool_wall_seconds": 54.38166577700758,
+      "max_process_rss_bytes": 1649868800,
+      "cost_record": "benchmarks/construction/groups/all-pairs-shortest-path.json"
+    },
+    {
+      "group_id": "strongly-connected-components",
+      "family": "scc",
+      "unique_inputs": 6442,
+      "program_executions": 57978,
+      "validity_evaluations": 12896,
+      "duplicates_removed": 4074,
+      "negative_inputs": 5670,
+      "source_derived_inputs": 0,
+      "reference_event_counts": {
+        "separate-components": 5871,
+        "nontrivial-component": 4489,
+        "max-size": 1203
+      },
+      "unexpected_disagreements": 0,
+      "independent_oracle": "per-vertex breadth-first reachability",
+      "tool_wall_seconds": 32.41186677303631,
+      "max_process_rss_bytes": 1652330496,
+      "cost_record": "benchmarks/construction/groups/strongly-connected-components.json"
+    },
+    {
+      "group_id": "boyer-moore-search",
+      "family": "search",
+      "unique_inputs": 13859,
+      "program_executions": 124731,
+      "validity_evaluations": 27732,
+      "duplicates_removed": 81,
+      "negative_inputs": 794,
+      "source_derived_inputs": 0,
+      "reference_event_counts": {
+        "match": 3047,
+        "empty-pattern": 681,
+        "max-text": 201
+      },
+      "unexpected_disagreements": 0,
+      "independent_oracle": "direct Python slice scan",
+      "tool_wall_seconds": 48.107608720994904,
+      "max_process_rss_bytes": 1652314112,
+      "cost_record": "benchmarks/construction/groups/boyer-moore-search.json"
+    }
+  ],
+  "unique_inputs": 32796,
+  "program_executions": 295164,
+  "validity_evaluations": 65630,
+  "unexpected_disagreements": 0,
+  "final_proof_attempted": false,
+  "labels_certified": false,
+  "source_registry_sha256": "4119237bfec59e4c72cd40f523319239cb01757e109c990b952b995593c57316",
+  "compcert_build_sha256": "e28cf016e88ba29d514f88dcc6b6c09d960769fe9e7279ecea2868a0a535bc8b",
+  "shared_usage_batch": "batch-classics-graphs-v0.10.json",
+  "coverage_scope": "selected full runs only; smoke and failed attempts retained in costs",
+  "clight_execution_tested": false,
+  "exact_process_tree_peak_bytes": null,
+  "hosted_inference_memory_bytes": null,
+  "uninstrumented_housekeeping_costs": null,
+  "uninstrumented_scope": "bootstrap, editing and preliminary direct compiler checks lack exact CPU and peak RSS; shared provider token counts are prefix-only and not allocated per group",
+  "shared_tool_wall_seconds": 61.70614003101946,
+  "shared_max_process_rss_bytes": 1663496192,
+  "tools_at_audit": [
+    {
+      "path": "/home/yangfp/.elan/toolchains/leanprover--lean4---v4.34.0/bin/lean",
+      "sha256": "e8baaa71855a616dc351028f3ad2200051b0671f423a1696a100e809302d5550"
+    },
+    {
+      "path": "/home/yangfp/.opam/qcp-8.20/bin/coqc",
+      "sha256": "9f68a71da4cadebead39952fb7e95628e8b818a7b13c76917a1f9219affbe46b"
+    },
+    {
+      "path": "/home/yangfp/.opam/five/bin/clightgen",
+      "sha256": "8064763950950ec9e48f44698ba056bb0cb53690e2a35c0c70bb148bdabdb7f2"
+    },
+    {
+      "path": "/home/yangfp/.opam/five/bin/coqc",
+      "sha256": "1d15c815891e425924a59c27d5e3c0e25f55880e3f64083463a511f0be3c7300"
+    },
+    {
+      "path": "/usr/bin/gcc",
+      "sha256": "821af3c74506283c179ca413bb33e6b528805a4dd8a5c09df125e5ad560a9e89"
+    },
+    {
+      "path": "/home/yangfp/.opam/qcp-8.20/bin/ocamlopt",
+      "sha256": "8a1c755544e22f7999b18553ba8f6d98d119d40a55ef76dd4ef8af84eeafcf09"
+    }
+  ]
+}

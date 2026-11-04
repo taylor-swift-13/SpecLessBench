@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "group_id": "shared-graphsuite",
+  "attempt_ids": [
+    "d56beba8a01d",
+    "e5405e0316ec",
+    "8bc09178a349",
+    "ba066e91a7d0",
+    "07d35a23d20e"
+  ],
+  "tool_wall_seconds": 37.161339779006084,
+  "cpu_user_seconds": 2.47,
+  "cpu_system_seconds": 6.13,
+  "max_process_rss_bytes": 1663496192,
+  "exact_process_tree_peak_bytes": null,
+  "model_tokens": null,
+  "model_tokens_reason": "shared authoring session usage is recorded once in the referenced batch",
+  "shared_batch_id": "classics-graphs-v0.10",
+  "historical_cost_complete": false,
+  "failed_attempts": 0,
+  "latest_updated_utc": "2026-11-04T03:37:03.674688+00:00"
+}

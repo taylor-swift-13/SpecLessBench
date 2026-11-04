@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "revision": "design-v0.10",
+  "group_id": "all-pairs-shortest-path",
+  "family": "apsp",
+  "case_count": 12495,
+  "program_executions": 112455,
+  "validity_evaluations": 25002,
+  "cases_by_origin": {
+    "witness": 1,
+    "boundary": 2,
+    "exhaustive": 4096,
+    "random": 8396
+  },
+  "duplicate_inputs_removed": 1604,
+  "rng_seed": 2026110411,
+  "random_cases_requested": 10000,
+  "exhaustive_scope": "explicit small transport/content subdomains in graphsuite_cases.py; not entire domain",
+  "unexpected_disagreements": 0,
+  "negative_distinguishing_inputs": 4737,
+  "witness": {
+    "input": [
+      2,
+      -1,
+      8,
+      0,
+      -1
+    ],
+    "v0": [
+      4,
+      0,
+      8,
+      0,
+      0
+    ],
+    "v2": [
+      4,
+      0,
+      8,
+      -1,
+      0
+    ]
+  },
+  "context_test_counts": {
+    "APSP-01": 12495,
+    "APSP-02": 12495
+  },
+  "reference_status_histogram": {
+    "zero-edge": 4737,
+    "unreachable": 1835,
+    "max-size": 1266
+  },
+  "corpus": "benchmarks/tasks/graphsuite-core/evidence/corpora/apsp.jsonl.gz",
+  "corpus_sha256": "d7c3e402bb6ade68e614737bf8b0690df92d0606d4e8ec0be6ab075aa874c3f5",
+  "registry_sha256": "4119237bfec59e4c72cd40f523319239cb01757e109c990b952b995593c57316",
+  "generator_sha256": "3582d2b2ecc7ff529835bf572dfa4b64ab33d19947acb6eb82ba1500df466b3b",
+  "corpus_generator_sha256": "bf30332e9c76275f95986e1f019d3e9a3bbbb8b05f1887b6d28d8ee91d71ef1b",
+  "fixtures_sha256": "e3566b3a06430868d71e9287dfd6c6c520a3da027aabea01951d407ee131dc2f",
+  "clight_execution_tested": false,
+  "final_proof_attempted": false,
+  "smoke": false,
+  "status": "differential-passed; labels provisional"
+}
