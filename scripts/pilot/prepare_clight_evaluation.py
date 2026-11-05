@@ -12,7 +12,17 @@ from single_task_runner import tree_digest
 def prepare_compcert(row):
     ctx = row['context']; family = ctx.get('family_index')
     tranche = ctx.get('tranche')
-    if not ((tranche == 'algorithms' and family in (1, 2, 3, 4, 5)) or (tranche == 'classics' and family in (0, 1)) or (tranche == 'base64' and family == 0)):
+    profiles = {
+        'algorithms': ('algorithms-core','BranchTargets','BasicDomain','SpecLessBenchAlgorithms','algorithms-v0.3',
+                       {1:'REVERSE',2:'SUM',3:'MATRIX',4:'SEARCH',5:'QUEUE'},('words','iz','in_range','valid')),
+        'classics': ('classics-core','ClassicsTargets','ClassicsDomain','SpecLessBenchClassics','classics-v0.8',
+                     {0:'FOREST',1:'SORTING'},('words','word','between','valid')),
+        'base64': ('base64-core','Base64Targets','Base64Domain','SpecLessBenchBase64','base64-v0.7',
+                   {0:'BASE64'},('words','get','validb','valid')),
+        'graphsuite': ('graphsuite-core','GraphSuiteTargets','GraphSuiteDomain','SpecLessBenchGraphSuite','classics-graphs-v0.10',
+                       {0:'APSP',1:'SCC',2:'SEARCH'},('words','word','between','valid')),
+    }
+    if tranche not in profiles or family not in profiles[tranche][5]:
         return None
     package = PACKAGES/row['pilot_id']/'compcert'
     if (package/'registry.json').exists():
@@ -24,13 +34,10 @@ def prepare_compcert(row):
         raise ValueError('Incomplete Clight preparation needs inspection: '+str(package))
     started = time.monotonic(); task = package/'task'; binding = package/'binding'
     task.mkdir(parents=True, mode=0o700); binding.mkdir(mode=0o700)
-    classical = tranche == 'classics'; encoding = tranche == 'base64'; aliases = classical or encoding
-    source = ROOT/'benchmarks/tasks'/({'classics':'classics-core','base64':'base64-core'}.get(tranche,'algorithms-core'))/'compcert'
-    target_file = 'Base64Targets.v' if encoding else ('ClassicsTargets.v' if classical else 'BranchTargets.v')
-    targets = (ROOT/'benchmarks/proof-interface/compcert'/target_file).read_text()
-    stem = 'BASE64' if encoding else ({0: 'FOREST', 1: 'SORTING'} if classical else {1: 'REVERSE', 2: 'SUM', 3: 'MATRIX', 4: 'SEARCH', 5: 'QUEUE'})[family]
-    domain_module = 'Base64Domain' if encoding else ('ClassicsDomain' if classical else 'BasicDomain')
-    namespace = 'SpecLessBenchBase64' if encoding else ('SpecLessBenchClassics' if classical else 'SpecLessBenchAlgorithms')
+    folder, target, domain_module, namespace, cache, stems, domain_names = profiles[tranche]
+    aliases = tranche != 'algorithms';source = ROOT/'benchmarks/tasks'/folder/'compcert'
+    targets = (ROOT/'benchmarks/proof-interface/compcert'/(target+'.v')).read_text()
+    stem = stems[family]
     goals = (source/(stem+'Goals.v')).read_text()
     def target_definition(name):
         match = re.search(r'^Definition '+re.escape(name)+r'\b.*?(?=\nDefinition |\Z)', goals if aliases else targets, re.M | re.S)
@@ -62,14 +69,14 @@ def prepare_compcert(row):
             raise ValueError('Expected one non-executable AST metadata module')
         (task/(public_name+'.v')).write_text(ast)
         logs.append(compile_at(task, public_name)); logs.append(compile_at(binding, module))
-        cfile = ROOT/('_build/base64-v0.7/compcert' if encoding else ('_build/classics-v0.8/compcert' if classical else '_build/algorithms-v0.3/compcert'))/(module+'.c')
+        cfile = ROOT/'_build'/cache/'compcert'/(module+'.c')
         export = next(e for e in exports if e['module'] == module)
         if hashlib.sha256(cfile.read_bytes()).hexdigest() != export['preprocessed_sha256']:
             raise ValueError('Readable C source does not match frozen AST build provenance')
         (task/(public_name+'.c')).write_bytes(cfile.read_bytes())
     native = (PACKAGES/row['pilot_id']/'rocq/task/Task.v').read_text()
     domain = []
-    for name in (('words','get','validb','valid') if encoding else (('words', 'word', 'between', 'valid') if classical else ('words', 'iz', 'in_range', 'valid'))):
+    for name in domain_names:
         match = re.search(r'^Definition '+name+r'\b.*?(?=\n(?:Definition|Fixpoint) |\Z)', native, re.M | re.S)
         if not match:
             raise ValueError('Missing isolated input domain')
