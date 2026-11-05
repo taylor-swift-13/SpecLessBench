@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "frozen_manifest_sha256": "61280d98b6dfae775bb5410e9cd3d268811251deb61ee5f3c14fd26172a55b6f",
+  "reference_only_families": ["F-b176f6126a4169ab"],
+  "reason": "The entire factorial family is public gold-standard reference material and is excluded from evaluation on every platform.",
+  "evaluation_contexts": 69,
+  "evaluation_families": 29,
+  "evaluation_platform_instances": 207
+}

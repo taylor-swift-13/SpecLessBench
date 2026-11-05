@@ -30,7 +30,7 @@ def main():
     if run.is_symlink() or not run.is_dir():raise SystemExit('Expected a real private run directory')
     report=json.loads((run/'report.json').read_text());cfg=report['configuration']
     task=cfg['task_id'];platform=cfg['platform'];claim=cfg['claim']
-    if not re.fullmatch(r'P-[0-9a-f]{16}',task) or (platform,claim)!=('lean','equivalence'):
+    if not re.fullmatch(r'P-[0-9a-f]{16}',task) or platform!='lean' or claim not in ('equivalence','counterexample'):
         raise SystemExit('Unsupported task or goal')
     if not re.fullmatch(r'[0-9]{8}T[0-9]{6}Z-[0-9a-f]{12}',run.name):raise SystemExit('Invalid run id')
     for name in FILES:

@@ -20,8 +20,9 @@ def at_commit(commit,path):
     return subprocess.check_output(['git','show',commit+':'+path],cwd=ROOT)
 
 
-def source_binding(commit):
-    text=at_commit(commit,'scripts/pilot/prepare_factorial.py').decode('utf-8')
+def source_binding(commit,claim):
+    name='prepare_factorial.py' if claim=='equivalence' else 'prepare_factorial_cex.py'
+    text=at_commit(commit,'scripts/pilot/'+name).decode('utf-8')
     module=ast.parse(text)
     values={}
     for node in module.body:
@@ -29,8 +30,12 @@ def source_binding(commit):
             values['binding']=ast.literal_eval(node.value)
     if 'binding' not in values:raise SystemExit('Missing frozen binding proof')
     branch=at_commit(commit,'benchmarks/proof-interface/v1/lean/BranchTargets.lean').decode('utf-8')
-    expected='def R_FAC_EQ_equivalence : Prop := SpecLessBenchBasic.Equivalent (SpecLessBenchBasic.valid 0) (SpecLessBenchBasic.entry 0 0) (SpecLessBenchBasic.entry 0 1)'
+    expected=('def R_FAC_EQ_equivalence : Prop := SpecLessBenchBasic.Equivalent (SpecLessBenchBasic.valid 0) (SpecLessBenchBasic.entry 0 0) (SpecLessBenchBasic.entry 0 1)' if claim=='equivalence' else
+              'def R_FAC_CEX_equivalence : Prop := SpecLessBenchBasic.Equivalent (SpecLessBenchBasic.valid 0) (SpecLessBenchBasic.entry 0 0) (SpecLessBenchBasic.entry 0 2)')
     if branch.splitlines().count(expected)!=1:raise SystemExit('Frozen named target differs from checked binding')
+    if claim=='counterexample':
+        expected_refutation='def R_FAC_CEX_refutationAt (x oa ob : List Int) : Prop :=\n  SpecLessBenchBasic.valid 0 x ∧ SpecLessBenchBasic.entry 0 0 x = some oa ∧ SpecLessBenchBasic.entry 0 2 x = some ob ∧ oa ≠ ob'
+        if expected_refutation not in branch:raise SystemExit('Frozen refutation target differs from binding')
     binding=values['binding']
     if binding.count('example : Task.equivalent =')!=1 or binding.count('example (x oa ob : Task.Words)')!=1:
         raise SystemExit('Unexpected binding proof structure')
@@ -77,6 +82,8 @@ def main():
         p=root/name
         if p.is_symlink() or hashlib.sha256(p.read_bytes()).hexdigest()!=digest:raise SystemExit('Checksum mismatch: '+name)
     report=json.loads((root/'report.json').read_text());events=(root/'events.jsonl').read_text().splitlines()
+    claim=report['configuration']['claim']
+    if claim not in ('equivalence','counterexample'):raise SystemExit('Unsupported theorem branch')
     if hashlib.sha256((root/'Submission.lean').read_bytes()).hexdigest()!=report['proof_sha256']:
         raise SystemExit('Proof does not match report')
     commit=report['benchmark_commit']
@@ -117,6 +124,10 @@ def main():
             if {m.name for m in members}!={'Task.lean','Task.olean','Obligation.lean','Obligation.olean'} or not all(m.isfile() for m in members):
                 raise SystemExit('Unexpected task archive members')
             for member in members:(package/member.name).write_bytes(tar.extractfile(member).read())
+        if claim=='counterexample':
+            expected='import Task\nnamespace Obligation\ndef goal : Prop := Task.refutationAt [1] [1,1] [1,0]\nend Obligation\n'
+            if (package/'Obligation.lean').read_text()!=expected or report['configuration'].get('fixed_witness')!={'input':[1],'left_observation':[1,1],'right_observation':[1,0]}:
+                raise SystemExit('Counterexample witness does not match the fixed literal target')
         expected_task=report['configuration']['task_package_sha256']
         if tree_digest(package)!=expected_task:raise SystemExit('Task package hash mismatch')
         result=grade('lean',package,expected_task,root/'Submission.lean')
@@ -128,7 +139,7 @@ def main():
             (original/name).write_bytes(at_commit(commit,'benchmarks/tasks/algorithms-core/lean/'+name))
         for name in ('Task','Obligation'):compile_lean(package,name,[package])
         for name in ('BasicNative','BasicDomain'):compile_lean(original,name,[original])
-        (binding/'Binding.lean').write_text(source_binding(commit),encoding='utf-8')
+        (binding/'Binding.lean').write_text(source_binding(commit,claim),encoding='utf-8')
         compile_lean(binding,'Binding',[package,original])
         (binding/'BindingAudit.lean').write_text(BINDING_AUDIT,encoding='utf-8')
         env=dict(os.environ,LEAN_PATH=':'.join(map(str,(binding,package,original))))

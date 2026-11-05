@@ -27,7 +27,7 @@ def main():
                                   ['/usr/bin/python3', '-c', code], 'Submission.lean')
             assert attempt['status'] == 'exited' and attempt['exit_code'] == 0, attempt
             proof.write_bytes(attempt['proof'])
-            result = score(meta['pilot_id'], 'lean', proof)
+            result = score(meta['pilot_id'], 'lean', proof,purpose='reference')
             assert result['status'] == 'rejected', (name, result)
             print(name, result['status'], flush=True)
     print('Real frozen Lean equivalence goal tested; no valid task proof attempted.')

@@ -1,8 +1,15 @@
 # Reference reports
 
-Each evaluation report is stored separately by task, platform, theorem branch, and run ID. Reports contain proof attempts and answers: **published reference tasks are not suitable as blind evaluation items**.
+Each evaluation report is stored separately by task, platform, theorem branch, and run ID. Reports contain proof attempts and answers. The entire factorial family is reserved as public reference material and excluded from the evaluation set on all three platforms; see the [evaluation policy](../pilot-v1/evaluation-policy.json).
 
-The current reference is [the Lean factorial equivalence run](P-dbec465c356ed73d/lean/equivalence/20261105T145347Z-3b3c245438c5/report.md). Its source-rebuilt goal, binding to the frozen theorem, proof, and allowed axiom dependencies have been checked by Lean; it is a gold-standard proof reference for this theorem under the stated axiom policy. This is one theorem, not a benchmark-wide evaluation. Other tasks and branches are not yet connected to the scorer; no reports are claimed for them.
+The existing reference is [the Lean factorial equivalence run](P-dbec465c356ed73d/lean/equivalence/20261105T145347Z-3b3c245438c5/report.md). Its source-rebuilt goal, binding to the frozen theorem, proof, and allowed axiom dependencies have been checked by Lean; it is a gold-standard proof reference for this theorem under the stated axiom policy. This is one theorem, not a benchmark-wide evaluation; unproved branches remain pending.
+
+| Factorial reference theorem | Lean | Rocq | CompCert |
+| --- | --- | --- | --- |
+| Recursive / accumulator equivalence | [Proved](P-dbec465c356ed73d/lean/equivalence/20261105T145347Z-3b3c245438c5/report.md) | Pending | Pending |
+| Reference / mutant counterexample | Pending | Pending | Pending |
+
+All six instances are excluded from evaluation regardless of proof status. The Lean counterexample package uses a fixed witness; it is intended as a certificate example, not as evidence that an agent discovered the witness.
 
 Each run includes the task snapshot, prompt, Codex configuration, observed CLI model catalog, toolchain fingerprint, model and tool events, event receipt times, proof, checker output, resource measurements, machine-readable report, and checksums. Codex was configured to use `gpt-6-luna` with `medium` reasoning, and the CLI catalog included both. This is the recorded model configuration for the run; the service did not provide an independently verifiable server-side model version. Hidden model reasoning, hosted-model memory, and actual billing are unavailable. The OS, system libraries, and model backend are not locked.
 

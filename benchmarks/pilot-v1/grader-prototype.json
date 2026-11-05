@@ -43,6 +43,12 @@
       "script_sha256": "d4c015bf7eac2e36ac5a42601ff3a51c1fe5a9991972762318a3687959076218",
       "exit_code": 0,
       "output": "All 213 unpublished task/platform entries fail closed; no proof ran.\n"
+    },
+    {
+      "test": "test_selection.py",
+      "script_sha256": "6532f9259591091c6f56194e6879c6035b26afcd610be9ec224fc05ce6040d26",
+      "exit_code": 0,
+      "output": "All six factorial platform instances are reference-only; 69 contexts remain eligible.\n"
     }
   ],
   "components": [
@@ -68,18 +74,26 @@
     },
     {
       "path": "scripts/pilot/release_gate.py",
-      "sha256": "6089ad5648719ac1651fdf2aec4267dbde0318e22ed8ec78a95bca7f04641dc4"
+      "sha256": "b49aca9debd44f0202ca521af9b01d840b40bbf7cbcc8dd3957487a9f768c4f3"
+    },
+    {
+      "path": "scripts/pilot/selection.py",
+      "sha256": "5e43eb4dab38b17a8784bc687ccb5dea734308f310ce771947cced28664ab04e"
+    },
+    {
+      "path": "benchmarks/pilot-v1/evaluation-policy.json",
+      "sha256": "334b640ed6ec7a262c7c15c84a3ca667ff56faac24143269621145a3bca141f7"
     },
     {
       "path": "scripts/pilot/test_prototype.py",
-      "sha256": "8a583c075f0082d9d1888cb3b6a933666cc66b070d8cbf56f3ab9bef5c5afca1"
+      "sha256": "37f05ff9c5ba7187b4bfd35b2afb10471101faa144d9bf350c41f33e5432b73f"
     }
   ],
   "scope": "these regression tests use toy propositions and OS boundary probes only",
   "job_telemetry": "benchmarks/construction/pilot-jobs.jsonl",
   "release_ready": false,
   "limitations": [
-    "only one Lean equivalence task has a solver package; the remaining tasks and branches are not integrated",
+    "only factorial Lean reference branches have solver packages; evaluation tasks and other platforms are not integrated",
     "Rocq assumptions text and loader require adversarial review",
     "user-scoped cgroup availability and kernel security vary by deployment; fallback must fail closed",
     "bwrap and shared host kernel are not a complete hostile-code security boundary"

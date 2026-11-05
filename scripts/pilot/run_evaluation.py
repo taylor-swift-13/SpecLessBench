@@ -21,6 +21,7 @@ from pathlib import Path
 from release_gate import score
 from single_task_runner import run_attempt, tree_digest
 from sandbox import TOOLCHAINS
+from selection import selection
 
 ROOT = Path(__file__).resolve().parents[2]
 BUILD = ROOT / '_build/pilot-v1/first-real-task'
@@ -69,7 +70,7 @@ def checker_summary(platform, stages):
                             'status':('passed' if gate and gate['exit_code']==0 and audit and audit['status']=='exited' and audit['exit_code'] in (0,1) else 'not_completed') if platform=='lean' else ('passed' if any(s['stage']=='independent_kernel' and s['status']=='exited' and s['exit_code']==0 for s in stages) else 'not_completed')}}
 
 
-def run(task, platform, claim, config_path, output_root=DEFAULT_RUNS):
+def run(task, platform, claim, config_path, output_root=DEFAULT_RUNS, purpose='evaluation'):
     config_bytes=Path(config_path).read_bytes()
     config = json.loads(config_bytes)
     safe_config(config)
@@ -87,6 +88,8 @@ def run(task, platform, claim, config_path, output_root=DEFAULT_RUNS):
         except (InvalidOperation,TypeError):raise ValueError('Invalid pricing rate')
     meta = json.loads((BUILD / 'registry.json').read_text())
     if (task, platform, claim) != (meta['pilot_id'], meta['platform'], meta['claim']): raise ValueError('Task, platform, or theorem is not prepared')
+    if purpose not in ('evaluation','reference'):raise ValueError('Unknown run purpose')
+    if purpose=='evaluation' and task in {x['pilot_id'] for x in selection()[1]}: raise ValueError('The entire factorial family is reference-only, not an evaluation task')
     package = BUILD / 'task'
     if tree_digest(package) != meta['public_sha256']: raise ValueError('Task package digest mismatch')
     command = [arg.replace('{prompt}', PROMPT) for arg in command]
@@ -123,7 +126,7 @@ def run(task, platform, claim, config_path, output_root=DEFAULT_RUNS):
         proof = attempt.get('proof')
         if proof is not None:
             proof_path=run_dir/'Submission.lean';proof_path.write_bytes(proof)
-            t=time.monotonic();result=score(task,platform,proof_path,trace=checker);checker_time=time.monotonic()-t
+            t=time.monotonic();result=score(task,platform,proof_path,trace=checker,purpose=purpose);checker_time=time.monotonic()-t
         elif attempt['status'] in ('supervisor-timeout','timeout','timed-out'):
             result={'status':'timeout','detail':'agent timed out without a submission'}
         elif attempt['status'] in ('isolation-unavailable',):
@@ -162,7 +165,7 @@ def run(task, platform, claim, config_path, output_root=DEFAULT_RUNS):
     dump(run_dir/'resources.json',resources)
     metadata={k:agent.get(k) for k in ('name','version','model_provider','model_name','model_version','reasoning_effort','temperature')}
     metadata['configured']=agent
-    report={'schema_version':1,'run_id':run_dir.name,'started_utc':started,'ended_utc':ended,
+    report={'schema_version':1,'run_id':run_dir.name,'purpose':purpose,'started_utc':started,'ended_utc':ended,
             'task':{'id':task,'platform':platform,'claim':claim,'theorem':'Obligation.goal','package_sha256':meta['public_sha256'],'benchmark_commit':git_revision(),'benchmark_tracked_files_dirty':git_dirty()},
             'agent':metadata,'limits':{'wall_seconds':timeout,'network':'disabled','memory_cgroup_bytes':3*1024**3,'pids_limit':64},
             'environment':{'system':host_platform.platform(),'toolchain':'Lean 4.34.0' if platform=='lean' else None,
@@ -184,7 +187,8 @@ def main():
     parser.add_argument('--task',required=True);parser.add_argument('--platform',required=True,choices=('lean','rocq','compcert'))
     parser.add_argument('--claim',required=True,choices=('equivalence','counterexample'));parser.add_argument('--config',required=True)
     parser.add_argument('--output-root',default=str(DEFAULT_RUNS))
-    args=parser.parse_args();directory,report=run(args.task,args.platform,args.claim,args.config,args.output_root)
+    parser.add_argument('--reference',action='store_true',help='Run a reference-only task outside the evaluation set')
+    args=parser.parse_args();directory,report=run(args.task,args.platform,args.claim,args.config,args.output_root,purpose='reference' if args.reference else 'evaluation')
     print(json.dumps({'run_dir':str(directory),'status':report['result']['status']}))
     raise SystemExit(0 if report['result']['status']=='accepted' else 1)
 

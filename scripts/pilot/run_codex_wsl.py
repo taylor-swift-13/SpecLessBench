@@ -3,6 +3,7 @@
 Codex may contact its model service. Its tools run under a second sandbox that
 denies network and access to the temporary Codex authentication directory.
 """
+import argparse
 import datetime as dt
 import hashlib
 import json
@@ -22,7 +23,6 @@ from release_gate import score
 from single_task_runner import tree_digest
 
 ROOT=Path(__file__).resolve().parents[2]
-TASK=ROOT/'_build/pilot-v1/first-real-task'
 BASE=Path.home()/'.local/share/speclessbench/runs'
 AUTH=Path.home()/'.codex/auth.json'
 CODEX=Path.home()/'.nvm/versions/node/v20.17.0/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/bin/codex'
@@ -62,6 +62,11 @@ def fingerprint_tree(root):
 
 def main():
     global ACTIVE_RUN
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--reference-task',choices=('factorial-equivalence','factorial-counterexample'),default='factorial-equivalence')
+    args=parser.parse_args()
+    task_name='first-real-task' if args.reference_task=='factorial-equivalence' else 'factorial-cex'
+    task_root=ROOT/'_build/pilot-v1'/task_name
     os.umask(0o077)
     preflight_started=now();preflight_clock=time.monotonic()
     proxies=[]
@@ -71,9 +76,10 @@ def main():
             parsed=urllib.parse.urlsplit(value)
             if parsed.username or parsed.password:raise RuntimeError('Credential-bearing proxy values are not supported')
             proxies.extend(['--setenv',key,value])
-    meta=json.loads((TASK/'registry.json').read_text())
-    if (meta['platform'],meta['claim'])!=('lean','equivalence'):raise SystemExit('Wrong prepared theorem')
-    if tree_digest(TASK/'task')!=meta['public_sha256']:raise SystemExit('Task digest mismatch')
+    meta=json.loads((task_root/'registry.json').read_text())
+    expected_claim='equivalence' if args.reference_task=='factorial-equivalence' else 'counterexample'
+    if (meta['platform'],meta['claim'])!=('lean',expected_claim):raise SystemExit('Wrong prepared theorem')
+    if tree_digest(task_root/'task')!=meta['public_sha256']:raise SystemExit('Task digest mismatch')
     if not AUTH.is_file() or not CODEX.is_file() or not CODE_HOST.is_file():raise SystemExit('WSL Codex authentication, executable, or code-mode host unavailable')
     subprocess.run([sys.executable,str(ROOT/'scripts/pilot/verify_freeze.py')],cwd=ROOT,check=True,stdout=subprocess.DEVNULL,timeout=120)
     subprocess.run([sys.executable,str(ROOT/'scripts/pilot/verify_audit.py')],cwd=ROOT,check=True,stdout=subprocess.DEVNULL,timeout=120)
@@ -82,7 +88,7 @@ def main():
     ACTIVE_RUN=run
     print('RUN_DIR='+str(run),flush=True)
     private=run/'private';private.mkdir(mode=0o700);home=private/'codex-home';home.mkdir(mode=0o700)
-    work=private/'work';work.mkdir(mode=0o700);task=private/'task';shutil.copytree(TASK/'task',task)
+    work=private/'work';work.mkdir(mode=0o700);task=private/'task';shutil.copytree(task_root/'task',task)
     if tree_digest(task)!=meta['public_sha256']:raise SystemExit('Task changed while copying')
     (home/'auth.json').touch(mode=0o600)
     config='''default_permissions = "eval"
@@ -123,8 +129,10 @@ enabled = false
     critical=('scripts/pilot/run_codex_wsl.py','scripts/pilot/release_gate.py','scripts/pilot/grade_sealed.py',
               'scripts/pilot/lean_grader_core.py','scripts/pilot/TrustedLeanAudit.lean','scripts/pilot/sandbox.py',
               'scripts/pilot/resource_supervisor.py','scripts/pilot/single_task_runner.py','scripts/pilot/prepare_factorial.py',
-              'scripts/pilot/verify_reference.py','benchmarks/tasks/algorithms-core/lean/BasicNative.lean',
+              'scripts/pilot/verify_reference.py','scripts/pilot/selection.py','benchmarks/pilot-v1/evaluation-policy.json',
+              'benchmarks/tasks/algorithms-core/lean/BasicNative.lean',
               'benchmarks/tasks/algorithms-core/lean/BasicDomain.lean','benchmarks/proof-interface/v1/lean/BranchTargets.lean')
+    if expected_claim=='counterexample':critical+=('scripts/pilot/prepare_factorial_cex.py',)
     critical_hashes={name:sha((ROOT/name).read_bytes()) for name in critical}
     for name,observed in critical_hashes.items():
         committed=sha(subprocess.check_output(['git','show',commit_before+':'+name],cwd=ROOT))
@@ -139,8 +147,9 @@ enabled = false
               'agent_version':subprocess.check_output([str(CODEX),'--version'],text=True).strip(),
               'timeout_seconds':TIMEOUT,'tools_network':False,'model_network':True,
               'memory_limit_bytes':3*1024**3,'pids_limit':512,
-              'task_id':meta['pilot_id'],'platform':'lean','claim':'equivalence',
+              'task_id':meta['pilot_id'],'platform':'lean','claim':expected_claim,'purpose':'reference',
               'theorem':'Obligation.goal','task_package_sha256':meta['public_sha256'],
+              'fixed_witness':meta.get('witness'),
               'provider':'ChatGPT account; billing and hosted-model memory unavailable',
               'runner_sha256':sha(Path(__file__).read_bytes()),
               'codex_executable_sha256':sha(CODEX.read_bytes()),
@@ -203,7 +212,7 @@ enabled = false
     elif resources.get('status')=='timeout':outcome={'status':'timeout','detail':'Agent exceeded time limit'}
     elif resources.get('status')!='exited' or resources.get('exit_code')!=0:outcome={'status':'agent-error','detail':'Agent process did not exit successfully'}
     elif not any(isinstance(x,dict) and x.get('type')=='turn.completed' for x in events):outcome={'status':'agent-error','detail':'Agent turn did not complete'}
-    elif proof_exists:outcome=score(meta['pilot_id'],'lean',target,trace=trace)
+    elif proof_exists:outcome=score(meta['pilot_id'],'lean',target,trace=trace,purpose='reference')
     else:outcome={'status':'agent-error','detail':'No submission was produced'}
     checking_elapsed=time.monotonic()-checking_started
     for name,row in zip(('submission_compile','fixed_goal_gate','axiom_audit'),trace):row['stage']=name
@@ -228,7 +237,7 @@ enabled = false
             'supervisor_exit_code':exit_code,'model_configuration_source':'Codex config and CLI catalog; server-side resolved model metadata not independently verified',
             'environment_evidence':'environment.json','model_catalog_evidence':'model-catalog.json'}
     dump(run/'report.json',report)
-    (run/'report.md').write_text('# Evaluation report\n\n'+f'- Task: `{meta["pilot_id"]}` (Lean equivalence)\n- Model: `gpt-6-luna`, medium; Codex {settings["agent_version"]}\n- Result: **{outcome["status"]}**\n- Axiom audit: {report["checks"]["axiom_audit"]["auditor_output"] or "not completed"}\n- Agent / checker wall time: {elapsed:.2f} / {checking_elapsed:.2f} s\n- Agent cgroup memory peak: {resources.get("memory_peak_bytes") if resources else "unknown"} bytes\n- Token usage: {json.dumps(usage,ensure_ascii=False)}\n- Turn completed: {report["transcript"]["turn_completed"]}\n- Monetary cost and hosted-model memory: unknown\n')
+    (run/'report.md').write_text('# Evaluation report\n\n'+f'- Task: `{meta["pilot_id"]}` (Lean {expected_claim})\n- Model: `gpt-6-luna`, medium; Codex {settings["agent_version"]}\n- Result: **{outcome["status"]}**\n- Axiom audit: {report["checks"]["axiom_audit"]["auditor_output"] or "not completed"}\n- Agent / checker wall time: {elapsed:.2f} / {checking_elapsed:.2f} s\n- Agent cgroup memory peak: {resources.get("memory_peak_bytes") if resources else "unknown"} bytes\n- Token usage: {json.dumps(usage,ensure_ascii=False)}\n- Turn completed: {report["transcript"]["turn_completed"]}\n- Monetary cost and hosted-model memory: unknown\n')
     dump(run/'resources.json',report['resources'])
     print(json.dumps({'run_dir':str(run),'result':outcome,'elapsed_seconds':elapsed}),flush=True)
     return 0 if outcome['status']=='accepted' else 1

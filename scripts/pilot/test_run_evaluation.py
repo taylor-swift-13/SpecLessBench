@@ -23,7 +23,7 @@ def main():
                   'print(json.dumps({"type":"session_end","transcript_complete":True})); '
                   'Path("/work/Submission.lean").write_text('+repr(source)+')')
             config.write_text(json.dumps({'agent':{'name':'fake-offline-agent','model_name':'fake','command':['/usr/bin/python3','-c',code,'{prompt}']},'limits':{'wall_seconds':90},'pricing':{'input_usd_per_million':1,'cached_input_usd_per_million':0.1,'output_usd_per_million':2,'version':'synthetic'}}))
-            path,report=run(meta['pilot_id'],'lean','equivalence',config,root/'runs')
+            path,report=run(meta['pilot_id'],'lean','equivalence',config,root/'runs',purpose='reference')
             assert report['result']['status']=='rejected',(label,report['result'])
             assert report['transcript']['agent_reported_complete'] is True
             assert report['transcript']['completeness_independently_verified'] is False
@@ -41,23 +41,23 @@ def main():
             print(label,'rejected; report and trace recorded',flush=True)
         code=('import json,time; print(json.dumps({"type":"message","content":"before timeout"}),flush=True); time.sleep(10)')
         config.write_text(json.dumps({'agent':{'name':'timeout-agent','command':['/usr/bin/python3','-c',code]},'limits':{'wall_seconds':1}}))
-        path,report=run(meta['pilot_id'],'lean','equivalence',config,root/'runs')
+        path,report=run(meta['pilot_id'],'lean','equivalence',config,root/'runs',purpose='reference')
         assert report['result']['status']=='timeout',report['result']
         assert b'before timeout' in (path/'agent.stdout').read_bytes()
         assert report['transcript']['agent_reported_complete'] is False
         print('timeout recorded with partial transcript',flush=True)
         code=('import json; print(json.dumps({"type":"message","content":"x"*1100000}),flush=True)')
         config.write_text(json.dumps({'agent':{'name':'large-output-agent','command':['/usr/bin/python3','-c',code]},'limits':{'wall_seconds':30}}))
-        path,report=run(meta['pilot_id'],'lean','equivalence',config,root/'runs')
+        path,report=run(meta['pilot_id'],'lean','equivalence',config,root/'runs',purpose='reference')
         assert (path/'agent.stdout').stat().st_size>1000000
         assert report['transcript']['output_truncated'] is False
         assert report['result']['status']=='rejected'
         print('more than one megabyte of output preserved',flush=True)
         config.write_text(json.dumps({'agent':{'name':'failing-agent','command':['/usr/bin/python3','-c','raise SystemExit(9)']}}))
-        _,report=run(meta['pilot_id'],'lean','equivalence',config,root/'runs')
+        _,report=run(meta['pilot_id'],'lean','equivalence',config,root/'runs',purpose='reference')
         assert report['result']['status']=='agent-error' and report['result']['exit_code']==9
         print('agent process failure distinguished from a rejected proof',flush=True)
-        try:run(meta['pilot_id'],'lean','counterexample',config,root/'runs')
+        try:run(meta['pilot_id'],'lean','counterexample',config,root/'runs',purpose='reference')
         except ValueError:pass
         else:raise AssertionError('unprepared theorem accepted')
     print('Only fake-agent bypasses were submitted; no benchmark theorem proved.')
