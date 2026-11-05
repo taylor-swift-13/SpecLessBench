@@ -86,7 +86,7 @@ def main():
     if not AUTH.is_file() or not CODEX.is_file() or not CODE_HOST.is_file():raise SystemExit('WSL Codex authentication, executable, or code-mode host unavailable')
     subprocess.run([sys.executable,str(ROOT/'scripts/pilot/verify_freeze.py')],cwd=ROOT,check=True,stdout=subprocess.DEVNULL,timeout=120)
     subprocess.run([sys.executable,str(ROOT/'scripts/pilot/verify_audit.py')],cwd=ROOT,check=True,stdout=subprocess.DEVNULL,timeout=120)
-    run_parent=BASE/meta['pilot_id']/'lean'/expected_claim
+    run_parent=BASE/'reference'/meta['pilot_id']/'lean'/expected_claim
     run_parent.mkdir(mode=0o700,parents=True,exist_ok=True)
     run=run_parent/(dt.datetime.now(dt.timezone.utc).strftime('%Y%m%dT%H%M%SZ')+'-'+uuid.uuid4().hex[:12]);run.mkdir(mode=0o700)
     ACTIVE_RUN=run
