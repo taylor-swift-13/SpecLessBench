@@ -2,11 +2,11 @@
 
 Each evaluation report is stored separately by task, platform, theorem branch, and run ID. Reports contain proof attempts and answers. The entire factorial family is reserved as public reference material and excluded from the evaluation set on all three platforms; see the [evaluation policy](../pilot-v1/evaluation-policy.json).
 
-The existing reference is [the Lean factorial equivalence run](P-dbec465c356ed73d/lean/equivalence/20261105T145347Z-3b3c245438c5/report.md). Its source-rebuilt goal, binding to the frozen theorem, proof, and allowed axiom dependencies have been checked by Lean; it is a gold-standard proof reference for this theorem under the stated axiom policy. This is one theorem, not a benchmark-wide evaluation; unproved branches remain pending.
+The frozen factorial reference contains six independently checked theorem reports, listed below. Their status applies to the factorial family and does not imply benchmark-wide proof coverage. The [reference manifest](factorial-reference.json) pins the report checksums and the frozen pilot snapshot.
 
 | Factorial reference theorem | Lean | Rocq | CompCert |
 | --- | --- | --- | --- |
-| Recursive / accumulator equivalence | [Proved](P-dbec465c356ed73d/lean/equivalence/20261105T145347Z-3b3c245438c5/report.md) | [Proved](P-dbec465c356ed73d/rocq/equivalence/20261105T154526Z-514a9df0dc21/report.md) | Pending |
+| Recursive / accumulator equivalence | [Proved](P-dbec465c356ed73d/lean/equivalence/20261105T145347Z-3b3c245438c5/report.md) | [Proved](P-dbec465c356ed73d/rocq/equivalence/20261105T154526Z-514a9df0dc21/report.md) | [Proved under the listed trusted-library assumptions](P-dbec465c356ed73d/compcert/equivalence/20261105T162658Z-672a823421d0/report.md) |
 | Reference / mutant counterexample | [Proved](P-a80b8283427dcbd7/lean/counterexample/20261105T152523Z-ff7f7147b74b/report.md) | [Proved](P-a80b8283427dcbd7/rocq/counterexample/20261105T154425Z-e4b4242a737b/report.md) | [Proved under the listed trusted-library assumptions](P-a80b8283427dcbd7/compcert/counterexample/20261105T154959Z-97a1e5a4283a/report.md) |
 
 All six instances are excluded from evaluation regardless of proof status. The Lean counterexample package uses a fixed witness; it is intended as a certificate example, not as evidence that an agent discovered the witness.
@@ -35,4 +35,6 @@ python3 scripts/pilot/verify_factorial_rocq_original.py "$REPORT"
 
 The Rocq checker rebuilds the original source modules and exact theorem target, checks the submitted proof with `coqchk`, and rejects non-closed assumptions.
 
-For the CompCert counterexample, use `python3 scripts/pilot/verify_factorial_compcert_original.py REPORT`. This rebuilds the frozen Clight AST and semantics, checks the bridge to the original theorem and audits assumptions against the explicit CompCert/Rocq library allowlist. The run was initially rejected by the previous zero-assumption policy; its original verdict is preserved alongside the subsequent verification.
+For the CompCert counterexample, use `python3 scripts/pilot/verify_factorial_compcert_original.py REPORT`. This rebuilds the frozen Clight AST and semantics, checks the bridge to the original theorem with `coqchk -bytecode-compiler yes`, and audits assumptions against the CompCert namespace and named Rocq library dependencies. The bytecode conversion engine is part of the trusted checking setup. The run was initially rejected by the previous zero-assumption policy; its original verdict is preserved alongside the subsequent verification.
+
+The same verifier checks the CompCert equivalence report. Its default per-check limit is 600 seconds; the generic sealed grader's 90-second default timed out on the equivalence proof even though the longer check passed. The frozen factorial implementation uses the shared 8,192-word output buffer; the proofs apply to that version. New task versions should use task-appropriate output capacity and compare only the intended observation. Such changes require regenerated Clight ASTs and new theorem checks; they do not inherit the frozen proof automatically.

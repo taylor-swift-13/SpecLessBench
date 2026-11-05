@@ -1,0 +1,23 @@
+{
+  "model": "gpt-6.1-sol",
+  "reasoning_effort": "medium",
+  "platform": "compcert",
+  "claim": "equivalence",
+  "task_id": "P-dbec465c356ed73d",
+  "goal": "Obligation.goal",
+  "task_digest": "640cf2e889f8f1a2eaee8ecac89d09027315cf779f9a26b848f9d07c5662e957",
+  "timeout_seconds": 3600,
+  "model_identity_scope": "CLI configuration; resolved server model not independently exposed",
+  "codex_sha256": "50ed828f357c655a3c82054d346cab8434f24901f14ec19b8267571bdd008b38",
+  "runner_sha256": "0efd01efd9ebbab318540da3f924bc20ad0fdb89d29ebd7f6c71c84b229982d9",
+  "codex_version": "codex-cli 0.162.0",
+  "rocq_version": "The Rocq Prover, version 9.2\ncompiled with OCaml 4.14.2",
+  "original_goal_binding": "pending; projected-goal acceptance alone is not gold",
+  "original_source_sha256": {
+    "benchmarks/tasks/algorithms-core/compcert/BasicDomain.v": "14fb458da26493a0380dd263515bbe70189ead1273dad5b3da5caf9a7f12320c",
+    "benchmarks/tasks/algorithms-core/compcert/Execution.v": "31708675e639733ab5a746a62c2e2f2aa63b0ed53014a789f5cc2ddfca2a99be",
+    "benchmarks/tasks/algorithms-core/compcert/ast/FACTORIAL_V0.v": "05ab58467e3741fb18943270f43513fe3a4241f993adaac501de079a1181c47c",
+    "benchmarks/tasks/algorithms-core/compcert/ast/FACTORIAL_V1.v": "a6a4c146ffc31714e9f12a7838ae5e1ba71f2cbf77de91140f3eebc3c7f84988"
+  },
+  "fixed_witness": null
+}

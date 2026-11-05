@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "reference_family": "F-b176f6126a4169ab",
+  "frozen_pilot_manifest_sha256": "61280d98b6dfae775bb5410e9cd3d268811251deb61ee5f3c14fd26172a55b6f",
+  "evaluation": "excluded on every platform",
+  "scope": "Six factorial primary goals only, not a benchmark-wide claim.",
+  "compcert_policy": "Fully qualified CompCert assumptions and explicitly named Rocq library dependencies; coqchk bytecode conversion enabled for equivalence.",
+  "frozen_output_buffer_words": 8192,
+  "future_versions": "Choose task-specific capacities; new implementations, ASTs and goals require their own checks.",
+  "reports": [
+    {
+      "theorem": "equivalence",
+      "platform": "lean",
+      "path": "P-dbec465c356ed73d/lean/equivalence/20261105T145347Z-3b3c245438c5",
+      "sha256sums_sha256": "9507b13fa532c803883a5353bedabb91d3d090d4eb361205085d721711918a37"
+    },
+    {
+      "theorem": "counterexample",
+      "platform": "lean",
+      "path": "P-a80b8283427dcbd7/lean/counterexample/20261105T152523Z-ff7f7147b74b",
+      "sha256sums_sha256": "8ba3758e1a7efc6aa2731eb5e3a2ff472734beca70aa0809617f529020141288"
+    },
+    {
+      "theorem": "equivalence",
+      "platform": "rocq",
+      "path": "P-dbec465c356ed73d/rocq/equivalence/20261105T154526Z-514a9df0dc21",
+      "sha256sums_sha256": "e9480b1d4b4479fe4e897b55642534073f44411083217ff08724cf515e3636d7"
+    },
+    {
+      "theorem": "counterexample",
+      "platform": "rocq",
+      "path": "P-a80b8283427dcbd7/rocq/counterexample/20261105T154425Z-e4b4242a737b",
+      "sha256sums_sha256": "621032c0707159c2e987bd0ca5ca30b57b574dd5f6434b7b98b6aafbaca3201d"
+    },
+    {
+      "theorem": "equivalence",
+      "platform": "compcert",
+      "path": "P-dbec465c356ed73d/compcert/equivalence/20261105T162658Z-672a823421d0",
+      "sha256sums_sha256": "2c620844ad0dc15a932d74e841c55e022e68244ff5a977c6deeafc8bf1184436"
+    },
+    {
+      "theorem": "counterexample",
+      "platform": "compcert",
+      "path": "P-a80b8283427dcbd7/compcert/counterexample/20261105T154959Z-97a1e5a4283a",
+      "sha256sums_sha256": "9195ebb67deb64926dda142d41d42cab0c6880d413b3f3803817c6837a5cdaef"
+    }
+  ]
+}

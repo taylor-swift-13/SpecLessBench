@@ -1,0 +1,5 @@
+# CompCert factorial equivalence reference
+
+The model submission covers all valid inputs against the frozen Clight programs. The initial 90-second independent kernel check timed out and is retained in `report.json` and `checker.json.gz`. An independent recheck with the default bytecode-disabled kernel also timed out after 600 seconds; its resource record is `verification-timeout.json`. A later recheck rebuilt the frozen source, linked the proof to the original theorem, and passed `coqchk -bytecode-compiler yes` and the assumption audit. The result is **accepted under the CompCert and Rocq trusted-library policy**; `verification.json` lists the seven actual assumptions and the checking resources. The bytecode conversion engine is part of this checking configuration.
+
+Codex was configured as `gpt-6.1-sol`, medium; the server-resolved model identity is unavailable. The agent ran for 1671.11 seconds; token usage and cgroup memory are recorded in `report.json`. Hosted inference memory and monetary cost are unavailable.

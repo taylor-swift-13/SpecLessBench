@@ -64,7 +64,8 @@ def grade_prepared(platform,package,submission,timeout=90,trace=None):
         if gate['status']!='exited':return _result('infrastructure-error','gate',gate['status'])
         if gate['exit_code']!=0:return _result('rejected','gate','submission does not inhabit the protected goal')
         (trusted/'Gate.vo').write_bytes(gate['artifacts']['Gate.vo'])
-        checked=run([coqchk,'-Q','/trusted','Trusted','-Q','/trusted/candidate','Candidate','Trusted.Gate'])
+        vm=['-bytecode-compiler','yes'] if platform=='compcert' else []
+        checked=run([coqchk,*vm,'-Q','/trusted','Trusted','-Q','/trusted/candidate','Candidate','Trusted.Gate'])
         if checked['status']!='exited' or checked['exit_code']!=0:return _result('infrastructure-error','kernel','independent kernel check failed')
         audit=run(common+['-Q','/trusted/candidate','Candidate','-Q','/work','Trusted','-o','/work/Audit.vo','/trusted/Audit.v'],collect=['Audit.vo'])
         if audit['status']!='exited' or audit['exit_code']!=0:return _result('infrastructure-error','audit','assumptions check failed')

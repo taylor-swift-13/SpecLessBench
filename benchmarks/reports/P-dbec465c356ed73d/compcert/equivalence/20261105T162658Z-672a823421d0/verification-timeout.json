@@ -1,0 +1,22 @@
+{
+  "exit_code": null,
+  "phase": "reference-check",
+  "platform": "compcert",
+  "resources": {
+    "cpu_stat": "usage_usec 600762087\nuser_usec 599277944\nsystem_usec 1484143\nnice_usec 0",
+    "exit_code": null,
+    "limits": {
+      "memory_max": "3221225472",
+      "memory_swap_max": "0",
+      "pids_max": "64"
+    },
+    "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "memory_peak_bytes": 1211547648,
+    "memory_scope": "cgroup v2 peak through sandbox process exit, including supervisor and sandbox descendants; before final cleanup, not hosted model memory",
+    "status": "timeout",
+    "wall_seconds": 600.003758308012
+  },
+  "schema_version": 1,
+  "status": "timeout",
+  "timestamp_utc": "2026-11-05T17:09:45.384091+00:00"
+}

@@ -22,6 +22,7 @@ COQCHK = TOOLCHAINS['compcert'] + '/bin/coqchk'
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('run', type=Path)
+    parser.add_argument('--timeout', type=int, default=600, help='per-check timeout in seconds')
     args = parser.parse_args(); run = args.run
     if (run/'SHA256SUMS').exists():
         listed=set()
@@ -63,7 +64,7 @@ def main():
         shutil.copyfile(run/'Submission.v', submission/'Submission.v')
         trace=[]
         def check(argv, collect=None):
-            r = run_isolated('compcert', trusted, submission, argv, timeout=240, collect=collect, phase='reference-check')
+            r = run_isolated('compcert', trusted, submission, argv, timeout=args.timeout, collect=collect, phase='reference-check')
             trace.append(r)
             if r['status'] != 'exited' or r['exit_code'] != 0: raise SystemExit('Bridge check failed: ' + json.dumps(r))
             return r
@@ -76,13 +77,14 @@ def main():
         (trusted/'Bridge.v').write_text(bridge)
         r = check(common + ['-Q','/trusted/candidate','Candidate','-Q','/work','Trusted','-o','/work/Bridge.vo','/trusted/Bridge.v'], ['Bridge.vo'])
         (trusted/'Bridge.vo').write_bytes(r['artifacts']['Bridge.vo'])
-        check([COQCHK, '-Q','/trusted','Trusted','-Q','/trusted/candidate','Candidate','Trusted.Bridge'])
+        check([COQCHK, '-bytecode-compiler','yes','-Q','/trusted','Trusted','-Q','/trusted/candidate','Candidate','Trusted.Bridge'])
         (trusted/'Audit.v').write_text('Set Printing Fully Qualified.\nFrom Trusted Require Import Bridge.\nPrint Assumptions Bridge.checked_original.\n')
         audit = check(common + ['-Q','/trusted/candidate','Candidate','-Q','/work','Trusted','-o','/work/Audit.vo','/trusted/Audit.v'], ['Audit.vo'])
         if audit.get('output_truncated') or not allowed_assumptions('compcert', audit['stdout']):
             raise SystemExit('Unapproved assumptions: '+audit['stdout'])
         evidence = {'theorem':name,'status':'accepted','source':'frozen sources rebuilt; original definitions and goal bridged by kernel',
-                    'assumptions':audit['stdout'],'grader_sha256':hashlib.sha256((ROOT/'scripts/pilot/rocq_grader_core.py').read_bytes()).hexdigest(),
+                    'assumptions':audit['stdout'],'per_check_timeout_seconds':args.timeout,'coqchk_bytecode_compiler':True,
+                    'grader_sha256':hashlib.sha256((ROOT/'scripts/pilot/rocq_grader_core.py').read_bytes()).hexdigest(),
                     'checks':[{k:r.get(k) for k in ('status','exit_code','resources','output_truncated')} for r in trace]}
         print(json.dumps(evidence, indent=2))
 

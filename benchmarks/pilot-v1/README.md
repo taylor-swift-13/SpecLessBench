@@ -71,7 +71,7 @@ The sealed grader checks task packages against trusted hashes and starts each ru
 
 `test_single_task_runner.py` 检查其他目录、前次运行及题目篡改隔离；`test_grade_sealed.py` 对三个工具链测试接受合法证明和拒绝未完成证明、额外公理、篡改目标包；`test_attempt_to_grade.py` 测试从沙箱输出到 Lean 评分的完整链路。这些测试使用玩具命题。
 
-The Lean factorial equivalence and fixed-witness counterexample references use isolated packages. `test_real_factorial.py` and `test_factorial_cex.py` check rejection of `sorry`, extra axioms, and incorrect goals. Reference scoring requires `--reference`. The Rocq factorial equivalence and counterexample proofs have also been checked after rebuilding the frozen source, with `coqchk` and an assumption audit. The CompCert counterexample is checked under the documented trusted-library assumptions; CompCert equivalence remains pending. See [reference reports](../reports/README.md) for the proof status and replay commands.
+The Lean factorial equivalence and fixed-witness counterexample references use isolated packages. `test_real_factorial.py` and `test_factorial_cex.py` check rejection of `sorry`, extra axioms, and incorrect goals. Reference scoring requires `--reference`. Both factorial Rocq goals and both CompCert goals have also been checked against rebuilt frozen sources, with `coqchk` and assumption audits. The CompCert checks use the documented trusted-library assumptions and bytecode conversion. See [reference reports](../reports/README.md) for proof status and replay commands.
 
 2026-11-05 的原型测试继续向 `benchmarks/construction/pilot-jobs.jsonl` 记录沙箱作业的 cgroup 资源；本次外层命令没有逐条加入早期的命令计时器，因此总命令时间仍不完整。`pilot-freeze-v0.12` 的 token 快照覆盖了两次用户请求，时间窗口包括两次请求之间的等待，不能当作实际工作时长。
 

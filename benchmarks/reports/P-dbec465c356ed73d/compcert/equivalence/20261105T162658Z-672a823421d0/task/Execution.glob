@@ -1,0 +1,360 @@
+DIGEST 8d8ac318458a5cf46d8558d1768de8cb
+FTrusted.Execution
+R344:349 Stdlib.ZArith.ZArith <> <> lib
+R351:354 Stdlib.Lists.List <> <> lib
+R386:397 compcert.lib.Integers <> <> lib
+R399:408 compcert.common.AST <> <> lib
+R410:422 compcert.common.Values <> <> lib
+R424:436 compcert.common.Memory <> <> lib
+R440:452 compcert.common.Events <> <> lib
+R454:470 compcert.common.Globalenvs <> <> lib
+R472:487 compcert.common.Smallstep <> <> lib
+R489:504 compcert.cfrontend.Ctypes <> <> lib
+R506:521 compcert.cfrontend.Clight <> <> lib
+def 535:545 <> OutputWords
+R549:551 Corelib.Init.Datatypes <> nat ind
+R573:585 Stdlib.Lists.List ListNotations <> mod
+def 618:628 <> store_words
+R635:637 compcert.common.Memory <> mem abbrev
+binder 631:631 <> m:1
+R645:649 compcert.common.Values <> block def
+binder 641:641 <> b:2
+R659:659 Corelib.Numbers.BinNums <> Z ind
+binder 653:655 <> ofs:3
+R668:671 Corelib.Init.Datatypes <> list ind
+R673:673 Corelib.Numbers.BinNums <> Z ind
+binder 663:664 <> xs:4
+R678:683 Corelib.Init.Datatypes <> option ind
+R685:687 compcert.common.Memory <> mem abbrev
+R700:701 Trusted.Execution <> xs:4 var
+R712:713 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R718:721 Corelib.Init.Datatypes <> Some constr
+R723:723 Trusted.Execution <> m:1 var
+R730:733 Corelib.Init.Datatypes <> ::list_scope:x_'::'_x not
+R754:762 compcert.common.Memory Mem store def
+R764:769 compcert.common.AST <> Mint32 constr
+R771:771 Trusted.Execution <> m:1 var
+R773:773 Trusted.Execution <> b:2 var
+R775:777 Trusted.Execution <> ofs:3 var
+R780:783 compcert.common.Values <> Vint constr
+R786:793 compcert.lib.Integers Int repr def
+R812:815 Corelib.Init.Datatypes <> Some constr
+R823:833 Trusted.Execution <> store_words:5 def
+R844:846 Stdlib.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R841:843 Trusted.Execution <> ofs:3 var
+R838:838 Trusted.Execution <> b:2 var
+R863:866 Corelib.Init.Datatypes <> None constr
+R871:874 Corelib.Init.Datatypes <> None constr
+def 903:912 <> load_words
+R919:921 Corelib.Init.Datatypes <> nat ind
+binder 915:915 <> n:7
+R929:931 compcert.common.Memory <> mem abbrev
+binder 925:925 <> m:8
+R939:943 compcert.common.Values <> block def
+binder 935:935 <> b:9
+R953:953 Corelib.Numbers.BinNums <> Z ind
+binder 947:949 <> ofs:10
+R958:963 Corelib.Init.Datatypes <> option ind
+R966:969 Corelib.Init.Datatypes <> list ind
+R971:971 Corelib.Numbers.BinNums <> Z ind
+R985:985 Trusted.Execution <> n:7 var
+R996:996 Corelib.Init.Datatypes <> O constr
+R1001:1004 Corelib.Init.Datatypes <> Some constr
+R1006:1007 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R1013:1013 Corelib.Init.Datatypes <> S constr
+R1058:1067 Trusted.Execution <> load_words:11 def
+R1080:1082 Stdlib.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R1077:1079 Trusted.Execution <> ofs:10 var
+R1074:1074 Trusted.Execution <> b:9 var
+R1072:1072 Trusted.Execution <> m:8 var
+R1033:1040 compcert.common.Memory Mem load def
+R1042:1047 compcert.common.AST <> Mint32 constr
+R1049:1049 Trusted.Execution <> m:8 var
+R1051:1051 Trusted.Execution <> b:9 var
+R1053:1055 Trusted.Execution <> ofs:10 var
+R1099:1102 Corelib.Init.Datatypes <> Some constr
+R1105:1108 compcert.common.Values <> Vint constr
+R1114:1117 Corelib.Init.Datatypes <> Some constr
+R1125:1128 Corelib.Init.Datatypes <> Some constr
+R1143:1146 Corelib.Init.Datatypes <> ::list_scope:x_'::'_x not
+R1131:1140 compcert.lib.Integers Int signed def
+R1167:1170 Corelib.Init.Datatypes <> None constr
+def 1201:1212 <> output_words
+R1219:1232 compcert.cfrontend.Clight <> program def
+binder 1215:1215 <> p:13
+R1245:1249 compcert.common.AST <> ident def
+binder 1236:1241 <> out_id:14
+R1257:1259 compcert.common.Memory <> mem abbrev
+binder 1253:1253 <> m:15
+R1264:1269 Corelib.Init.Datatypes <> option ind
+R1272:1275 Corelib.Init.Datatypes <> list ind
+R1277:1277 Corelib.Numbers.BinNums <> Z ind
+R1291:1306 compcert.common.Globalenvs Genv find_symbol def
+R1329:1334 Trusted.Execution <> out_id:14 var
+R1309:1324 compcert.cfrontend.Clight <> globalenv def
+R1326:1326 Trusted.Execution <> p:13 var
+R1345:1348 Corelib.Init.Datatypes <> Some constr
+R1355:1364 Trusted.Execution <> load_words def
+R1366:1376 Trusted.Execution <> OutputWords def
+R1378:1378 Trusted.Execution <> m:15 var
+R1388:1391 Corelib.Init.Datatypes <> None constr
+R1396:1399 Corelib.Init.Datatypes <> None constr
+ind 1419:1422 <> boot
+constr 1506:1515 <> boot_intro
+R1429:1442 compcert.cfrontend.Clight <> program def
+binder 1425:1425 <> p:16
+R1457:1461 compcert.common.AST <> ident def
+binder 1446:1453 <> input_id:17
+R1470:1473 Corelib.Init.Datatypes <> list ind
+R1475:1475 Corelib.Numbers.BinNums <> Z ind
+binder 1465:1466 <> xs:18
+R1492:1495 Corelib.Init.Notations <> ::type_scope:x_'->'_x not
+R1480:1491 compcert.cfrontend.Clight <> state ind
+binder 1526:1526 <> f:21
+binder 1528:1529 <> m0:22
+binder 1531:1531 <> b:23
+binder 1533:1534 <> m1:24
+R1603:1610 Corelib.Init.Notations <> ::type_scope:x_'->'_x not
+R1541:1560 compcert.cfrontend.Clight <> initial_state ind
+R1562:1562 Trusted.Execution <> p:16 var
+R1565:1580 compcert.cfrontend.Clight <> Callstate constr
+R1582:1582 Trusted.Execution <> f:21 var
+R1584:1585 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R1587:1598 compcert.cfrontend.Clight <> Kstop constr
+R1600:1601 Trusted.Execution <> m0:22 var
+R1666:1673 Corelib.Init.Notations <> ::type_scope:x_'->'_x not
+R1657:1659 Corelib.Init.Logic <> ::type_scope:x_'='_x not
+R1611:1626 compcert.common.Globalenvs Genv find_symbol def
+R1649:1656 Trusted.Execution <> input_id:17 var
+R1629:1644 compcert.cfrontend.Clight <> globalenv def
+R1646:1646 Trusted.Execution <> p:16 var
+R1660:1663 Corelib.Init.Datatypes <> Some constr
+R1665:1665 Trusted.Execution <> b:23 var
+R1705:1712 Corelib.Init.Notations <> ::type_scope:x_'->'_x not
+R1695:1697 Corelib.Init.Logic <> ::type_scope:x_'='_x not
+R1674:1684 Trusted.Execution <> store_words def
+R1686:1687 Trusted.Execution <> m0:22 var
+R1689:1689 Trusted.Execution <> b:23 var
+R1693:1694 Trusted.Execution <> xs:18 var
+R1698:1701 Corelib.Init.Datatypes <> Some constr
+R1703:1704 Trusted.Execution <> m1:24 var
+R1713:1716 Trusted.Execution <> boot:19 ind
+R1733:1748 compcert.cfrontend.Clight <> Callstate constr
+R1750:1750 Trusted.Execution <> f:21 var
+R1752:1753 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R1755:1766 compcert.cfrontend.Clight <> Kstop constr
+R1768:1769 Trusted.Execution <> m1:24 var
+R1729:1730 Trusted.Execution <> xs:18 var
+R1720:1727 Trusted.Execution <> input_id:17 var
+R1718:1718 Trusted.Execution <> p:16 var
+scheme 1419:1422 <> boot_ind
+scheme 1419:1422 <> boot_sind
+def 1785:1793 <> safe_from
+R1800:1813 compcert.cfrontend.Clight <> program def
+binder 1796:1796 <> p:25
+R1822:1833 compcert.cfrontend.Clight <> state ind
+binder 1817:1818 <> s0:26
+binder 1855:1855 <> s:27
+binder 1857:1857 <> t:28
+R1919:1926 Corelib.Init.Notations <> ::type_scope:x_'->'_x not
+R1864:1877 compcert.common.Smallstep <> star ind
+R1918:1918 Trusted.Execution <> s:27 var
+R1916:1916 Trusted.Execution <> t:28 var
+R1913:1914 Trusted.Execution <> s0:26 var
+R1893:1908 compcert.cfrontend.Clight <> globalenv def
+R1910:1910 Trusted.Execution <> p:25 var
+R1879:1890 compcert.cfrontend.Clight <> step2 def
+R1927:1927 Corelib.Init.Logic <> ::type_scope:x_'\/'_x not
+R1960:1969 Corelib.Init.Logic <> ::type_scope:x_'\/'_x not
+R2025:2025 Corelib.Init.Logic <> ::type_scope:x_'\/'_x not
+R1928:1934 Corelib.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R1936:1937 Corelib.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 1935:1935 <> r:29
+R1938:1955 compcert.cfrontend.Clight <> final_state ind
+R1957:1957 Trusted.Execution <> s:27 var
+R1959:1959 Trusted.Execution <> r:29 var
+R1970:1976 Corelib.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R1982:1983 Corelib.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 1977:1978 <> t':30
+binder 1980:1981 <> s':31
+R1984:1995 compcert.cfrontend.Clight <> step2 def
+R1998:2013 compcert.cfrontend.Clight <> globalenv def
+R2015:2015 Trusted.Execution <> p:25 var
+R2018:2018 Trusted.Execution <> s:27 var
+R2020:2021 Trusted.Execution <> t':30 var
+R2023:2024 Trusted.Execution <> s':31 var
+def 2262:2272 <> observation
+R2279:2281 Corelib.Init.Datatypes <> ::type_scope:x_'*'_x not
+R2278:2278 Corelib.Numbers.BinNums <> Z ind
+R2282:2285 Corelib.Init.Datatypes <> list ind
+R2287:2287 Corelib.Numbers.BinNums <> Z ind
+def 2307:2314 <> executes
+R2321:2334 compcert.cfrontend.Clight <> program def
+binder 2317:2317 <> p:32
+R2356:2360 compcert.common.AST <> ident def
+binder 2338:2345 <> input_id:33
+binder 2347:2352 <> out_id:34
+R2389:2392 Corelib.Init.Datatypes <> list ind
+R2394:2394 Corelib.Numbers.BinNums <> Z ind
+binder 2384:2385 <> xs:35
+R2402:2412 Trusted.Execution <> observation def
+binder 2398:2398 <> o:36
+R2427:2433 Corelib.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R2443:2448 Corelib.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 2434:2435 <> s0:37
+binder 2437:2437 <> r:38
+binder 2439:2439 <> m:39
+binder 2441:2442 <> ys:40
+R2470:2473 Corelib.Init.Logic <> ::type_scope:x_'/\'_x not
+R2449:2452 Trusted.Execution <> boot ind
+R2454:2454 Trusted.Execution <> p:32 var
+R2456:2463 Trusted.Execution <> input_id:33 var
+R2465:2466 Trusted.Execution <> xs:35 var
+R2468:2469 Trusted.Execution <> s0:37 var
+R2488:2495 Corelib.Init.Logic <> ::type_scope:x_'/\'_x not
+R2474:2482 Trusted.Execution <> safe_from def
+R2484:2484 Trusted.Execution <> p:32 var
+R2486:2487 Trusted.Execution <> s0:37 var
+R2601:2608 Corelib.Init.Logic <> ::type_scope:x_'/\'_x not
+R2496:2509 compcert.common.Smallstep <> star ind
+R2558:2575 compcert.cfrontend.Clight <> Returnstate constr
+R2578:2581 compcert.common.Values <> Vint constr
+R2583:2583 Trusted.Execution <> r:38 var
+R2586:2597 compcert.cfrontend.Clight <> Kstop constr
+R2599:2599 Trusted.Execution <> m:39 var
+R2548:2549 compcert.common.Events <> E0 def
+R2545:2546 Trusted.Execution <> s0:37 var
+R2525:2540 compcert.cfrontend.Clight <> globalenv def
+R2542:2542 Trusted.Execution <> p:32 var
+R2511:2522 compcert.cfrontend.Clight <> step2 def
+R2642:2645 Corelib.Init.Logic <> ::type_scope:x_'/\'_x not
+R2632:2634 Corelib.Init.Logic <> ::type_scope:x_'='_x not
+R2609:2620 Trusted.Execution <> output_words def
+R2622:2622 Trusted.Execution <> p:32 var
+R2624:2629 Trusted.Execution <> out_id:34 var
+R2631:2631 Trusted.Execution <> m:39 var
+R2635:2638 Corelib.Init.Datatypes <> Some constr
+R2640:2641 Trusted.Execution <> ys:40 var
+R2647:2649 Corelib.Init.Logic <> ::type_scope:x_'='_x not
+R2646:2646 Trusted.Execution <> o:36 var
+R2650:2650 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R2663:2664 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R2667:2667 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R2651:2660 compcert.lib.Integers Int signed def
+R2662:2662 Trusted.Execution <> r:38 var
+R2665:2666 Trusted.Execution <> ys:40 var
+rec 2678:2691 <> implementation
+proj 2700:2706 <> program
+proj 2728:2739 <> input_symbol
+proj 2752:2764 <> output_symbol
+R2710:2723 compcert.cfrontend.Clight <> program def
+R2743:2747 compcert.common.AST <> ident def
+R2768:2772 compcert.common.AST <> ident def
+def 2788:2790 <> run
+R2797:2810 Trusted.Execution <> implementation rec
+binder 2793:2793 <> p:45
+R2819:2822 Corelib.Init.Datatypes <> list ind
+R2824:2824 Corelib.Numbers.BinNums <> Z ind
+binder 2814:2815 <> xs:46
+R2832:2842 Trusted.Execution <> observation def
+binder 2828:2828 <> o:47
+R2857:2864 Trusted.Execution <> executes def
+R2869:2875 Trusted.Execution <> program proj
+R2866:2866 Trusted.Execution <> p:45 var
+R2881:2892 Trusted.Execution <> input_symbol proj
+R2878:2878 Trusted.Execution <> p:45 var
+R2898:2910 Trusted.Execution <> output_symbol proj
+R2895:2895 Trusted.Execution <> p:45 var
+R2913:2914 Trusted.Execution <> xs:46 var
+R2916:2916 Trusted.Execution <> o:47 var
+def 2931:2940 <> Equivalent
+binder 2943:2943 <> I:48
+R2963:2966 Corelib.Init.Notations <> ::type_scope:x_'->'_x not
+R2962:2962 Trusted.Execution <> I:48 var
+binder 2954:2958 <> valid:49
+R2984:2987 Corelib.Init.Notations <> ::type_scope:x_'->'_x not
+R2983:2983 Trusted.Execution <> I:48 var
+R2988:2991 Corelib.Init.Datatypes <> list ind
+R2993:2993 Corelib.Numbers.BinNums <> Z ind
+binder 2974:2979 <> encode:50
+R3025:3038 Trusted.Execution <> implementation rec
+binder 3019:3019 <> a:51
+binder 3021:3021 <> b:52
+binder 3060:3060 <> x:53
+R3070:3073 Corelib.Init.Notations <> ::type_scope:x_'->'_x not
+R3063:3067 Trusted.Execution <> valid:49 var
+R3069:3069 Trusted.Execution <> x:53 var
+R3074:3080 Corelib.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R3082:3083 Corelib.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 3081:3081 <> o:54
+R3102:3105 Corelib.Init.Logic <> ::type_scope:x_'/\'_x not
+R3084:3086 Trusted.Execution <> run def
+R3088:3088 Trusted.Execution <> a:51 var
+R3091:3096 Trusted.Execution <> encode:50 var
+R3098:3098 Trusted.Execution <> x:53 var
+R3101:3101 Trusted.Execution <> o:54 var
+R3106:3108 Trusted.Execution <> run def
+R3110:3110 Trusted.Execution <> b:52 var
+R3113:3118 Trusted.Execution <> encode:50 var
+R3120:3120 Trusted.Execution <> x:53 var
+R3123:3123 Trusted.Execution <> o:54 var
+def 3137:3150 <> Counterexample
+binder 3153:3153 <> I:55
+R3173:3176 Corelib.Init.Notations <> ::type_scope:x_'->'_x not
+R3172:3172 Trusted.Execution <> I:55 var
+binder 3164:3168 <> valid:56
+R3194:3197 Corelib.Init.Notations <> ::type_scope:x_'->'_x not
+R3193:3193 Trusted.Execution <> I:55 var
+R3198:3201 Corelib.Init.Datatypes <> list ind
+R3203:3203 Corelib.Numbers.BinNums <> Z ind
+binder 3184:3189 <> encode:57
+R3239:3252 Trusted.Execution <> implementation rec
+binder 3233:3233 <> a:58
+binder 3235:3235 <> b:59
+R3267:3273 Corelib.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R3281:3282 Corelib.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 3274:3274 <> x:60
+binder 3276:3277 <> oa:61
+binder 3279:3280 <> ob:62
+R3290:3293 Corelib.Init.Logic <> ::type_scope:x_'/\'_x not
+R3283:3287 Trusted.Execution <> valid:56 var
+R3289:3289 Trusted.Execution <> x:60 var
+R3313:3316 Corelib.Init.Logic <> ::type_scope:x_'/\'_x not
+R3294:3296 Trusted.Execution <> run def
+R3298:3298 Trusted.Execution <> a:58 var
+R3301:3306 Trusted.Execution <> encode:57 var
+R3308:3308 Trusted.Execution <> x:60 var
+R3311:3312 Trusted.Execution <> oa:61 var
+R3336:3339 Corelib.Init.Logic <> ::type_scope:x_'/\'_x not
+R3317:3319 Trusted.Execution <> run def
+R3321:3321 Trusted.Execution <> b:59 var
+R3324:3329 Trusted.Execution <> encode:57 var
+R3331:3331 Trusted.Execution <> x:60 var
+R3334:3335 Trusted.Execution <> ob:62 var
+R3342:3345 Corelib.Init.Logic <> ::type_scope:x_'<>'_x not
+R3340:3341 Trusted.Execution <> oa:61 var
+R3346:3347 Trusted.Execution <> ob:62 var
+def 3361:3371 <> Certificate
+binder 3374:3374 <> I:63
+R3394:3397 Corelib.Init.Notations <> ::type_scope:x_'->'_x not
+R3393:3393 Trusted.Execution <> I:63 var
+binder 3385:3389 <> valid:64
+R3415:3418 Corelib.Init.Notations <> ::type_scope:x_'->'_x not
+R3414:3414 Trusted.Execution <> I:63 var
+R3419:3422 Corelib.Init.Datatypes <> list ind
+R3424:3424 Corelib.Numbers.BinNums <> Z ind
+binder 3405:3410 <> encode:65
+R3457:3470 Trusted.Execution <> implementation rec
+binder 3451:3451 <> a:66
+binder 3453:3453 <> b:67
+R3512:3515 Corelib.Init.Logic <> ::type_scope:x_'\/'_x not
+R3485:3494 Trusted.Execution <> Equivalent def
+R3511:3511 Trusted.Execution <> b:67 var
+R3509:3509 Trusted.Execution <> a:66 var
+R3502:3507 Trusted.Execution <> encode:65 var
+R3496:3500 Trusted.Execution <> valid:64 var
+R3516:3529 Trusted.Execution <> Counterexample def
+R3546:3546 Trusted.Execution <> b:67 var
+R3544:3544 Trusted.Execution <> a:66 var
+R3537:3542 Trusted.Execution <> encode:65 var
+R3531:3535 Trusted.Execution <> valid:64 var

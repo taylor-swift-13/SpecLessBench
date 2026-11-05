@@ -58,7 +58,7 @@
     },
     {
       "path": "scripts/pilot/rocq_grader_core.py",
-      "sha256": "a8915bd4e9f39667d20eb7f910f9d838fac4f8df67f0d27d5cfeabe62496a99d"
+      "sha256": "b10ba154e10a1728159a8a23472efdb5d3467db15370e5c30fb0e71df19b242b"
     },
     {
       "path": "scripts/pilot/release_gate.py",

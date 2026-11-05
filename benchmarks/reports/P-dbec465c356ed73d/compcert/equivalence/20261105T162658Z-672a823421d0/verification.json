@@ -1,0 +1,88 @@
+{
+  "theorem": "R_FAC_EQ",
+  "status": "accepted",
+  "source": "frozen sources rebuilt; original definitions and goal bridged by kernel",
+  "assumptions": "Axioms:\nStdlib.Reals.ClassicalDedekindReals.sig_not_dec :\n  forall P : Prop, {~ ~ P} + {~ P}\nStdlib.Reals.ClassicalDedekindReals.sig_forall_dec :\n  forall P : Corelib.Init.Datatypes.nat -> Prop,\n  (forall n : Corelib.Init.Datatypes.nat, {P n} + {~ P n}) ->\n  {n : Corelib.Init.Datatypes.nat | ~ P n} +\n  {forall n : Corelib.Init.Datatypes.nat, P n}\ncompcert.lib.Axioms.proof_irr : Stdlib.Logic.ClassicalFacts.proof_irrelevance\ncompcert.common.Events.inline_assembly_sem :\n  Stdlib.Strings.String.string ->\n  compcert.common.AST.signature -> compcert.common.Events.extcall_sem\nStdlib.Logic.FunctionalExtensionality.functional_extensionality_dep :\n  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),\n  (forall x : A, f x = g x) -> f = g\ncompcert.common.Events.external_functions_sem :\n  Stdlib.Strings.String.string ->\n  compcert.common.AST.signature -> compcert.common.Events.extcall_sem\nStdlib.Logic.Classical_Prop.classic : forall P : Prop, P \\/ ~ P\n",
+  "per_check_timeout_seconds": 600,
+  "coqchk_bytecode_compiler": true,
+  "grader_sha256": "b10ba154e10a1728159a8a23472efdb5d3467db15370e5c30fb0e71df19b242b",
+  "checks": [
+    {
+      "status": "exited",
+      "exit_code": 0,
+      "resources": {
+        "status": "exited",
+        "exit_code": 0,
+        "limits": {
+          "memory_max": "3221225472",
+          "pids_max": "64",
+          "memory_swap_max": "0"
+        },
+        "wall_seconds": 78.15129254099156,
+        "memory_peak_bytes": 1249234944,
+        "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+        "cpu_stat": "usage_usec 78225971\nuser_usec 77114057\nsystem_usec 1111914\nnice_usec 0",
+        "memory_scope": "cgroup v2 peak through sandbox process exit, including supervisor and sandbox descendants; before final cleanup, not hosted model memory"
+      },
+      "output_truncated": false
+    },
+    {
+      "status": "exited",
+      "exit_code": 0,
+      "resources": {
+        "status": "exited",
+        "exit_code": 0,
+        "limits": {
+          "memory_max": "3221225472",
+          "pids_max": "64",
+          "memory_swap_max": "0"
+        },
+        "wall_seconds": 0.7163240760128247,
+        "memory_peak_bytes": 501395456,
+        "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+        "cpu_stat": "usage_usec 664839\nuser_usec 373459\nsystem_usec 291380\nnice_usec 0",
+        "memory_scope": "cgroup v2 peak through sandbox process exit, including supervisor and sandbox descendants; before final cleanup, not hosted model memory"
+      },
+      "output_truncated": false
+    },
+    {
+      "status": "exited",
+      "exit_code": 0,
+      "resources": {
+        "status": "exited",
+        "exit_code": 0,
+        "limits": {
+          "memory_max": "3221225472",
+          "pids_max": "64",
+          "memory_swap_max": "0"
+        },
+        "wall_seconds": 110.36312039400218,
+        "memory_peak_bytes": 715292672,
+        "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+        "cpu_stat": "usage_usec 110408629\nuser_usec 109848686\nsystem_usec 559942\nnice_usec 0",
+        "memory_scope": "cgroup v2 peak through sandbox process exit, including supervisor and sandbox descendants; before final cleanup, not hosted model memory"
+      },
+      "output_truncated": true
+    },
+    {
+      "status": "exited",
+      "exit_code": 0,
+      "resources": {
+        "status": "exited",
+        "exit_code": 0,
+        "limits": {
+          "memory_max": "3221225472",
+          "pids_max": "64",
+          "memory_swap_max": "0"
+        },
+        "wall_seconds": 1.0169900149921887,
+        "memory_peak_bytes": 555122688,
+        "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+        "cpu_stat": "usage_usec 1028274\nuser_usec 757036\nsystem_usec 271237\nnice_usec 0",
+        "memory_scope": "cgroup v2 peak through sandbox process exit, including supervisor and sandbox descendants; before final cleanup, not hosted model memory"
+      },
+      "output_truncated": false
+    }
+  ],
+  "verifier_sha256": "9f842ed5a76690460b51bc22c1d31bf76ec283b96953c45b2c855f14d93a54ca"
+}
