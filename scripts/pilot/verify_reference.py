@@ -31,7 +31,11 @@ def source_binding(commit,claim):
         if isinstance(node,ast.Assign) and len(node.targets)==1 and isinstance(node.targets[0],ast.Name) and node.targets[0].id=='BINDING':
             values['binding']=ast.literal_eval(node.value)
     if 'binding' not in values:raise SystemExit('Missing frozen binding proof')
-    branch=at_commit(commit,'benchmarks/proof-interface/v1/lean/BranchTargets.lean').decode('utf-8')
+    # Historical runs used the old directory; newer runs use its renamed path.
+    branch_path='benchmarks/proof-interface/lean/BranchTargets.lean'
+    if subprocess.run(['git','cat-file','-e',commit+':'+branch_path],cwd=ROOT,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode:
+        branch_path='benchmarks/proof-interface/v1/lean/BranchTargets.lean'
+    branch=at_commit(commit,branch_path).decode('utf-8')
     expected=('def R_FAC_EQ_equivalence : Prop := SpecLessBenchBasic.Equivalent (SpecLessBenchBasic.valid 0) (SpecLessBenchBasic.entry 0 0) (SpecLessBenchBasic.entry 0 1)' if claim=='equivalence' else
               'def R_FAC_CEX_equivalence : Prop := SpecLessBenchBasic.Equivalent (SpecLessBenchBasic.valid 0) (SpecLessBenchBasic.entry 0 0) (SpecLessBenchBasic.entry 0 2)')
     if branch.splitlines().count(expected)!=1:raise SystemExit('Frozen named target differs from checked binding')

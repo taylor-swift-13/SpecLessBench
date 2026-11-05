@@ -9,6 +9,7 @@ import hashlib
 import json
 import os
 import platform
+import re
 import resource as process_resource
 import shutil
 import subprocess
@@ -64,6 +65,7 @@ def main():
     global ACTIVE_RUN
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--reference-task',choices=('factorial-equivalence','factorial-counterexample'),default='factorial-equivalence')
+    parser.add_argument('--model',choices=('gpt-6-luna','gpt-6.1-sol'),default='gpt-6-luna')
     args=parser.parse_args()
     task_name='first-real-task' if args.reference_task=='factorial-equivalence' else 'factorial-cex'
     task_root=ROOT/'_build/pilot-v1'/task_name
@@ -79,12 +81,14 @@ def main():
     meta=json.loads((task_root/'registry.json').read_text())
     expected_claim='equivalence' if args.reference_task=='factorial-equivalence' else 'counterexample'
     if (meta['platform'],meta['claim'])!=('lean',expected_claim):raise SystemExit('Wrong prepared theorem')
+    if not re.fullmatch(r'P-[0-9a-f]{16}',meta['pilot_id']):raise SystemExit('Invalid prepared task identifier')
     if tree_digest(task_root/'task')!=meta['public_sha256']:raise SystemExit('Task digest mismatch')
     if not AUTH.is_file() or not CODEX.is_file() or not CODE_HOST.is_file():raise SystemExit('WSL Codex authentication, executable, or code-mode host unavailable')
     subprocess.run([sys.executable,str(ROOT/'scripts/pilot/verify_freeze.py')],cwd=ROOT,check=True,stdout=subprocess.DEVNULL,timeout=120)
     subprocess.run([sys.executable,str(ROOT/'scripts/pilot/verify_audit.py')],cwd=ROOT,check=True,stdout=subprocess.DEVNULL,timeout=120)
-    BASE.mkdir(mode=0o700,parents=True,exist_ok=True)
-    run=BASE/(dt.datetime.now(dt.timezone.utc).strftime('%Y%m%dT%H%M%SZ')+'-'+uuid.uuid4().hex[:12]);run.mkdir(mode=0o700)
+    run_parent=BASE/meta['pilot_id']/'lean'/expected_claim
+    run_parent.mkdir(mode=0o700,parents=True,exist_ok=True)
+    run=run_parent/(dt.datetime.now(dt.timezone.utc).strftime('%Y%m%dT%H%M%SZ')+'-'+uuid.uuid4().hex[:12]);run.mkdir(mode=0o700)
     ACTIVE_RUN=run
     print('RUN_DIR='+str(run),flush=True)
     private=run/'private';private.mkdir(mode=0o700);home=private/'codex-home';home.mkdir(mode=0o700)
@@ -93,7 +97,7 @@ def main():
     (home/'auth.json').touch(mode=0o600)
     config='''default_permissions = "eval"
 approval_policy = "never"
-model = "gpt-6-luna"
+model = "__MODEL__"
 model_reasoning_effort = "medium"
 web_search = "disabled"
 [features]
@@ -105,7 +109,7 @@ extends = ":workspace"
 "/home/runner/.codex/auth.json" = "deny"
 [permissions.eval.network]
 enabled = false
-'''
+'''.replace('__MODEL__',args.model)
     (home/'config.toml').write_text(config)
     (run/'codex-config.toml').write_text(config)
     (run/'prompt.txt').write_text(PROMPT+'\n')
@@ -117,7 +121,7 @@ enabled = false
     catalog_result=subprocess.run([str(CODEX),'debug','models'],stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=45)
     try:
         catalog=json.loads(catalog_result.stdout);models=catalog.get('models',[]) if isinstance(catalog,dict) else catalog
-        selected=[m for m in models if m.get('slug')=='gpt-6-luna']
+        selected=[m for m in models if m.get('slug')==args.model]
     except (ValueError,AttributeError):selected=[]
     catalog_evidence={'captured_utc':now(),'command':'codex debug models','exit_code':catalog_result.returncode,
                       'raw_catalog_sha256':sha(catalog_result.stdout),
@@ -143,7 +147,7 @@ enabled = false
                  'git_status_raw':status_raw,'git_status_autocrlf_true':status_normalized,
                  'full_environment_locked':False,'limitations':'The OS, system libraries and model backend are not locked; the tree digest does not distribute binaries.'}
     dump(run/'environment.json',environment)
-    settings={'model':'gpt-6-luna','model_reasoning_effort':'medium','agent':'Codex CLI',
+    settings={'model':args.model,'model_reasoning_effort':'medium','agent':'Codex CLI',
               'agent_version':subprocess.check_output([str(CODEX),'--version'],text=True).strip(),
               'timeout_seconds':TIMEOUT,'tools_network':False,'model_network':True,
               'memory_limit_bytes':3*1024**3,'pids_limit':512,
@@ -237,7 +241,7 @@ enabled = false
             'supervisor_exit_code':exit_code,'model_configuration_source':'Codex config and CLI catalog; server-side resolved model metadata not independently verified',
             'environment_evidence':'environment.json','model_catalog_evidence':'model-catalog.json'}
     dump(run/'report.json',report)
-    (run/'report.md').write_text('# Evaluation report\n\n'+f'- Task: `{meta["pilot_id"]}` (Lean {expected_claim})\n- Model: `gpt-6-luna`, medium; Codex {settings["agent_version"]}\n- Result: **{outcome["status"]}**\n- Axiom audit: {report["checks"]["axiom_audit"]["auditor_output"] or "not completed"}\n- Agent / checker wall time: {elapsed:.2f} / {checking_elapsed:.2f} s\n- Agent cgroup memory peak: {resources.get("memory_peak_bytes") if resources else "unknown"} bytes\n- Token usage: {json.dumps(usage,ensure_ascii=False)}\n- Turn completed: {report["transcript"]["turn_completed"]}\n- Monetary cost and hosted-model memory: unknown\n')
+    (run/'report.md').write_text('# Evaluation report\n\n'+f'- Task: `{meta["pilot_id"]}` (Lean {expected_claim})\n- Model: `{args.model}`, medium; Codex {settings["agent_version"]}\n- Result: **{outcome["status"]}**\n- Axiom audit: {report["checks"]["axiom_audit"]["auditor_output"] or "not completed"}\n- Agent / checker wall time: {elapsed:.2f} / {checking_elapsed:.2f} s\n- Agent cgroup memory peak: {resources.get("memory_peak_bytes") if resources else "unknown"} bytes\n- Token usage: {json.dumps(usage,ensure_ascii=False)}\n- Turn completed: {report["transcript"]["turn_completed"]}\n- Monetary cost and hosted-model memory: unknown\n')
     dump(run/'resources.json',report['resources'])
     print(json.dumps({'run_dir':str(run),'result':outcome,'elapsed_seconds':elapsed}),flush=True)
     return 0 if outcome['status']=='accepted' else 1

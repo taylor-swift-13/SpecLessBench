@@ -2,6 +2,8 @@
 
 Each evaluation report is stored separately by task, platform, theorem branch, and run ID. Reports contain proof attempts and answers. The entire factorial family is reserved as public reference material and excluded from the evaluation set on all three platforms; see the [evaluation policy](../pilot/evaluation-policy.json).
 
+Each new local run has its own directory under `~/.local/share/speclessbench/runs/<task>/<platform>/<claim>/<run-id>/`, including failed or timed-out attempts. Publishing an attempt creates a separate directory here; it does not overwrite the frozen reference or another attempt.
+
 The frozen factorial reference contains six independently checked theorem reports, listed below. Their status applies to the factorial family and does not imply benchmark-wide proof coverage. The [reference manifest](factorial-reference.json) pins the report checksums and the frozen pilot snapshot.
 
 | Factorial reference theorem | Lean | Rocq | CompCert |

@@ -96,7 +96,9 @@ def run(task, platform, claim, config_path, output_root=DEFAULT_RUNS, purpose='e
     run_root = Path(output_root)
     if run_root.is_symlink(): raise ValueError('Output directory must not be a symlink')
     run_root.mkdir(mode=0o700, parents=True, exist_ok=True)
-    run_dir = run_root / (dt.datetime.now(dt.timezone.utc).strftime('%Y%m%dT%H%M%SZ') + '-' + uuid.uuid4().hex[:12])
+    run_parent = run_root / task / platform / claim
+    run_parent.mkdir(mode=0o700, parents=True, exist_ok=True)
+    run_dir = run_parent / (dt.datetime.now(dt.timezone.utc).strftime('%Y%m%dT%H%M%SZ') + '-' + uuid.uuid4().hex[:12])
     run_dir.mkdir(mode=0o700)
     started = now(); start = time.monotonic(); checker = []; attempt = None; result = None; error = None
     (run_dir / 'prompt.txt').write_text(PROMPT + '\n', encoding='utf-8')
