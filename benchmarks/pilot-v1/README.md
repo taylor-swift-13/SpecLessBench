@@ -71,7 +71,7 @@ To generate an example report without a model, use `--config scripts/pilot/examp
 
 `test_single_task_runner.py` 检查其他目录、前次运行及题目篡改隔离；`test_grade_sealed.py` 对三个工具链测试接受合法证明和拒绝未完成证明、额外公理、篡改目标包；`test_attempt_to_grade.py` 测试从沙箱输出到 Lean 评分的完整链路。这些测试使用玩具命题。
 
-第一道真实 Lean 等价题已接入：`python3 scripts/pilot/prepare_factorial.py` 从冻结实现建立单题包，并用 Lean 检查裁剪后正反目标与原目标的对应关系。`python3 scripts/pilot/test_real_factorial.py` 对真实目标检查了 `sorry`、额外公理及错误目标均被拒绝。参考题评分入口为 `python3 scripts/pilot/release_gate.py --reference --task P-dbec465c356ed73d --platform lean --proof /path/to/Submission.lean`；提交需定义 `Submission.solve : Obligation.goal`。在沙箱中只挂载 `_build/pilot-v1/first-real-task/task/`，不要挂载其父目录、仓库或评分器目录。**目前只支持这一道题的 Lean 等价分支**，其反例分支及其余题目、平台还未接入；文件哈希本身不能证明目录没有其他题或目标绑定正确。
+阶乘的 Lean 等价与固定见证反例参考题已接入，分别由 `prepare_factorial.py` 和 `prepare_factorial_cex.py` 建立单题包；源码重建与对应关系检查不替代最终任务证明。`test_real_factorial.py` 和 `test_factorial_cex.py` 检查 `sorry`、额外公理及错误目标均被拒绝。参考题评分入口需显式加 `--reference`，例如 `python3 scripts/pilot/release_gate.py --reference --task P-dbec465c356ed73d --platform lean --proof /path/to/Submission.lean`；提交需定义 `Submission.solve : Obligation.goal`。沙箱只能挂载当前题的 `task/`，不能挂载其父目录、仓库或评分器目录。Rocq 和 CompCert 的最终阶乘定理仍待证明；文件哈希本身不能证明目录没有其他题或目标绑定正确。
 
 2026-11-05 的原型测试继续向 `benchmarks/construction/pilot-jobs.jsonl` 记录沙箱作业的 cgroup 资源；本次外层命令没有逐条加入早期的命令计时器，因此总命令时间仍不完整。`pilot-freeze-v0.12` 的 token 快照覆盖了两次用户请求，时间窗口包括两次请求之间的等待，不能当作实际工作时长。
 

@@ -4,6 +4,7 @@ import ast
 import hashlib
 import json
 import os
+import shutil
 import subprocess
 import tarfile
 import tempfile
@@ -11,6 +12,7 @@ from pathlib import Path
 
 from grade_sealed import grade
 from single_task_runner import tree_digest
+from sandbox import run_isolated
 
 ROOT=Path(__file__).resolve().parents[2]
 LEAN=Path('/home/yangfp/.elan/toolchains/leanprover--lean4---v4.34.0/bin/lean')
@@ -60,6 +62,43 @@ def main : IO UInt32 := do
     IO.println s!"{name}: {axioms}"
   return 0
 '''
+
+
+def bridge_to_original(base,package,original,binding,proof,claim):
+    """Kernel-check a direct theorem for the original goal in the sandbox."""
+    submission=base/'submission';submission.mkdir();shutil.copyfile(proof,submission/'Submission.lean')
+    compiled=run_isolated('lean',package,submission,[str(LEAN),'-j','1','-t','0','-R','/submission',
+        '-o','/work/Submission.olean','/submission/Submission.lean'],collect=['Submission.olean'])
+    if compiled['status']!='exited' or compiled['exit_code']!=0:raise SystemExit('Submission compilation for bridge failed')
+    trusted=base/'bridge';trusted.mkdir()
+    for folder,names in ((package,('Task.olean','Obligation.olean')),(original,('BasicNative.olean','BasicDomain.olean')),(binding,('Binding.olean',))):
+        for name in names:shutil.copyfile(folder/name,trusted/name)
+    (trusted/'Submission.olean').write_bytes(compiled['artifacts']['Submission.olean'])
+    if claim=='equivalence':
+        body='''theorem gold_original : SpecLessBenchBasic.Equivalent (SpecLessBenchBasic.valid 0) (SpecLessBenchBasic.entry 0 0) (SpecLessBenchBasic.entry 0 1) := by
+  have h : Task.equivalent := Submission.solve
+  rw [projection_eq] at h
+  exact h
+'''
+    else:
+        body='''theorem gold_original : SpecLessBenchBasic.Counterexample (SpecLessBenchBasic.valid 0) (SpecLessBenchBasic.entry 0 0) (SpecLessBenchBasic.entry 0 2) := by
+  refine ⟨[1], [1,1], [1,0], ?_⟩
+  have h : Task.refutationAt [1] [1,1] [1,0] := Submission.solve
+  rw [projection_refutation_eq] at h
+  exact h
+'''
+    (trusted/'Bridge.lean').write_text('import Binding\nimport Obligation\nimport Submission\n'+body,encoding='utf-8')
+    result=run_isolated('lean',trusted,submission,[str(LEAN),'-j','1','-t','0','-R','/trusted',
+        '-o','/work/Bridge.olean','/trusted/Bridge.lean'],collect=['Bridge.olean'])
+    if result['status']!='exited' or result['exit_code']!=0:
+        raise SystemExit('Original theorem bridge failed: '+result.get('stdout','')+result.get('stderr',''))
+    (trusted/'Bridge.olean').write_bytes(result['artifacts']['Bridge.olean'])
+    audit=BINDING_AUDIT.replace('`Binding','`Bridge').replace('[`projection_eq, `projection_refutation_eq]','[`gold_original]')
+    (trusted/'BridgeAudit.lean').write_text(audit,encoding='utf-8')
+    result=run_isolated('lean',trusted,submission,[str(LEAN),'--run','/trusted/BridgeAudit.lean'])
+    if result['status']!='exited' or result['exit_code']!=0:
+        raise SystemExit('Original theorem bridge axiom audit failed: '+result.get('stdout','')+result.get('stderr',''))
+    print(result['stdout'].strip())
 
 
 def compile_lean(folder,name,paths):
@@ -146,7 +185,8 @@ def main():
         subprocess.run([str(LEAN),'--run',str(binding/'BindingAudit.lean')],cwd=binding,env=env,check=True,timeout=120)
         rebuilt=grade('lean',package,tree_digest(package),root/'Submission.lean')
         if rebuilt['status']!='accepted':raise SystemExit('Proof does not check against rebuilt source: '+json.dumps(rebuilt))
-    print('Reference checksums, timestamps, source rebuild, frozen-target binding and Lean proof check passed.')
+        bridge_to_original(base,package,original,binding,root/'Submission.lean',claim)
+    print('Reference checksums, timestamps, source rebuild, frozen-target binding and original theorem proof check passed.')
 
 
 if __name__=='__main__':main()

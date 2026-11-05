@@ -7,7 +7,7 @@ The existing reference is [the Lean factorial equivalence run](P-dbec465c356ed73
 | Factorial reference theorem | Lean | Rocq | CompCert |
 | --- | --- | --- | --- |
 | Recursive / accumulator equivalence | [Proved](P-dbec465c356ed73d/lean/equivalence/20261105T145347Z-3b3c245438c5/report.md) | Pending | Pending |
-| Reference / mutant counterexample | Pending | Pending | Pending |
+| Reference / mutant counterexample | [Proved](P-a80b8283427dcbd7/lean/counterexample/20261105T152523Z-ff7f7147b74b/report.md) | Pending | Pending |
 
 All six instances are excluded from evaluation regardless of proof status. The Lean counterexample package uses a fixed witness; it is intended as a certificate example, not as evidence that an agent discovered the witness.
 

@@ -1,0 +1,35 @@
+{
+  "scope": "Interrupted construction stage covering factorial selection, Lean reference checks and Rocq goal preparation; not per-theorem costs or total benchmark construction costs. External Lean model run is recorded separately.",
+  "status": "interrupted",
+  "time": {
+    "wall_seconds": 1451.8044984340668,
+    "cpu_tool_seconds": 26.34,
+    "cpu_recorded_tool_seconds": 26.34,
+    "own_tool_wall_seconds": 132.02553311899828,
+    "scope": "From start to finish of this invocation; not retroactive authoring time",
+    "aggregation": "wrapper wall is direct elapsed time, not sum of children"
+  },
+  "memory": {
+    "peak_process_tree_rss_sampled_bytes": 3804139520,
+    "max_individual_process_rss_bytes": 2072272896,
+    "max_child_tree_rss_sampled_bytes": 3804139520,
+    "method": "10ms requested /proc process-tree RSS sampling; GNU time max RSS per command",
+    "scope": "Launched tool processes plus time launcher; excludes model-serving/desktop agent memory",
+    "limitations": "RSS sum may count shared pages more than once; sampling may miss brief peaks. GNU max RSS is an individual-process maximum, not summed concurrent memory.",
+    "aggregation": "max over sequential tools/children; overlapping child runs have no combined peak estimate",
+    "parallel_children": false,
+    "tree_sampling_complete": true,
+    "commands_without_sampled_tree_peak": []
+  },
+  "tokens": {
+    "total_tokens": 32396962,
+    "cached_input_tokens": 32291712,
+    "output_tokens": 36884,
+    "counting_rule": "total=input+output; cache/reasoning are subsets; event_id union across wrapper and children",
+    "reasoning_output_tokens": 15973,
+    "input_tokens": 32360078
+  },
+  "measurement_status": "complete",
+  "command_count": 5,
+  "limits": "Model server memory and monetary cost unavailable. Input includes cached input and the preceding conversation; cannot attribute this stage to individual theorems."
+}
