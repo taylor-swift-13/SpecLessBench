@@ -17,8 +17,8 @@ systemd-run --user --unit=specless-luna-batch --working-directory="$PWD" \
 ```
 
 Only packages with checked correspondence to the frozen sources are eligible
-for the worker. The initial adapters cover native Lean reversal, sum, matrix and
-queue pairs, and native Rocq reversal and sum pairs.
+for the worker. The initial adapters cover native Lean and Rocq reversal, sum,
+matrix and queue pairs, plus Clight reversal and sum pairs.
 Other instances wait for adapters; they are not counted as model failures.
 Adding a certified package lets the same serial worker pick it up. Preparation
 must wait until no theorem is running. An exclusive worker lock prevents two
@@ -36,6 +36,15 @@ Native Rocq submissions are independently checked by `coqchk` and must have no
 axiom dependencies. The Lean prompt is unchanged from the first batch; early
 submissions with missing claims or an incorrect theorem name remain rejected
 and are never silently repaired or overwritten.
+
+Clight packages retain the frozen execution semantics, safety and termination
+requirements, and full 8192-word output observations. Their C sources match the
+frozen preprocessed build hashes. AST modules have neutral names; unused build
+metadata is omitted. Rocq checks correspondence of both selected goals to the
+frozen targets under module rebinding. Counterexample claims provide output
+prefixes including their length slot; the trusted renderer pads them to 8192
+words and pairs each with main return zero. CompCert assumptions follow the
+existing grader allowlist; candidate axioms, including namespace spoofing, fail.
 
 Private artifacts are on WSL's Linux filesystem:
 

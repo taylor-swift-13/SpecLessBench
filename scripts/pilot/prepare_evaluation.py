@@ -19,13 +19,15 @@ PACKAGES = Path.home()/'.local/share/speclessbench/packages'
 LEAN = Path.home()/'.elan/toolchains/leanprover--lean4---v4.34.0/bin/lean'
 SOURCE = ROOT/'benchmarks/tasks/algorithms-core/lean'
 ROCQ = Path.home()/'.opam/qcp-8.20'
+COMPCERT = Path.home()/'.opam/five'
 
 
-def compile_rocq(folder, name, paths):
-    argv = [str(ROCQ/'bin/coqc'), '-q', '-noglob']
+def compile_rocq(folder, name, paths, toolchain=ROCQ):
+    argv = [str(toolchain/'bin/coqc'), '-q', '-noglob']
     for path, logical in paths:
         argv += ['-Q', str(path), logical]
     result = subprocess.run(argv+[str(folder/(name+'.v'))], cwd=folder,
+                            env=dict(os.environ, OCAMLFIND_CONF=str(toolchain/'lib/findlib.conf'), OCAMLPATH=str(toolchain/'lib')),
                             capture_output=True, text=True, timeout=180)
     if result.returncode:
         (folder/(name+'.failure.log')).write_text(result.stdout+result.stderr)
@@ -82,6 +84,35 @@ def queue_definition(name, style):
       | a::rest => (if op == 1 then rest else f,r,out++[op,1,a]))
     (([] : Words),([] : Words),([] : Words))
   out
+'''
+
+
+def rocq_matrix_definition(name, style):
+    header = f'''Definition {name} xs :=
+  let r := Z.to_nat (iz xs 0) in let k := Z.to_nat (iz xs 1) in let c := Z.to_nat (iz xs 2) in
+'''
+    if style == 1:
+        return header+'''  fold_left (fun out i => fold_left (fun out t => fold_left (fun out j =>
+    put out (i*c+j) (iz out (i*c+j)+iz xs (3+i*k+t)*iz xs (3+r*k+t*c+j))%Z) (seq 0 c) out) (seq 0 k) out)
+    (seq 0 r) (repeat 0%Z (r*c)).
+'''
+    index = 'j*k+t' if style == 2 else 't*c+j'
+    return header+f'''  map (fun pos => let i := pos/c in let j := pos mod c in
+    fold_left (fun a t => (a+iz xs (3+i*k+t)*iz xs (3+r*k+({index})))%Z) (seq 0 k) 0%Z) (seq 0 (r*c)).
+'''
+
+
+def rocq_queue_definition(name, style):
+    push = '(front++[v],rear,out++[0%Z;0%Z])' if style == 0 else '(front,v::rear,out++[0%Z;0%Z])'
+    transfer = '(front,rear)' if style == 0 else ('if Nat.eqb (length front) 0 then (reverse_rec rear,'+('rear' if style == 2 else '[]')+') else (front,rear)')
+    return f'''Definition {name} xs :=
+  let '(_,_,out) := fold_left (fun state i => let '(front,rear,out) := state in
+    let op := iz xs (1+2*i) in let v := iz xs (2+2*i) in
+    if Z.eqb op 0 then {push}
+    else let '(f,r) := {transfer} in
+    match f with [] => (f,r,out++[op;0%Z;0%Z]) | a::rest =>
+      (if Z.eqb op 1 then rest else f,r,out++[op;1%Z;a]) end)
+    (seq 0 (Z.to_nat (iz xs 0))) (([]:words),([]:words),([]:words)) in out.
 '''
 
 
@@ -231,7 +262,7 @@ Example exact_refutation_binding (x oa ob : Task.words) : Task.refutationAt x oa
 
 def prepare_rocq(row):
     ctx = row['context']; family = ctx.get('family_index')
-    if ctx.get('tranche') != 'algorithms' or family not in (1, 2):
+    if ctx.get('tranche') != 'algorithms' or family not in (1, 2, 3, 5):
         return None
     package = PACKAGES/row['pilot_id']/'rocq'
     if (package/'registry.json').exists():
@@ -249,7 +280,7 @@ def prepare_rocq(row):
     styles = re.findall(r'SpecLessBenchBasic.entry '+str(family)+r' (\d+)', definition(targets, ctx['equivalence_goal']))
     if len(styles) != 2 or styles[0] != '0' or styles[1] not in ('1', '2'):
         raise ValueError('Unsupported frozen Rocq pair')
-    style = int(styles[1]); names = ('reverse_rec', 'reverse_acc') if family == 1 else ('sum_rec', 'sum_acc')
+    style = int(styles[1]); names = {1: ('reverse_rec', 'reverse_acc'), 2: ('sum_rec', 'sum_acc'), 3: ('put',), 5: ('reverse_rec',)}[family]
     def extract(name):
         match = re.search(r'^(?:Definition|Fixpoint) '+re.escape(name)+r'\b.*?(?=\n(?:Definition|Fixpoint|Notation) |\Z)', native, re.M | re.S)
         if not match:
@@ -265,8 +296,29 @@ Definition valid (xs : words) : Prop :=
     left = 'reverse_rec data' if family == 1 else '[sum_rec data]'
     right = ('reverse_acc data '+('[0%Z]' if style == 2 else '[]')) if family == 1 else (
         '[sum_acc '+('(firstn (length data-1) data)' if style == 2 else 'data')+' 0%Z]')
+    data_prefix = '  let data := firstn (Z.to_nat (iz xs 0)) (skipn 1 xs) in '
+    if family == 3:
+        text = text[:text.index('Definition in_range')]+rocq_matrix_definition('matrixA', 0)+rocq_matrix_definition('matrixB', style)+'''
+Definition in_range v lo hi := Z.leb lo v && Z.leb v hi.
+Definition valid (xs : words) : Prop :=
+  (let a := iz xs 0 in let b := iz xs 1 in let c := iz xs 2 in
+   let n := Z.to_nat a in let m := Z.to_nat b in let z := Z.to_nat c in
+   in_range a 0 6 && in_range b 0 6 && in_range c 0 6 && Nat.eqb (length xs) (3+n*m+m*z) &&
+   forallb (fun v => in_range v (-1000) 1000) (skipn 3 xs)) = true.
+'''
+        left, right, data_prefix = 'matrixA xs', 'matrixB xs', ''
+    elif family == 5:
+        text = text[:text.index('Definition in_range')]+rocq_queue_definition('queueA', 0)+rocq_queue_definition('queueB', style)+'''
+Definition in_range v lo hi := Z.leb lo v && Z.leb v hi.
+Definition valid (xs : words) : Prop :=
+  (in_range (iz xs 0) 0 64 && Nat.eqb (length xs) (1+2*Z.to_nat (iz xs 0)) &&
+   forallb (fun i => let op := iz xs (1+2*i) in let v := iz xs (2+2*i) in
+     in_range op 0 2 && (if Z.eqb op 0 then in_range v (-1000000) 1000000 else Z.eqb v 0))
+     (seq 0 (Z.to_nat (iz xs 0)))) = true.
+'''
+        left, right, data_prefix = 'queueA xs', 'queueB xs', ''
     for name, expression in (('a', left), ('b', right)):
-        text += f'Definition {name} (xs : words) : option words :=\n  let data := firstn (Z.to_nat (iz xs 0)) (skipn 1 xs) in Some (finish ({expression})).\n'
+        text += f'Definition {name} (xs : words) : option words :=\n'+data_prefix+f'Some (finish ({expression})).\n'
     text += '''Definition equivalent : Prop := forall x, valid x -> exists o, a x = Some o /\ b x = Some o.
 Definition refutationAt (x oa ob : words) : Prop := valid x /\ a x = Some oa /\ b x = Some ob /\ oa <> ob.
 '''
@@ -302,6 +354,7 @@ Example refutation_binding (x oa ob : Task.words) : Task.refutationAt x oa ob = 
 
 
 def main():
+    from prepare_clight_evaluation import prepare_compcert
     os.umask(0o077)
     PACKAGES.mkdir(parents=True, exist_ok=True, mode=0o700)
     with (PACKAGES/'activity.lock').open('a') as lock:
@@ -311,7 +364,7 @@ def main():
         rows = json.loads((PRIVATE/'mapping.json').read_text())['contexts']
         for row in rows:
             if row['pilot_id'] in eligible:
-                for adapter in (prepare, prepare_rocq):
+                for adapter in (prepare, prepare_rocq, prepare_compcert):
                     meta = adapter(row)
                     if meta:
                         print(json.dumps({'task': meta['pilot_id'], 'platform': meta['platform'], 'prepared': True}), flush=True)

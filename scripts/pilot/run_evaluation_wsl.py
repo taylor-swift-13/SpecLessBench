@@ -12,7 +12,8 @@ import uuid
 from pathlib import Path
 
 from grade_sealed import grade
-from prepare_evaluation import PACKAGES, ROCQ, compile_lean, compile_rocq
+from prepare_evaluation import PACKAGES, ROCQ, COMPCERT, compile_lean, compile_rocq
+from rocq_grader_core import COMPCERT_ROCQ_ASSUMPTIONS
 from run_codex_wsl import AUTH, CODEX, CODE_HOST, LEAN, ROOT, SUPERVISOR, fingerprint_tree, now, sha
 from selection import selection
 from single_task_runner import tree_digest
@@ -54,6 +55,32 @@ or mere test results. Keep implementations, domain and observations unchanged.
 Check using: coqc -Q /task Trusted -Q /work Candidate /work/Submission.v
 Both claim.json and Submission.v are required even when claiming equivalence.
 '''
+COMPCERT_PROMPT = '''Compare the two fixed C implementations in /task/Left.c and
+/task/Right.c. Their authoritative Clight ASTs are Left.v and Right.v. The frozen
+execution semantics, valid inputs and targets are in Execution.v and Task.v.
+Prove Task.equivalent, or provide a concrete, formally proved counterexample.
+Work only in /work. Write BOTH claim.json and Submission.v. The literal claim is
+{"claim":"equivalence"} or
+{"claim":"counterexample","input":[...],"left":[...],"right":[...]}.
+input is the unpadded integer input. left/right include slot zero (payload length)
+and the meaningful output payload. The checker pads EACH observation with zeros
+to exactly 8192 words and pairs it with main return 0. To submit a counterexample,
+prove Task.refutationAt <input> (0%Z, <left> ++ repeat 0%Z <8192-left_length>)
+(0%Z, <right> ++ repeat 0%Z <8192-right_length>). Use literal lists and lengths.
+For equivalence, prove Task.equivalent. Name the TOP-LEVEL theorem solve in
+Submission.v; do not wrap it in Module Submission. Start with:
+From Stdlib Require Import ZArith List.
+From Trusted Require Import Task Execution Left Right.
+Import ListNotations.
+The fixed goal requires safe, terminating Clight executions and exact observations.
+Keep the full 8192-word buffer and all implementations/domains/semantics unchanged.
+The final theorem must retain the stated Clight semantics. Functional helper
+models are allowed when their correspondence to Clight is proved.
+No Admitted, admit, new axioms, unverified testing, or bare Eq-or-Cex disjunction.
+CompCert's existing standard assumptions are permitted; candidate axioms are not.
+Check with: coqc -Q /task Trusted -Q /work Candidate /work/Submission.v
+No expected branch, witness, other task or prior attempt is supplied.
+'''
 
 
 def dump(path, value):
@@ -68,7 +95,7 @@ def literal_list(value):
 
 
 def render_claim(value, platform='lean'):
-    if platform not in ('lean', 'rocq'):
+    if platform not in ('lean', 'rocq', 'compcert'):
         raise ValueError('No certified literal renderer for this platform')
     if type(value) is not dict:
         raise ValueError('Claim must be an object')
@@ -81,9 +108,12 @@ def render_claim(value, platform='lean'):
     if value['left'] == value['right']:
         raise ValueError('Counterexample observations must differ')
     def term(values):
-        if platform == 'rocq':
+        if platform != 'lean':
             return '['+'; '.join('('+str(x)+')%Z' for x in values)+']'
         return '['+', '.join(str(x) if x >= 0 else '('+str(x)+')' for x in values)+']'
+    if platform == 'compcert':
+        observations = ['(0%Z, ('+term(value[k])+' ++ repeat 0%Z '+str(8192-len(value[k]))+'%nat))' for k in ('left', 'right')]
+        return 'Task.refutationAt '+term(value['input'])+' '+' '.join(observations)
     return 'Task.refutationAt '+' '.join(term(value[k]) for k in ('input', 'left', 'right'))
 
 
@@ -91,11 +121,11 @@ def run(task_id, platform='lean', timeout=3600, on_run=None):
     os.umask(0o077)
     if task_id not in {r['pilot_id'] for r in selection()[0]}:
         raise ValueError('Task is not evaluation-eligible')
-    if platform not in ('lean', 'rocq'):
+    if platform not in ('lean', 'rocq', 'compcert'):
         raise ValueError('No certified adapter for this platform yet')
-    toolchain = LEAN if platform == 'lean' else ROCQ
+    toolchain = {'lean': LEAN, 'rocq': ROCQ, 'compcert': COMPCERT}[platform]
     proof_name = 'Submission.lean' if platform == 'lean' else 'Submission.v'
-    prompt = PROMPT if platform == 'lean' else ROCQ_PROMPT
+    prompt = {'lean': PROMPT, 'rocq': ROCQ_PROMPT, 'compcert': COMPCERT_PROMPT}[platform]
     source = PACKAGES/task_id/platform
     meta = json.loads((source/'registry.json').read_text())
     if (meta['pilot_id'], meta['platform']) != (task_id, platform) or tree_digest(source/'task') != meta['public_sha256']:
@@ -164,7 +194,8 @@ enabled = false
              'git_status': subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT, text=True).splitlines(),
              'toolchain_tree': fingerprint_tree(toolchain), 'preflight_seconds': time.monotonic()-preflight,
              'runner_dependencies': {p: sha((ROOT/p).read_bytes()) for p in (
-                 'scripts/pilot/run_evaluation_wsl.py', 'scripts/pilot/grade_sealed.py', 'scripts/pilot/lean_grader_core.py',
+                 'scripts/pilot/run_evaluation_wsl.py', 'scripts/pilot/prepare_evaluation.py', 'scripts/pilot/prepare_clight_evaluation.py',
+                 'scripts/pilot/grade_sealed.py', 'scripts/pilot/lean_grader_core.py',
                  'scripts/pilot/TrustedLeanAudit.lean', 'scripts/pilot/rocq_grader_core.py',
                  'scripts/pilot/sandbox.py', 'scripts/pilot/resource_supervisor.py')},
              'full_environment_locked': False})
@@ -180,16 +211,16 @@ enabled = false
         if platform == 'lean':
             cmd += ['--ro-bind', str(LEAN), '/opt/lean']
         else:
-            cmd += ['--dir', '/home/yangfp', '--dir', '/home/yangfp/.opam', '--ro-bind', str(ROCQ), str(ROCQ)]
+            cmd += ['--dir', '/home/yangfp', '--dir', '/home/yangfp/.opam', '--ro-bind', str(toolchain), str(toolchain)]
         cmd += [
                 '--ro-bind', str(task), '/task', '--bind', str(work), '/work', '--tmpfs', '/tmp', '--dev', '/dev', '--proc', '/proc',
                 '--clearenv', '--setenv', 'HOME', '/home/runner', '--setenv', 'CODEX_HOME', '/home/runner/.codex',
-                '--setenv', 'PATH', '/opt:'+('/opt/lean/bin' if platform == 'lean' else str(ROCQ/'bin'))+':/usr/bin:/bin',
+                '--setenv', 'PATH', '/opt:'+('/opt/lean/bin' if platform == 'lean' else str(toolchain/'bin'))+':/usr/bin:/bin',
                 '--setenv', 'LANG', 'C.UTF-8', '--setenv', 'TOKIO_WORKER_THREADS', '4', '--setenv', 'RAYON_NUM_THREADS', '4']
         if platform == 'lean':
             cmd += ['--setenv', 'LEAN_PATH', '/task:/work']
         else:
-            cmd += ['--setenv', 'OCAMLFIND_CONF', str(ROCQ/'lib/findlib.conf'), '--setenv', 'OCAMLPATH', str(ROCQ/'lib')]
+            cmd += ['--setenv', 'OCAMLFIND_CONF', str(toolchain/'lib/findlib.conf'), '--setenv', 'OCAMLPATH', str(toolchain/'lib')]
         for key in ('HTTP_PROXY', 'HTTPS_PROXY', 'NO_PROXY', 'http_proxy', 'https_proxy', 'no_proxy'):
             if os.environ.get(key):
                 from urllib.parse import urlsplit
@@ -268,8 +299,8 @@ enabled = false
                     (trusted/'Obligation.lean').write_text('import Task\nnamespace Obligation\ndef goal : Prop := '+goal+'\nend Obligation\n')
                     compile_lean(trusted, 'Obligation', [trusted])
                 else:
-                    (trusted/'Obligation.v').write_text('From Coq Require Import ZArith List.\nImport ListNotations.\nFrom Trusted Require Import Task.\nDefinition goal : Prop := '+goal+'.\n')
-                    compile_rocq(trusted, 'Obligation', [(trusted, 'Trusted')])
+                    (trusted/'Obligation.v').write_text('From '+('Stdlib' if platform == 'compcert' else 'Coq')+' Require Import ZArith List.\nImport ListNotations.\nFrom Trusted Require Import Task.\nDefinition goal : Prop := '+goal+'.\n')
+                    compile_rocq(trusted, 'Obligation', [(trusted, 'Trusted')], toolchain=toolchain)
                 obligation = 'Obligation.lean' if platform == 'lean' else 'Obligation.v'
                 shutil.copyfile(trusted/obligation, run_dir/obligation)
                 result = grade(platform, trusted, tree_digest(trusted), run_dir/proof_name, timeout=600, trace=trace)
@@ -302,8 +333,8 @@ enabled = false
                   'result': result, 'resources': costs, 'submission_claim': claim,
                   'checks': {'fixed_goal_gate': 'passed' if len(trace) > 1 and trace[1].get('exit_code') == 0 else 'not-passed-or-not-run',
                              'axiom_audit': 'passed' if len(trace) == (3 if platform == 'lean' else 4) and trace[-1].get('exit_code') == 0 else 'not-passed-or-not-run',
-                             'independent_coqchk': ('passed' if len(trace) > 2 and trace[2].get('exit_code') == 0 else 'not-passed-or-not-run') if platform == 'rocq' else None,
-                             'allowed_axioms': ['propext', 'Classical.choice', 'Quot.sound'] if platform == 'lean' else [],
+                             'independent_coqchk': ('passed' if len(trace) > 2 and trace[2].get('exit_code') == 0 else 'not-passed-or-not-run') if platform != 'lean' else None,
+                             'allowed_axioms': ['propext', 'Classical.choice', 'Quot.sound'] if platform == 'lean' else (['compcert.*', *sorted(COMPCERT_ROCQ_ASSUMPTIONS)] if platform == 'compcert' else []),
                              'full_stage_output': 'checker.log'},
                   'proof_sha256': sha((run_dir/proof_name).read_bytes()) if (run_dir/proof_name).exists() else None,
                   'transcript': {'format': 'Codex CLI --json', 'event_count': event_count, 'invalid_lines': invalid,
@@ -323,7 +354,7 @@ enabled = false
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--task', required=True)
-    parser.add_argument('--platform', choices=('lean', 'rocq'), default='lean')
+    parser.add_argument('--platform', choices=('lean', 'rocq', 'compcert'), default='lean')
     args = parser.parse_args()
     directory, report = run(args.task, args.platform)
     print(json.dumps({'run_dir': str(directory), 'result': report['result']}))
