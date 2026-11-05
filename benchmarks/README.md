@@ -2,6 +2,7 @@
 
 - [`tasks/`](tasks/) — program implementations, input domains, proof goals, and differential-test evidence.
 - [`pilot-v1/`](pilot-v1/) — frozen pilot manifest and audit reports.
+- [`reports/`](reports/) — published, per-theorem reference evaluation reports.
 - [`proof-interface/`](proof-interface/) — proof and counterexample submission interfaces.
 - [`construction/`](construction/) — construction costs, issue records, and archived command logs.
 - [`source-material/`](source-material/) and [`research/`](research/) — source provenance, licenses, and selection evidence.

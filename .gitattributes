@@ -1,0 +1,2 @@
+# Reference checksums cover the exact published bytes on all platforms.
+benchmarks/reports/** -text

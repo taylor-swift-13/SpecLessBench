@@ -1,0 +1,30 @@
+{
+  "wall_seconds": 60.136564056010684,
+  "checker_seconds": 11.128172878001351,
+  "sandbox": {
+    "status": "exited",
+    "exit_code": 0,
+    "limits": {
+      "memory_max": "3221225472",
+      "pids_max": "512",
+      "memory_swap_max": "0"
+    },
+    "wall_seconds": 59.89905464199546,
+    "memory_peak_bytes": 2619043840,
+    "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "cpu_stat": "usage_usec 5493924\nuser_usec 1707291\nsystem_usec 3786632\nnice_usec 0",
+    "memory_scope": "cgroup v2 peak through sandbox process exit, including supervisor and sandbox descendants; before final cleanup, not hosted model memory"
+  },
+  "provider_usage_events": [
+    {
+      "input_tokens": 70796,
+      "cached_input_tokens": 42368,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 978,
+      "reasoning_output_tokens": 327
+    }
+  ],
+  "usage_scope": "Codex CLI turn.completed events; no assumed billing conversion",
+  "monetary_cost": null,
+  "hosted_inference_memory_bytes": null
+}

@@ -1,0 +1,68 @@
+[
+  {
+    "status": "exited",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "output_truncated": false,
+    "resources": {
+      "status": "exited",
+      "exit_code": 0,
+      "limits": {
+        "memory_max": "3221225472",
+        "pids_max": "64",
+        "memory_swap_max": "0"
+      },
+      "wall_seconds": 2.320349069996155,
+      "memory_peak_bytes": 396673024,
+      "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+      "cpu_stat": "usage_usec 1146607\nuser_usec 541335\nsystem_usec 605272\nnice_usec 0",
+      "memory_scope": "cgroup v2 peak through sandbox process exit, including supervisor and sandbox descendants; before final cleanup, not hosted model memory"
+    },
+    "stage": "submission_compile"
+  },
+  {
+    "status": "exited",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "output_truncated": false,
+    "resources": {
+      "status": "exited",
+      "exit_code": 0,
+      "limits": {
+        "memory_max": "3221225472",
+        "pids_max": "64",
+        "memory_swap_max": "0"
+      },
+      "wall_seconds": 0.7162661730108084,
+      "memory_peak_bytes": 181542912,
+      "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+      "cpu_stat": "usage_usec 699793\nuser_usec 418267\nsystem_usec 281526\nnice_usec 0",
+      "memory_scope": "cgroup v2 peak through sandbox process exit, including supervisor and sandbox descendants; before final cleanup, not hosted model memory"
+    },
+    "stage": "fixed_goal_gate"
+  },
+  {
+    "status": "exited",
+    "exit_code": 0,
+    "stdout": "accepted axiom dependencies: #[propext, Quot.sound]\n",
+    "stderr": "",
+    "output_truncated": false,
+    "resources": {
+      "status": "exited",
+      "exit_code": 0,
+      "limits": {
+        "memory_max": "3221225472",
+        "pids_max": "64",
+        "memory_swap_max": "0"
+      },
+      "wall_seconds": 4.427618325993535,
+      "memory_peak_bytes": 2820141056,
+      "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+      "cpu_stat": "usage_usec 3917688\nuser_usec 1166121\nsystem_usec 2751567\nnice_usec 0",
+      "memory_scope": "cgroup v2 peak through sandbox process exit, including supervisor and sandbox descendants; before final cleanup, not hosted model memory"
+    },
+    "stage": "axiom_audit"
+  }
+]
