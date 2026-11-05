@@ -5,7 +5,7 @@ import re
 import resource
 import time
 
-from prepare_evaluation import ROOT, PACKAGES, compile_rocq
+from prepare_evaluation import ROOT, PACKAGES, compile_rocq, compile_lean
 from single_task_runner import tree_digest
 
 
@@ -148,3 +148,173 @@ Proof. exact (@source_congruence3 _ _ _ Prop (fun v a b => ClassicsNative.Refuta
             'compiler_costs': 'compile-costs.jsonl', 'preparation_model_tokens': None, 'final_proof_attempted': False}
     (package/'registry.json').write_text(json.dumps(meta, indent=2)+'\n')
     return meta
+
+
+LEAN_BRIDGES = {
+    'insertEdge': '''theorem insertEdge_eq (reverse : Bool) (item : Task.Edge) (xs : List Task.Edge) : Task.insertEdge reverse item xs = SpecLessBenchClassics.insertEdge reverse item xs := by
+  induction xs with
+  | nil => rfl
+  | cons x xs ih => simp [Task.insertEdge, SpecLessBenchClassics.insertEdge, Task.edgeWeight, SpecLessBenchClassics.edgeWeight, ih]
+''',
+    'sortEdges': '''theorem sortEdges_eq (reverse : Bool) (xs : List Task.Edge) : Task.sortEdges reverse xs = SpecLessBenchClassics.sortEdges reverse xs := by
+  simp [Task.sortEdges, SpecLessBenchClassics.sortEdges, insertEdge_eq]
+''',
+    'root': '''theorem root_eq (fuel : Nat) (parent : List Nat) (x : Nat) : Task.root fuel parent x = SpecLessBenchClassics.root fuel parent x := by
+  induction fuel generalizing x with
+  | zero => rfl
+  | succ fuel ih => simp [Task.root, SpecLessBenchClassics.root, Task.getOr, SpecLessBenchClassics.getOr, ih]
+''',
+    'kruskal': '''theorem kruskal_eq (reverse : Bool) (n : Nat) (edges : List Task.Edge) : Task.kruskal reverse n edges = SpecLessBenchClassics.kruskal reverse n edges := by
+  simp [Task.kruskal, SpecLessBenchClassics.kruskal, sortEdges_eq, root_eq, Task.put, SpecLessBenchClassics.put]
+''',
+    'bestCrossing': '''theorem bestCrossing_eq (edges : List Task.Edge) (seen : List Bool) : Task.bestCrossing edges seen = SpecLessBenchClassics.bestCrossing edges seen := by rfl
+''',
+    'grow': '''theorem grow_eq (edges : List Task.Edge) (fuel : Nat) (seen : List Bool) (total : Int) (mask : Nat) : Task.grow edges fuel seen total mask = SpecLessBenchClassics.grow edges fuel seen total mask := by
+  induction fuel generalizing seen total mask with
+  | zero =>
+    cases h : SpecLessBenchClassics.bestCrossing edges seen with
+    | none => rw [Task.grow, SpecLessBenchClassics.grow, bestCrossing_eq, h]
+    | some e => rcases e with ⟨u,v,w,id⟩; rw [Task.grow, SpecLessBenchClassics.grow, bestCrossing_eq, h]
+  | succ fuel ih =>
+    cases h : SpecLessBenchClassics.bestCrossing edges seen with
+    | none => rw [Task.grow, SpecLessBenchClassics.grow, bestCrossing_eq, h]
+    | some e =>
+      rcases e with ⟨u,v,w,id⟩
+      rw [Task.grow, SpecLessBenchClassics.grow, bestCrossing_eq, h]
+      exact ih _ _ _
+''',
+    'prim': '''theorem prim_eq (n : Nat) (edges : List Task.Edge) : Task.prim n edges = SpecLessBenchClassics.prim n edges := by
+  have hg : Task.grow = SpecLessBenchClassics.grow := by
+    funext es fuel seen total mask
+    exact grow_eq es fuel seen total mask
+  unfold Task.prim SpecLessBenchClassics.prim
+  unfold Task.getOr SpecLessBenchClassics.getOr Task.put SpecLessBenchClassics.put
+  rw [hg]
+''',
+    'insertRecord': '''theorem insertRecord_eq (item : Task.Record) (xs : List Task.Record) : Task.insertRecord item xs = SpecLessBenchClassics.insertRecord item xs := by
+  induction xs with
+  | nil => rfl
+  | cons x xs ih => simp [Task.insertRecord, SpecLessBenchClassics.insertRecord, ih]
+''',
+    'merge': '''theorem merge_eq (fuel : Nat) (xs ys : List Task.Record) : Task.merge fuel xs ys = SpecLessBenchClassics.merge fuel xs ys := by
+  induction fuel generalizing xs ys with
+  | zero => cases xs <;> cases ys <;> rfl
+  | succ fuel ih =>
+    cases xs with
+    | nil => rfl
+    | cons x xs => cases ys with
+      | nil => rfl
+      | cons y ys => simp [Task.merge, SpecLessBenchClassics.merge, ih]
+''',
+    'mergeSort': '''theorem mergeSort_eq (fuel : Nat) (xs : List Task.Record) : Task.mergeSort fuel xs = SpecLessBenchClassics.mergeSort fuel xs := by
+  have hm : Task.merge = SpecLessBenchClassics.merge := by
+    funext f a b
+    exact merge_eq f a b
+  induction fuel generalizing xs with
+  | zero => cases xs with
+    | nil => rfl
+    | cons x xs => cases xs <;> rfl
+  | succ fuel ih => cases xs with
+    | nil => rfl
+    | cons x xs => cases xs with
+      | nil => rfl
+      | cons y ys => simp only [Task.mergeSort, SpecLessBenchClassics.mergeSort, hm, ih]
+''',
+    'selectionSort': '''theorem selectionSort_eq (fuel : Nat) (xs : List Task.Record) : Task.selectionSort fuel xs = SpecLessBenchClassics.selectionSort fuel xs := by
+  induction fuel generalizing xs with
+  | zero => cases xs <;> rfl
+  | succ fuel ih => cases xs with
+    | nil => rfl
+    | cons x xs =>
+      simp [Task.selectionSort, SpecLessBenchClassics.selectionSort, Task.getOr, SpecLessBenchClassics.getOr, Task.put, SpecLessBenchClassics.put, ih]
+      rfl
+''',
+}
+
+
+def lean_declarations(text):
+    return {m.group(1): m.group().strip() for m in re.finditer(
+        r'^(?:def|abbrev)\s+([A-Za-z_][A-Za-z_0-9]*)\b.*?(?=\n(?:def|abbrev|end)\b|\Z)', text, re.M | re.S)}
+
+
+def prepare_classics_lean(row):
+    ctx = row['context']
+    if ctx.get('tranche') != 'classics':
+        return None
+    package = PACKAGES/row['pilot_id']/'lean'
+    if (package/'registry.json').exists():
+        meta = json.loads((package/'registry.json').read_text())
+        if tree_digest(package/'task') != meta['public_sha256']:
+            raise ValueError('Existing classical Lean task changed')
+        return meta
+    if package.exists():
+        raise ValueError('Incomplete Lean preparation requires inspection: '+str(package))
+    started = time.monotonic(); task = package/'task'; binding = package/'binding'
+    task.mkdir(parents=True, mode=0o700); binding.mkdir(mode=0o700)
+    source = ROOT/'benchmarks/tasks/classics-core/lean'
+    native = lean_declarations((source/'ClassicsNative.lean').read_text())
+    domains = lean_declarations((source/'ClassicsDomain.lean').read_text())
+    goals = lean_declarations((source/'ClassicsGoals.lean').read_text())
+    family = ctx['family_index']; domain = ctx['domain_index']
+    styles = re.findall(r'entry\s+'+str(family)+r'\s+(\d+)', goals[ctx['equivalence_goal']])
+    if len(styles) != 2 or styles[0] != '0' or styles[1] not in ('1', '2'):
+        raise ValueError('Unexpected frozen classical Lean pair')
+    pair = []
+    for name, style in zip(('a', 'b'), map(int, styles)):
+        root = native['forest' if family == 0 else 'sorting']
+        root = re.sub(r'^def\s+(?:forest|sorting)\s+\(style\s*:\s*Nat\)', 'def '+name, root, count=1)
+        if family == 0:
+            replacement = 'prim n edges' if style == 1 else 'kruskal '+('true' if style == 2 else 'false')+' n edges'
+            root, count = re.subn(r'if style == 1 then prim n edges else kruskal \(style == 2\) n edges', replacement, root)
+        else:
+            root, count = re.subn(r'if style == 0 then (.*?)\s+else if style == 1 then mergeSort 8 items else selectionSort 64 items', lambda m: m.group(1) if style == 0 else ('mergeSort 8 items' if style == 1 else 'selectionSort 64 items'), root, flags=re.S)
+        if count != 1 or re.search(r'\bstyle\b', root):
+            raise ValueError('Unexpected Lean implementation dispatcher')
+        pair.append(root)
+    body = domains['validB'].split(':=', 1)[1]
+    branches = re.fullmatch(r'\s*if domain == 2 then\s*(.*?)\n  else\s*(.*)', body, re.S)
+    if not branches:
+        raise ValueError('Unexpected Lean input domain dispatcher')
+    valid = 'def valid (xs : Words) : Prop := ('+re.sub(r'\bdomain\b', str(domain), branches.group(1 if domain == 2 else 2))+') = true'
+    available = dict(native); available['between'] = domains['between']; needed = set(); todo = [*pair, valid]
+    while todo:
+        for name in set(re.findall(r'\b[A-Za-z_][A-Za-z_0-9]*\b', todo.pop())) & available.keys():
+            if name not in needed:
+                needed.add(name); todo.append(available[name])
+    if needed & {'entry', 'forest', 'sorting', 'Equivalent', 'RefutationAt'}:
+        raise ValueError('Unexpected dispatcher in Lean task closure')
+    text = 'import Lean\nnamespace Task\n'+'\n'.join([decl for name, decl in available.items() if name in needed]+[valid, *pair])+'''
+def equivalent : Prop := ∀ x, valid x → ∃ o, a x = some o ∧ b x = some o
+def refutationAt (x oa ob : Words) : Prop := valid x ∧ a x = some oa ∧ b x = some ob ∧ oa ≠ ob
+end Task
+'''
+    text = re.sub(r'(?<![A-Za-z0-9_.])pure\b', 'Pure.pure', text)
+    (task/'Task.lean').write_text(text); (task/'Obligation.lean').write_text('import Task\nnamespace Obligation\ndef goal : Prop := Task.equivalent\nend Obligation\n')
+    logs = [compile_lean(task, name, [task]) for name in ('Task', 'Obligation')]
+    original = ROOT/'_build/pilot-v1/classics-lean-binding'; original.mkdir(parents=True, exist_ok=True)
+    for name in ('ClassicsNative', 'ClassicsDomain', 'ClassicsGoals'):
+        frozen = source/(name+'.lean'); dest = original/frozen.name
+        if not dest.exists() or dest.read_bytes() != frozen.read_bytes() or not (original/(name+'.olean')).exists():
+            dest.write_bytes(frozen.read_bytes()); logs.append(compile_lean(original, name, [original]))
+    lemmas = [name+'_eq' for name in available if name in needed and name in LEAN_BRIDGES]
+    bridge = 'import Task\nimport ClassicsGoals\n'+''.join(LEAN_BRIDGES[name] for name in available if name in needed and name in LEAN_BRIDGES)
+    simp = ', '.join(['Task.word', 'SpecLessBenchClassics.word', 'Task.getOr', 'SpecLessBenchClassics.getOr', 'Task.finish', 'SpecLessBenchClassics.finish', *lemmas])
+    for name, style in zip(('a', 'b'), styles):
+        bridge += f'''theorem {name}_eq (x : Task.Words) : Task.{name} x = SpecLessBenchClassics.entry {family} {style} x := by
+  simp [Task.{name}, SpecLessBenchClassics.entry, SpecLessBenchClassics.{'forest' if family == 0 else 'sorting'}, {simp}]
+'''
+    bridge += f'''theorem valid_eq : Task.valid = SpecLessBenchClassics.valid {domain} := by funext x; rfl
+example : Task.equivalent = SpecLessBenchClassics.{ctx['equivalence_goal']} := by
+  unfold Task.equivalent SpecLessBenchClassics.{ctx['equivalence_goal']} SpecLessBenchClassics.Equivalent
+  rw [valid_eq, funext a_eq, funext b_eq]
+example (x oa ob : Task.Words) : Task.refutationAt x oa ob = SpecLessBenchClassics.{ctx['refutation_at_goal']} x oa ob := by
+  unfold Task.refutationAt SpecLessBenchClassics.{ctx['refutation_at_goal']} SpecLessBenchClassics.RefutationAt
+  rw [valid_eq, a_eq x, b_eq x]
+'''
+    (binding/'Binding.lean').write_text(bridge); logs.append(compile_lean(binding, 'Binding', [task, original])); (binding/'compile.log').write_text('\n'.join(logs))
+    meta = {'pilot_id': row['pilot_id'], 'platform': 'lean', 'public_sha256': tree_digest(task),
+            'binding': 'lean-kernel-checked-exact-target-for-both-branches', 'source_context': row['source_context_id'],
+            'source_goal': ctx['equivalence_goal'], 'preparation_wall_seconds': time.monotonic()-started,
+            'preparation_controller_peak_rss_bytes': resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024,
+            'compiler_costs': 'compile-costs.jsonl', 'preparation_model_tokens': None, 'final_proof_attempted': False}
+    (package/'registry.json').write_text(json.dumps(meta, indent=2)+'\n'); return meta

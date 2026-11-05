@@ -1,23 +1,23 @@
 {
   "schema_version": 1,
-  "metering_as_of_utc": "2026-11-05T21:39:51.130Z",
+  "metering_as_of_utc": "2026-11-05T22:01:14.592Z",
   "thread_id": "01a19d40-53c2-7811-8e47-5ac681576e1f",
   "scope": "All model requests in this curator/controller chat, including construction, discussion, reference work and evaluation monitoring. Not construction-only; excludes separately launched Codex reference and evaluation workers.",
   "source": {
     "kind": "Codex token_usage_record",
-    "prefix_bytes": 43929426,
-    "prefix_sha256": "5e75bc350bd31a90ff8449ef44f7aa965d0899ca91d183134c005b6a8c692ac4"
+    "prefix_bytes": 45021198,
+    "prefix_sha256": "9952aa560d86a18d728085e8233fd3f8cbc2fc1b292c9cad078740e57320f91e"
   },
   "usage": {
-    "input_tokens": 565537051,
-    "cached_input_tokens": 560692480,
+    "input_tokens": 568840168,
+    "cached_input_tokens": 563942912,
     "cache_write_input_tokens": 0,
-    "output_tokens": 1592633,
-    "reasoning_output_tokens": 693429,
-    "total_tokens": 567129684
+    "output_tokens": 1629582,
+    "reasoning_output_tokens": 716699,
+    "total_tokens": 570469750
   },
-  "uncached_input_tokens": 4844571,
-  "requests": 2407,
+  "uncached_input_tokens": 4897256,
+  "requests": 2420,
   "by_configuration": [
     {
       "configured_model": "gpt-6-luna",
@@ -35,14 +35,14 @@
     {
       "configured_model": "gpt-6.1-sol",
       "reasoning_effort": "high",
-      "requests": 435,
+      "requests": 448,
       "usage": {
-        "input_tokens": 99773358,
-        "cached_input_tokens": 97699584,
+        "input_tokens": 103076475,
+        "cached_input_tokens": 100950016,
         "cache_write_input_tokens": 0,
-        "output_tokens": 743263,
-        "reasoning_output_tokens": 351781,
-        "total_tokens": 100516621
+        "output_tokens": 780212,
+        "reasoning_output_tokens": 375051,
+        "total_tokens": 103856687
       }
     },
     {
@@ -80,8 +80,8 @@
   },
   "timing": {
     "first_usage_utc": "2026-11-02T17:13:27.092Z",
-    "latest_usage_utc": "2026-11-05T21:39:51.130Z",
-    "closed_turn_intervals": 65,
+    "latest_usage_utc": "2026-11-05T22:01:14.592Z",
+    "closed_turn_intervals": 66,
     "open_turns": 1,
     "model_inference_wall_seconds": null,
     "scope": "Turn intervals retained privately; they include tools and waiting and can overlap subprocess work. Do not add them to agent wall time."
@@ -93,7 +93,7 @@
   "overlap": "This session-wide series overlaps earlier construction batch snapshots. Do not add it to the historical construction ledger without request/interval deduplication.",
   "accounting": "Cached input is a subset of input; reasoning output is a subset of output. Do not add these subsets again.",
   "private_evidence_sha256": {
-    "metering.jsonl.gz": "a3eda01499b371eb29c0ab8327054989f889958bfe96607e5ee85150ffb29182",
-    "model-contexts.jsonl.gz": "d726b94a1f9625ba6fe7cfa4efd1d0b993eadf913ca1fa51c5607332f21bb969"
+    "metering.jsonl.gz": "659d1c8607890cbc1e8ee68468fee36270526c7f9d015af64934d47c882e4371",
+    "model-contexts.jsonl.gz": "5e6de5e643262c57d1283f9b2b0624483bba061f30f16c721c814b2e64d8b6bc"
   }
 }
