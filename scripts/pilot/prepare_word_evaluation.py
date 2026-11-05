@@ -136,9 +136,47 @@ Proof. exact (@source_congruence3 _ _ _ Prop (fun v a b => {prefix}Native.Refuta
     (package/'registry.json').write_text(json.dumps(meta,indent=2)+'\n');return meta
 
 
-def prepare_graphsuite_lean(row):
+LEAN_CODEC_BRIDGES = '''theorem tlvRecord_eq (mode : Bool) (src : Task.Words) (p : Nat) :
+    Task.tlvRecord mode src p = SpecLessBenchBoundary.tlvRecord mode src p := by rfl
+theorem tlvSuffix_eq (mode : Bool) (fuel : Nat) (src : Task.Words) (p count : Nat) (out : Task.Words) :
+    Task.tlvSuffix mode fuel src p count out = SpecLessBenchBoundary.tlvSuffix mode fuel src p count out := by
+  induction fuel generalizing src p count out with
+  | zero => rfl
+  | succ fuel ih =>
+    simp only [Task.tlvSuffix, SpecLessBenchBoundary.tlvSuffix, tlvRecord_eq, ih, Task.finish, SpecLessBenchBoundary.finish]
+    all_goals rfl
+theorem tlvIndexed_eq (mode : Bool) (data : Task.Words) (fuel p count : Nat) (out : Task.Words) :
+    Task.tlvIndexed mode data fuel p count out = SpecLessBenchBoundary.tlvIndexed mode data fuel p count out := by
+  induction fuel generalizing p count out with
+  | zero => rfl
+  | succ fuel ih =>
+    simp only [Task.tlvIndexed, SpecLessBenchBoundary.tlvIndexed, tlvRecord_eq, ih, Task.finish, SpecLessBenchBoundary.finish]
+    all_goals rfl
+theorem packBlock_eq (mode : Bool) (src : Task.Words) (p cap produced : Nat) :
+    Task.packBlock mode src p cap produced = SpecLessBenchBoundary.packBlock mode src p cap produced := by rfl
+theorem packSuffix_eq (mode : Bool) (cap fuel : Nat) (src : Task.Words) (p : Nat) (out : Task.Words) :
+    Task.packSuffix mode cap fuel src p out = SpecLessBenchBoundary.packSuffix mode cap fuel src p out := by
+  induction fuel generalizing src p out with
+  | zero => cases src <;> rfl
+  | succ fuel ih => cases src with
+    | nil => rfl
+    | cons x rest =>
+      simp only [Task.packSuffix, SpecLessBenchBoundary.packSuffix, packBlock_eq, ih, Task.finish, SpecLessBenchBoundary.finish]
+      all_goals rfl
+theorem packIndexed_eq (mode : Bool) (cap : Nat) (data : Task.Words) (fuel p : Nat) (out : Task.Words) :
+    Task.packIndexed mode cap data fuel p out = SpecLessBenchBoundary.packIndexed mode cap data fuel p out := by
+  induction fuel generalizing p out with
+  | zero => rfl
+  | succ fuel ih =>
+    simp only [Task.packIndexed, SpecLessBenchBoundary.packIndexed, packBlock_eq, ih, Task.finish, SpecLessBenchBoundary.finish]
+    all_goals rfl
+'''
+
+
+def prepare_word_lean(row):
     ctx=row['context'];family=ctx.get('family_index')
-    if ctx.get('tranche')!='graphsuite' or family not in (0,2):return None
+    boundary=ctx.get('tranche')=='boundaries' and family in (4,6)
+    if not boundary and not (ctx.get('tranche')=='graphsuite' and family in (0,2)):return None
     package=PACKAGES/row['pilot_id']/'lean'
     if (package/'registry.json').exists():
         meta=json.loads((package/'registry.json').read_text())
@@ -147,14 +185,20 @@ def prepare_graphsuite_lean(row):
     if package.exists():raise ValueError('Incomplete Lean graph/search preparation needs inspection: '+str(package))
     started=time.monotonic();task=package/'task';binding=package/'binding'
     task.mkdir(parents=True,mode=0o700);binding.mkdir(mode=0o700)
-    source=ROOT/'benchmarks/tasks/graphsuite-core/lean'
-    native=lean_declarations((source/'GraphSuiteNative.lean').read_text());domain=lean_declarations((source/'GraphSuiteDomain.lean').read_text());goals=lean_declarations((source/'GraphSuiteGoals.lean').read_text())
+    prefix='Boundary' if boundary else 'GraphSuite';namespace='SpecLessBench'+prefix
+    source=ROOT/'benchmarks/tasks'/('boundaries-core' if boundary else 'graphsuite-core')/'lean'
+    native=lean_declarations((source/(prefix+'Native.lean')).read_text());domain=lean_declarations((source/(prefix+'Domain.lean')).read_text());goals=lean_declarations((source/(prefix+'Goals.lean')).read_text())
     styles=re.findall(r'entry\s+'+str(family)+r'\s+(\d+)',goals[ctx['equivalence_goal']])
     if len(styles)!=2 or styles[0]!='0' or styles[1] not in ('1','2'):raise ValueError('Unexpected frozen Lean pair')
     pair=[];algorithms=[]
     for name,style in zip(('a','b'),map(int,styles)):
-        root='apsp' if family==0 else 'search';text=native[root].replace('def '+root+' (style : Nat)','def '+name,1)
-        if family==0:
+        root=({4:'tlv',6:'packbits'}[family] if boundary else ('apsp' if family==0 else 'search'));text=native[root].replace('def '+root+' (style : Nat)','def '+name,1)
+        if boundary:
+            stem='tlv' if family==4 else 'pack';algorithm=stem+('Suffix' if style==1 else 'Indexed')
+            expression=(stem+'Suffix false 128 data 0 0 []' if style==1 else stem+'Indexed '+('true' if style==2 else 'false')+' data 128 0 0 []') if family==4 else (stem+'Suffix false cap 128 data 0 []' if style==1 else stem+'Indexed '+('true' if style==2 else 'false')+' cap data 128 0 []')
+            pattern=r'if style == 1 then tlvSuffix false 128 data 0 0 \[\] else tlvIndexed \(style == 2\) data 128 0 0 \[\]' if family==4 else r'if style == 1 then packSuffix false cap 128 data 0 \[\] else packIndexed \(style == 2\) cap data 128 0 \[\]'
+            text,count=re.subn(pattern,expression,text)
+        elif family==0:
             algorithm='floyd' if style==0 else 'dijkstra'
             expression='floyd n xs' if style==0 else 'dijkstra n xs '+('true' if style==2 else 'false')
             text,count=re.subn(r'if style == 0 then floyd n xs else dijkstra n xs \(style == 2\)',expression,text)
@@ -164,14 +208,22 @@ def prepare_graphsuite_lean(row):
             text,count=re.subn(r'if style == 0 then brute text pattern else if m == 0 then 0 else bmLoop text pattern \(style == 2\) 49 0',expression,text)
         if count!=1 or re.search(r'\bstyle\b',text):raise ValueError('Unexpected Lean implementation dispatcher')
         pair.append(text);algorithms.append(algorithm)
-    branches=re.fullmatch(r'\s*if domain == 0 \|\| domain == 1 then\s*(.*?)\n  else if domain == 2 then\s*(.*?)\n  else false',domain['validB'].split(':=',1)[1],re.S)
-    if not branches:raise ValueError('Unexpected Lean graph/search domain')
-    valid='def valid (xs : Words) : Prop := ('+re.sub(r'\bdomain\b',str(family),branches.group(1 if family==0 else 2))+') = true'
-    available=dict(native);available['between']=domain['between'];needed=set();todo=[*pair,valid]
+    index=ctx['domain_index']
+    if boundary:
+        pre,match=domain['validB'].split(':=',1)[1].split('match domain with',1)
+        clauses=re.findall(r'\n  \| (\d+|_) => (.*?)(?=\n  \| |\Z)',match,re.S)
+        choices=[body for pattern,body in clauses if pattern==str(index)]
+        if len(choices)!=1:raise ValueError('Missing Lean codec input domain')
+        valid='def valid (xs : Words) : Prop := ('+pre+choices[0]+') = true'
+    else:
+        branches=re.fullmatch(r'\s*if domain == 0 \|\| domain == 1 then\s*(.*?)\n  else if domain == 2 then\s*(.*?)\n  else false',domain['validB'].split(':=',1)[1],re.S)
+        if not branches:raise ValueError('Unexpected Lean graph/search domain')
+        valid='def valid (xs : Words) : Prop := ('+re.sub(r'\bdomain\b',str(index),branches.group(1 if family==0 else 2))+') = true'
+    available=dict(native);extra='inRange' if boundary else 'between';available[extra]=domain[extra];needed=set();todo=[*pair,valid]
     while todo:
-        for name in set(re.findall(r'\b[A-Za-z_][A-Za-z_0-9]*\b',todo.pop())) & available.keys():
+        for name in set(re.findall(r'(?<![A-Za-z0-9_.])[A-Za-z_][A-Za-z_0-9]*\b',todo.pop())) & available.keys():
             if name not in needed:needed.add(name);todo.append(available[name])
-    if needed & {'entry','apsp','scc','search','TS','Equivalent','RefutationAt'}:raise ValueError('Unexpected unrelated Lean declaration')
+    if needed & {'entry','apsp','scc','search','TS','tree','unionfind','priority','evaluator','tlv','quotes','packbits','path','Equivalent','RefutationAt'}:raise ValueError('Unexpected unrelated Lean declaration')
     public='import Lean\nnamespace Task\n'+'\n'.join([d for n,d in available.items() if n in needed]+[valid,*pair])+'''
 def equivalent : Prop := ∀ x, valid x → ∃ o, a x=some o ∧ b x=some o
 def refutationAt (x oa ob : Words) : Prop := valid x ∧ a x=some oa ∧ b x=some ob ∧ oa≠ob
@@ -179,14 +231,17 @@ end Task
 '''
     public=re.sub(r'\bmutant\b','mode',public);public=re.sub(r'(?<![A-Za-z0-9_.])pure\b','Pure.pure',public)
     (task/'Task.lean').write_text(public);(task/'Obligation.lean').write_text('import Task\nnamespace Obligation\ndef goal : Prop := Task.equivalent\nend Obligation\n')
-    original=ROOT/'_build/pilot-v1/graphsuite-lean-binding';original.mkdir(parents=True,exist_ok=True);paths=[task,original]
+    original=ROOT/('_build/pilot-v1/'+prefix.lower()+'-lean-binding');original.mkdir(parents=True,exist_ok=True);paths=[task,original]
     def compile_at(folder,name):return compile_lean(folder,name,paths)
     logs=[compile_at(task,n) for n in ('Task','Obligation')]
-    for name in ('GraphSuiteNative','GraphSuiteDomain','GraphSuiteGoals'):
+    for name in (prefix+'Native',prefix+'Domain',prefix+'Goals'):
         src=source/(name+'.lean');dest=original/src.name
         if not dest.exists() or dest.read_bytes()!=src.read_bytes() or not (original/(name+'.olean')).exists():dest.write_bytes(src.read_bytes());logs.append(compile_at(original,name))
-    bridge='import Task\nimport GraphSuiteGoals\n'
-    if family==2:
+    bridge='import Task\nimport '+prefix+'Goals\n'
+    if boundary:
+        for match in re.finditer(r'^theorem (\w+)_eq\b.*?(?=^theorem |\Z)',LEAN_CODEC_BRIDGES,re.M|re.S):
+            if match.group(1) in needed:bridge+=match.group()
+    elif family==2:
         bridge+='''theorem bmLoop_eq (text pattern : Task.Words) (mode : Bool) (fuel i : Nat) :
     Task.bmLoop text pattern mode fuel i = SpecLessBenchGraphSuite.bmLoop text pattern mode fuel i := by
   induction fuel generalizing i with
@@ -196,28 +251,33 @@ end Task
       SpecLessBenchGraphSuite.word, Task.getOr, SpecLessBenchGraphSuite.getOr, ih]
     rfl
 '''
-    types={'floyd':'Nat → Task.Words → Task.Words','dijkstra':'Nat → Task.Words → Bool → Task.Words','brute':'Task.Words → Task.Words → Int','bmLoop':'Task.Words → Task.Words → Bool → Nat → Nat → Int'}
+    types={'floyd':'Nat → Task.Words → Task.Words','dijkstra':'Nat → Task.Words → Bool → Task.Words','brute':'Task.Words → Task.Words → Int','bmLoop':'Task.Words → Task.Words → Bool → Nat → Nat → Int',
+           'tlvSuffix':'Bool → Nat → Task.Words → Nat → Nat → Task.Words → Option Task.Words',
+           'tlvIndexed':'Bool → Task.Words → Nat → Nat → Nat → Task.Words → Option Task.Words',
+           'packSuffix':'Bool → Nat → Nat → Task.Words → Nat → Task.Words → Option Task.Words',
+           'packIndexed':'Bool → Nat → Task.Words → Nat → Nat → Task.Words → Option Task.Words'}
+    args={'bmLoop':'text pattern mode fuel i','tlvSuffix':'mode fuel src p count out','tlvIndexed':'mode data fuel p count out','packSuffix':'mode cap fuel src p out','packIndexed':'mode cap data fuel p out'}
     for name,style,body,algorithm in zip(('a','b'),styles,pair,algorithms):
         def qualify(m):
             token=m.group();return 'sl_impl_fn' if token==algorithm else ('Task.'+token if token in native else token)
         context=re.sub(r'\b[A-Za-z_][A-Za-z_0-9]*\b',qualify,body.split(':=',1)[1])
-        proof='by\n    funext text pattern mode fuel i\n    exact bmLoop_eq text pattern mode fuel i' if algorithm=='bmLoop' else 'by rfl'
-        bridge+=f'''theorem {name}_eq : Task.{name} = SpecLessBenchGraphSuite.entry {family} {style} := by
-  have h : Task.{algorithm} = SpecLessBenchGraphSuite.{algorithm} := {proof}
+        proof=f'by\n    funext {args[algorithm]}\n    exact {algorithm}_eq {args[algorithm]}' if algorithm in args else 'by rfl'
+        bridge+=f'''theorem {name}_eq : Task.{name} = {namespace}.entry {family} {style} := by
+  have h : Task.{algorithm} = {namespace}.{algorithm} := {proof}
   exact congrArg (fun (sl_impl_fn : {types[algorithm]}) => fun (xs : Task.Words) => {context}) h
 '''
-    bridge+=f'''theorem valid_eq : Task.valid = SpecLessBenchGraphSuite.valid {family} := by rfl
-example : Task.equivalent = SpecLessBenchGraphSuite.{ctx['equivalence_goal']} := by
-  unfold Task.equivalent SpecLessBenchGraphSuite.{ctx['equivalence_goal']} SpecLessBenchGraphSuite.Equivalent
+    bridge+=f'''theorem valid_eq : Task.valid = {namespace}.valid {index} := by rfl
+example : Task.equivalent = {namespace}.{ctx['equivalence_goal']} := by
+  unfold Task.equivalent {namespace}.{ctx['equivalence_goal']} {namespace}.Equivalent
   rw [valid_eq,a_eq,b_eq]
-example (x oa ob : Task.Words) : Task.refutationAt x oa ob = SpecLessBenchGraphSuite.{ctx['refutation_at_goal']} x oa ob := by
-  unfold Task.refutationAt SpecLessBenchGraphSuite.{ctx['refutation_at_goal']} SpecLessBenchGraphSuite.RefutationAt
+example (x oa ob : Task.Words) : Task.refutationAt x oa ob = {namespace}.{ctx['refutation_at_goal']} x oa ob := by
+  unfold Task.refutationAt {namespace}.{ctx['refutation_at_goal']} {namespace}.RefutationAt
   rw [valid_eq,a_eq,b_eq]
 '''
     (binding/'Binding.lean').write_text(bridge);logs.append(compile_at(binding,'Binding'));(binding/'compile.log').write_text('\n'.join(logs))
     meta={'pilot_id':row['pilot_id'],'platform':'lean','public_sha256':tree_digest(task),
         'binding':'lean-kernel-checked-exact-frozen-target-for-both-branches','source_context':row['source_context_id'],'source_goal':ctx['equivalence_goal'],
-        'frozen_source_sha256':{n:hashlib.sha256((source/(n+'.lean')).read_bytes()).hexdigest() for n in ('GraphSuiteNative','GraphSuiteDomain','GraphSuiteGoals')},
+        'frozen_source_sha256':{n:hashlib.sha256((source/(n+'.lean')).read_bytes()).hexdigest() for n in (prefix+'Native',prefix+'Domain',prefix+'Goals')},
         'preparation_wall_seconds':time.monotonic()-started,'preparation_controller_peak_rss_bytes':resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024,
         'compiler_costs':'compile-costs.jsonl','preparation_model_tokens':None,'final_proof_attempted':False}
     (package/'registry.json').write_text(json.dumps(meta,indent=2)+'\n');return meta

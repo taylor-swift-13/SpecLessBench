@@ -17,18 +17,13 @@ systemd-run --user --unit=specless-luna-batch --working-directory="$PWD" \
 ```
 
 Only packages with checked correspondence to the frozen sources are eligible
-for the worker. The initial adapters cover reversal, sum, matrix multiplication,
-naive matching/KMP and queue pairs on all three platforms: 30 eligible instances.
-Prim/Kruskal forest comparisons and stable record sorting add five contexts
-on all three platforms. Two block/stream Base64 contexts add another six
-instances. Six Floyd/Dijkstra, Tarjan/Kosaraju and naive/Boyer–Moore contexts
-add 12 Rocq/Clight instances and four Lean shortest-path/search instances,
-and four TLV/PackBits contexts add eight Rocq/Clight instances, bringing
-certified coverage to 75 instances. Their Lean packages and the two Lean
-component packages remain pending. Codec observations retain exact payloads,
-error codes, error offsets and consumed/produced counts. Frozen observations compare distance
-matrices, pairwise component membership and first-match positions. Tie/edge-mask,
-payload-order and exact encoded-byte observations retain their frozen domains.
+for the worker. Certified coverage is 79 of 207 instances: reversal, sum,
+matrix multiplication, naive matching/KMP, queues, Prim/Kruskal, record sorting,
+Base64, all-pairs shortest paths, strongly connected components, Boyer–Moore,
+TLV and PackBits. These selected contexts cover all three platforms except the
+two pending Lean component packages. Observations retain the frozen distance
+matrices, component membership, first-match positions, tie/edge masks, payload
+order, encoded bytes, error codes/offsets and consumption/production counts.
 Other instances wait for adapters; they are not counted as model failures.
 Adding a certified package lets the same serial worker pick it up. Preparation
 must wait until no theorem is running. An exclusive worker lock prevents two
