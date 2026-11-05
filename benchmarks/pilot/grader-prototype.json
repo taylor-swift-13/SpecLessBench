@@ -28,7 +28,7 @@
     },
     {
       "test": "test_release_gate.py",
-      "script_sha256": "d4c015bf7eac2e36ac5a42601ff3a51c1fe5a9991972762318a3687959076218",
+      "script_sha256": "0e25bc366e163aed6141ee8449e8178e2dc4f410b0730dd3c1199a41aa686c82",
       "exit_code": 0,
       "output": "All 213 unpublished task/platform entries fail closed; no proof ran.\n"
     },
@@ -62,19 +62,19 @@
     },
     {
       "path": "scripts/pilot/release_gate.py",
-      "sha256": "b49aca9debd44f0202ca521af9b01d840b40bbf7cbcc8dd3957487a9f768c4f3"
+      "sha256": "58ccdeebe5ca1e69e6c3b48120ef20d1259c9e702e39b968a86d7bfc9a30da31"
     },
     {
       "path": "scripts/pilot/selection.py",
-      "sha256": "5e43eb4dab38b17a8784bc687ccb5dea734308f310ce771947cced28664ab04e"
+      "sha256": "07bb2c2f6c5c6aa80a6f9d8bd85975cc71547768314c1f091a6d0f143cba7390"
     },
     {
-      "path": "benchmarks/pilot-v1/evaluation-policy.json",
+      "path": "benchmarks/pilot/evaluation-policy.json",
       "sha256": "334b640ed6ec7a262c7c15c84a3ca667ff56faac24143269621145a3bca141f7"
     },
     {
       "path": "scripts/pilot/test_prototype.py",
-      "sha256": "fb168c13f57ca09819b8f92d13cee07d1166a7e1abc9d64690911804eca99165"
+      "sha256": "35f034d4445a61063c548bcfa496f718f3227c69924de87a5193e4f6ac1ab58c"
     }
   ],
   "scope": "these regression tests use toy propositions and OS boundary probes only",

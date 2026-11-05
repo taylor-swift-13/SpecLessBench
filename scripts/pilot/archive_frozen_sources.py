@@ -2,7 +2,7 @@
 import gzip,hashlib,io,json,tarfile
 from pathlib import Path
 from private_paths import PRIVATE
-ROOT=Path(__file__).resolve().parents[2];P=ROOT/'benchmarks/pilot-v1';out=PRIVATE/'frozen-sources.tar.gz'
+ROOT=Path(__file__).resolve().parents[2];P=ROOT/'benchmarks/pilot';out=PRIVATE/'frozen-sources.tar.gz'
 if out.exists():raise SystemExit('Frozen source archive exists; do not overwrite.')
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 mapping=json.loads((PRIVATE/'mapping.json').read_text());rows=mapping['protected_files'][:]

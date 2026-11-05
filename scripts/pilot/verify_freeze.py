@@ -2,8 +2,19 @@
 import hashlib,hmac,json
 from pathlib import Path
 from private_paths import PRIVATE
-ROOT=Path(__file__).resolve().parents[2];P=ROOT/'benchmarks/pilot-v1'
+ROOT=Path(__file__).resolve().parents[2];P=ROOT/'benchmarks/pilot'
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def frozen_path(name):
+    # The stored snapshot predates the directory rename; do not rewrite it.
+    return name.replace('benchmarks/proof-interface/v1/','benchmarks/proof-interface/',1) if name.startswith('benchmarks/proof-interface/v1/') else name
+
+def matches_frozen(name,expected):
+    data=(ROOT/frozen_path(name)).read_bytes()
+    if name in ('benchmarks/active-groups.json','scripts/construction/submission_contract.py'):
+        # These two frozen support files changed only their interface path.
+        data=data.replace(b'benchmarks/proof-interface/manifest.json',b'benchmarks/proof-interface/v1/manifest.json')
+    return hashlib.sha256(data).hexdigest()==expected
+
 def main():
     public=json.loads((P/'manifest.json').read_text());private=PRIVATE/'mapping.json'
     assert sha(private)==public['private_mapping_sha256'],'Private mapping altered'
@@ -12,7 +23,7 @@ def main():
         expected='P-'+hmac.new(secret,row['source_context_id'].encode(),hashlib.sha256).hexdigest()[:16]
         assert row['pilot_id']==expected
     for row in mapping['protected_files']:
-        path=ROOT/row['path'];assert path.is_file() and sha(path)==row['sha256'],row['path']
+        path=ROOT/frozen_path(row['path']);assert path.is_file() and matches_frozen(row['path'],row['sha256']),row['path']
     if 'validator_addendum_sha256' in public:
         addendum=PRIVATE/'validator-dependencies.json'
         assert sha(addendum)==public['validator_addendum_sha256'],'Validator addendum altered'

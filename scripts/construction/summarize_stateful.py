@@ -55,7 +55,7 @@ def main():
     for row in calls['functions_and_calls']:
         assert sha(CORE/row['ast'])==row['ast_sha256']and row['all_direct_callees_have_bodies']
         assert row['maximum_direct_call_edges']>=3
-    manifest=ROOT/'benchmarks/proof-interface/v1/manifest.json';interface=json.loads(manifest.read_text())
+    manifest=ROOT/'benchmarks/proof-interface/manifest.json';interface=json.loads(manifest.read_text())
     expected={t['id']for g in reg['groups']for t in g['tasks']}
     assert expected<={c['context_id']for c in interface['contexts']}
     for r in interface['files']:assert sha(manifest.parent/r['path'])==r['sha256'],r['path']

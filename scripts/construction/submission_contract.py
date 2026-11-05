@@ -33,7 +33,7 @@ def qcip_shape(family,x):
 
 
 def validate(request):
-    manifest=json.loads((ROOT/"benchmarks/proof-interface/v1/manifest.json").read_text())
+    manifest=json.loads((ROOT/"benchmarks/proof-interface/manifest.json").read_text())
     if not isinstance(request,dict): raise ValueError("Submission must be a JSON object")
     base={"context_id","platform","claim","proof_module","proof_theorem"}
     if request.get("claim") not in ("equivalence","counterexample"): raise ValueError("Choose a literal branch; disjunction/conditional claims are rejected")

@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 from release_gate import decide
 ROOT=Path(__file__).resolve().parents[2]
-manifest=json.loads((ROOT/'benchmarks/pilot-v1/manifest.json').read_text())
+manifest=json.loads((ROOT/'benchmarks/pilot/manifest.json').read_text())
 assert len(manifest['contexts'])==71
 for row in manifest['contexts']:
     for platform in ('lean','rocq','compcert'):

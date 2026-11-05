@@ -29,7 +29,7 @@
 
 参考为V0，替代为V1，变异为V2。每组的`R-*-EQ`固定V0/V1，`R-*-CEX`固定V0/V2；这些EQ/CEX ID只在整理端可见。三平台公开目标均为`Equivalent ∨ Counterexample`，不给极性。
 
-**接受接口修订优先于上述概念析取：** 当前模型必须显式选择分支，反例必须提交具体输入和观察，并证明`refutationAt`专门化目标；不接受裸析取Prop证明。旧目标/模板保留为设计历史，不单独计分。全体24上下文的规范目标见[proof-interface/v1](../../proof-interface/v1/README.md)。
+**接受接口修订优先于上述概念析取：** 当前模型必须显式选择分支，反例必须提交具体输入和观察，并证明`refutationAt`专门化目标；不接受裸析取Prop证明。旧目标/模板保留为设计历史，不单独计分。全体24上下文的规范目标见[proof-interface](../../proof-interface/README.md)。
 
 Lean目标在[lean/BasicGoals.lean](lean/BasicGoals.lean)，无`sorry`；`lean/pending/*.lean.goal`给出未填证明的theorem模板。Rocq目标在[rocq/BasicGoals.v](rocq/BasicGoals.v)，用`Abort`保留未证明状态，不引入公理。CompCert各组目标在`compcert/*Goals.v`，直接引用实际已生成的`compcert/ast/*.v`。
 

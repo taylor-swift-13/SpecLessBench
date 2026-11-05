@@ -6,7 +6,7 @@ Finding no string is not evidence that a release is contamination-free.
 import hashlib,json,re,sys
 from pathlib import Path
 from private_paths import PRIVATE
-ROOT=Path(__file__).resolve().parents[2];P=ROOT/'benchmarks/pilot-v1'
+ROOT=Path(__file__).resolve().parents[2];P=ROOT/'benchmarks/pilot'
 sys.path.insert(0,str(ROOT/'scripts/pilot'))
 from verify_freeze import main as verify
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()

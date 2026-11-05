@@ -14,7 +14,7 @@ Historical command stdout, stderr, and timing files are stored in `command-logs.
 
 差分测试不是决定程序等价的算法。没有反例仅产生provisionally-equivalent标签；发现差异则记录有效输入和实际输出。证明真假最终由冻结实现及其观察决定，不由生成者指定标签决定。非等价目标可保留，求解者应证明反例分支。
 
-**接受接口修订：**不能仅提交裸`Eq ∨ Cex : Prop`证明；它可能被经典逻辑非构造性地证明而不完成比较。必须显式选择分支，反例输入和观察为可序列化的具体值，proof类型专门化到这些值。该设计问题、修订和目标类型检查记录在`PROP-DISJUNCTION-ESCAPE`及[proof-interface/v1](../proof-interface/v1/README.md)。实现未变化，既有差分无需重跑；接受契约的类型和前端须重新检查。
+**接受接口修订：**不能仅提交裸`Eq ∨ Cex : Prop`证明；它可能被经典逻辑非构造性地证明而不完成比较。必须显式选择分支，反例输入和观察为可序列化的具体值，proof类型专门化到这些值。该设计问题、修订和目标类型检查记录在`PROP-DISJUNCTION-ESCAPE`及[proof-interface](../proof-interface/README.md)。实现未变化，既有差分无需重跑；接受契约的类型和前端须重新检查。
 
 ## 严格成本口径
 

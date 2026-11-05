@@ -2,7 +2,7 @@
 import hashlib,json
 from pathlib import Path
 from private_paths import PRIVATE
-ROOT=Path(__file__).resolve().parents[2];P=ROOT/'benchmarks/pilot-v1'
+ROOT=Path(__file__).resolve().parents[2];P=ROOT/'benchmarks/pilot'
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 fixed=['scripts/construction/build_three_platform.py','scripts/construction/export_compcert.py',
        'benchmarks/tasks/qcip-core/tasks.json','benchmarks/tasks/qcip-core/three-platform.json']

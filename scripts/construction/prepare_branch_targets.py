@@ -16,7 +16,7 @@ def sha(p): return hashlib.sha256(p.read_bytes()).hexdigest()
 
 
 def main():
-    output=ROOT/"benchmarks/proof-interface/v1"
+    output=ROOT/"benchmarks/proof-interface"
     lean=["import Domain", "import BasicDomain", "namespace SpecLessBenchSubmission"]
     native=["From Coq Require Import ZArith List.","From SpecLessBench.QCIP Require Import Domain.",
         "From SpecLessBenchNative Require Import Native.","From SpecLessBenchBasic Require Import BasicNative BasicDomain."]

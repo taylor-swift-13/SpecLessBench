@@ -17,7 +17,7 @@
 
 V1解析器与V0共享具体的单记录/单块处理函数。这些是受保护程序体，不是预先承诺的功能契约；其控制流差异小于求值器和表示替换任务，不能把所有行都当作同等难度。C用真实指针或可变数组，原生版用不可变列表/索引节点；跨平台执行一致不是形式化精化证明。
 
-完整布局、观察、错误约定与16个具体目标见[TASKS.md](TASKS.md)。注册表[groups.json](groups.json)绑定源码与目标hash，[compcert/build.json](compcert/build.json)绑定24个真实AST与工具指纹。规范提交接口是[显式分支接口](../../proof-interface/v1/README.md)，新增目标在三个平台的`BoundaryTargets`模块。
+完整布局、观察、错误约定与16个具体目标见[TASKS.md](TASKS.md)。注册表[groups.json](groups.json)绑定源码与目标hash，[compcert/build.json](compcert/build.json)绑定24个真实AST与工具指纹。规范提交接口是[显式分支接口](../../proof-interface/README.md)，新增目标在三个平台的`BoundaryTargets`模块。
 
 ```sh
 python3 scripts/construction/prepare_boundaries.py

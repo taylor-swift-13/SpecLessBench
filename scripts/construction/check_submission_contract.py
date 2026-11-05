@@ -20,7 +20,7 @@ def main():
     for family,context in (("sum","R-SUM-CEX"),("search","R-STR-CEX")):
         report=json.loads((CORE/"evidence"/(family+".json")).read_text())["witness"]
         samples.append((context,report["input"],report["v0"],report["v2"]))
-    contracts=ROOT/"benchmarks/proof-interface/v1"
+    contracts=ROOT/"benchmarks/proof-interface"
     work=BUILD/"contract-checks"; work.mkdir(parents=True,exist_ok=True)
     counts={"valid_counterexample_packages":0,"rejected_malformed_packages":0,"unproved_obligations_checked":0}
     for platform in ("lean","rocq","compcert"):

@@ -1,7 +1,7 @@
 """Score prepared pilot tasks; refuse all tasks that are not packaged yet."""
 import argparse,contextlib,io,json,re
 from pathlib import Path
-ROOT=Path(__file__).resolve().parents[2];P=ROOT/'benchmarks/pilot-v1'
+ROOT=Path(__file__).resolve().parents[2];P=ROOT/'benchmarks/pilot'
 def decide(task,platform):
     manifest=json.loads((P/'manifest.json').read_text())
     if platform not in ('lean','rocq','compcert'):return {'status':'invalid-request'}

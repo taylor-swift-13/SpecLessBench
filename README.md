@@ -30,11 +30,11 @@ python3 scripts/pilot/prepare_factorial.py
 python3 scripts/pilot/test_real_factorial.py
 ```
 
-These commands require the pinned toolchains and private pilot metadata on the original machine; a standalone installation and portable release are not yet available. See the [pilot documentation](benchmarks/pilot-v1/README.md) for details.
+These commands require the pinned toolchains and private pilot metadata on the original machine; a standalone installation and portable release are not yet available. See the [pilot documentation](benchmarks/pilot/README.md) for details.
 
 ## Repository
 
 - [`benchmarks/tasks/`](benchmarks/tasks/) — implementations, domains, and proof goals.
-- [`benchmarks/pilot-v1/`](benchmarks/pilot-v1/) — frozen pilot manifest and audit reports.
+- [`benchmarks/pilot/`](benchmarks/pilot/) — frozen pilot manifest and audit reports.
 - [`scripts/pilot/`](scripts/pilot/) — sandbox and proof-checking prototype.
 - [`paper/`](paper/) — research paper draft.

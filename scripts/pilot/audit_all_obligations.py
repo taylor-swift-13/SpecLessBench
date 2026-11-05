@@ -7,7 +7,7 @@ identifiers are kept in the private build workspace.
 import importlib,json,os,re,subprocess,sys
 from pathlib import Path
 from private_paths import PRIVATE
-ROOT=Path(__file__).resolve().parents[2];P=ROOT/'benchmarks/pilot-v1';W=ROOT/'_build/pilot-v1/platform-audit/workspace';OUT=ROOT/'_build/pilot-v1/obligation-audit'
+ROOT=Path(__file__).resolve().parents[2];P=ROOT/'benchmarks/pilot';W=ROOT/'_build/pilot-v1/platform-audit/workspace';OUT=ROOT/'_build/pilot-v1/obligation-audit'
 sys.path[:0]=[str(ROOT/'scripts/construction'),str(ROOT/'scripts/pilot')]
 from submission_contract import validate,render
 from verify_freeze import main as verify

@@ -2,7 +2,7 @@
 import hashlib,json
 from pathlib import Path
 from private_paths import PRIVATE
-ROOT=Path(__file__).resolve().parents[2];P=ROOT/'benchmarks/pilot-v1'
+ROOT=Path(__file__).resolve().parents[2];P=ROOT/'benchmarks/pilot'
 def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 for report,snapshot in [('platform-audit.json','manifest-at-platform-audit.json'),('interface-audit.json','manifest-at-interface-audit.json')]:
     audit=json.loads((P/report).read_text());assert audit['status']=='passed' and sha(P/snapshot)==audit['frozen_manifest_sha256']

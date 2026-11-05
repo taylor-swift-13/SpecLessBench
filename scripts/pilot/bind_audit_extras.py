@@ -2,7 +2,7 @@
 import hashlib,json
 from pathlib import Path
 from private_paths import PRIVATE
-ROOT=Path(__file__).resolve().parents[2];P=ROOT/'benchmarks/pilot-v1';out=PRIVATE/'audit-extras.json'
+ROOT=Path(__file__).resolve().parents[2];P=ROOT/'benchmarks/pilot';out=PRIVATE/'audit-extras.json'
 if out.exists():raise SystemExit('Audit extras already exist.')
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 scripts=[p for p in (ROOT/'scripts/construction').iterdir() if p.is_file() and p.suffix in ('.py','.ml')]

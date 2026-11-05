@@ -34,7 +34,7 @@ def main():
           'validity_evaluations':report['validity_evaluations'],'duplicates_removed':report['duplicate_inputs_removed'],'negative_inputs':report['negative_distinguishing_inputs'],
           'reference_status_histogram':report['reference_status_histogram'],'unexpected_disagreements':0,'tool_wall_seconds':cost['nonduplicated_tool_wall_seconds'],
           'max_process_rss_bytes':cost['max_process_rss_bytes'],'cost_record':path.relative_to(ROOT).as_posix()})
-    manifest=ROOT/'benchmarks/proof-interface/v1/manifest.json';interface=json.loads(manifest.read_text())
+    manifest=ROOT/'benchmarks/proof-interface/manifest.json';interface=json.loads(manifest.read_text())
     expected={t['id']for g in reg['groups']for t in g['tasks']}
     assert expected<={c['context_id']for c in interface['contexts']}
     for r in interface['files']:assert sha(manifest.parent/r['path'])==r['sha256'],r['path']

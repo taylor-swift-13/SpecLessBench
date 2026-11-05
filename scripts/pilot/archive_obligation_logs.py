@@ -2,7 +2,7 @@
 import hashlib,json,os,shutil
 from pathlib import Path
 from private_paths import PRIVATE
-ROOT=Path(__file__).resolve().parents[2];P=ROOT/'benchmarks/pilot-v1';source=ROOT/'_build/pilot-v1/obligation-audit';dest=PRIVATE/'obligation-logs'
+ROOT=Path(__file__).resolve().parents[2];P=ROOT/'benchmarks/pilot';source=ROOT/'_build/pilot-v1/obligation-audit';dest=PRIVATE/'obligation-logs'
 if dest.exists():raise SystemExit('Obligation-log archive exists; verify rather than replace.')
 dest.mkdir(mode=0o700);report_path=P/'obligation-audit.json';report=json.loads(report_path.read_text())
 assert report['status']=='passed' and report['aggregate_compilation_units']==24

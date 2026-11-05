@@ -1,7 +1,7 @@
 """Run independent synthetic grader security regressions; never prove tasks."""
 import hashlib,json,subprocess,sys
 from pathlib import Path
-ROOT=Path(__file__).resolve().parents[2];OUT=ROOT/'benchmarks/pilot-v1';rows=[]
+ROOT=Path(__file__).resolve().parents[2];OUT=ROOT/'benchmarks/pilot';rows=[]
 for name in ('test_sandbox.py','test_sandboxed_lean_gate.py','test_lean_grader_core.py','test_rocq_grader_core.py','test_release_gate.py','test_selection.py'):
     script=ROOT/'scripts/pilot'/name
     print('Running',name,flush=True)
@@ -11,7 +11,7 @@ for name in ('test_sandbox.py','test_sandboxed_lean_gate.py','test_lean_grader_c
     if result.returncode:raise SystemExit(result.stdout+'\n'+result.stderr)
 report={'schema_version':1,'status':'synthetic-tests-passed','tests':rows,
  'components':[{'path':name,'sha256':hashlib.sha256((ROOT/name).read_bytes()).hexdigest()}
-    for name in ('scripts/pilot/sandbox.py','scripts/pilot/resource_supervisor.py','scripts/pilot/TrustedLeanAudit.lean','scripts/pilot/lean_grader_core.py','scripts/pilot/rocq_grader_core.py','scripts/pilot/release_gate.py','scripts/pilot/selection.py','benchmarks/pilot-v1/evaluation-policy.json','scripts/pilot/test_prototype.py')],
+    for name in ('scripts/pilot/sandbox.py','scripts/pilot/resource_supervisor.py','scripts/pilot/TrustedLeanAudit.lean','scripts/pilot/lean_grader_core.py','scripts/pilot/rocq_grader_core.py','scripts/pilot/release_gate.py','scripts/pilot/selection.py','benchmarks/pilot/evaluation-policy.json','scripts/pilot/test_prototype.py')],
  'scope':'these regression tests use toy propositions and OS boundary probes only',
  'job_telemetry':'benchmarks/construction/pilot-jobs.jsonl',
  'release_ready':False,'limitations':['only factorial Lean reference branches have solver packages; evaluation tasks and other platforms are not integrated',

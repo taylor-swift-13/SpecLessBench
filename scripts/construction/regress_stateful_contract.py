@@ -8,7 +8,7 @@ def main():
         for p in(ROOT/'_build'/batch/'contract-checks').rglob('submission.json'):
             req=json.loads(p.read_text());context=validate(req)
             key=(req['context_id'],req['platform']);seen[key]=context['tranche']
-    evidence=json.loads((ROOT/'benchmarks/proof-interface/v1/validation.json').read_text())
+    evidence=json.loads((ROOT/'benchmarks/proof-interface/validation.json').read_text())
     assert len(seen)==evidence['valid_counterexample_packages']==51
     assert set(seen.values())=={'qcip','algorithms','boundaries','stateful'}
     print('51 prior/current literal packages pass the extended validator; no final proof submitted.')

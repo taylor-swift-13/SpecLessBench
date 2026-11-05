@@ -53,7 +53,7 @@ def main():
             source_derived_inputs=0, reference_event_counts=report['reference_status_histogram'],
             unexpected_disagreements=0, independent_oracle=independent['oracle'], tool_wall_seconds=cost['nonduplicated_tool_wall_seconds'],
             max_process_rss_bytes=cost['max_process_rss_bytes'], cost_record=path.relative_to(ROOT).as_posix()))
-    manifest_path=ROOT/'benchmarks/proof-interface/v1/manifest.json'; manifest=json.loads(manifest_path.read_text())
+    manifest_path=ROOT/'benchmarks/proof-interface/manifest.json'; manifest=json.loads(manifest_path.read_text())
     assert {t['id'] for g in registry['groups'] for t in g['tasks']} <= {c['context_id'] for c in manifest['contexts']}
     for row in manifest['files']: assert sha(manifest_path.parent/row['path']) == row['sha256']
     assert manifest['submission_validator_sha256'] == sha(ROOT/'scripts/construction/submission_contract.py')

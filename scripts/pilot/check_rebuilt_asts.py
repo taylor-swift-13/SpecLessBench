@@ -2,7 +2,7 @@
 import hashlib,json
 from pathlib import Path
 from private_paths import PRIVATE
-ROOT=Path(__file__).resolve().parents[2];P=ROOT/'benchmarks/pilot-v1';W=ROOT/'_build/pilot-v1/platform-audit/workspace'
+ROOT=Path(__file__).resolve().parents[2];P=ROOT/'benchmarks/pilot';W=ROOT/'_build/pilot-v1/platform-audit/workspace'
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 private=json.loads((PRIVATE/'mapping.json').read_text())
 asts=[r for r in private['protected_files'] if '/compcert/ast/' in r['path'] and r['path'].endswith('.v')]

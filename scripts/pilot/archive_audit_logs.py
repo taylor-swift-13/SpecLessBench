@@ -2,7 +2,7 @@
 import hashlib,json,shutil
 from pathlib import Path
 from private_paths import PRIVATE
-ROOT=Path(__file__).resolve().parents[2];P=ROOT/'benchmarks/pilot-v1';src=ROOT/'_build/pilot-v1/platform-audit';dst=PRIVATE/'audit-logs'
+ROOT=Path(__file__).resolve().parents[2];P=ROOT/'benchmarks/pilot';src=ROOT/'_build/pilot-v1/platform-audit';dst=PRIVATE/'audit-logs'
 if dst.exists():raise SystemExit('Audit-log archive exists; verify rather than replace.')
 dst.mkdir(parents=True);rows=[]
 for report in ('platform-audit.json','interface-audit.json'):

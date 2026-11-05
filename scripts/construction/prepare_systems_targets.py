@@ -6,7 +6,7 @@ def write(p,s):
     p.parent.mkdir(parents=True,exist_ok=True);p.write_text(s,encoding='utf-8',newline='\n')
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def main():
-    out=ROOT/'benchmarks/proof-interface/v1';manifest=json.loads((out/'manifest.json').read_text())
+    out=ROOT/'benchmarks/proof-interface';manifest=json.loads((out/'manifest.json').read_text())
     ls=['import SystemsGoals','namespace SpecLessBenchSystemsSubmission']
     rs=['From SpecLessBenchSystemsNative Require Import SystemsGoals.']
     cs=['From SpecLessBenchSystems Require Import '+ ' '.join(g[0].upper()+'Goals'for g in GROUPS)+'.']

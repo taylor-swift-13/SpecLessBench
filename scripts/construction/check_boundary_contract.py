@@ -5,7 +5,7 @@ from submission_contract import validate,render
 from measure import measured
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def main():
-    contracts=ROOT/'benchmarks/proof-interface/v1';work=BUILD/'contract-checks';work.mkdir(exist_ok=True)
+    contracts=ROOT/'benchmarks/proof-interface';work=BUILD/'contract-checks';work.mkdir(exist_ok=True)
     prior=json.loads((contracts/'validation.json').read_text())
     if 'batches'in prior:prior=prior['batches'][0]
     counts={'valid_counterexample_packages':0,'rejected_malformed_packages':0,'unproved_obligations_checked':0}

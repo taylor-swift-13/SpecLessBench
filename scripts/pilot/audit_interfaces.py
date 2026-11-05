@@ -2,7 +2,7 @@
 import hashlib,json,os,subprocess,sys
 from pathlib import Path
 from private_paths import PRIVATE
-ROOT=Path(__file__).resolve().parents[2];P=ROOT/'benchmarks/pilot-v1';OUT=ROOT/'_build/pilot-v1/platform-audit';W=OUT/'workspace'
+ROOT=Path(__file__).resolve().parents[2];P=ROOT/'benchmarks/pilot';OUT=ROOT/'_build/pilot-v1/platform-audit';W=OUT/'workspace'
 sys.path.insert(0,str(ROOT/'scripts/pilot'))
 from verify_freeze import main as verify
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()

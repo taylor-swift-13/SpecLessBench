@@ -66,9 +66,9 @@ def main():
     if policy_path.exists():
         active["split_policy"]="benchmarks/split-family-policy.json"
         active["split_policy_sha256"]=hashlib.sha256(policy_path.read_bytes()).hexdigest()
-    interface=ROOT/"benchmarks/proof-interface/v1/manifest.json"
+    interface=ROOT/"benchmarks/proof-interface/manifest.json"
     if interface.exists():
-        active["proof_acceptance_contract"]="benchmarks/proof-interface/v1/manifest.json"
+        active["proof_acceptance_contract"]="benchmarks/proof-interface/manifest.json"
         active["proof_acceptance_contract_sha256"]=hashlib.sha256(interface.read_bytes()).hexdigest()
         active["bare_logical_disjunction_is_sufficient"]=False
         active["literal_counterexample_data_required"]=True
@@ -89,7 +89,7 @@ def main():
     if graphsuite_summary.exists(): total["shared_model_usage_batches"].append("batch-classics-graphs-v0.10.json")
     if countsort_summary.exists(): total["shared_model_usage_batches"].append("batch-construction-continuation-v0.11.json")
     if interface.exists():
-        total["proof_acceptance_contract"]="benchmarks/proof-interface/v1/manifest.json"
+        total["proof_acceptance_contract"]="benchmarks/proof-interface/manifest.json"
         total["proof_acceptance_contract_sha256"]=hashlib.sha256(interface.read_bytes()).hexdigest()
         total["submission_interface_validation"]=json.loads((interface.parent/"validation.json").read_text())
     (AUDIT/"summary.json").write_text(json.dumps(total,indent=2)+"\n")

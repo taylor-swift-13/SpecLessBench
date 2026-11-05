@@ -6,7 +6,7 @@ from the public snapshot and cannot silently replace the original mapping.
 import hashlib,json
 from pathlib import Path
 from private_paths import PRIVATE
-ROOT=Path(__file__).resolve().parents[2];P=ROOT/'benchmarks/pilot-v1'
+ROOT=Path(__file__).resolve().parents[2];P=ROOT/'benchmarks/pilot'
 paths=['scripts/construction/differential_algorithms.py','scripts/construction/algorithms_common.py',
        'scripts/construction/accounting.py','scripts/construction/measure.py']
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()

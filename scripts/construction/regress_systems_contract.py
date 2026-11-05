@@ -14,7 +14,7 @@ def main():
             request = json.loads(path.read_text())
             validate(request)
             seen.add((request["context_id"], request["platform"]))
-    evidence = json.loads((ROOT / "benchmarks/proof-interface/v1/validation.json").read_text())
+    evidence = json.loads((ROOT / "benchmarks/proof-interface/validation.json").read_text())
     assert len(seen) == evidence["valid_counterexample_packages"] == 66
     print("66 saved literal packages accepted by the extended validator.")
 

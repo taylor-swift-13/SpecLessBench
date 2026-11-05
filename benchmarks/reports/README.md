@@ -1,6 +1,6 @@
 # Reference reports
 
-Each evaluation report is stored separately by task, platform, theorem branch, and run ID. Reports contain proof attempts and answers. The entire factorial family is reserved as public reference material and excluded from the evaluation set on all three platforms; see the [evaluation policy](../pilot-v1/evaluation-policy.json).
+Each evaluation report is stored separately by task, platform, theorem branch, and run ID. Reports contain proof attempts and answers. The entire factorial family is reserved as public reference material and excluded from the evaluation set on all three platforms; see the [evaluation policy](../pilot/evaluation-policy.json).
 
 The frozen factorial reference contains six independently checked theorem reports, listed below. Their status applies to the factorial family and does not imply benchmark-wide proof coverage. The [reference manifest](factorial-reference.json) pins the report checksums and the frozen pilot snapshot.
 

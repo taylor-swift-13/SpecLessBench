@@ -2,7 +2,7 @@
 import hashlib,json,platform
 from pathlib import Path
 from private_paths import PRIVATE
-ROOT=Path(__file__).resolve().parents[2];P=ROOT/'benchmarks/pilot-v1';out=PRIVATE/'toolchains.json'
+ROOT=Path(__file__).resolve().parents[2];P=ROOT/'benchmarks/pilot';out=PRIVATE/'toolchains.json'
 if out.exists():raise SystemExit('Toolchain addendum exists.')
 tools={'lean':'/home/yangfp/.elan/toolchains/leanprover--lean4---v4.34.0/bin/lean',
        'rocq':'/home/yangfp/.opam/qcp-8.20/bin/coqc','compcert_rocq':'/home/yangfp/.opam/five/bin/coqc',

@@ -7,14 +7,14 @@ import hashlib,hmac,json,os,secrets,subprocess
 from pathlib import Path
 from private_paths import PRIVATE
 
-ROOT=Path(__file__).resolve().parents[2];OUT=ROOT/'benchmarks/pilot-v1';
+ROOT=Path(__file__).resolve().parents[2];OUT=ROOT/'benchmarks/pilot';
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def opaque(secret,kind,name):return kind+'-'+hmac.new(secret,name.encode(),hashlib.sha256).hexdigest()[:16]
 def dump(path,value):path.parent.mkdir(parents=True,exist_ok=True);path.write_text(json.dumps(value,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
 
 def main():
     active=json.loads((ROOT/'benchmarks/active-groups.json').read_text())
-    interface=json.loads((ROOT/'benchmarks/proof-interface/v1/manifest.json').read_text())
+    interface=json.loads((ROOT/'benchmarks/proof-interface/manifest.json').read_text())
     contexts={x['context_id']:x for x in interface['contexts']}
     ids=[c for group in active['groups'] for c in group['contexts']]
     assert len(ids)==len(set(ids))==71 and set(ids)==set(contexts)
@@ -22,8 +22,8 @@ def main():
     def is_protected(name):
         p=Path(name)
         return ((name.startswith('benchmarks/tasks/') and '/evidence/' not in name and p.suffix in ('.v','.lean','.c','.h','.goal'))
-           or (name.startswith('benchmarks/proof-interface/v1/') and p.suffix in ('.v','.lean'))
-           or name in ('benchmarks/active-groups.json','benchmarks/split-family-policy.json','benchmarks/proof-interface/v1/manifest.json','scripts/construction/submission_contract.py')
+           or (name.startswith('benchmarks/proof-interface/') and p.suffix in ('.v','.lean'))
+           or name in ('benchmarks/active-groups.json','benchmarks/split-family-policy.json','benchmarks/proof-interface/manifest.json','scripts/construction/submission_contract.py')
            or name in ('scripts/construction/differential_algorithms.py','scripts/construction/algorithms_common.py','scripts/construction/accounting.py','scripts/construction/measure.py')
            or (name.startswith('scripts/construction/') and name.endswith('_cases.py'))
            or name=='scripts/curation/check_qcip_core.py')
@@ -48,7 +48,7 @@ def main():
     source_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
     private={'schema_version':1,'source_commit':source_commit,'contexts':mapping,'protected_files':files,
         'active_groups_sha256':sha(ROOT/'benchmarks/active-groups.json'),
-        'interface_manifest_sha256':sha(ROOT/'benchmarks/proof-interface/v1/manifest.json')}
+        'interface_manifest_sha256':sha(ROOT/'benchmarks/proof-interface/manifest.json')}
     dump(mapping_path,private)
     public_manifest={'schema_version':1,'status':'frozen-source-snapshot; solver-release-pending',
         'pilot_name':'SpecLessBench pilot v1','source_commit':source_commit,

@@ -624,7 +624,7 @@
     "summary-graphsuite-v0.10.json",
     "summary-countsort-v0.11.json"
   ],
-  "proof_acceptance_contract": "benchmarks/proof-interface/v1/manifest.json",
+  "proof_acceptance_contract": "benchmarks/proof-interface/manifest.json",
   "proof_acceptance_contract_sha256": "71099b131c1168833a0d72d022559ff00f159512e56b83c3fa635a8bc65dbdcf",
   "submission_interface_validation": {
     "valid_counterexample_packages": 87,

@@ -68,7 +68,7 @@ forall input, impl_A input = impl_B input.
 
 正例提供等价证明；负例提供反例证明。不能仅把超时、失败或模型自报的“不等价”计为反例。
 
-上述析取只表示两种合法结果的概念分类，**不能单独作为可计分的Prop证明**。当前接受接口要求显式JSON分支；反例还须提交具体输入和观察，并证明专门化目标。否则经典逻辑可非构造性地证明某些总函数的裸析取，绕过行为判断。见[证明接口v1](../benchmarks/proof-interface/v1/README.md)。旧析取模板仅作为历史设计保留。
+上述析取只表示两种合法结果的概念分类，**不能单独作为可计分的Prop证明**。当前接受接口要求显式JSON分支；反例还须提交具体输入和观察，并证明专门化目标。否则经典逻辑可非构造性地证明某些总函数的裸析取，绕过行为判断。见[证明接口v1](../benchmarks/proof-interface/README.md)。旧析取模板仅作为历史设计保留。
 
 ### C／Clight 的目标
 
@@ -105,7 +105,7 @@ forall input, impl_A input = impl_B input.
 
 ## 首轮试验集
 
-早期的候选目录与试验集规划已由冻结的 [pilot 清单](../benchmarks/pilot-v1/manifest.json)取代；源码选择依据保留在[源码审查](../benchmarks/research/qcip-candidate-review.md)中。跨赛道移植和共享程序的条目按家族分组划分。
+早期的候选目录与试验集规划已由冻结的 [pilot 清单](../benchmarks/pilot/manifest.json)取代；源码选择依据保留在[源码审查](../benchmarks/research/qcip-candidate-review.md)中。跨赛道移植和共享程序的条目按家族分组划分。
 
 当前实现顺序按新要求调整：先具体落实 BST、AVL、环形缓冲区、Dijkstra 四家族。它们已有16个固定 C 入口、闭合的源级调用集合、输入/观察和12个待证明目标，属于 `source-concrete`；不新增目录槽位。源代码使用显式 arena 和规范化 ring API，改动记录见[具体任务](../benchmarks/tasks/qcip-core/README.md)。Dijkstra 当前将 client/provider 包含到同一翻译单元，保留调用关系但尚不测试分离链接。原先六家族复杂试验片保留为候选计划；不能把原计划与这12题都计算为已就绪数据。
 

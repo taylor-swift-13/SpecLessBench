@@ -129,9 +129,9 @@ enabled = false
     critical=('scripts/pilot/run_codex_wsl.py','scripts/pilot/release_gate.py','scripts/pilot/grade_sealed.py',
               'scripts/pilot/lean_grader_core.py','scripts/pilot/TrustedLeanAudit.lean','scripts/pilot/sandbox.py',
               'scripts/pilot/resource_supervisor.py','scripts/pilot/single_task_runner.py','scripts/pilot/prepare_factorial.py',
-              'scripts/pilot/verify_reference.py','scripts/pilot/selection.py','benchmarks/pilot-v1/evaluation-policy.json',
+              'scripts/pilot/verify_reference.py','scripts/pilot/selection.py','benchmarks/pilot/evaluation-policy.json',
               'benchmarks/tasks/algorithms-core/lean/BasicNative.lean',
-              'benchmarks/tasks/algorithms-core/lean/BasicDomain.lean','benchmarks/proof-interface/v1/lean/BranchTargets.lean')
+              'benchmarks/tasks/algorithms-core/lean/BasicDomain.lean','benchmarks/proof-interface/lean/BranchTargets.lean')
     if expected_claim=='counterexample':critical+=('scripts/pilot/prepare_factorial_cex.py',)
     critical_hashes={name:sha((ROOT/name).read_bytes()) for name in critical}
     for name,observed in critical_hashes.items():
