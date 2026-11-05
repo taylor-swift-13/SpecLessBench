@@ -20,8 +20,9 @@ Only packages with checked correspondence to the frozen sources are eligible
 for the worker. The initial adapters cover reversal, sum, matrix multiplication,
 naive matching/KMP and queue pairs on all three platforms: 30 eligible instances.
 Prim/Kruskal forest comparisons and stable record sorting add five contexts
-on all three platforms, bringing certified coverage to 45 instances. Their
-tie/edge-mask and payload-order observations match the frozen domains.
+on all three platforms. Two block/stream Base64 contexts add another six
+instances, bringing certified coverage to 51 instances. Tie/edge-mask,
+payload-order and exact encoded-byte observations retain their frozen domains.
 Other instances wait for adapters; they are not counted as model failures.
 Adding a certified package lets the same serial worker pick it up. Preparation
 must wait until no theorem is running. An exclusive worker lock prevents two
