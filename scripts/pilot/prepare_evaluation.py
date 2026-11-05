@@ -441,7 +441,7 @@ def main():
     from prepare_clight_evaluation import prepare_compcert
     from prepare_classics_evaluation import prepare_classics, prepare_classics_lean
     from prepare_base64_evaluation import prepare_base64_rocq, prepare_base64_lean
-    from prepare_graphsuite_evaluation import prepare_graphsuite_rocq, prepare_graphsuite_lean
+    from prepare_word_evaluation import prepare_word_rocq, prepare_graphsuite_lean
     os.umask(0o077)
     PACKAGES.mkdir(parents=True, exist_ok=True, mode=0o700)
     with (PACKAGES/'activity.lock').open('a') as lock:
@@ -451,7 +451,7 @@ def main():
         rows = json.loads((PRIVATE/'mapping.json').read_text())['contexts']
         for row in rows:
             if row['pilot_id'] in eligible:
-                for adapter in (prepare, prepare_rocq, prepare_classics, prepare_classics_lean, prepare_base64_rocq, prepare_base64_lean, prepare_graphsuite_rocq, prepare_graphsuite_lean, prepare_compcert):
+                for adapter in (prepare, prepare_rocq, prepare_classics, prepare_classics_lean, prepare_base64_rocq, prepare_base64_lean, prepare_word_rocq, prepare_graphsuite_lean, prepare_compcert):
                     meta = adapter(row)
                     if meta:
                         print(json.dumps({'task': meta['pilot_id'], 'platform': meta['platform'], 'prepared': True}), flush=True)

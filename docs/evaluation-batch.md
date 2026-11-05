@@ -23,8 +23,10 @@ Prim/Kruskal forest comparisons and stable record sorting add five contexts
 on all three platforms. Two block/stream Base64 contexts add another six
 instances. Six Floyd/Dijkstra, Tarjan/Kosaraju and naive/Boyer–Moore contexts
 add 12 Rocq/Clight instances and four Lean shortest-path/search instances,
-bringing certified coverage to 67 instances. The two Lean component packages
-remain pending. Frozen observations compare distance
+and four TLV/PackBits contexts add eight Rocq/Clight instances, bringing
+certified coverage to 75 instances. Their Lean packages and the two Lean
+component packages remain pending. Codec observations retain exact payloads,
+error codes, error offsets and consumed/produced counts. Frozen observations compare distance
 matrices, pairwise component membership and first-match positions. Tie/edge-mask,
 payload-order and exact encoded-byte observations retain their frozen domains.
 Other instances wait for adapters; they are not counted as model failures.

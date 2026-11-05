@@ -21,6 +21,8 @@ def prepare_compcert(row):
                    {0:'BASE64'},('words','get','validb','valid')),
         'graphsuite': ('graphsuite-core','GraphSuiteTargets','GraphSuiteDomain','SpecLessBenchGraphSuite','classics-graphs-v0.10',
                        {0:'APSP',1:'SCC',2:'SEARCH'},('words','word','between','valid')),
+        'boundaries': ('boundaries-core','BoundaryTargets','BoundaryDomain','SpecLessBenchBoundary','boundaries-v0.4',
+                       {4:'TLV',6:'PACKBITS'},('words','get','in_range','valid')),
     }
     if tranche not in profiles or family not in profiles[tranche][5]:
         return None

@@ -11,7 +11,7 @@ from single_task_runner import tree_digest
 
 def declarations(text):
     return {m.group(1): m.group().strip() for m in re.finditer(
-        r'^(?:Definition|Fixpoint)\s+([A-Za-z_][A-Za-z_0-9]*)\b.*?(?=\n(?:Definition|Fixpoint|Notation)\b|\Z)', text, re.M | re.S)}
+        r'^(?:Definition|Fixpoint)\s+([A-Za-z_][A-Za-z_0-9]*)\b.*?(?=\n(?:Definition|Fixpoint|Notation|Record|Inductive|Structure)\b|\Z)', text, re.M | re.S)}
 
 
 def implementation(defs, family, style, name):
