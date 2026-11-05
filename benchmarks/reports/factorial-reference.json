@@ -11,14 +11,14 @@
     {
       "theorem": "equivalence",
       "platform": "lean",
-      "path": "P-dbec465c356ed73d/lean/equivalence/20261105T145347Z-3b3c245438c5",
-      "sha256sums_sha256": "9507b13fa532c803883a5353bedabb91d3d090d4eb361205085d721711918a37"
+      "path": "P-dbec465c356ed73d/lean/equivalence/20261105T175104Z-907f3c14451a",
+      "sha256sums_sha256": "2781d087cb0926c744f9894c40c44500a3b3f3316419610969b6b376b1e8c486"
     },
     {
       "theorem": "counterexample",
       "platform": "lean",
-      "path": "P-a80b8283427dcbd7/lean/counterexample/20261105T152523Z-ff7f7147b74b",
-      "sha256sums_sha256": "8ba3758e1a7efc6aa2731eb5e3a2ff472734beca70aa0809617f529020141288"
+      "path": "P-a80b8283427dcbd7/lean/counterexample/20261105T175408Z-99e4b33b85cd",
+      "sha256sums_sha256": "b43457110f59ad819107f204180975d212f5d6cf669be1b2c4a107416083eab1"
     },
     {
       "theorem": "equivalence",

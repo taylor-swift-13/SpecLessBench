@@ -1,0 +1,33 @@
+{
+  "preflight_started_utc": "2026-11-05T17:51:01.394694+00:00",
+  "preflight_wall_seconds": 24.577147971998784,
+  "controller_peak_rss_bytes_linux": 106532864,
+  "lean_toolchain_tree": {
+    "sha256": "ae9624ffe37df877fd15e7ac0093568ba2bbcebe864e8ffde47588150b8bf8f6",
+    "file_count": 17738,
+    "total_bytes": 3067799197,
+    "scheme": "SpecLessBench toolchain tree v1",
+    "wall_seconds": 14.612723586993525
+  },
+  "critical_file_sha256": {
+    "scripts/pilot/run_codex_wsl.py": "a8c8516ab8921e16b5fd3940872eabe2cd9beb57527e134db822eaffc4630128",
+    "scripts/pilot/release_gate.py": "58ccdeebe5ca1e69e6c3b48120ef20d1259c9e702e39b968a86d7bfc9a30da31",
+    "scripts/pilot/grade_sealed.py": "0ba29b7581af6963ff28e7becc1e9162c16f785672241962e3af6c2191a237c1",
+    "scripts/pilot/lean_grader_core.py": "d36d63ae3fe22417fddf632c5a31fe51ce74c89aa9aad0f18b3c18ea2309a21a",
+    "scripts/pilot/TrustedLeanAudit.lean": "759bfaf6dfb9d2946d3fe4ab86e1a1154e79dbe7d5203324663e0b4299001b6d",
+    "scripts/pilot/sandbox.py": "dc59e26babaa0191a9aa1090c62168bdbbef06f34108d5bc2ed3bfe68f8f6c41",
+    "scripts/pilot/resource_supervisor.py": "a9003c464588718517b82847d80cceba305c76e269d7e2390eca97538ee9709b",
+    "scripts/pilot/single_task_runner.py": "f926a2be459a318430314a25fb17581ff1be8297fee07e16a303c935dcebc416",
+    "scripts/pilot/prepare_factorial.py": "ab87f8cdb55d40fe2cc7df32e02c1be4ab186202fff7972fd9711f6eb3fab44d",
+    "scripts/pilot/verify_reference.py": "e7099fa736ab430fc2031e36534eaf8cade067ff43a4eaccde30c6479661800b",
+    "scripts/pilot/selection.py": "07bb2c2f6c5c6aa80a6f9d8bd85975cc71547768314c1f091a6d0f143cba7390",
+    "benchmarks/pilot/evaluation-policy.json": "334b640ed6ec7a262c7c15c84a3ca667ff56faac24143269621145a3bca141f7",
+    "benchmarks/tasks/algorithms-core/lean/BasicNative.lean": "50e91bb6e939615a2d2abe1323fbb650f7700695d06dc792f729fc222c6bc842",
+    "benchmarks/tasks/algorithms-core/lean/BasicDomain.lean": "c4fe33ae5e788927549004ed6e53c4bc6c4ec510470d1dfa59fbf09054d1b0c1",
+    "benchmarks/proof-interface/lean/BranchTargets.lean": "84842833ddae5d44d5ba0f57e5d8828341ffcb26bfb34d66cf143bb54bcde442"
+  },
+  "git_status_raw": [],
+  "git_status_autocrlf_true": [],
+  "full_environment_locked": false,
+  "limitations": "The OS, system libraries and model backend are not locked; the tree digest does not distribute binaries."
+}

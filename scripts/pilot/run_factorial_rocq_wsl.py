@@ -1,9 +1,10 @@
-"""Run one isolated projected factorial Rocq obligation; this is not a gold proof."""
+"""Run one isolated factorial Rocq or CompCert reference obligation."""
 import argparse
 import datetime as dt
 import hashlib
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -23,7 +24,7 @@ PROMPT = ('Prove exactly the fixed Rocq theorem Obligation.goal in /task. '
           'Work only in /work. Write /work/Submission.v, importing '
           'From Trusted Require Import Obligation and defining Submission.solve : Obligation.goal. '
           'Use coqc -Q /task Trusted -Q /work Candidate /work/Submission.v to check. '
-          'You may add helper lemmas. Do not use axioms, Admitted, or admit.')
+          'You may add helper lemmas. Do not add axioms or use Admitted or admit.')
 
 def now():
     return dt.datetime.now(dt.timezone.utc).isoformat()
@@ -41,10 +42,11 @@ def main():
     toolchain = HOME / '.opam/five' if args.compcert else COQ
     src = ROOT / '_build/pilot-v1' / ('factorial-' + platform + '-' + ('original-' if args.original or args.compcert else '') + args.kind)
     meta = json.loads((src / 'registry.json').read_text())
+    if not re.fullmatch(r'P-[0-9a-f]{16}', meta['pilot_id']): raise RuntimeError('Invalid task identifier')
     if tree_digest(src / 'task') != meta['public_sha256']:
         raise RuntimeError('Task package changed')
     os.umask(0o077)
-    run = HOME / '.local/share/speclessbench/rocq-reference-runs' / (dt.datetime.now(dt.timezone.utc).strftime('%Y%m%dT%H%M%SZ-') + uuid.uuid4().hex[:12])
+    run = HOME / '.local/share/speclessbench/runs/reference' / meta['pilot_id'] / platform / args.kind / (dt.datetime.now(dt.timezone.utc).strftime('%Y%m%dT%H%M%SZ-') + uuid.uuid4().hex[:12])
     run.mkdir(parents=True)
     private = run / 'private'; private.mkdir()
     task = private / 'task'; shutil.copytree(src / 'task', task)

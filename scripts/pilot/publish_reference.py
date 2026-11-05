@@ -31,6 +31,7 @@ def main():
     report=json.loads((run/'report.json').read_text());cfg=report['configuration']
     task=cfg['task_id'];platform=cfg['platform'];claim=cfg['claim']
     if cfg.get('purpose')!='reference':raise SystemExit('Only reference runs may be published here')
+    if cfg.get('model')!='gpt-6.1-sol':raise SystemExit('Only GPT-6.1 Sol runs may be published here')
     if not re.fullmatch(r'P-[0-9a-f]{16}',task) or platform!='lean' or claim not in ('equivalence','counterexample'):
         raise SystemExit('Unsupported task or goal')
     if not re.fullmatch(r'[0-9]{8}T[0-9]{6}Z-[0-9a-f]{12}',run.name):raise SystemExit('Invalid run id')

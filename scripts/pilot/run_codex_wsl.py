@@ -65,7 +65,7 @@ def main():
     global ACTIVE_RUN
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--reference-task',choices=('factorial-equivalence','factorial-counterexample'),default='factorial-equivalence')
-    parser.add_argument('--model',choices=('gpt-6-luna','gpt-6.1-sol'),default='gpt-6-luna')
+    parser.add_argument('--model',choices=('gpt-6.1-sol',),default='gpt-6.1-sol')
     args=parser.parse_args()
     task_name='first-real-task' if args.reference_task=='factorial-equivalence' else 'factorial-cex'
     task_root=ROOT/'_build/pilot-v1'/task_name

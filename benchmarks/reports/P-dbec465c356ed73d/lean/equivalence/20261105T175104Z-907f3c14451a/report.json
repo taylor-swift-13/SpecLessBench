@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "started_utc": "2026-11-05T17:51:27.696843+00:00",
+  "ended_utc": "2026-11-05T17:52:16.736773+00:00",
+  "configuration": {
+    "model": "gpt-6.1-sol",
+    "model_reasoning_effort": "medium",
+    "agent": "Codex CLI",
+    "agent_version": "codex-cli 0.162.0",
+    "timeout_seconds": 3600,
+    "tools_network": false,
+    "model_network": true,
+    "memory_limit_bytes": 3221225472,
+    "pids_limit": 512,
+    "task_id": "P-dbec465c356ed73d",
+    "platform": "lean",
+    "claim": "equivalence",
+    "purpose": "reference",
+    "theorem": "Obligation.goal",
+    "task_package_sha256": "f998e80f960aca9889056b6d2222b764845576da586cafffa5e92fef86f9a346",
+    "fixed_witness": null,
+    "provider": "ChatGPT account; billing and hosted-model memory unavailable",
+    "runner_sha256": "a8c8516ab8921e16b5fd3940872eabe2cd9beb57527e134db822eaffc4630128",
+    "codex_executable_sha256": "50ed828f357c655a3c82054d346cab8434f24901f14ec19b8267571bdd008b38",
+    "codex_code_host_sha256": "4c1984f440b743db476002c6364a31b2d8c437bebd628e9cb676d4742fcb1d8c",
+    "lean_executable_sha256": "e8baaa71855a616dc351028f3ad2200051b0671f423a1696a100e809302d5550",
+    "system": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.35",
+    "lean_version": "Lean (version 4.34.0, x86_64-unknown-linux-gnu, commit 293d5d0c0c3f3dded4688b3ccd6a33939ac5102b, Release)"
+  },
+  "benchmark_commit": "f0eef72fb6794b1c99b5c845f2d3c999d2c70e35",
+  "tracked_files_dirty_at_start": false,
+  "result": {
+    "status": "accepted",
+    "stage": "audit",
+    "detail": null
+  },
+  "proof_sha256": "82dd2cb2e26df4dfef6e6942b558239c562a79170411c7effeec501ed385a7c5",
+  "checks": {
+    "fixed_goal_gate": "passed",
+    "axiom_audit": {
+      "status": "passed",
+      "allowed": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "auditor_output": "accepted axiom dependencies: #[propext]"
+    }
+  },
+  "resources": {
+    "wall_seconds": 36.03808132499398,
+    "checker_seconds": 13.001129171010689,
+    "sandbox": {
+      "status": "exited",
+      "exit_code": 0,
+      "limits": {
+        "memory_max": "3221225472",
+        "pids_max": "512",
+        "memory_swap_max": "0"
+      },
+      "wall_seconds": 35.876803197999834,
+      "memory_peak_bytes": 264744960,
+      "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+      "cpu_stat": "usage_usec 2681492\nuser_usec 1189371\nsystem_usec 1492121\nnice_usec 0",
+      "memory_scope": "cgroup v2 peak through sandbox process exit, including supervisor and sandbox descendants; before final cleanup, not hosted model memory"
+    },
+    "preflight": {
+      "wall_seconds": 24.577147971998784,
+      "controller_peak_rss_bytes_linux": 106532864
+    },
+    "provider_usage_events": [
+      {
+        "input_tokens": 61813,
+        "cached_input_tokens": 46592,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 499,
+        "reasoning_output_tokens": 20
+      }
+    ],
+    "usage_scope": "Codex CLI turn.completed events; no assumed billing conversion",
+    "monetary_cost": null,
+    "hosted_inference_memory_bytes": null
+  },
+  "transcript": {
+    "format": "Codex CLI --json",
+    "event_count": 19,
+    "invalid_lines": 0,
+    "turn_completed": true,
+    "completeness_independently_verified": false,
+    "line_received_timestamps": "events.timestamps.jsonl",
+    "stdout_stream_closed_cleanly": true,
+    "limitations": "Complete means a turn.completed event was observed, not that all hidden reasoning or tool details are independently recoverable."
+  },
+  "supervisor_exit_code": 0,
+  "model_configuration_source": "Codex config and CLI catalog; server-side resolved model metadata not independently verified",
+  "environment_evidence": "environment.json",
+  "model_catalog_evidence": "model-catalog.json"
+}

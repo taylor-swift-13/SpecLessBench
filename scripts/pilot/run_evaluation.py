@@ -89,6 +89,7 @@ def run(task, platform, claim, config_path, output_root=DEFAULT_RUNS, purpose='e
     meta = json.loads((BUILD / 'registry.json').read_text())
     if (task, platform, claim) != (meta['pilot_id'], meta['platform'], meta['claim']): raise ValueError('Task, platform, or theorem is not prepared')
     if purpose not in ('evaluation','reference'):raise ValueError('Unknown run purpose')
+    if purpose=='reference' and agent.get('model_name')!='gpt-6.1-sol':raise ValueError('Reference runs require gpt-6.1-sol')
     if purpose=='evaluation' and task in {x['pilot_id'] for x in selection()[1]}: raise ValueError('The entire factorial family is reference-only, not an evaluation task')
     package = BUILD / 'task'
     if tree_digest(package) != meta['public_sha256']: raise ValueError('Task package digest mismatch')

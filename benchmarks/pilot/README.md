@@ -22,7 +22,7 @@ python3 scripts/pilot/verify_audit.py
 
 `scripts/pilot/run_evaluation.py` runs one prepared theorem with a fresh offline sandbox and writes a private report. At present, only the prepared Lean factorial equivalence task is supported. The agent executable must already be available inside the sandbox (under `/usr` or the selected toolchain); network access is disabled. The runner does not include an online-model or agent-specific adapter.
 
-For the existing WSL installation, `scripts/pilot/run_codex_wsl.py` is a preliminary Codex-specific integration for that same theorem: it requests `gpt-6-luna` with medium reasoning and a 3,600-second agent limit. The Codex process has network access for the model; its tool subprocesses use a second sandbox with network disabled and authentication-file access denied. A local isolation probe checked those boundaries, but this is not a complete hostile-code security audit. The runner requires the pinned local Codex and Lean paths and an already authenticated WSL account. Reports and model-generated proofs remain in the private WSL runs directory.
+For the existing WSL installation, `scripts/pilot/run_codex_wsl.py` runs either prepared Lean factorial theorem with `gpt-6.1-sol`, medium reasoning, and a 3,600-second agent limit. The Codex process has network access for the model; its tool subprocesses use a second sandbox with network disabled and authentication-file access denied. A local isolation probe checked those boundaries, but this is not a complete hostile-code security audit. The runner requires the pinned local Codex and Lean paths and an already authenticated WSL account. Reference and formal-evaluation runs have separate private directories.
 
 Provide a JSON configuration containing an argv array; `{prompt}` is replaced with the fixed task prompt. For example, replace the command below with an installed offline agent that implements the protocol:
 
@@ -32,7 +32,7 @@ Provide a JSON configuration containing an argv array; `{prompt}` is replaced wi
     "name": "my-agent",
     "version": "1.0",
     "model_provider": "local",
-    "model_name": "my-model",
+    "model_name": "gpt-6.1-sol",
     "model_version": "pinned-version",
     "command": ["/usr/bin/my-agent", "--jsonl", "{prompt}"]
   },
@@ -47,11 +47,11 @@ python3 scripts/pilot/run_evaluation.py \
   --config /path/to/agent-config.json
 ```
 
-The agent sees the task at `/trusted`, has a new `/work`, and must produce `/work/Submission.lean` with `Submission.solve : Obligation.goal`. Emit JSON objects, one per stdout line, for messages, tool calls and tool results. A `session_end` event may state `transcript_complete: true`; the runner records this as an agent claim, not an independently verified guarantee. The agent must emit every interaction it wants recorded: the runner cannot recover hidden reasoning or omitted tool calls. A single `usage` event with `scope: "run_total"` can report `input_tokens`, `cached_input_tokens`, `output_tokens`, `reasoning_output_tokens`, and `total_tokens`. These are self-reported, not provider-verified. Optional `pricing` config may provide `input_usd_per_million`, `cached_input_usd_per_million`, `output_usd_per_million`, and `version`; the resulting estimate is not a bill.
+The agent sees the task at `/trusted`, has a new `/work`, and must produce `/work/Submission.lean` with `Submission.solve : Obligation.goal`. Reference runs require the configured model name `gpt-6.1-sol`; this field alone does not verify the model used by an arbitrary agent. Emit JSON objects, one per stdout line, for messages, tool calls and tool results. A `session_end` event may state `transcript_complete: true`; the runner records this as an agent claim, not an independently verified guarantee. The agent must emit every interaction it wants recorded: the runner cannot recover hidden reasoning or omitted tool calls. A single `usage` event with `scope: "run_total"` can report `input_tokens`, `cached_input_tokens`, `output_tokens`, `reasoning_output_tokens`, and `total_tokens`. These are self-reported, not provider-verified. Optional `pricing` config may provide `input_usd_per_million`, `cached_input_usd_per_million`, `output_usd_per_million`, and `version`; the resulting estimate is not a bill.
 
-Each run is written under `~/.local/share/speclessbench/runs/` by default, with `report.json`, `report.md`, the original and parsed configuration, prompt, raw stdout/stderr, `events.jsonl`, submission if present, checker trace, and resource data. Logs can contain proofs, task answers, and sensitive data: use a private WSL filesystem and do not put credentials in arguments or configuration. The sandbox output limit is 128 MiB per stream; timeouts, missing output, truncated logs, unreported usage, and absent model metadata are reported as such. No automatic redaction can guarantee that an agent will not emit secrets.
+Each run is written under `~/.local/share/speclessbench/runs/reference/` or `runs/evaluation/` by default, separated further by task, platform, claim and run ID. It includes `report.json`, `report.md`, the original and parsed configuration, prompt, raw stdout/stderr, `events.jsonl`, submission if present, checker trace, and resource data. Logs can contain proofs, task answers, and sensitive data: use a private WSL filesystem and do not put credentials in arguments or configuration. The sandbox output limit is 128 MiB per stream; timeouts, missing output, truncated logs, unreported usage, and absent model metadata are reported as such. No automatic redaction can guarantee that an agent will not emit secrets.
 
-To generate an example report without a model, use `--config scripts/pilot/example-agent.json` in the command above. The synthetic agent submits `sorry`, so the expected result is `rejected` and the CLI exits with status 1. Test the report pipeline and proof-bypass checks with `python3 scripts/pilot/test_run_evaluation.py` and `python3 scripts/pilot/test_grade_sealed.py`. These use fake agents and toy propositions; they do not run a model evaluation or prove benchmark goals.
+Test the report pipeline and proof-bypass checks with `python3 scripts/pilot/test_run_evaluation.py` and `python3 scripts/pilot/test_grade_sealed.py`. These use fake agents and toy propositions; they do not run a model evaluation or prove benchmark goals.
 
 ## 三平台检查
 
