@@ -1,7 +1,6 @@
 """Snapshot this curator chat's actual request metering, separately from evals."""
 import argparse
 from collections import Counter
-import datetime as dt
 import gzip
 import hashlib
 import json
@@ -75,7 +74,7 @@ def main():
     if not latest or dict(totals) != latest['payload']['thread_token_usage']:
         raise ValueError('Per-request usage does not match the desktop cumulative counter')
     summary = {'schema_version': 1, 'metering_as_of_utc': latest['timestamp'], 'thread_id': args.thread,
-               'scope': 'All model requests in this curator/controller chat, including construction, discussion, reference work and evaluation monitoring. Not construction-only; excludes separately launched Codex evaluation jobs.',
+               'scope': 'All model requests in this curator/controller chat, including construction, discussion, reference work and evaluation monitoring. Not construction-only; excludes separately launched Codex reference and evaluation workers.',
                'source': {'kind': 'Codex token_usage_record', 'prefix_bytes': len(raw), 'prefix_sha256': sha(raw)},
                'usage': dict(totals), 'uncached_input_tokens': totals['input_tokens']-totals['cached_input_tokens'],
                'requests': len(records), 'by_configuration': list(partitions.values()),

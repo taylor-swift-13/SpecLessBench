@@ -73,7 +73,10 @@ def main():
     peak=max(memory,key=lambda r:r['max_process_rss_bytes'])if memory else None
     pilot_path=AUDIT/'pilot-jobs.jsonl'
     pilot_bytes=pilot_path.read_bytes()if pilot_path.exists()else b''
-    pilot_jobs=[json.loads(line)for line in pilot_bytes.splitlines()]
+    all_pilot_jobs=[json.loads(line)for line in pilot_bytes.splitlines()]
+    # Evaluation and reference replay share this raw log with grader development.
+    # Only explicitly tagged prototype jobs belong in this construction view.
+    pilot_jobs=[row for row in all_pilot_jobs if row.get('phase')=='synthetic-prototype']
     pilot_peaks=[row['resources']['memory_peak_bytes']for row in pilot_jobs if row.get('resources') and row['resources'].get('memory_peak_bytes') is not None]
     record={'schema_version':1,'generated_utc':now(),'complete_project_total_available':False,
        'scope':'observed construction and research batches; not proof-agent evaluation, not a complete bill',
@@ -98,6 +101,8 @@ def main():
           'exact_concurrent_process_tree_peak_bytes':None,'hosted_model_inference_peak_bytes':None,
           'max_observed_pilot_job_cgroup_peak_bytes':max(pilot_peaks)if pilot_peaks else None,
           'pilot_jobs_with_cgroup_peak':len(pilot_peaks),'pilot_jobs_without_cgroup_peak':len(pilot_jobs)-len(pilot_peaks),
+          'pilot_job_scope':'synthetic-prototype phase only; evaluation and reference-check phases excluded',
+          'pilot_jobs_excluded_by_phase':len(all_pilot_jobs)-len(pilot_jobs),
           'pilot_job_log_prefix_bytes':len(pilot_bytes),'pilot_job_log_prefix_sha256':hashlib.sha256(pilot_bytes).hexdigest(),
           'pilot_cgroup_scope':'per-job cgroup v2 memory.peak, including supervisor and descendants through sandbox exit, before final cleanup; not full construction or hosted inference memory',
           'scope':'GNU time/wait4 maximum process high-water among instrumented commands and waited descendants; not the simultaneous process-tree sum',

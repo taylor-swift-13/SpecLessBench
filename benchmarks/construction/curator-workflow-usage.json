@@ -1,23 +1,23 @@
 {
   "schema_version": 1,
-  "metering_as_of_utc": "2026-11-05T21:28:53.001Z",
+  "metering_as_of_utc": "2026-11-05T21:39:51.130Z",
   "thread_id": "01a19d40-53c2-7811-8e47-5ac681576e1f",
-  "scope": "All model requests in this curator/controller chat, including construction, discussion, reference work and evaluation monitoring. Not construction-only; excludes separately launched Codex evaluation jobs.",
+  "scope": "All model requests in this curator/controller chat, including construction, discussion, reference work and evaluation monitoring. Not construction-only; excludes separately launched Codex reference and evaluation workers.",
   "source": {
     "kind": "Codex token_usage_record",
-    "prefix_bytes": 43610955,
-    "prefix_sha256": "6fc4892816aed0b7d4b1cc07b07a3724590ce6807f7510136b14abd251438185"
+    "prefix_bytes": 43929426,
+    "prefix_sha256": "5e75bc350bd31a90ff8449ef44f7aa965d0899ca91d183134c005b6a8c692ac4"
   },
   "usage": {
-    "input_tokens": 564332280,
-    "cached_input_tokens": 559488640,
+    "input_tokens": 565537051,
+    "cached_input_tokens": 560692480,
     "cache_write_input_tokens": 0,
-    "output_tokens": 1574776,
-    "reasoning_output_tokens": 677520,
-    "total_tokens": 565907056
+    "output_tokens": 1592633,
+    "reasoning_output_tokens": 693429,
+    "total_tokens": 567129684
   },
-  "uncached_input_tokens": 4843640,
-  "requests": 2404,
+  "uncached_input_tokens": 4844571,
+  "requests": 2407,
   "by_configuration": [
     {
       "configured_model": "gpt-6-luna",
@@ -35,14 +35,14 @@
     {
       "configured_model": "gpt-6.1-sol",
       "reasoning_effort": "high",
-      "requests": 432,
+      "requests": 435,
       "usage": {
-        "input_tokens": 98568587,
-        "cached_input_tokens": 96495744,
+        "input_tokens": 99773358,
+        "cached_input_tokens": 97699584,
         "cache_write_input_tokens": 0,
-        "output_tokens": 725406,
-        "reasoning_output_tokens": 335872,
-        "total_tokens": 99293993
+        "output_tokens": 743263,
+        "reasoning_output_tokens": 351781,
+        "total_tokens": 100516621
       }
     },
     {
@@ -80,7 +80,7 @@
   },
   "timing": {
     "first_usage_utc": "2026-11-02T17:13:27.092Z",
-    "latest_usage_utc": "2026-11-05T21:28:53.001Z",
+    "latest_usage_utc": "2026-11-05T21:39:51.130Z",
     "closed_turn_intervals": 65,
     "open_turns": 1,
     "model_inference_wall_seconds": null,
@@ -93,7 +93,7 @@
   "overlap": "This session-wide series overlaps earlier construction batch snapshots. Do not add it to the historical construction ledger without request/interval deduplication.",
   "accounting": "Cached input is a subset of input; reasoning output is a subset of output. Do not add these subsets again.",
   "private_evidence_sha256": {
-    "metering.jsonl.gz": "0d72045a0df379a9cb02ec8c1cef488921fb61549260856de50cc58d025dfd76",
+    "metering.jsonl.gz": "a3eda01499b371eb29c0ab8327054989f889958bfe96607e5ee85150ffb29182",
     "model-contexts.jsonl.gz": "d726b94a1f9625ba6fe7cfa4efd1d0b993eadf913ca1fa51c5607332f21bb969"
   }
 }

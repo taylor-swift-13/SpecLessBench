@@ -78,10 +78,13 @@ and issue records remain in private package directories, outside agent mounts.
 the app's thread counter, and preserves compressed evidence privately. Its
 public `benchmarks/construction/curator-workflow-usage.json` covers the entire
 curator workflow, including discussion and monitoring. It overlaps historical
-construction snapshots, excludes separately launched evaluators, and is not a
+construction snapshots, excludes separately launched reference/evaluation workers, and is not a
 construction-only or per-family bill. Never sum it with the old construction
 ledger without deduplicating the overlapping request windows. Unavailable
 model attribution, inference memory and billing remain null.
+The historical construction summarizer includes only explicitly tagged
+prototype jobs when reading the shared pilot-job memory log, so downstream
+evaluation/reference checking cannot silently inflate that construction view.
 
 Systemd does not inherit interactive-shell proxies automatically. The launch
 command passes the configured proxy variables explicitly. An initial attempt
