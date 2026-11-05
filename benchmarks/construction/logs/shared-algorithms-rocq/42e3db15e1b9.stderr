@@ -1,3 +1,0 @@
-File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/benchmarks/tasks/algorithms-core/rocq/BasicDomain.v", line 22, characters 0-68:
-Warning: To avoid stack overflow, large numbers in nat are interpreted as
-applications of Init.Nat.of_num_uint. [abstract-large-number,numbers,default]

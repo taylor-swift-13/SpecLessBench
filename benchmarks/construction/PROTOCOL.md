@@ -1,5 +1,7 @@
 # Construction protocol v0.2
 
+Historical command stdout, stderr, and timing files are stored in `command-logs.tar.gz` instead of thousands of separate files. The archive contains the original repository-relative paths; its SHA-256 is in `command-logs.sha256`. Verify it with `python3 scripts/construction/verify_log_archive.py`. To inspect an individual file, use `tar -xOf benchmarks/construction/command-logs.tar.gz <original-path>`; to restore all files locally, use `tar -xzf benchmarks/construction/command-logs.tar.gz`. New instrumented commands may create additional files under `logs/`.
+
 每一个实现组必须提供 **Lean、原生 Rocq、C/CompCert** 三种实现版本。组是成本、修订和数据划分的单位；从同组派生多个实现对或平台实例，不重复计算构造成本。四家族的12个语义上下文将对应36个平台实例，而不是36个独立程序家族。
 
 构造期允许模型运行差分测试、发现并最小化反例、修改实现／域／观察／目标。每次修改记录旧新hash、原因、受影响实例和重测证据，提升组revision，废弃旧标签与证据，不能静默替换。冻结后求解模型仍只能修改证明区域。刻意保留的不等价实现可形成负例任务；意外错误可以修复，但原见证和失败成本必须保留。

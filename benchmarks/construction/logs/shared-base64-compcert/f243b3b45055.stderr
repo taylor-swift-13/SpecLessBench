@@ -1,3 +1,0 @@
-File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/_build/base64-v0.7/compcert/Base64Domain.v", line 11, characters 0-64:
-Warning: To avoid stack overflow, large numbers in nat are interpreted as
-applications of Init.Nat.of_num_uint. [abstract-large-number,numbers,default]

@@ -30,7 +30,7 @@
 | `LLM_bench/Algorithms/Dijkstra/` 两个文件 | 主算法调用 init、clear、empty、push、pop；`Dijkstra_priority_queue.c` 的实现是有序数组，非二叉堆 | 多文件算法与数据结构替换可同时考察 | 必须把两个翻译单元一起冻结；距离上界、INF 和队列容量要覆盖所有有效执行 |
 | `QCP_demos_LLM/eval.c` | 带 tag 与 union 的 AST，递归解释器，有短路分支 | 数据结构、递归调用、显式求值栈和辅助函数分解 | 固定算术安全域；无副作用且两边都安全时，急切求值未必产生可观察差异 |
 
-优先落地 `C-DLL`、`C-RING`、`C-TREE`、`C-UF`、`C-PQ` 和 `C-EVAL`；`C-BST`、`C-AVL`、`C-DIJK` 作为后续较难的一组。它们对应的固定程序变体、观察和任务槽位见[复杂任务卡](../complex-task-cards.md)。
+这份审查记录了早期候选及其来源；最终保留的程序和目标见[任务目录](../tasks/)与[冻结 pilot 清单](../pilot-v1/manifest.json)。
 
 ```mermaid
 flowchart LR

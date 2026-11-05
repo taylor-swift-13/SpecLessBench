@@ -1,3 +1,0 @@
-PASS: 4 groups / 12 contexts / 36 pending platform targets; 16 concrete Clight ASTs.
-PASS: frozen source hashes, 363384 differential runs, corpus hashes and pre-AST registry lineage.
-No final target proof checked; differential labels remain provisional; historical/hosted memory accounting gaps remain explicit.

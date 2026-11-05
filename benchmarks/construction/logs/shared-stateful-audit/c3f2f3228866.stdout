@@ -1,7 +1,0 @@
-Source integrity: 16 C snapshots and 3 license files match recorded SHA-256.
-Design index: 10 complex entries / 30 unique slots; all indexed source snapshots exist.
-Historical design: 22 entries / 54 slots.
-Current active: 21 groups / 46 contexts / 138 platform instances; plan 29 entries / 68 slots.
-Concrete refinement: 4 families / 16 C entries / 12 unproved targets; native evidence matches manifest.
-Paper references: 16 citation keys resolved; LaTeX environments balanced.
-These checks do not compile LaTeX or C, generate Clight, or check any proof.

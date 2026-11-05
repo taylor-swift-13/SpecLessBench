@@ -1,5 +1,0 @@
-/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/benchmarks/tasks/systems-core/lean/SystemsNative.lean:19:64: error: unexpected token 'from'; expected '_' or identifier
-/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/benchmarks/tasks/systems-core/lean/SystemsNative.lean:22:40: error: unexpected token 'from'; expected '_' or identifier
-/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/benchmarks/tasks/systems-core/lean/SystemsNative.lean:27:22: error: unexpected token 'from'; expected '↦', '=>'
-/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/benchmarks/tasks/systems-core/lean/SystemsNative.lean:30:63: error: unexpected token 'from'; expected '_' or identifier
-/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/benchmarks/tasks/systems-core/lean/SystemsNative.lean:40:16: error: unexpected token 'from'; expected term

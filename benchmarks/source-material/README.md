@@ -6,6 +6,6 @@ The import manifest records the upstream/local source path, revision where appli
 
 These files are not standalone build targets: headers, helper implementations, layout normalization, linking, input/observation boundaries, and reference certificates remain to be finalized. A callee declaration is not a closed implementation. The source bank imports no QCP generated proof artifacts and claims no new proof or Clight translation.
 
-Licenses and copyright notices are in `licenses/` and `NOTICE.md`. QCIP's root license does not override embedded upstream licenses. See [the source review](../research/qcip-candidate-review.md) and [complex task cards](../complex-task-cards.md) for what was actually read and what remains proposed.
+Licenses and copyright notices are in `licenses/` and `NOTICE.md`. QCIP's root license does not override embedded upstream licenses. See [the source review](../research/qcip-candidate-review.md) for what was inspected and [the tasks](../tasks/) for the implementations retained in the benchmark.
 
 Run `python3 scripts/curation/check_inventory.py` from the repository root to check snapshot hashes, family-index references, and basic paper citation/environment consistency. It does not compile or prove programs.

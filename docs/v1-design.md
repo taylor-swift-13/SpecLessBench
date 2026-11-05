@@ -105,7 +105,7 @@ forall input, impl_A input = impl_B input.
 
 ## 首轮试验集
 
-原有简单试验集保留 6 家族／12 槽位：原生 Rocq 8 题、C／Clight 4 题。复杂试验片选 6 家族／18 槽位，优先双链表、环形缓冲区、树遍历、并查集、优先队列和 AST 解释器。完整候选目录现有 22 个实现家族条目／54 个任务槽位，最终目标仍为 60–100 个有完整证书的选定任务。跨赛道移植和共享独特程序／辅助函数的条目以 `split_group_id` 合并，划分和统计重采样按相关组进行。详见[候选目录](../benchmarks/task-catalog.md)、[基础任务卡](../benchmarks/task-cards.md)、[复杂任务卡](../benchmarks/complex-task-cards.md)和[源码审查](../benchmarks/research/qcip-candidate-review.md)。
+早期的候选目录与试验集规划已由冻结的 [pilot 清单](../benchmarks/pilot-v1/manifest.json)取代；源码选择依据保留在[源码审查](../benchmarks/research/qcip-candidate-review.md)中。跨赛道移植和共享程序的条目按家族分组划分。
 
 当前实现顺序按新要求调整：先具体落实 BST、AVL、环形缓冲区、Dijkstra 四家族。它们已有16个固定 C 入口、闭合的源级调用集合、输入/观察和12个待证明目标，属于 `source-concrete`；不新增目录槽位。源代码使用显式 arena 和规范化 ring API，改动记录见[具体任务](../benchmarks/tasks/qcip-core/README.md)。Dijkstra 当前将 client/provider 包含到同一翻译单元，保留调用关系但尚不测试分离链接。原先六家族复杂试验片保留为候选计划；不能把原计划与这12题都计算为已就绪数据。
 

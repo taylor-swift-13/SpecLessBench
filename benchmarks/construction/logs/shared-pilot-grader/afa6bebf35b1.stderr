@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/scripts/pilot/test_sandboxed_lean_gate.py", line 32, in <module>
-    if __name__=='__main__':main()
-  File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/scripts/pilot/test_sandboxed_lean_gate.py", line 18, in main
-    obligation=compile_stage(trusted,submission,'/trusted/Obligation.lean','Obligation.olean')
-  File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/scripts/pilot/test_sandboxed_lean_gate.py", line 10, in compile_stage
-    if result['exit_code']!=0:raise AssertionError(result)
-AssertionError: {'status': 'exited', 'exit_code': 1, 'stdout': '', 'stderr': 'failed to create thread: Resource temporarily unavailable\n', 'artifacts': {}}

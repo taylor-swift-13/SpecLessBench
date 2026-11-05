@@ -1,7 +1,0 @@
-rocq valid accepted
-rocq admitted rejected
-rocq axiom rejected
-compcert valid accepted
-compcert admitted rejected
-compcert axiom rejected
-Only toy propositions were used; no benchmark theorem was proved.

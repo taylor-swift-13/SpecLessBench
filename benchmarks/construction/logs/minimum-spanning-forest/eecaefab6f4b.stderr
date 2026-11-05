@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/scripts/construction/differential_classics.py", line 100, in <module>
-    if __name__=='__main__':main()
-  File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/scripts/construction/differential_classics.py", line 54, in main
-    out=folder/(platform+'.out');measured(cmd,gid,'execute-'+platform,stdin_path=txt,stdout_path=out,timeout=1200)
-  File "/mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/scripts/construction/measure.py", line 80, in measured
-    raise RuntimeError(f"{group}/{phase}: command failed; see {err}")
-RuntimeError: minimum-spanning-forest/execute-rocq: command failed; see /mnt/c/Users/50635/Documents/Codex/2026-11-03/benchmark-equalbench-wsl/benchmarks/construction/logs/minimum-spanning-forest/515770c4dc53.stderr
