@@ -22,6 +22,8 @@ python3 scripts/pilot/verify_audit.py
 
 `scripts/pilot/run_evaluation.py` runs one prepared theorem with a fresh offline sandbox and writes a private report. At present, only the prepared Lean factorial equivalence task is supported. The agent executable must already be available inside the sandbox (under `/usr` or the selected toolchain); network access is disabled. The runner does not include an online-model or agent-specific adapter.
 
+For the existing WSL installation, `scripts/pilot/run_codex_wsl.py` is a preliminary Codex-specific integration for that same theorem: it requests `gpt-6-luna` with medium reasoning and a 3,600-second agent limit. The Codex process has network access for the model; its tool subprocesses use a second sandbox with network disabled and authentication-file access denied. A local isolation probe checked those boundaries, but this is not a complete hostile-code security audit. The runner requires the pinned local Codex and Lean paths and an already authenticated WSL account. Reports and model-generated proofs remain in the private WSL runs directory.
+
 Provide a JSON configuration containing an argv array; `{prompt}` is replaced with the fixed task prompt. For example, replace the command below with an installed offline agent that implements the protocol:
 
 ```json
