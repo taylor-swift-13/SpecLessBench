@@ -15,3 +15,4 @@
 {"batch_id": "total-cost-audit-v0.11", "group_id": null, "kind": "batch-start", "schema_version": 1, "timestamp_utc": "2026-11-04T04:01:25.504974+00:00"}
 {"batch_id": "pilot-freeze-v0.12", "group_id": null, "kind": "batch-start", "schema_version": 1, "timestamp_utc": "2026-11-04T13:28:02.998006+00:00"}
 {"batch_id": "pilot-isolation-v0.13", "group_id": null, "kind": "batch-start", "schema_version": 1, "timestamp_utc": "2026-11-05T03:42:47.971163+00:00"}
+{"batch_id": "pilot-evaluation-v0.14", "group_id": null, "kind": "batch-start", "schema_version": 1, "timestamp_utc": "2026-11-05T12:46:04.855804+00:00"}

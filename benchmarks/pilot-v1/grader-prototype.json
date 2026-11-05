@@ -48,7 +48,7 @@
   "components": [
     {
       "path": "scripts/pilot/sandbox.py",
-      "sha256": "77d771e266ca511597467298864619d8000a13a497e0d6c9bb7dad7f3f0c1c12"
+      "sha256": "dc59e26babaa0191a9aa1090c62168bdbbef06f34108d5bc2ed3bfe68f8f6c41"
     },
     {
       "path": "scripts/pilot/resource_supervisor.py",
@@ -60,15 +60,15 @@
     },
     {
       "path": "scripts/pilot/lean_grader_core.py",
-      "sha256": "4a9d7984d4019959292e7f50915865de8c92354c7945d4dafa0c6352146e3b9b"
+      "sha256": "d36d63ae3fe22417fddf632c5a31fe51ce74c89aa9aad0f18b3c18ea2309a21a"
     },
     {
       "path": "scripts/pilot/rocq_grader_core.py",
-      "sha256": "c6c9c78391135c3f4e66456c7d8246ea09b4fb2a0ebd7e87680d35ebfbf6f2c4"
+      "sha256": "afc253c91af4da9218e5c34e63a6f21791bd3166601e36331a8b5b9aa0848426"
     },
     {
       "path": "scripts/pilot/release_gate.py",
-      "sha256": "0e6946c65476297bd16d6e333a898b292e39776bfd57ce788bccf3252cf04a67"
+      "sha256": "6089ad5648719ac1651fdf2aec4267dbde0318e22ed8ec78a95bca7f04641dc4"
     },
     {
       "path": "scripts/pilot/test_prototype.py",

@@ -12,10 +12,10 @@ TOOLCHAINS={
  'rocq':'/home/yangfp/.opam/qcp-8.20',
  'compcert':'/home/yangfp/.opam/five'}
 
-def _record(platform,result):
+def _record(platform,result,phase='synthetic-prototype'):
     root=Path(__file__).resolve().parents[2];path=root/'benchmarks/construction/pilot-jobs.jsonl'
     row={'schema_version':1,'timestamp_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),
-         'phase':'synthetic-prototype','platform':platform,'status':result.get('status'),
+         'phase':phase,'platform':platform,'status':result.get('status'),
          'exit_code':result.get('exit_code'),'resources':result.get('resources')}
     # Never log proof source, literal task data, curator labels, or sandbox output.
     path.parent.mkdir(parents=True,exist_ok=True)
@@ -32,7 +32,8 @@ def _clean_dir(path):
     return p.resolve()
 
 def run_isolated(platform, trusted, submission, argv, timeout=60, memory_bytes=16*1024**3,
-                 artifacts=None, collect=None, cgroup_memory_bytes=3*1024**3, pids_limit=64):
+                 artifacts=None, collect=None, cgroup_memory_bytes=3*1024**3, pids_limit=64,
+                 capture_limit_bytes=1000000, raw_output=False, require_artifacts=True, phase='synthetic-prototype'):
     if platform not in TOOLCHAINS:raise ValueError('Unknown toolchain')
     trusted=_clean_dir(trusted);submission=_clean_dir(submission)
     if trusted==submission or trusted in submission.parents or submission in trusted.parents:raise ValueError('Trusted and untrusted directories must not overlap')
@@ -76,18 +77,25 @@ def run_isolated(platform, trusted, submission, argv, timeout=60, memory_bytes=1
             except subprocess.TimeoutExpired:
                 os.killpg(proc.pid,signal.SIGKILL);proc.wait()
                 subprocess.run(['/usr/bin/systemctl','--user','stop',unit],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,timeout=10)
-                return _record(platform,{'status':'supervisor-timeout','exit_code':None,'stdout':'','stderr':''})
+                return _record(platform,{'status':'supervisor-timeout','exit_code':None,'stdout':'','stderr':''},phase)
         # Explicitly stop any remaining descendants in the temporary scope.
         subprocess.run(['/usr/bin/systemctl','--user','stop',unit],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,timeout=10)
         def read(p):
-            with p.open('rb')as f:return f.read(1_000_000).decode('utf-8','replace')
-        if rc!=0 or not report.is_file():return _record(platform,{'status':'isolation-unavailable','exit_code':rc,'stdout':read(stdout),'stderr':read(stderr)})
+            with p.open('rb')as f:return f.read(capture_limit_bytes).decode('utf-8','replace')
+        if rc!=0 or not report.is_file():return _record(platform,{'status':'isolation-unavailable','exit_code':rc,'stdout':read(stdout),'stderr':read(stderr)},phase)
         accounting=json.loads(report.read_text())
-        if accounting.get('status')=='limits-not-enforced':return _record(platform,{'status':'isolation-unavailable','exit_code':None,'stdout':read(stdout),'stderr':read(stderr),'resources':accounting})
-        result_code=accounting['exit_code'];outputs={}
+        if accounting.get('status')=='limits-not-enforced':return _record(platform,{'status':'isolation-unavailable','exit_code':None,'stdout':read(stdout),'stderr':read(stderr),'resources':accounting},phase)
+        result_code=accounting['exit_code'];outputs={};missing=[]
         if result_code==0:
             for name in collect:
                 p=work/name
-                if p.is_symlink() or not p.is_file() or p.stat().st_size>32*1024**2:raise ValueError('Missing or unsafe output artifact')
+                if p.is_symlink() or not p.is_file() or p.stat().st_size>32*1024**2:
+                    if require_artifacts:raise ValueError('Missing or unsafe output artifact')
+                    missing.append(name);continue
                 outputs[name]=p.read_bytes()
-        return _record(platform,{'status':accounting['status'],'exit_code':result_code,'stdout':read(stdout),'stderr':read(stderr),'artifacts':outputs,'resources':accounting})
+        result={'status':accounting['status'],'exit_code':result_code,'stdout':read(stdout),'stderr':read(stderr),'artifacts':outputs,'resources':accounting,
+                'output_truncated':stdout.stat().st_size>=capture_limit_bytes or stderr.stat().st_size>=capture_limit_bytes,'missing_artifacts':missing}
+        if raw_output:
+            with stdout.open('rb') as f:result['stdout_bytes']=f.read(capture_limit_bytes)
+            with stderr.open('rb') as f:result['stderr_bytes']=f.read(capture_limit_bytes)
+        return _record(platform,result,phase)

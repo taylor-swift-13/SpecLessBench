@@ -13,7 +13,7 @@ def _result(status,stage,detail=None):return {'status':status,'stage':stage,'det
 def _valid_dir(path):
     path=Path(path)
     return path.is_dir() and not path.is_symlink() and not any(p.is_symlink()for p in path.rglob('*'))
-def grade_prepared(package,submission,timeout=90):
+def grade_prepared(package,submission,timeout=90,trace=None):
     package=Path(package);submission=Path(submission)
     if not _valid_dir(package) or not _valid_dir(submission):return _result('infrastructure-error','input','invalid directory')
     if not (package/'Obligation.olean').is_file():return _result('infrastructure-error','input','incomplete trusted package')
@@ -26,7 +26,10 @@ def grade_prepared(package,submission,timeout=90):
         trusted=Path(temp)/'trusted';shutil.copytree(package,trusted)
         (trusted/'Gate.lean').write_text('import Obligation\nimport Submission\ntheorem pilot_checked : Obligation.goal := Submission.solve\n')
         shutil.copyfile(ROOT/'scripts/pilot/TrustedLeanAudit.lean',trusted/'TrustedLeanAudit.lean')
-        def run(args,**kwargs):return run_isolated('lean',trusted,submission,args,timeout=timeout,**kwargs)
+        def run(args,**kwargs):
+            result=run_isolated('lean',trusted,submission,args,timeout=timeout,phase='evaluation-checker' if trace is not None else 'synthetic-prototype',**kwargs)
+            if trace is not None:trace.append({k:result.get(k) for k in ('status','exit_code','stdout','stderr','output_truncated','resources')})
+            return result
         compiled=run([LEAN,'-j','1','-t','0','-R','/submission','-o','/work/Submission.olean','/submission/Submission.lean'],collect=['Submission.olean'])
         if compiled['status']!='exited':return _result('infrastructure-error','submission',compiled['status'])
         if compiled['exit_code']!=0:return _result('rejected','submission','Lean did not compile submission')

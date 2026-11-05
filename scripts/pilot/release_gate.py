@@ -11,7 +11,7 @@ def decide(task,platform):
     # original source tree or to a permissive toy checker.
     return {'status':'unavailable','reason':'solver package and evaluator are not certified'}
 
-def score(task,platform,proof):
+def score(task,platform,proof,trace=None):
     base=decide(task,platform)
     if base['status']!='unavailable':return base
     build=ROOT/'_build/pilot-v1/first-real-task';registry=build/'registry.json'
@@ -26,7 +26,7 @@ def score(task,platform,proof):
         with contextlib.redirect_stdout(io.StringIO()):verify()
         if tree_digest(build/'grader')!=meta['frozen_binding_dependency_sha256']:
             return {'status':'infrastructure-error','detail':'frozen binding dependencies changed'}
-        return grade(platform,build/'task',meta['public_sha256'],proof)
+        return grade(platform,build/'task',meta['public_sha256'],proof,trace=trace)
     except (OSError,ValueError,AssertionError,KeyError,json.JSONDecodeError):
         return {'status':'infrastructure-error','detail':'task verification failed'}
 

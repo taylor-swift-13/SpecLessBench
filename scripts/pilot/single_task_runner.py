@@ -31,7 +31,7 @@ def tree_digest(directory):
     return h.hexdigest()
 
 
-def run_attempt(platform, package, expected_digest, argv, output_name, timeout=120):
+def run_attempt(platform, package, expected_digest, argv, output_name, timeout=120, capture_limit_bytes=1000000, raw_output=False, phase='synthetic-prototype'):
     """Run argv inside a fresh sandbox; return only the declared proof file.
 
     The process sees the frozen task at /trusted, a fresh writable /work,
@@ -56,13 +56,14 @@ def run_attempt(platform, package, expected_digest, argv, output_name, timeout=1
             raise ValueError('task changed while copying')
         try:
             result = run_isolated(platform, task, empty, argv, timeout=timeout,
-                                  collect=[output_name])
+                                  collect=[output_name],capture_limit_bytes=capture_limit_bytes,raw_output=raw_output,require_artifacts=False,phase=phase)
         except ValueError as error:
             if str(error) != 'Missing or unsafe output artifact':
                 raise
             return {'status': 'invalid-output', 'exit_code': None, 'proof': None}
         # Do not pass the agent process logs back to the grader as evidence.
-        return {'status': result['status'], 'exit_code': result['exit_code'],
+        return {'status': 'invalid-output' if result.get('missing_artifacts') else result['status'], 'exit_code': result['exit_code'],
                 'proof': result.get('artifacts', {}).get(output_name),
                 'stdout': result.get('stdout', ''), 'stderr': result.get('stderr', ''),
-                'resources': result.get('resources')}
+                'resources': result.get('resources'), 'output_truncated': result.get('output_truncated'),
+                'stdout_bytes': result.get('stdout_bytes'), 'stderr_bytes': result.get('stderr_bytes')}

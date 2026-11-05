@@ -15,7 +15,7 @@ from lean_grader_core import grade_prepared as grade_lean
 from rocq_grader_core import grade_prepared as grade_rocq
 
 
-def grade(platform, package, expected_digest, proof, timeout=90):
+def grade(platform, package, expected_digest, proof, timeout=90, trace=None):
     if platform not in ('lean', 'rocq', 'compcert'):
         return {'status': 'infrastructure-error', 'detail': 'unknown platform'}
     proof = Path(proof)
@@ -36,8 +36,8 @@ def grade(platform, package, expected_digest, proof, timeout=90):
                 return {'status': 'rejected', 'detail': 'submission too large'}
             (submission / filename).write_bytes(data)
             if platform == 'lean':
-                return grade_lean(trusted, submission, timeout)
-            return grade_rocq(platform, trusted, submission, timeout)
+                return grade_lean(trusted, submission, timeout, trace)
+            return grade_rocq(platform, trusted, submission, timeout, trace)
     except (OSError, ValueError) as error:
         return {'status': 'infrastructure-error', 'detail': str(error)}
 

@@ -1,0 +1,13 @@
+{
+  "agent": {
+    "name": "synthetic-example",
+    "model_provider": null,
+    "model_name": null,
+    "command": [
+      "/usr/bin/python3",
+      "-c",
+      "import json; from pathlib import Path; print(json.dumps({'type':'message','content':'Synthetic run: submit a sorry to test rejection.'})); print(json.dumps({'type':'session_end','transcript_complete':True})); Path('/work/Submission.lean').write_text('import Obligation\\nnamespace Submission\\ntheorem solve : Obligation.goal := by sorry\\nend Submission\\n')"
+    ]
+  },
+  "limits": {"wall_seconds": 120}
+}

@@ -18,6 +18,39 @@ python3 scripts/pilot/verify_audit.py
 
 第一项检查当前工作区的冻结任务文件；日后如工作区继续修改而触发失败，应使用备份的冻结源码与新工作区，不要修改 pilot 来追随工作区。其余检查验证私有归档和审计证据。
 
+## Single-run evaluation
+
+`scripts/pilot/run_evaluation.py` runs one prepared theorem with a fresh offline sandbox and writes a private report. At present, only the prepared Lean factorial equivalence task is supported. The agent executable must already be available inside the sandbox (under `/usr` or the selected toolchain); network access is disabled. The runner does not include an online-model or agent-specific adapter.
+
+Provide a JSON configuration containing an argv array; `{prompt}` is replaced with the fixed task prompt. For example, replace the command below with an installed offline agent that implements the protocol:
+
+```json
+{
+  "agent": {
+    "name": "my-agent",
+    "version": "1.0",
+    "model_provider": "local",
+    "model_name": "my-model",
+    "model_version": "pinned-version",
+    "command": ["/usr/bin/my-agent", "--jsonl", "{prompt}"]
+  },
+  "limits": {"wall_seconds": 120}
+}
+```
+
+```bash
+python3 scripts/pilot/prepare_factorial.py
+python3 scripts/pilot/run_evaluation.py \
+  --task P-dbec465c356ed73d --platform lean --claim equivalence \
+  --config /path/to/agent-config.json
+```
+
+The agent sees the task at `/trusted`, has a new `/work`, and must produce `/work/Submission.lean` with `Submission.solve : Obligation.goal`. Emit JSON objects, one per stdout line, for messages, tool calls and tool results. A `session_end` event may state `transcript_complete: true`; the runner records this as an agent claim, not an independently verified guarantee. The agent must emit every interaction it wants recorded: the runner cannot recover hidden reasoning or omitted tool calls. A single `usage` event with `scope: "run_total"` can report `input_tokens`, `cached_input_tokens`, `output_tokens`, `reasoning_output_tokens`, and `total_tokens`. These are self-reported, not provider-verified. Optional `pricing` config may provide `input_usd_per_million`, `cached_input_usd_per_million`, `output_usd_per_million`, and `version`; the resulting estimate is not a bill.
+
+Each run is written under `~/.local/share/speclessbench/runs/` by default, with `report.json`, `report.md`, the original and parsed configuration, prompt, raw stdout/stderr, `events.jsonl`, submission if present, checker trace, and resource data. Logs can contain proofs, task answers, and sensitive data: use a private WSL filesystem and do not put credentials in arguments or configuration. The sandbox output limit is 128 MiB per stream; timeouts, missing output, truncated logs, unreported usage, and absent model metadata are reported as such. No automatic redaction can guarantee that an agent will not emit secrets.
+
+To generate an example report without a model, use `--config scripts/pilot/example-agent.json` in the command above. The synthetic agent submits `sorry`, so the expected result is `rejected` and the CLI exits with status 1. Test the report pipeline and proof-bypass checks with `python3 scripts/pilot/test_run_evaluation.py` and `python3 scripts/pilot/test_grade_sealed.py`. These use fake agents and toy propositions; they do not run a model evaluation or prove benchmark goals.
+
 ## 三平台检查
 
 在不改动冻结源的独立副本中，已重新执行三平台构建；103 个重新导出的 Clight AST 与冻结版本逐字节一致。71 个上下文的正反分支接口在 Lean、Rocq 和 CompCert 工具链中重新通过类型检查。结果见 `platform-audit.json`、`ast-audit.json` 和 `interface-audit.json`，具体构建日志放在 WSL 私有目录的 `audit-logs/`。
