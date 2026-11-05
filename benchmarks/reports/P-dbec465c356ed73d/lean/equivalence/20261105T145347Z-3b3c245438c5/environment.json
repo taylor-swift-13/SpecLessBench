@@ -1,0 +1,31 @@
+{
+  "preflight_started_utc": "2026-11-05T14:53:43.717640+00:00",
+  "preflight_wall_seconds": 12.795496635008021,
+  "controller_peak_rss_bytes_linux": 104198144,
+  "lean_toolchain_tree": {
+    "sha256": "ae9624ffe37df877fd15e7ac0093568ba2bbcebe864e8ffde47588150b8bf8f6",
+    "file_count": 17738,
+    "total_bytes": 3067799197,
+    "scheme": "SpecLessBench toolchain tree v1",
+    "wall_seconds": 3.149193727003876
+  },
+  "critical_file_sha256": {
+    "scripts/pilot/run_codex_wsl.py": "b90a21b727835b468655b55a7bf95165701c1724090a4c3c7c79aa5446f3f0ba",
+    "scripts/pilot/release_gate.py": "6089ad5648719ac1651fdf2aec4267dbde0318e22ed8ec78a95bca7f04641dc4",
+    "scripts/pilot/grade_sealed.py": "0ba29b7581af6963ff28e7becc1e9162c16f785672241962e3af6c2191a237c1",
+    "scripts/pilot/lean_grader_core.py": "d36d63ae3fe22417fddf632c5a31fe51ce74c89aa9aad0f18b3c18ea2309a21a",
+    "scripts/pilot/TrustedLeanAudit.lean": "759bfaf6dfb9d2946d3fe4ab86e1a1154e79dbe7d5203324663e0b4299001b6d",
+    "scripts/pilot/sandbox.py": "dc59e26babaa0191a9aa1090c62168bdbbef06f34108d5bc2ed3bfe68f8f6c41",
+    "scripts/pilot/resource_supervisor.py": "a9003c464588718517b82847d80cceba305c76e269d7e2390eca97538ee9709b",
+    "scripts/pilot/single_task_runner.py": "f926a2be459a318430314a25fb17581ff1be8297fee07e16a303c935dcebc416",
+    "scripts/pilot/prepare_factorial.py": "ab87f8cdb55d40fe2cc7df32e02c1be4ab186202fff7972fd9711f6eb3fab44d",
+    "scripts/pilot/verify_reference.py": "8712d1dd31b9803c496363488d3ceec989a4285c82721c7fd1fa3e46abe3ef8a",
+    "benchmarks/tasks/algorithms-core/lean/BasicNative.lean": "50e91bb6e939615a2d2abe1323fbb650f7700695d06dc792f729fc222c6bc842",
+    "benchmarks/tasks/algorithms-core/lean/BasicDomain.lean": "c4fe33ae5e788927549004ed6e53c4bc6c4ec510470d1dfa59fbf09054d1b0c1",
+    "benchmarks/proof-interface/v1/lean/BranchTargets.lean": "84842833ddae5d44d5ba0f57e5d8828341ffcb26bfb34d66cf143bb54bcde442"
+  },
+  "git_status_raw": [],
+  "git_status_autocrlf_true": [],
+  "full_environment_locked": false,
+  "limitations": "The OS, system libraries and model backend are not locked; the tree digest does not distribute binaries."
+}

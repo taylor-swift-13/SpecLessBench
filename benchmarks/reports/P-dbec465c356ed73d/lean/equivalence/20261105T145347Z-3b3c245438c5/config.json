@@ -14,7 +14,7 @@
   "theorem": "Obligation.goal",
   "task_package_sha256": "f998e80f960aca9889056b6d2222b764845576da586cafffa5e92fef86f9a346",
   "provider": "ChatGPT account; billing and hosted-model memory unavailable",
-  "runner_sha256": "4ca40c8de93b36c5516a494813f892f43b5b232ca960fb5b459df022898dadb7",
+  "runner_sha256": "b90a21b727835b468655b55a7bf95165701c1724090a4c3c7c79aa5446f3f0ba",
   "codex_executable_sha256": "50ed828f357c655a3c82054d346cab8434f24901f14ec19b8267571bdd008b38",
   "codex_code_host_sha256": "4c1984f440b743db476002c6364a31b2d8c437bebd628e9cb676d4742fcb1d8c",
   "lean_executable_sha256": "e8baaa71855a616dc351028f3ad2200051b0671f423a1696a100e809302d5550",

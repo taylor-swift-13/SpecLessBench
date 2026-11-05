@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "started_utc": "2026-11-05T13:51:53.318033+00:00",
-  "ended_utc": "2026-11-05T13:53:04.583863+00:00",
+  "started_utc": "2026-11-05T14:53:57.070234+00:00",
+  "ended_utc": "2026-11-05T14:54:56.122941+00:00",
   "configuration": {
     "model": "gpt-6-luna",
     "model_reasoning_effort": "medium",
@@ -18,21 +18,21 @@
     "theorem": "Obligation.goal",
     "task_package_sha256": "f998e80f960aca9889056b6d2222b764845576da586cafffa5e92fef86f9a346",
     "provider": "ChatGPT account; billing and hosted-model memory unavailable",
-    "runner_sha256": "4ca40c8de93b36c5516a494813f892f43b5b232ca960fb5b459df022898dadb7",
+    "runner_sha256": "b90a21b727835b468655b55a7bf95165701c1724090a4c3c7c79aa5446f3f0ba",
     "codex_executable_sha256": "50ed828f357c655a3c82054d346cab8434f24901f14ec19b8267571bdd008b38",
     "codex_code_host_sha256": "4c1984f440b743db476002c6364a31b2d8c437bebd628e9cb676d4742fcb1d8c",
     "lean_executable_sha256": "e8baaa71855a616dc351028f3ad2200051b0671f423a1696a100e809302d5550",
     "system": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.35",
     "lean_version": "Lean (version 4.34.0, x86_64-unknown-linux-gnu, commit 293d5d0c0c3f3dded4688b3ccd6a33939ac5102b, Release)"
   },
-  "benchmark_commit": "f77bc5441a460163542446884b4be1390c1b36b4",
-  "tracked_files_dirty_at_start": true,
+  "benchmark_commit": "e3dec8fe55f52696490304208e7c630e218b97ee",
+  "tracked_files_dirty_at_start": false,
   "result": {
     "status": "accepted",
     "stage": "audit",
     "detail": null
   },
-  "proof_sha256": "0ad48f6441230348c2803955feb4773a56550cdea9904e807dc69b7b1b582b7e",
+  "proof_sha256": "38353c7e8d1c1e5e6d95c4ae7c35c4a2c49dae19cf9bd947095cc8c4dcd6f26a",
   "checks": {
     "fixed_goal_gate": "passed",
     "axiom_audit": {
@@ -42,12 +42,12 @@
         "Classical.choice",
         "Quot.sound"
       ],
-      "auditor_output": "accepted axiom dependencies: #[propext, Quot.sound]"
+      "auditor_output": "accepted axiom dependencies: #[propext]"
     }
   },
   "resources": {
-    "wall_seconds": 60.136564056010684,
-    "checker_seconds": 11.128172878001351,
+    "wall_seconds": 50.279770856010146,
+    "checker_seconds": 8.772327888989821,
     "sandbox": {
       "status": "exited",
       "exit_code": 0,
@@ -56,19 +56,23 @@
         "pids_max": "512",
         "memory_swap_max": "0"
       },
-      "wall_seconds": 59.89905464199546,
-      "memory_peak_bytes": 2619043840,
+      "wall_seconds": 50.11710393699468,
+      "memory_peak_bytes": 266706944,
       "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
-      "cpu_stat": "usage_usec 5493924\nuser_usec 1707291\nsystem_usec 3786632\nnice_usec 0",
+      "cpu_stat": "usage_usec 4609853\nuser_usec 2345222\nsystem_usec 2264630\nnice_usec 0",
       "memory_scope": "cgroup v2 peak through sandbox process exit, including supervisor and sandbox descendants; before final cleanup, not hosted model memory"
+    },
+    "preflight": {
+      "wall_seconds": 12.795496635008021,
+      "controller_peak_rss_bytes_linux": 104198144
     },
     "provider_usage_events": [
       {
-        "input_tokens": 70796,
-        "cached_input_tokens": 42368,
+        "input_tokens": 110394,
+        "cached_input_tokens": 82944,
         "cache_write_input_tokens": 0,
-        "output_tokens": 978,
-        "reasoning_output_tokens": 327
+        "output_tokens": 1199,
+        "reasoning_output_tokens": 362
       }
     ],
     "usage_scope": "Codex CLI turn.completed events; no assumed billing conversion",
@@ -77,7 +81,7 @@
   },
   "transcript": {
     "format": "Codex CLI --json",
-    "event_count": 15,
+    "event_count": 24,
     "invalid_lines": 0,
     "turn_completed": true,
     "completeness_independently_verified": false,
@@ -86,5 +90,7 @@
     "limitations": "Complete means a turn.completed event was observed, not that all hidden reasoning or tool details are independently recoverable."
   },
   "supervisor_exit_code": 0,
-  "model_configuration_source": "Codex config; server-side resolved model metadata not independently verified"
+  "model_configuration_source": "Codex config and CLI catalog; server-side resolved model metadata not independently verified",
+  "environment_evidence": "environment.json",
+  "model_catalog_evidence": "model-catalog.json"
 }

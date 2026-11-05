@@ -99,6 +99,12 @@ def main():
         environment=json.loads(env_path.read_text())
         for name,expected_hash in environment['critical_file_sha256'].items():
             if hashlib.sha256(at_commit(commit,name)).hexdigest()!=expected_hash:raise SystemExit('Critical file did not match recorded commit: '+name)
+        replay_files=('scripts/pilot/grade_sealed.py','scripts/pilot/lean_grader_core.py',
+                      'scripts/pilot/TrustedLeanAudit.lean','scripts/pilot/sandbox.py',
+                      'scripts/pilot/resource_supervisor.py','scripts/pilot/single_task_runner.py')
+        for name in replay_files:
+            if hashlib.sha256((ROOT/name).read_bytes()).hexdigest()!=environment['critical_file_sha256'][name]:
+                raise SystemExit('Replay checker differs from recorded run: '+name)
         from run_codex_wsl import fingerprint_tree
         current=fingerprint_tree(LEAN.parent.parent)
         recorded=environment['lean_toolchain_tree']

@@ -2,7 +2,7 @@
   {
     "status": "exited",
     "exit_code": 0,
-    "stdout": "",
+    "stdout": "/submission/Submission.lean:11:41: warning: This simp argument is unused:\n  Int.mul_left_comm\n\nHint: Omit it from the simp argument list.\n  [apply] simp [Int.mul_assoc, Int.mul_comm]\n\nNote: This linter can be disabled with `set_option linter.unusedSimpArgs false`\n/submission/Submission.lean:17:18: warning: This simp argument is unused:\n  Task.a\n\nHint: Omit it from the simp argument list.\n  [apply] simp [Task.b, factorialAcc_eq]\n\nNote: This linter can be disabled with `set_option linter.unusedSimpArgs false`\n",
     "stderr": "",
     "output_truncated": false,
     "resources": {
@@ -13,10 +13,10 @@
         "pids_max": "64",
         "memory_swap_max": "0"
       },
-      "wall_seconds": 2.320349069996155,
-      "memory_peak_bytes": 396673024,
+      "wall_seconds": 0.8665438610041747,
+      "memory_peak_bytes": 186265600,
       "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
-      "cpu_stat": "usage_usec 1146607\nuser_usec 541335\nsystem_usec 605272\nnice_usec 0",
+      "cpu_stat": "usage_usec 858502\nuser_usec 516691\nsystem_usec 341811\nnice_usec 0",
       "memory_scope": "cgroup v2 peak through sandbox process exit, including supervisor and sandbox descendants; before final cleanup, not hosted model memory"
     },
     "stage": "submission_compile"
@@ -35,10 +35,10 @@
         "pids_max": "64",
         "memory_swap_max": "0"
       },
-      "wall_seconds": 0.7162661730108084,
-      "memory_peak_bytes": 181542912,
+      "wall_seconds": 0.716009613010101,
+      "memory_peak_bytes": 181276672,
       "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
-      "cpu_stat": "usage_usec 699793\nuser_usec 418267\nsystem_usec 281526\nnice_usec 0",
+      "cpu_stat": "usage_usec 716590\nuser_usec 429954\nsystem_usec 286636\nnice_usec 0",
       "memory_scope": "cgroup v2 peak through sandbox process exit, including supervisor and sandbox descendants; before final cleanup, not hosted model memory"
     },
     "stage": "fixed_goal_gate"
@@ -46,7 +46,7 @@
   {
     "status": "exited",
     "exit_code": 0,
-    "stdout": "accepted axiom dependencies: #[propext, Quot.sound]\n",
+    "stdout": "accepted axiom dependencies: #[propext]\n",
     "stderr": "",
     "output_truncated": false,
     "resources": {
@@ -57,10 +57,10 @@
         "pids_max": "64",
         "memory_swap_max": "0"
       },
-      "wall_seconds": 4.427618325993535,
-      "memory_peak_bytes": 2820141056,
+      "wall_seconds": 3.1744222160050413,
+      "memory_peak_bytes": 2253320192,
       "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
-      "cpu_stat": "usage_usec 3917688\nuser_usec 1166121\nsystem_usec 2751567\nnice_usec 0",
+      "cpu_stat": "usage_usec 3165291\nuser_usec 1129888\nsystem_usec 2035402\nnice_usec 0",
       "memory_scope": "cgroup v2 peak through sandbox process exit, including supervisor and sandbox descendants; before final cleanup, not hosted model memory"
     },
     "stage": "axiom_audit"
