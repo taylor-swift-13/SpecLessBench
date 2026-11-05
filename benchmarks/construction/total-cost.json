@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "generated_utc": "2026-11-04T14:31:49.913186+00:00",
+  "generated_utc": "2026-11-05T03:44:28.498746+00:00",
   "complete_project_total_available": false,
   "scope": "observed construction and research batches; not proof-agent evaluation, not a complete bill",
-  "batch_count": 12,
+  "batch_count": 13,
   "batch_records": [
     {
       "batch_id": "algorithms-v0.3",
@@ -141,18 +141,37 @@
     {
       "batch_id": "pilot-freeze-v0.12",
       "record": "benchmarks/construction/batch-pilot-freeze-v0.12.json",
-      "sha256": "cb496d0098d27c5e30fba65b1fd6861a832b34466e86ec8bb86b275294e74695",
+      "sha256": "ab45dd09408e508df1f9904940010a57c260c67cf9f03b3470554ef5ff8f7559",
       "provider_interval_start_utc": "2026-11-04T13:21:36.114Z",
-      "provider_interval_end_utc": "2026-11-04T14:31:12.150Z",
+      "provider_interval_end_utc": "2026-11-05T03:27:54.851Z",
       "request_started_utc": "2026-11-04T13:26:20.382Z",
-      "request_wall_seconds_to_snapshot": 3913.60049,
+      "request_wall_seconds_to_snapshot": 50511.796263,
       "provider_delta": {
-        "input_tokens": 81538367,
-        "cached_input_tokens": 81401472,
+        "input_tokens": 84749178,
+        "cached_input_tokens": 84475264,
         "cache_write_input_tokens": 0,
-        "output_tokens": 112506,
-        "reasoning_output_tokens": 56363,
-        "total_tokens": 81650873
+        "output_tokens": 128267,
+        "reasoning_output_tokens": 60824,
+        "total_tokens": 84877445
+      },
+      "usage_status": "prefix-only until a post-turn snapshot; final reply may not yet be counted",
+      "session_id": "01a19d40-53c2-7811-8e47-5ac681576e1f"
+    },
+    {
+      "batch_id": "pilot-isolation-v0.13",
+      "record": "benchmarks/construction/batch-pilot-isolation-v0.13.json",
+      "sha256": "74f56f87230b26c58fbf3f5bb194f679e6753f1f9aac4a41b7b93a50f85fb8f4",
+      "provider_interval_start_utc": "2026-11-05T03:29:18.242Z",
+      "provider_interval_end_utc": "2026-11-05T03:44:00.081Z",
+      "request_started_utc": "2026-11-05T03:32:17.710Z",
+      "request_wall_seconds_to_snapshot": 720.742596,
+      "provider_delta": {
+        "input_tokens": 6660906,
+        "cached_input_tokens": 6636544,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 17122,
+        "reasoning_output_tokens": 5224,
+        "total_tokens": 6678028
       },
       "usage_status": "prefix-only until a post-turn snapshot; final reply may not yet be counted",
       "session_id": "01a19d40-53c2-7811-8e47-5ac681576e1f"
@@ -237,15 +256,15 @@
   "skipped_batch_records": [],
   "token_observation": {
     "provider_interval_union": {
-      "input_tokens": 197927113,
-      "cached_input_tokens": 196543488,
+      "input_tokens": 207798830,
+      "cached_input_tokens": 206253824,
       "cache_write_input_tokens": 0,
-      "output_tokens": 628821,
-      "reasoning_output_tokens": 240949,
-      "total_tokens": 198555934
+      "output_tokens": 661704,
+      "reasoning_output_tokens": 250634,
+      "total_tokens": 208460534
     },
     "session_count": 1,
-    "merged_interval_count": 11,
+    "merged_interval_count": 12,
     "overlapping_intervals_deduplicated": 1,
     "scope": "provider-reported cumulative counters between each recorded baseline and latest snapshot; intervals merged within a session before subtraction",
     "limitations": [
@@ -257,9 +276,9 @@
     "complete": false
   },
   "time_observation": {
-    "request_window_union_seconds": 22696.831761999998,
-    "request_window_count": 12,
-    "merged_request_window_count": 11,
+    "request_window_union_seconds": 70015.770131,
+    "request_window_count": 13,
+    "merged_request_window_count": 12,
     "instrumented_command_window_union_seconds": 6049.910885000001,
     "instrumented_command_count": 2411,
     "invalid_command_timestamps": 0,
@@ -282,11 +301,11 @@
     "commands_without_rss": 0,
     "exact_concurrent_process_tree_peak_bytes": null,
     "hosted_model_inference_peak_bytes": null,
-    "max_observed_pilot_job_cgroup_peak_bytes": 582873088,
-    "pilot_jobs_with_cgroup_peak": 232,
+    "max_observed_pilot_job_cgroup_peak_bytes": 2490626048,
+    "pilot_jobs_with_cgroup_peak": 500,
     "pilot_jobs_without_cgroup_peak": 0,
-    "pilot_job_log_prefix_bytes": 158099,
-    "pilot_job_log_prefix_sha256": "97e33f8c78624265e35cf953b2bc26c62c412876f4dc00e2089dd4afc066c2a7",
+    "pilot_job_log_prefix_bytes": 340718,
+    "pilot_job_log_prefix_sha256": "06e2363616ac4efbd1c75fb9cca500522c8851dc6f3bcee1d82b2bc44db8ba4f",
     "pilot_cgroup_scope": "per-job cgroup v2 memory.peak, including supervisor and descendants through sandbox exit, before final cleanup; not full construction or hosted inference memory",
     "scope": "GNU time/wait4 maximum process high-water among instrumented commands and waited descendants; not the simultaneous process-tree sum",
     "limitations": [

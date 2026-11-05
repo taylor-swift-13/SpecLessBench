@@ -12,9 +12,9 @@ for name in ('test_sandbox.py','test_lean_kernel.py','test_sandboxed_lean_gate.p
 report={'schema_version':1,'status':'synthetic-tests-passed','tests':rows,
  'components':[{'path':name,'sha256':hashlib.sha256((ROOT/name).read_bytes()).hexdigest()}
     for name in ('scripts/pilot/sandbox.py','scripts/pilot/resource_supervisor.py','scripts/pilot/TrustedLeanAudit.lean','scripts/pilot/lean_grader_core.py','scripts/pilot/rocq_grader_core.py','scripts/pilot/release_gate.py','scripts/pilot/test_prototype.py')],
- 'scope':'toy propositions and OS boundary probes only; no actual pilot task was graded',
+ 'scope':'these regression tests use toy propositions and OS boundary probes only',
  'job_telemetry':'benchmarks/construction/pilot-jobs.jsonl',
- 'release_ready':False,'limitations':['no per-task solver package or binding integration',
+ 'release_ready':False,'limitations':['only one Lean equivalence task has a solver package; the remaining tasks and branches are not integrated',
     'Rocq assumptions text and loader require adversarial review',
     'user-scoped cgroup availability and kernel security vary by deployment; fallback must fail closed',
     'bwrap and shared host kernel are not a complete hostile-code security boundary']}

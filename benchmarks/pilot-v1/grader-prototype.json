@@ -68,18 +68,18 @@
     },
     {
       "path": "scripts/pilot/release_gate.py",
-      "sha256": "ea6655ba1d16f9b09078cf27eff54f0e6a57f7b65086d237083f115b3d949442"
+      "sha256": "0e6946c65476297bd16d6e333a898b292e39776bfd57ce788bccf3252cf04a67"
     },
     {
       "path": "scripts/pilot/test_prototype.py",
-      "sha256": "99bc9a61a0d820dbcb8dbde5a4763b956cee4db0c6e3f9c3c39911a8acc83c80"
+      "sha256": "8a583c075f0082d9d1888cb3b6a933666cc66b070d8cbf56f3ab9bef5c5afca1"
     }
   ],
-  "scope": "toy propositions and OS boundary probes only; no actual pilot task was graded",
+  "scope": "these regression tests use toy propositions and OS boundary probes only",
   "job_telemetry": "benchmarks/construction/pilot-jobs.jsonl",
   "release_ready": false,
   "limitations": [
-    "no per-task solver package or binding integration",
+    "only one Lean equivalence task has a solver package; the remaining tasks and branches are not integrated",
     "Rocq assumptions text and loader require adversarial review",
     "user-scoped cgroup availability and kernel security vary by deployment; fallback must fail closed",
     "bwrap and shared host kernel are not a complete hostile-code security boundary"

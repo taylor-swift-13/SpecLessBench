@@ -32,4 +32,12 @@ python3 scripts/pilot/verify_audit.py
 
 `scripts/pilot/sandbox.py` 是评分边界原型：使用 bubblewrap 的文件系统／网络／进程命名空间和用户级 systemd cgroup，设置资源上限，并记录作业级内存峰值。`grader-prototype.json` 仅记录玩具命题测试：正常证明、`sorry`／`Admitted`、额外公理、错误目标及文件／网络／资源限制等。它尚未接入真实题目的可信封装；Rocq 假设检查输出、加载器和对抗场景仍需审计，且共享主机内核并非完整虚拟机安全边界。
 
-因此 `scripts/pilot/release_gate.py` 对所有真实题目故意返回 `unavailable`，不会执行提交，更不会给出成功分数。只有逐题封装、证书绑定和隔离审计通过后，才应实现并启用正式评分入口。构造和审计成本在 `benchmarks/construction/` 单独保留，不虚报为完整历史成本。
+简化执行链由 `scripts/pilot/single_task_runner.py` 和 `scripts/pilot/grade_sealed.py` 提供。前者将整理方提供的单题目录按可信哈希复制后只读挂入沙箱，每次新建工作目录；后者重新核验独立的可信目标包，调用相应平台的证明检查器。Lean 允许 `propext`、`Classical.choice`、`Quot.sound`，拒绝其他证明依赖；Rocq/CompCert 目前保守地拒绝所有公理。题目目录、哈希和待评分目标必须由可信的整理方选择，不能由 agent 指定。两个目录可以不同：agent 可见目录只能放该题所需材料，可信评分目录可以包含 agent 不可见的检查依赖。
+
+`test_single_task_runner.py` 检查其他目录、前次运行及题目篡改隔离；`test_grade_sealed.py` 对三个工具链测试接受合法证明和拒绝未完成证明、额外公理、篡改目标包；`test_attempt_to_grade.py` 测试从沙箱输出到 Lean 评分的完整链路。这些测试使用玩具命题。
+
+第一道真实 Lean 等价题已接入：`python3 scripts/pilot/prepare_factorial.py` 从冻结实现建立单题包，并用 Lean 检查裁剪后正反目标与原目标的对应关系；这不是最终任务证明。`python3 scripts/pilot/test_real_factorial.py` 对真实目标检查了 `sorry`、额外公理及错误目标均被拒绝。评分入口为 `python3 scripts/pilot/release_gate.py --task P-dbec465c356ed73d --platform lean --proof /path/to/Submission.lean`；提交需定义 `Submission.solve : Obligation.goal`。在沙箱中只挂载 `_build/pilot-v1/first-real-task/task/`，不要挂载其父目录、仓库或评分器目录。**目前只支持这一道题的 Lean 等价分支**，其反例分支及其余题目、平台还未接入；文件哈希本身不能证明目录没有其他题或目标绑定正确。
+
+2026-11-05 的原型测试继续向 `benchmarks/construction/pilot-jobs.jsonl` 记录沙箱作业的 cgroup 资源；本次外层命令没有逐条加入早期的命令计时器，因此总命令时间仍不完整。`pilot-freeze-v0.12` 的 token 快照覆盖了两次用户请求，时间窗口包括两次请求之间的等待，不能当作实际工作时长。
+
+因此 `scripts/pilot/release_gate.py` 对其余未封装题目返回 `unavailable`，不会给出成功分数。构造和审计成本在 `benchmarks/construction/` 单独保留，不虚报为完整历史成本。

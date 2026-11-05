@@ -39,30 +39,30 @@
     "source": "local Codex rollout event_msg/token_count total_token_usage",
     "session_id": "01a19d40-53c2-7811-8e47-5ac681576e1f",
     "construction_request_timestamp": "2026-11-04T13:26:20.382Z",
-    "provider_timestamp": "2026-11-04T14:31:12.150Z",
+    "provider_timestamp": "2026-11-05T03:27:54.851Z",
     "usage": {
-      "input_tokens": 250292843,
-      "cached_input_tokens": 247411456,
+      "input_tokens": 253503654,
+      "cached_input_tokens": 250485248,
       "cache_write_input_tokens": 0,
-      "output_tokens": 962057,
-      "reasoning_output_tokens": 411895,
-      "total_tokens": 251254900
+      "output_tokens": 977818,
+      "reasoning_output_tokens": 416356,
+      "total_tokens": 254481472
     },
-    "session_prefix_bytes": 24539783,
-    "session_prefix_sha256": "6f809d8a316ea9e2fec7a32df9e90f0549bea0bda671ce16c97028704bceda32"
+    "session_prefix_bytes": 25286733,
+    "session_prefix_sha256": "6972caad966139864551d02342c1b9023a32aefbf84ff35512ba98a0e2d29846"
   },
   "request_started_utc": "2026-11-04T13:26:20.382Z",
-  "elapsed_request_wall_seconds_to_snapshot": 3913.60049,
+  "elapsed_request_wall_seconds_to_snapshot": 50511.796263,
   "elapsed_wall_scope": "whole shared request, including model/tool/idle latency; not per-group authoring attribution",
   "provider_token_delta": {
-    "input_tokens": 81538367,
-    "cached_input_tokens": 81401472,
+    "input_tokens": 84749178,
+    "cached_input_tokens": 84475264,
     "cache_write_input_tokens": 0,
-    "output_tokens": 112506,
-    "reasoning_output_tokens": 56363,
-    "total_tokens": 81650873
+    "output_tokens": 128267,
+    "reasoning_output_tokens": 60824,
+    "total_tokens": 84877445
   },
-  "usage_complete_through": "2026-11-04T14:31:12.150Z",
+  "usage_complete_through": "2026-11-05T03:27:54.851Z",
   "usage_status": "prefix-only until a post-turn snapshot; final reply may not yet be counted",
   "reasoning_tokens_rule": "reasoning_output_tokens is a subset of output_tokens; do not add twice"
 }
