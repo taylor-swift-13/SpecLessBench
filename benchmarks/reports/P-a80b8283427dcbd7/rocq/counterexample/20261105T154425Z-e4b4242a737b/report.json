@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "configuration": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "medium",
+    "platform": "rocq",
+    "claim": "counterexample",
+    "task_id": "P-a80b8283427dcbd7",
+    "goal": "Obligation.goal",
+    "task_digest": "560de72fd4c883fe048c218dce7378048f381f55e4b6ce572ca84aa3e954cd5e",
+    "timeout_seconds": 3600,
+    "model_identity_scope": "CLI configuration; resolved server model not independently exposed",
+    "codex_sha256": "50ed828f357c655a3c82054d346cab8434f24901f14ec19b8267571bdd008b38",
+    "runner_sha256": "c1db162ac25b263776dfd35602caa649cf873f94551200cb8a30929d9f5fe22a",
+    "codex_version": "codex-cli 0.162.0",
+    "rocq_version": "The Coq Proof Assistant, version 8.20.1\ncompiled with OCaml 4.14.1",
+    "original_goal_binding": "original-source; independent reproducibility review pending",
+    "original_source_sha256": {
+      "BasicNative": "ffbd8645e6abf96c14a80c80a8d2943d35ffb4134ee559e630762d05c31204af",
+      "BasicDomain": "5be48e562cde9c04ef77045729906b3c185f706faef44d518976caf238f33b43"
+    },
+    "fixed_witness": null
+  },
+  "started_utc": "2026-11-05T15:44:25.732004+00:00",
+  "ended_utc": "2026-11-05T15:45:18.220079+00:00",
+  "agent_wall_seconds": 38.529897141008405,
+  "supervisor_exit_code": 0,
+  "resources": {
+    "status": "exited",
+    "exit_code": 0,
+    "limits": {
+      "memory_max": "3221225472",
+      "pids_max": "512",
+      "memory_swap_max": "0"
+    },
+    "wall_seconds": 38.37495079499786,
+    "memory_peak_bytes": 351531008,
+    "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "cpu_stat": "usage_usec 1920567\nuser_usec 853585\nsystem_usec 1066981\nnice_usec 0",
+    "memory_scope": "cgroup v2 peak through sandbox process exit, including supervisor and sandbox descendants; before final cleanup, not hosted model memory"
+  },
+  "usage": [
+    {
+      "input_tokens": 62982,
+      "cached_input_tokens": 58240,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 381,
+      "reasoning_output_tokens": 0
+    }
+  ],
+  "monetary_cost": null,
+  "hosted_model_memory_bytes": null,
+  "projected_result": {
+    "status": "accepted",
+    "stage": "audit",
+    "detail": null
+  },
+  "original_goal_result": "pending",
+  "transcript": "events.jsonl",
+  "limitations": "Projected goal only; original binding is not proved. Provider metadata does not independently identify resolved model."
+}

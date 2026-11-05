@@ -1,0 +1,9 @@
+DIGEST 6d36669842adf10d93fdc81356ebbabf
+FTrusted.Obligation
+R28:38 Trusted.BasicNative <> <> lib
+R40:50 Trusted.BasicDomain <> <> lib
+def 64:67 <> goal
+R79:100 Trusted.BasicNative <> Equivalent def
+R103:119 Trusted.BasicDomain <> valid def
+R125:141 Trusted.BasicNative <> entry def
+R149:165 Trusted.BasicNative <> entry def

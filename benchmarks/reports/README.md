@@ -6,14 +6,14 @@ The existing reference is [the Lean factorial equivalence run](P-dbec465c356ed73
 
 | Factorial reference theorem | Lean | Rocq | CompCert |
 | --- | --- | --- | --- |
-| Recursive / accumulator equivalence | [Proved](P-dbec465c356ed73d/lean/equivalence/20261105T145347Z-3b3c245438c5/report.md) | Pending | Pending |
-| Reference / mutant counterexample | [Proved](P-a80b8283427dcbd7/lean/counterexample/20261105T152523Z-ff7f7147b74b/report.md) | Pending | Pending |
+| Recursive / accumulator equivalence | [Proved](P-dbec465c356ed73d/lean/equivalence/20261105T145347Z-3b3c245438c5/report.md) | [Proved](P-dbec465c356ed73d/rocq/equivalence/20261105T154526Z-514a9df0dc21/report.md) | Pending |
+| Reference / mutant counterexample | [Proved](P-a80b8283427dcbd7/lean/counterexample/20261105T152523Z-ff7f7147b74b/report.md) | [Proved](P-a80b8283427dcbd7/rocq/counterexample/20261105T154425Z-e4b4242a737b/report.md) | Pending |
 
 All six instances are excluded from evaluation regardless of proof status. The Lean counterexample package uses a fixed witness; it is intended as a certificate example, not as evidence that an agent discovered the witness.
 
-Each run includes the task snapshot, prompt, Codex configuration, observed CLI model catalog, toolchain fingerprint, model and tool events, event receipt times, proof, checker output, resource measurements, machine-readable report, and checksums. Codex was configured to use `gpt-6-luna` with `medium` reasoning, and the CLI catalog included both. This is the recorded model configuration for the run; the service did not provide an independently verifiable server-side model version. Hidden model reasoning, hosted-model memory, and actual billing are unavailable. The OS, system libraries, and model backend are not locked.
+Each run includes its task snapshot, prompt, Codex configuration, model and tool events, event receipt times, proof, checker output, resource measurements, machine-readable report, and checksums. The Lean runs use the configured `gpt-6-luna` model with `medium` reasoning; the Rocq runs use `gpt-6.1-sol` with `medium` reasoning. These are recorded client configurations; the service did not provide an independently verifiable server-side model version. Hidden model reasoning, hosted-model memory, and actual billing are unavailable. The OS, system libraries, and model backend are not locked. The Lean runs also record the observed CLI model catalog and a toolchain fingerprint.
 
-The report records the raw and Windows-normalized Git status at run start and SHA-256 hashes for the critical scorer and task files. Both status checks were clean and all critical file hashes matched the recorded commit. The older public example was removed from the current tree at the user's request, but its proof remains accessible through existing Git history.
+The Lean reports record Git status and SHA-256 hashes for critical scorer and task files. The Rocq verifier checks the frozen source hashes and rebuilds the original target before rechecking the proof.
 
 To verify file integrity and replay the proof on the original WSL toolchain:
 
@@ -23,3 +23,12 @@ python3 scripts/pilot/verify_reference.py "$REPORT"
 ```
 
 Replay requires the configured Lean 4.34.0 toolchain, bubblewrap, and a working user-level systemd cgroup. The command checks file hashes, timestamps and event usage, fingerprints the Lean toolchain, rebuilds the task from source, audits the binding lemmas against the named frozen target, and rechecks the proof and its axioms. It does not verify the model's identity or reconstruct hidden model reasoning.
+
+To replay a Rocq reference with the configured Rocq 8.20.1 toolchain and the same isolation prerequisites:
+
+```bash
+REPORT=benchmarks/reports/P-a80b8283427dcbd7/rocq/counterexample/20261105T154425Z-e4b4242a737b
+python3 scripts/pilot/verify_factorial_rocq_original.py "$REPORT"
+```
+
+The Rocq checker rebuilds the original source modules and exact theorem target, checks the submitted proof with `coqchk`, and rejects non-closed assumptions.
