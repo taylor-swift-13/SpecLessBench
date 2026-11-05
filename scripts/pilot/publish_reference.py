@@ -15,7 +15,7 @@ from single_task_runner import tree_digest
 
 ROOT=Path(__file__).resolve().parents[2]
 OUTPUT=ROOT/'benchmarks/reports'
-FILES=('report.json','report.md','config.json','codex-config.toml','prompt.txt',
+FILES=('report.json','report.md','config.json','codex-config.toml','environment.json','model-catalog.json','prompt.txt',
        'events.jsonl','events.timestamps.jsonl','agent.stderr','checker.log',
        'resources.json','Submission.lean')
 SECRET=re.compile(rb'(?i)(?:sk-[A-Za-z0-9_-]{20,}|bearer\s+[A-Za-z0-9._-]{20,}|"(?:access_token|refresh_token|api_key)"\s*:\s*"[^"\s]{10,}")')

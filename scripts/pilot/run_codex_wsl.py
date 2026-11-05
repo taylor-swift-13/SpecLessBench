@@ -8,6 +8,7 @@ import hashlib
 import json
 import os
 import platform
+import resource as process_resource
 import shutil
 import subprocess
 import sys
@@ -34,6 +35,7 @@ PROMPT=('Prove the one fixed Lean theorem Obligation.goal. The task source and c
         'which imports Obligation and defines Submission.solve : Obligation.goal. '
         'You may create helper lemmas in that file. Do not use sorry or add axioms. '
         'The checker recompiles against the fixed task and audits proof dependencies.')
+ACTIVE_RUN=None
 
 
 def now():return dt.datetime.now(dt.timezone.utc).isoformat()
@@ -41,8 +43,27 @@ def dump(path,value):path.write_text(json.dumps(value,indent=2,ensure_ascii=Fals
 def sha(data):return hashlib.sha256(data).hexdigest()
 
 
+def fingerprint_tree(root):
+    """Fingerprint exact file bytes and symlink targets without loading the tree."""
+    h=hashlib.sha256(b'SpecLessBench toolchain tree v1\0');files=0;size=0
+    for path in sorted(root.rglob('*')):
+        name=path.relative_to(root).as_posix().encode()
+        if path.is_symlink():
+            h.update(b'L'+len(name).to_bytes(8,'big')+name+os.readlink(path).encode()+b'\0')
+        elif path.is_file():
+            before=path.stat();h.update(b'F'+len(name).to_bytes(8,'big')+name+before.st_size.to_bytes(8,'big'))
+            with path.open('rb') as f:
+                for block in iter(lambda:f.read(1024*1024),b''):h.update(block)
+            after=path.stat()
+            if (before.st_size,before.st_mtime_ns)!=(after.st_size,after.st_mtime_ns):raise RuntimeError('Toolchain changed during fingerprint')
+            files+=1;size+=before.st_size
+    return {'sha256':h.hexdigest(),'file_count':files,'total_bytes':size,'scheme':'SpecLessBench toolchain tree v1'}
+
+
 def main():
+    global ACTIVE_RUN
     os.umask(0o077)
+    preflight_started=now();preflight_clock=time.monotonic()
     proxies=[]
     for key in ('HTTP_PROXY','HTTPS_PROXY','NO_PROXY','http_proxy','https_proxy','no_proxy'):
         value=os.environ.get(key)
@@ -54,8 +75,12 @@ def main():
     if (meta['platform'],meta['claim'])!=('lean','equivalence'):raise SystemExit('Wrong prepared theorem')
     if tree_digest(TASK/'task')!=meta['public_sha256']:raise SystemExit('Task digest mismatch')
     if not AUTH.is_file() or not CODEX.is_file() or not CODE_HOST.is_file():raise SystemExit('WSL Codex authentication, executable, or code-mode host unavailable')
+    subprocess.run([sys.executable,str(ROOT/'scripts/pilot/verify_freeze.py')],cwd=ROOT,check=True,stdout=subprocess.DEVNULL,timeout=120)
+    subprocess.run([sys.executable,str(ROOT/'scripts/pilot/verify_audit.py')],cwd=ROOT,check=True,stdout=subprocess.DEVNULL,timeout=120)
     BASE.mkdir(mode=0o700,parents=True,exist_ok=True)
     run=BASE/(dt.datetime.now(dt.timezone.utc).strftime('%Y%m%dT%H%M%SZ')+'-'+uuid.uuid4().hex[:12]);run.mkdir(mode=0o700)
+    ACTIVE_RUN=run
+    print('RUN_DIR='+str(run),flush=True)
     private=run/'private';private.mkdir(mode=0o700);home=private/'codex-home';home.mkdir(mode=0o700)
     work=private/'work';work.mkdir(mode=0o700);task=private/'task';shutil.copytree(TASK/'task',task)
     if tree_digest(task)!=meta['public_sha256']:raise SystemExit('Task changed while copying')
@@ -79,7 +104,37 @@ enabled = false
     (run/'codex-config.toml').write_text(config)
     (run/'prompt.txt').write_text(PROMPT+'\n')
     commit_before=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
-    dirty_before=bool(subprocess.check_output(['git','status','--porcelain','--untracked-files=no'],cwd=ROOT,text=True).strip())
+    status_raw=subprocess.check_output(['git','status','--porcelain','--untracked-files=no'],cwd=ROOT,text=True).splitlines()
+    status_normalized=subprocess.check_output(['git','-c','core.autocrlf=true','status','--porcelain','--untracked-files=no'],cwd=ROOT,text=True).splitlines()
+    dirty_before=bool(status_raw)
+    t=time.monotonic();lean_tree=fingerprint_tree(LEAN);lean_tree['wall_seconds']=time.monotonic()-t
+    catalog_result=subprocess.run([str(CODEX),'debug','models'],stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=45)
+    try:
+        catalog=json.loads(catalog_result.stdout);models=catalog.get('models',[]) if isinstance(catalog,dict) else catalog
+        selected=[m for m in models if m.get('slug')=='gpt-6-luna']
+    except (ValueError,AttributeError):selected=[]
+    catalog_evidence={'captured_utc':now(),'command':'codex debug models','exit_code':catalog_result.returncode,
+                      'raw_catalog_sha256':sha(catalog_result.stdout),
+                      'selected_models':[{k:m.get(k) for k in ('slug','display_name','default_reasoning_level','supported_reasoning_levels','context_window')} for m in selected],
+                      'scope':'CLI catalog observation, possibly cached; not evidence of the model resolved by a particular response'}
+    if catalog_result.returncode!=0 or len(selected)!=1 or not any(x.get('effort')=='medium' for x in selected[0].get('supported_reasoning_levels',[])):
+        raise RuntimeError('The requested model and effort are absent from the observed CLI catalog')
+    dump(run/'model-catalog.json',catalog_evidence)
+    critical=('scripts/pilot/run_codex_wsl.py','scripts/pilot/release_gate.py','scripts/pilot/grade_sealed.py',
+              'scripts/pilot/lean_grader_core.py','scripts/pilot/TrustedLeanAudit.lean','scripts/pilot/sandbox.py',
+              'scripts/pilot/resource_supervisor.py','scripts/pilot/single_task_runner.py','scripts/pilot/prepare_factorial.py',
+              'scripts/pilot/verify_reference.py','benchmarks/tasks/algorithms-core/lean/BasicNative.lean',
+              'benchmarks/tasks/algorithms-core/lean/BasicDomain.lean','benchmarks/proof-interface/v1/lean/BranchTargets.lean')
+    critical_hashes={name:sha((ROOT/name).read_bytes()) for name in critical}
+    for name,observed in critical_hashes.items():
+        committed=sha(subprocess.check_output(['git','show',commit_before+':'+name],cwd=ROOT))
+        if observed!=committed:raise RuntimeError('Critical file differs from committed version: '+name)
+    environment={'preflight_started_utc':preflight_started,'preflight_wall_seconds':time.monotonic()-preflight_clock,
+                 'controller_peak_rss_bytes_linux':process_resource.getrusage(process_resource.RUSAGE_SELF).ru_maxrss*1024,
+                 'lean_toolchain_tree':lean_tree,'critical_file_sha256':critical_hashes,
+                 'git_status_raw':status_raw,'git_status_autocrlf_true':status_normalized,
+                 'full_environment_locked':False,'limitations':'The OS, system libraries and model backend are not locked; the tree digest does not distribute binaries.'}
+    dump(run/'environment.json',environment)
     settings={'model':'gpt-6-luna','model_reasoning_effort':'medium','agent':'Codex CLI',
               'agent_version':subprocess.check_output([str(CODEX),'--version'],text=True).strip(),
               'timeout_seconds':TIMEOUT,'tools_network':False,'model_network':True,
@@ -114,7 +169,7 @@ enabled = false
     unit='specless-online-'+uuid.uuid4().hex+'.scope'
     launch=['/usr/bin/systemd-run','--user','--scope','--quiet','--unit',unit,'-p','MemoryMax=3221225472',
             '-p','MemorySwapMax=0','-p','TasksMax=512','/usr/bin/python3',str(SUPERVISOR),str(supervisor_config)]
-    started=now();t=time.monotonic();print('RUN_DIR='+str(run),flush=True)
+    started=now();t=time.monotonic()
     try:
         with (run/'events.jsonl').open('wb') as out,(run/'events.timestamps.jsonl').open('w',encoding='utf-8') as timestamps,(run/'agent.stderr').open('wb') as err:
             proc=subprocess.Popen(launch,stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=err,start_new_session=True)
@@ -162,6 +217,7 @@ enabled = false
                                      'allowed':['propext','Classical.choice','Quot.sound'],
                                      'auditor_output':((audit.get('stdout') or '')+'\n'+(audit.get('stderr') or '')).strip() if audit else None}},
             'resources':{'wall_seconds':elapsed,'checker_seconds':checking_elapsed,'sandbox':resources,
+                         'preflight':{'wall_seconds':environment['preflight_wall_seconds'],'controller_peak_rss_bytes_linux':environment['controller_peak_rss_bytes_linux']},
                          'provider_usage_events':usage,'usage_scope':'Codex CLI turn.completed events; no assumed billing conversion',
                          'monetary_cost':None,'hosted_inference_memory_bytes':None},
             'transcript':{'format':'Codex CLI --json','event_count':len(events),'invalid_lines':invalid,
@@ -169,7 +225,8 @@ enabled = false
                           'completeness_independently_verified':False,
                           'line_received_timestamps':'events.timestamps.jsonl','stdout_stream_closed_cleanly':stream_complete,
                           'limitations':'Complete means a turn.completed event was observed, not that all hidden reasoning or tool details are independently recoverable.'},
-            'supervisor_exit_code':exit_code,'model_configuration_source':'Codex config; server-side resolved model metadata not independently verified'}
+            'supervisor_exit_code':exit_code,'model_configuration_source':'Codex config and CLI catalog; server-side resolved model metadata not independently verified',
+            'environment_evidence':'environment.json','model_catalog_evidence':'model-catalog.json'}
     dump(run/'report.json',report)
     (run/'report.md').write_text('# Evaluation report\n\n'+f'- Task: `{meta["pilot_id"]}` (Lean equivalence)\n- Model: `gpt-6-luna`, medium; Codex {settings["agent_version"]}\n- Result: **{outcome["status"]}**\n- Axiom audit: {report["checks"]["axiom_audit"]["auditor_output"] or "not completed"}\n- Agent / checker wall time: {elapsed:.2f} / {checking_elapsed:.2f} s\n- Agent cgroup memory peak: {resources.get("memory_peak_bytes") if resources else "unknown"} bytes\n- Token usage: {json.dumps(usage,ensure_ascii=False)}\n- Turn completed: {report["transcript"]["turn_completed"]}\n- Monetary cost and hosted-model memory: unknown\n')
     dump(run/'resources.json',report['resources'])
@@ -177,4 +234,14 @@ enabled = false
     return 0 if outcome['status']=='accepted' else 1
 
 
-if __name__=='__main__':sys.exit(main())
+if __name__=='__main__':
+    try:code=main()
+    except Exception as exc:
+        if ACTIVE_RUN is not None and not (ACTIVE_RUN/'report.json').exists():
+            failure={'schema_version':1,'result':{'status':'infrastructure-error','detail':type(exc).__name__+': '+str(exc)},
+                     'ended_utc':now(),'transcript':{'complete':False,'reason':'run did not reach normal report finalization'}}
+            dump(ACTIVE_RUN/'report.json',failure)
+            (ACTIVE_RUN/'report.md').write_text('# Evaluation report\n\n- Result: infrastructure-error\n- Details: see report.json\n')
+        print(type(exc).__name__+': '+str(exc),file=sys.stderr)
+        code=2
+    sys.exit(code)
