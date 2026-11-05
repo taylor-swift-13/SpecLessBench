@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "metering_as_of_utc": "2026-11-05T21:28:53.001Z",
+  "thread_id": "01a19d40-53c2-7811-8e47-5ac681576e1f",
+  "scope": "All model requests in this curator/controller chat, including construction, discussion, reference work and evaluation monitoring. Not construction-only; excludes separately launched Codex evaluation jobs.",
+  "source": {
+    "kind": "Codex token_usage_record",
+    "prefix_bytes": 43610955,
+    "prefix_sha256": "6fc4892816aed0b7d4b1cc07b07a3724590ce6807f7510136b14abd251438185"
+  },
+  "usage": {
+    "input_tokens": 564332280,
+    "cached_input_tokens": 559488640,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 1574776,
+    "reasoning_output_tokens": 677520,
+    "total_tokens": 565907056
+  },
+  "uncached_input_tokens": 4843640,
+  "requests": 2404,
+  "by_configuration": [
+    {
+      "configured_model": "gpt-6-luna",
+      "reasoning_effort": "xhigh",
+      "requests": 155,
+      "usage": {
+        "input_tokens": 21563619,
+        "cached_input_tokens": 21126016,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 194561,
+        "reasoning_output_tokens": 118124,
+        "total_tokens": 21758180
+      }
+    },
+    {
+      "configured_model": "gpt-6.1-sol",
+      "reasoning_effort": "high",
+      "requests": 432,
+      "usage": {
+        "input_tokens": 98568587,
+        "cached_input_tokens": 96495744,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 725406,
+        "reasoning_output_tokens": 335872,
+        "total_tokens": 99293993
+      }
+    },
+    {
+      "configured_model": null,
+      "reasoning_effort": null,
+      "requests": 1,
+      "usage": {
+        "input_tokens": 350110,
+        "cached_input_tokens": 12544,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 4735,
+        "reasoning_output_tokens": 0,
+        "total_tokens": 354845
+      }
+    },
+    {
+      "configured_model": "gpt-6.1-terra",
+      "reasoning_effort": "high",
+      "requests": 1816,
+      "usage": {
+        "input_tokens": 443849964,
+        "cached_input_tokens": 441854336,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 650074,
+        "reasoning_output_tokens": 223524,
+        "total_tokens": 444500038
+      }
+    }
+  ],
+  "audit": {
+    "request_sum_matches_thread_counter": true,
+    "duplicate_response_ids": 0,
+    "requests_without_available_model_configuration": 1,
+    "token_count_events_excluded_to_avoid_double_counting": true
+  },
+  "timing": {
+    "first_usage_utc": "2026-11-02T17:13:27.092Z",
+    "latest_usage_utc": "2026-11-05T21:28:53.001Z",
+    "closed_turn_intervals": 65,
+    "open_turns": 1,
+    "model_inference_wall_seconds": null,
+    "scope": "Turn intervals retained privately; they include tools and waiting and can overlap subprocess work. Do not add them to agent wall time."
+  },
+  "monetary_cost": null,
+  "hosted_inference_memory_peak_bytes": null,
+  "controller_process_memory_peak_bytes": null,
+  "attribution": "Historical construction-only and per-family allocation remains unresolved; session totals must not be reported as task construction totals.",
+  "overlap": "This session-wide series overlaps earlier construction batch snapshots. Do not add it to the historical construction ledger without request/interval deduplication.",
+  "accounting": "Cached input is a subset of input; reasoning output is a subset of output. Do not add these subsets again.",
+  "private_evidence_sha256": {
+    "metering.jsonl.gz": "0d72045a0df379a9cb02ec8c1cef488921fb61549260856de50cc58d025dfd76",
+    "model-contexts.jsonl.gz": "d726b94a1f9625ba6fe7cfa4efd1d0b993eadf913ca1fa51c5607332f21bb969"
+  }
+}

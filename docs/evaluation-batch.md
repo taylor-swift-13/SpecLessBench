@@ -73,6 +73,16 @@ is separate from the agent/checker cgroup peaks. Earlier unmeasured stages are
 not backfilled with estimates. Failed preparation sources, compiler diagnostics
 and issue records remain in private package directories, outside agent mounts.
 
+`record_curator_usage.py` separately captures this desktop chat's actual
+`token_usage_record` entries and model contexts, checks that request sums equal
+the app's thread counter, and preserves compressed evidence privately. Its
+public `benchmarks/construction/curator-workflow-usage.json` covers the entire
+curator workflow, including discussion and monitoring. It overlaps historical
+construction snapshots, excludes separately launched evaluators, and is not a
+construction-only or per-family bill. Never sum it with the old construction
+ledger without deduplicating the overlapping request windows. Unavailable
+model attribution, inference memory and billing remain null.
+
 Systemd does not inherit interactive-shell proxies automatically. The launch
 command passes the configured proxy variables explicitly. An initial attempt
 without them failed model routing; its raw events and partial report remain
