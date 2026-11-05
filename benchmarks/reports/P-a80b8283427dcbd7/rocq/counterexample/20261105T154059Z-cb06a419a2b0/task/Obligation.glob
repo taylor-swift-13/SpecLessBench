@@ -1,0 +1,16 @@
+DIGEST 579eef27e589ce58e5f1c79819d35914
+FTrusted.Obligation
+R24:29 Coq.ZArith.ZArith <> <> lib
+R31:34 Coq.Lists.List <> <> lib
+R44:56 Coq.Lists.List ListNotations <> mod
+R87:90 Trusted.Task <> <> lib
+def 104:107 <> goal
+R119:135 Trusted.Task <> refutationAt def
+R137:137 Coq.Lists.List ListNotations ::list_scope:'['_x_']' not
+R141:141 Coq.Lists.List ListNotations ::list_scope:'['_x_']' not
+R143:143 Coq.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R147:147 Coq.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R151:151 Coq.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R153:153 Coq.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R157:157 Coq.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R161:161 Coq.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not

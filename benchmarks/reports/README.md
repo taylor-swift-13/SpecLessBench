@@ -11,6 +11,8 @@ The existing reference is [the Lean factorial equivalence run](P-dbec465c356ed73
 
 All six instances are excluded from evaluation regardless of proof status. The Lean counterexample package uses a fixed witness; it is intended as a certificate example, not as evidence that an agent discovered the witness.
 
+The earlier Rocq projected-goal runs are retained alongside the final original-goal runs for construction-cost accounting. Their reports explicitly mark the original theorem as unchecked in those runs.
+
 Each run includes its task snapshot, prompt, Codex configuration, model and tool events, event receipt times, proof, checker output, resource measurements, machine-readable report, and checksums. The Lean runs use the configured `gpt-6-luna` model with `medium` reasoning; the Rocq runs use `gpt-6.1-sol` with `medium` reasoning. These are recorded client configurations; the service did not provide an independently verifiable server-side model version. Hidden model reasoning, hosted-model memory, and actual billing are unavailable. The OS, system libraries, and model backend are not locked. The Lean runs also record the observed CLI model catalog and a toolchain fingerprint.
 
 The Lean reports record Git status and SHA-256 hashes for critical scorer and task files. The Rocq verifier checks the frozen source hashes and rebuilds the original target before rechecking the proof.
