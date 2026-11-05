@@ -1,6 +1,6 @@
 # Construction protocol v0.2
 
-For new C/Clight tasks, choose input and output capacities from the task's actual bounds and observe only the intended outputs. Do not use the fixed 8,192-word shared buffer for new tasks. The frozen factorial reference retains its original buffer and proofs; changing it requires a separately versioned implementation, regenerated AST and new proof checks.
+The shared 8,192-word C/Clight buffer and its initialization are permitted parts of benchmark tasks. Record buffer sizes and observed outputs so their impact on proof and checking costs can be analyzed. The frozen factorial reference retains its original implementation and proofs; any later change to an implementation or goal requires separately versioned artifacts and new checks.
 
 Historical command stdout, stderr, and timing files are stored in `command-logs.tar.gz` instead of thousands of separate files. The archive contains the original repository-relative paths; its SHA-256 is in `command-logs.sha256`. Verify it with `python3 scripts/construction/verify_log_archive.py`. To inspect an individual file, use `tar -xOf benchmarks/construction/command-logs.tar.gz <original-path>`; to restore all files locally, use `tar -xzf benchmarks/construction/command-logs.tar.gz`. New instrumented commands may create additional files under `logs/`.
 

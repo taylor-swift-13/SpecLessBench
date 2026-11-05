@@ -6,7 +6,7 @@
   "scope": "Six factorial primary goals only, not a benchmark-wide claim.",
   "compcert_policy": "Fully qualified CompCert assumptions and explicitly named Rocq library dependencies; coqchk bytecode conversion enabled for equivalence.",
   "frozen_output_buffer_words": 8192,
-  "future_versions": "Choose task-specific capacities; new implementations, ASTs and goals require their own checks.",
+  "future_versions": "The shared buffer is permitted; any changed implementations, ASTs or goals require their own checks.",
   "reports": [
     {
       "theorem": "equivalence",
