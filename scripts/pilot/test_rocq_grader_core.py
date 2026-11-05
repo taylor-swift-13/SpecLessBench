@@ -2,7 +2,16 @@
 import tempfile
 from pathlib import Path
 from sandbox import run_isolated,TOOLCHAINS
-from rocq_grader_core import grade_prepared
+from rocq_grader_core import allowed_assumptions,grade_prepared
+
+trusted = ('Axioms:\ncompcert.lib.Axioms.proof_irr : Stdlib.Logic.ClassicalFacts.proof_irrelevance\n'
+           'compcert.common.Events.external_functions_sem :\n  String.string -> AST.signature -> Events.extcall_sem\n')
+assert allowed_assumptions('compcert', trusted)
+assert allowed_assumptions('compcert', 'Axioms:\ncompcert.common.Events.external_functions_properties : True\ncompcert.x86_64.Archi.win64 : bool\n')
+assert not allowed_assumptions('rocq', trusted)
+assert not allowed_assumptions('compcert', trusted + 'Candidate.Submission.compcert.Axioms.fake : False\n')
+assert not allowed_assumptions('compcert', trusted + 'compcert.lib.Axioms.proof_irr : False\n')
+assert not allowed_assumptions('compcert', 'noise\n' + trusted)
 
 def test(platform):
     coqc=TOOLCHAINS[platform]+'/bin/coqc'
@@ -16,6 +25,7 @@ def test(platform):
           ('admitted','Theorem solve : Obligation.goal. Admitted.','rejected'),
           ('axiom','Axiom cheat : False. Definition solve : Obligation.goal := False_rect _ cheat.','rejected'),
           ('trusted-name-spoof','Module Axioms. Axiom proof_irr : False. End Axioms. Definition solve : Obligation.goal := False_rect _ Axioms.proof_irr.','rejected'),
+          ('trusted-namespace-spoof','Module compcert. Module lib. Axiom fake : False. End lib. End compcert. Definition solve : Obligation.goal := False_rect _ compcert.lib.fake.','rejected'),
           ('stdout-spoof','Goal True. idtac "Closed under the global context". exact I. Qed.\nAxiom cheat : False. Definition solve : Obligation.goal := False_rect _ cheat.','rejected'),
           ('wrong-type','Definition solve : False := I.','rejected')]:
             (submission/'Submission.v').write_text('From Trusted Require Import Obligation.\n'+proof+'\n')

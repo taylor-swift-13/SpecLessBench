@@ -77,7 +77,7 @@ def main():
         r = check(common + ['-Q','/trusted/candidate','Candidate','-Q','/work','Trusted','-o','/work/Bridge.vo','/trusted/Bridge.v'], ['Bridge.vo'])
         (trusted/'Bridge.vo').write_bytes(r['artifacts']['Bridge.vo'])
         check([COQCHK, '-Q','/trusted','Trusted','-Q','/trusted/candidate','Candidate','Trusted.Bridge'])
-        (trusted/'Audit.v').write_text('From Trusted Require Import Bridge.\nPrint Assumptions Bridge.checked_original.\n')
+        (trusted/'Audit.v').write_text('Set Printing Fully Qualified.\nFrom Trusted Require Import Bridge.\nPrint Assumptions Bridge.checked_original.\n')
         audit = check(common + ['-Q','/trusted/candidate','Candidate','-Q','/work','Trusted','-o','/work/Audit.vo','/trusted/Audit.v'], ['Audit.vo'])
         if audit.get('output_truncated') or not allowed_assumptions('compcert', audit['stdout']):
             raise SystemExit('Unapproved assumptions: '+audit['stdout'])

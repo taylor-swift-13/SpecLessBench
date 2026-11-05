@@ -2,20 +2,19 @@
 
 Not enabled for pilot tasks: assumption reporting and loader behavior still
 need adversarial review. Native Rocq rejects all assumptions; CompCert admits
-only the explicitly named assumptions of its installed trusted libraries.
+its own fully qualified assumptions and named Rocq library dependencies.
 """
 import re,shutil,tempfile
 from pathlib import Path
 from sandbox import run_isolated,TOOLCHAINS
 
-# CompCert 3.17 / Rocq 9.2 trusted library assumptions observed in its
-# semantics. Unknown assumptions, including any submission-defined axiom,
-# remain rejected. Native Rocq retains its empty allowlist.
-COMPCERT_ASSUMPTIONS = frozenset({
-    'ClassicalDedekindReals.sig_not_dec', 'ClassicalDedekindReals.sig_forall_dec',
-    'Axioms.proof_irr', 'Events.inline_assembly_sem',
-    'FunctionalExtensionality.functional_extensionality_dep',
-    'Events.external_functions_sem', 'Classical_Prop.classic',
+# CompCert's own fully qualified namespace is trusted. Its Rocq dependencies
+# are accepted only by exact name; the submission namespace is never trusted.
+COMPCERT_ROCQ_ASSUMPTIONS = frozenset({
+    'Stdlib.Reals.ClassicalDedekindReals.sig_not_dec',
+    'Stdlib.Reals.ClassicalDedekindReals.sig_forall_dec',
+    'Stdlib.Logic.FunctionalExtensionality.functional_extensionality_dep',
+    'Stdlib.Logic.Classical_Prop.classic',
 })
 
 def allowed_assumptions(platform, output):
@@ -30,10 +29,11 @@ def allowed_assumptions(platform, output):
         if line[0].isspace():
             if not names: return False
             continue
-        match = re.fullmatch(r'([A-Za-z0-9_\.]+)\s*:.*', line)
+        match = re.fullmatch(r"([A-Za-z0-9_\.']+)\s*:.*", line)
         if not match: return False
         names.append(match.group(1))
-    return len(names) == len(set(names)) and set(names) <= COMPCERT_ASSUMPTIONS
+    return len(names) == len(set(names)) and all(
+        name.startswith('compcert.') or name in COMPCERT_ROCQ_ASSUMPTIONS for name in names)
 
 def _result(status,stage,detail=None):return {'status':status,'stage':stage,'detail':detail}
 def _valid_dir(path):
@@ -50,7 +50,7 @@ def grade_prepared(platform,package,submission,timeout=90,trace=None):
     with tempfile.TemporaryDirectory(prefix='specless-rocq-core-')as temp:
         trusted=Path(temp)/'trusted';shutil.copytree(package,trusted);(trusted/'candidate').mkdir()
         (trusted/'Gate.v').write_text('From Trusted Require Import Obligation.\nFrom Candidate Require Import Submission.\nDefinition pilot_checked : Obligation.goal := Submission.solve.\n')
-        (trusted/'Audit.v').write_text('From Trusted Require Import Gate.\nPrint Assumptions Gate.pilot_checked.\n')
+        (trusted/'Audit.v').write_text('Set Printing Fully Qualified.\nFrom Trusted Require Import Gate.\nPrint Assumptions Gate.pilot_checked.\n')
         def run(args,**kwargs):
             result=run_isolated(platform,trusted,submission,args,timeout=timeout,phase='evaluation-checker' if trace is not None else 'synthetic-prototype',**kwargs)
             if trace is not None:trace.append({k:result.get(k) for k in ('status','exit_code','stdout','stderr','output_truncated','resources')})

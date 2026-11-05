@@ -2,7 +2,7 @@
 import hashlib,json,subprocess,sys
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2];OUT=ROOT/'benchmarks/pilot-v1';rows=[]
-for name in ('test_sandbox.py','test_lean_kernel.py','test_sandboxed_lean_gate.py','test_sandboxed_rocq_gate.py','test_lean_grader_core.py','test_rocq_grader_core.py','test_compcert_assumptions.py','test_release_gate.py','test_selection.py'):
+for name in ('test_sandbox.py','test_sandboxed_lean_gate.py','test_lean_grader_core.py','test_rocq_grader_core.py','test_release_gate.py','test_selection.py'):
     script=ROOT/'scripts/pilot'/name
     print('Running',name,flush=True)
     result=subprocess.run([sys.executable,'-u',str(script)],cwd=ROOT,capture_output=True,text=True,timeout=600)

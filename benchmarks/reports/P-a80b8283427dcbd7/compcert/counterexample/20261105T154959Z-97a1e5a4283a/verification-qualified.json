@@ -1,0 +1,86 @@
+{
+  "theorem": "R_FAC_CEX",
+  "status": "accepted",
+  "source": "frozen sources rebuilt; original definitions and goal bridged by kernel",
+  "assumptions": "Axioms:\nStdlib.Reals.ClassicalDedekindReals.sig_not_dec :\n  forall P : Prop, {~ ~ P} + {~ P}\nStdlib.Reals.ClassicalDedekindReals.sig_forall_dec :\n  forall P : Corelib.Init.Datatypes.nat -> Prop,\n  (forall n : Corelib.Init.Datatypes.nat, {P n} + {~ P n}) ->\n  {n : Corelib.Init.Datatypes.nat | ~ P n} +\n  {forall n : Corelib.Init.Datatypes.nat, P n}\ncompcert.lib.Axioms.proof_irr : Stdlib.Logic.ClassicalFacts.proof_irrelevance\ncompcert.common.Events.inline_assembly_sem :\n  Stdlib.Strings.String.string ->\n  compcert.common.AST.signature -> compcert.common.Events.extcall_sem\nStdlib.Logic.FunctionalExtensionality.functional_extensionality_dep :\n  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),\n  (forall x : A, f x = g x) -> f = g\ncompcert.common.Events.external_functions_sem :\n  Stdlib.Strings.String.string ->\n  compcert.common.AST.signature -> compcert.common.Events.extcall_sem\nStdlib.Logic.Classical_Prop.classic : forall P : Prop, P \\/ ~ P\n",
+  "grader_sha256": "a8915bd4e9f39667d20eb7f910f9d838fac4f8df67f0d27d5cfeabe62496a99d",
+  "checks": [
+    {
+      "status": "exited",
+      "exit_code": 0,
+      "resources": {
+        "status": "exited",
+        "exit_code": 0,
+        "limits": {
+          "memory_max": "3221225472",
+          "pids_max": "64",
+          "memory_swap_max": "0"
+        },
+        "wall_seconds": 9.442955710997921,
+        "memory_peak_bytes": 769392640,
+        "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+        "cpu_stat": "usage_usec 9444209\nuser_usec 8935552\nsystem_usec 508657\nnice_usec 0",
+        "memory_scope": "cgroup v2 peak through sandbox process exit, including supervisor and sandbox descendants; before final cleanup, not hosted model memory"
+      },
+      "output_truncated": false
+    },
+    {
+      "status": "exited",
+      "exit_code": 0,
+      "resources": {
+        "status": "exited",
+        "exit_code": 0,
+        "limits": {
+          "memory_max": "3221225472",
+          "pids_max": "64",
+          "memory_swap_max": "0"
+        },
+        "wall_seconds": 0.5658336149936076,
+        "memory_peak_bytes": 482775040,
+        "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+        "cpu_stat": "usage_usec 586431\nuser_usec 331114\nsystem_usec 255317\nnice_usec 0",
+        "memory_scope": "cgroup v2 peak through sandbox process exit, including supervisor and sandbox descendants; before final cleanup, not hosted model memory"
+      },
+      "output_truncated": false
+    },
+    {
+      "status": "exited",
+      "exit_code": 0,
+      "resources": {
+        "status": "exited",
+        "exit_code": 0,
+        "limits": {
+          "memory_max": "3221225472",
+          "pids_max": "64",
+          "memory_swap_max": "0"
+        },
+        "wall_seconds": 79.56065594099346,
+        "memory_peak_bytes": 3221225472,
+        "memory_events": "low 0\nhigh 0\nmax 8\noom 0\noom_kill 0\noom_group_kill 0",
+        "cpu_stat": "usage_usec 79613226\nuser_usec 75790127\nsystem_usec 3823098\nnice_usec 0",
+        "memory_scope": "cgroup v2 peak through sandbox process exit, including supervisor and sandbox descendants; before final cleanup, not hosted model memory"
+      },
+      "output_truncated": true
+    },
+    {
+      "status": "exited",
+      "exit_code": 0,
+      "resources": {
+        "status": "exited",
+        "exit_code": 0,
+        "limits": {
+          "memory_max": "3221225472",
+          "pids_max": "64",
+          "memory_swap_max": "0"
+        },
+        "wall_seconds": 1.6188592329999665,
+        "memory_peak_bytes": 592498688,
+        "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+        "cpu_stat": "usage_usec 1438380\nuser_usec 973252\nsystem_usec 465128\nnice_usec 0",
+        "memory_scope": "cgroup v2 peak through sandbox process exit, including supervisor and sandbox descendants; before final cleanup, not hosted model memory"
+      },
+      "output_truncated": false
+    }
+  ],
+  "verifier_sha256": "329ebf0c784efc7638649e48819c6664fcda40282ca9fd453364afb9105fb419"
+}

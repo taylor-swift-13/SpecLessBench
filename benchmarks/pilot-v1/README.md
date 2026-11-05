@@ -67,7 +67,7 @@ To generate an example report without a model, use `--config scripts/pilot/examp
 
 `scripts/pilot/sandbox.py` 是评分边界原型：使用 bubblewrap 的文件系统／网络／进程命名空间和用户级 systemd cgroup，设置资源上限，并记录作业级内存峰值。`grader-prototype.json` 仅记录玩具命题测试：正常证明、`sorry`／`Admitted`、额外公理、错误目标及文件／网络／资源限制等。它尚未接入真实题目的可信封装；Rocq 假设检查输出、加载器和对抗场景仍需审计，且共享主机内核并非完整虚拟机安全边界。
 
-The sealed grader checks task packages against trusted hashes and starts each run in a fresh sandbox. Lean permits `propext`, `Classical.choice` and `Quot.sound`; native Rocq requires a closed proof. CompCert permits only the seven explicitly named Rocq and CompCert library assumptions in `rocq_grader_core.py`, including its external-call semantics; extra assumptions are rejected. The task, digest and target must be selected by the trusted evaluator, not the agent. Adversarial review of this prototype remains open.
+The sealed grader checks task packages against trusted hashes and starts each run in a fresh sandbox. Lean permits `propext`, `Classical.choice` and `Quot.sound`; native Rocq requires a closed proof. CompCert permits assumptions in the fully qualified `compcert` namespace and the explicitly named Rocq library dependencies in `rocq_grader_core.py`. Submission-defined and other assumptions are rejected. The task, digest and target must be selected by the trusted evaluator, not the agent. Adversarial review of this prototype remains open.
 
 `test_single_task_runner.py` 检查其他目录、前次运行及题目篡改隔离；`test_grade_sealed.py` 对三个工具链测试接受合法证明和拒绝未完成证明、额外公理、篡改目标包；`test_attempt_to_grade.py` 测试从沙箱输出到 Lean 评分的完整链路。这些测试使用玩具命题。
 
