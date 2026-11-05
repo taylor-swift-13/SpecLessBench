@@ -7,7 +7,7 @@ The existing reference is [the Lean factorial equivalence run](P-dbec465c356ed73
 | Factorial reference theorem | Lean | Rocq | CompCert |
 | --- | --- | --- | --- |
 | Recursive / accumulator equivalence | [Proved](P-dbec465c356ed73d/lean/equivalence/20261105T145347Z-3b3c245438c5/report.md) | [Proved](P-dbec465c356ed73d/rocq/equivalence/20261105T154526Z-514a9df0dc21/report.md) | Pending |
-| Reference / mutant counterexample | [Proved](P-a80b8283427dcbd7/lean/counterexample/20261105T152523Z-ff7f7147b74b/report.md) | [Proved](P-a80b8283427dcbd7/rocq/counterexample/20261105T154425Z-e4b4242a737b/report.md) | Pending |
+| Reference / mutant counterexample | [Proved](P-a80b8283427dcbd7/lean/counterexample/20261105T152523Z-ff7f7147b74b/report.md) | [Proved](P-a80b8283427dcbd7/rocq/counterexample/20261105T154425Z-e4b4242a737b/report.md) | [Proved under the listed trusted-library assumptions](P-a80b8283427dcbd7/compcert/counterexample/20261105T154959Z-97a1e5a4283a/report.md) |
 
 All six instances are excluded from evaluation regardless of proof status. The Lean counterexample package uses a fixed witness; it is intended as a certificate example, not as evidence that an agent discovered the witness.
 
@@ -34,3 +34,5 @@ python3 scripts/pilot/verify_factorial_rocq_original.py "$REPORT"
 ```
 
 The Rocq checker rebuilds the original source modules and exact theorem target, checks the submitted proof with `coqchk`, and rejects non-closed assumptions.
+
+For the CompCert counterexample, use `python3 scripts/pilot/verify_factorial_compcert_original.py REPORT`. This rebuilds the frozen Clight AST and semantics, checks the bridge to the original theorem and audits assumptions against the explicit CompCert/Rocq library allowlist. The run was initially rejected by the previous zero-assumption policy; its original verdict is preserved alongside the subsequent verification.

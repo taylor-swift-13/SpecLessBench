@@ -1,11 +1,39 @@
 """Experimental Rocq proof gate for trusted, task-specific packages.
 
 Not enabled for pilot tasks: assumption reporting and loader behavior still
-need adversarial review. This version conservatively rejects all axioms.
+need adversarial review. Native Rocq rejects all assumptions; CompCert admits
+only the explicitly named assumptions of its installed trusted libraries.
 """
-import shutil,tempfile
+import re,shutil,tempfile
 from pathlib import Path
 from sandbox import run_isolated,TOOLCHAINS
+
+# CompCert 3.17 / Rocq 9.2 trusted library assumptions observed in its
+# semantics. Unknown assumptions, including any submission-defined axiom,
+# remain rejected. Native Rocq retains its empty allowlist.
+COMPCERT_ASSUMPTIONS = frozenset({
+    'ClassicalDedekindReals.sig_not_dec', 'ClassicalDedekindReals.sig_forall_dec',
+    'Axioms.proof_irr', 'Events.inline_assembly_sem',
+    'FunctionalExtensionality.functional_extensionality_dep',
+    'Events.external_functions_sem', 'Classical_Prop.classic',
+})
+
+def allowed_assumptions(platform, output):
+    output = output.strip()
+    if output == 'Closed under the global context': return True
+    if platform != 'compcert' or not output.startswith('Axioms:\n'): return False
+    lines = output.splitlines()[1:]
+    if not lines: return False
+    names = []
+    for line in lines:
+        if not line: return False
+        if line[0].isspace():
+            if not names: return False
+            continue
+        match = re.fullmatch(r'([A-Za-z0-9_\.]+)\s*:.*', line)
+        if not match: return False
+        names.append(match.group(1))
+    return len(names) == len(set(names)) and set(names) <= COMPCERT_ASSUMPTIONS
 
 def _result(status,stage,detail=None):return {'status':status,'stage':stage,'detail':detail}
 def _valid_dir(path):
@@ -40,5 +68,5 @@ def grade_prepared(platform,package,submission,timeout=90,trace=None):
         if checked['status']!='exited' or checked['exit_code']!=0:return _result('infrastructure-error','kernel','independent kernel check failed')
         audit=run(common+['-Q','/trusted/candidate','Candidate','-Q','/work','Trusted','-o','/work/Audit.vo','/trusted/Audit.v'],collect=['Audit.vo'])
         if audit['status']!='exited' or audit['exit_code']!=0:return _result('infrastructure-error','audit','assumptions check failed')
-        if audit['stdout'].strip()=='Closed under the global context':return _result('accepted','audit')
+        if not audit.get('output_truncated') and allowed_assumptions(platform,audit['stdout']):return _result('accepted','audit')
         return _result('rejected','audit','unapproved assumptions or unexpected audit output')

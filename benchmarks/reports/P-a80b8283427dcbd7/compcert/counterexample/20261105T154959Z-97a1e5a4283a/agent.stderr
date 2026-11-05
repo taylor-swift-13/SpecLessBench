@@ -1,0 +1,4 @@
+Reading additional input from stdin...
+2026-11-05T15:50:04.974922Z ERROR codex_models_manager::manager: failed to refresh available models: request timed out
+2026-11-05T15:50:05.001795Z ERROR codex_models_manager::manager: failed to refresh available models: request timed out
+2026-11-05T16:13:34.065776Z ERROR codex_core::tools::router: error=exec_command failed: CreateProcess { message: "Rejected(\"`/usr/bin/bash -lc 'rm -f /work/Backup.v /work/Debug.v /work/Debug.glob /work/.Debug.aux /work/Dec.part /work/Fast.part /work/Optimized.v /work/Probe.v /work/Probe.glob /work/.Probe.aux /work/Small.v /work/Small.glob /work/.Small.aux'` rejected: rm -f style commands are not permitted. Use a safer approach\")" }

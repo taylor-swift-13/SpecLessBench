@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "configuration": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "medium",
+    "platform": "compcert",
+    "claim": "counterexample",
+    "task_id": "P-a80b8283427dcbd7",
+    "goal": "Obligation.goal",
+    "task_digest": "c0b42bbdb3aaef0dde37267e3472e55c2f6256469c296579a4f5a5945012c142",
+    "timeout_seconds": 3600,
+    "model_identity_scope": "CLI configuration; resolved server model not independently exposed",
+    "codex_sha256": "50ed828f357c655a3c82054d346cab8434f24901f14ec19b8267571bdd008b38",
+    "runner_sha256": "81e37d438a265a55bc5f339284d9ba683245bbecc404a75f42ef15885dc0a969",
+    "codex_version": "codex-cli 0.162.0",
+    "rocq_version": "The Rocq Prover, version 9.2\ncompiled with OCaml 4.14.2",
+    "original_goal_binding": "pending; projected-goal acceptance alone is not gold",
+    "original_source_sha256": {
+      "benchmarks/tasks/algorithms-core/compcert/BasicDomain.v": "14fb458da26493a0380dd263515bbe70189ead1273dad5b3da5caf9a7f12320c",
+      "benchmarks/tasks/algorithms-core/compcert/Execution.v": "31708675e639733ab5a746a62c2e2f2aa63b0ed53014a789f5cc2ddfca2a99be",
+      "benchmarks/tasks/algorithms-core/compcert/ast/FACTORIAL_V0.v": "05ab58467e3741fb18943270f43513fe3a4241f993adaac501de079a1181c47c",
+      "benchmarks/tasks/algorithms-core/compcert/ast/FACTORIAL_V2.v": "3ddf102e4d1aa2eae0bed12926db3056048cd3164991d2fb9e42212c3d885ac2"
+    },
+    "fixed_witness": null
+  },
+  "started_utc": "2026-11-05T15:49:59.644233+00:00",
+  "ended_utc": "2026-11-05T16:15:13.886650+00:00",
+  "agent_wall_seconds": 1426.7259389019891,
+  "supervisor_exit_code": 0,
+  "resources": {
+    "status": "exited",
+    "exit_code": 0,
+    "limits": {
+      "memory_max": "3221225472",
+      "pids_max": "512",
+      "memory_swap_max": "0"
+    },
+    "wall_seconds": 1426.5537657920067,
+    "memory_peak_bytes": 3221241856,
+    "memory_events": "low 0\nhigh 0\nmax 2223\noom 6\noom_kill 6\noom_group_kill 0",
+    "cpu_stat": "usage_usec 603264367\nuser_usec 561906641\nsystem_usec 41357726\nnice_usec 0",
+    "memory_scope": "cgroup v2 peak through sandbox process exit, including supervisor and sandbox descendants; before final cleanup, not hosted model memory"
+  },
+  "usage": [
+    {
+      "input_tokens": 8777000,
+      "cached_input_tokens": 8685056,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 35009,
+      "reasoning_output_tokens": 12783
+    }
+  ],
+  "monetary_cost": null,
+  "hosted_model_memory_bytes": null,
+  "projected_result": {
+    "status": "rejected",
+    "stage": "audit",
+    "detail": "unapproved assumptions or unexpected audit output"
+  },
+  "original_goal_result": "pending",
+  "transcript": "events.jsonl",
+  "limitations": "Projected goal only; original binding is not proved. Provider metadata does not independently identify resolved model."
+}

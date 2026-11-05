@@ -1,0 +1,87 @@
+{
+  "theorem": "R_FAC_CEX",
+  "status": "accepted",
+  "source": "frozen sources rebuilt; original definitions and goal bridged by kernel",
+  "assumptions": "Axioms:\nClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}\nClassicalDedekindReals.sig_forall_dec :\n  forall P : nat -> Prop,\n  (forall n : nat, {P n} + {~ P n}) ->\n  {n : nat | ~ P n} + {forall n : nat, P n}\nAxioms.proof_irr : ClassicalFacts.proof_irrelevance\nEvents.inline_assembly_sem :\n  String.string -> AST.signature -> Events.extcall_sem\nFunctionalExtensionality.functional_extensionality_dep :\n  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),\n  (forall x : A, f x = g x) -> f = g\nEvents.external_functions_sem :\n  String.string -> AST.signature -> Events.extcall_sem\nClassical_Prop.classic : forall P : Prop, P \\/ ~ P\n",
+  "grader_sha256": "7e3b33fe344f0d60864f1d9a43342cc1a4b18c08849cd24bc23e0c028a2aa2f9",
+  "checks": [
+    {
+      "status": "exited",
+      "exit_code": 0,
+      "resources": {
+        "status": "exited",
+        "exit_code": 0,
+        "limits": {
+          "memory_max": "3221225472",
+          "pids_max": "64",
+          "memory_swap_max": "0"
+        },
+        "wall_seconds": 8.338790775000234,
+        "memory_peak_bytes": 769540096,
+        "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+        "cpu_stat": "usage_usec 8356138\nuser_usec 8028132\nsystem_usec 328005\nnice_usec 0",
+        "memory_scope": "cgroup v2 peak through sandbox process exit, including supervisor and sandbox descendants; before final cleanup, not hosted model memory"
+      },
+      "output_truncated": false
+    },
+    {
+      "status": "exited",
+      "exit_code": 0,
+      "resources": {
+        "status": "exited",
+        "exit_code": 0,
+        "limits": {
+          "memory_max": "3221225472",
+          "pids_max": "64",
+          "memory_swap_max": "0"
+        },
+        "wall_seconds": 0.5157257660030155,
+        "memory_peak_bytes": 482762752,
+        "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+        "cpu_stat": "usage_usec 525259\nuser_usec 322318\nsystem_usec 202941\nnice_usec 0",
+        "memory_scope": "cgroup v2 peak through sandbox process exit, including supervisor and sandbox descendants; before final cleanup, not hosted model memory"
+      },
+      "output_truncated": false
+    },
+    {
+      "status": "exited",
+      "exit_code": 0,
+      "resources": {
+        "status": "exited",
+        "exit_code": 0,
+        "limits": {
+          "memory_max": "3221225472",
+          "pids_max": "64",
+          "memory_swap_max": "0"
+        },
+        "wall_seconds": 75.49917087799986,
+        "memory_peak_bytes": 3216941056,
+        "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+        "cpu_stat": "usage_usec 75615408\nuser_usec 72429748\nsystem_usec 3185660\nnice_usec 0",
+        "memory_scope": "cgroup v2 peak through sandbox process exit, including supervisor and sandbox descendants; before final cleanup, not hosted model memory"
+      },
+      "output_truncated": true
+    },
+    {
+      "status": "exited",
+      "exit_code": 0,
+      "resources": {
+        "status": "exited",
+        "exit_code": 0,
+        "limits": {
+          "memory_max": "3221225472",
+          "pids_max": "64",
+          "memory_swap_max": "0"
+        },
+        "wall_seconds": 1.1682725389982807,
+        "memory_peak_bytes": 554954752,
+        "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+        "cpu_stat": "usage_usec 1191542\nuser_usec 864764\nsystem_usec 326777\nnice_usec 0",
+        "memory_scope": "cgroup v2 peak through sandbox process exit, including supervisor and sandbox descendants; before final cleanup, not hosted model memory"
+      },
+      "output_truncated": false
+    }
+  ],
+  "verifier_sha256": null,
+  "verifier_note": "Verification was run before the verifier added report checksum checks; the exact earlier verifier file was not archived."
+}

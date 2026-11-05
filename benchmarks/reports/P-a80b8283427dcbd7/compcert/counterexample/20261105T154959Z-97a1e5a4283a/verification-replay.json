@@ -1,0 +1,86 @@
+{
+  "theorem": "R_FAC_CEX",
+  "status": "accepted",
+  "source": "frozen sources rebuilt; original definitions and goal bridged by kernel",
+  "assumptions": "Axioms:\nClassicalDedekindReals.sig_not_dec : forall P : Prop, {~ ~ P} + {~ P}\nClassicalDedekindReals.sig_forall_dec :\n  forall P : nat -> Prop,\n  (forall n : nat, {P n} + {~ P n}) ->\n  {n : nat | ~ P n} + {forall n : nat, P n}\nAxioms.proof_irr : ClassicalFacts.proof_irrelevance\nEvents.inline_assembly_sem :\n  String.string -> AST.signature -> Events.extcall_sem\nFunctionalExtensionality.functional_extensionality_dep :\n  forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),\n  (forall x : A, f x = g x) -> f = g\nEvents.external_functions_sem :\n  String.string -> AST.signature -> Events.extcall_sem\nClassical_Prop.classic : forall P : Prop, P \\/ ~ P\n",
+  "grader_sha256": "7e3b33fe344f0d60864f1d9a43342cc1a4b18c08849cd24bc23e0c028a2aa2f9",
+  "checks": [
+    {
+      "status": "exited",
+      "exit_code": 0,
+      "resources": {
+        "status": "exited",
+        "exit_code": 0,
+        "limits": {
+          "memory_max": "3221225472",
+          "pids_max": "64",
+          "memory_swap_max": "0"
+        },
+        "wall_seconds": 8.689839384998777,
+        "memory_peak_bytes": 769490944,
+        "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+        "cpu_stat": "usage_usec 8684660\nuser_usec 8189307\nsystem_usec 495353\nnice_usec 0",
+        "memory_scope": "cgroup v2 peak through sandbox process exit, including supervisor and sandbox descendants; before final cleanup, not hosted model memory"
+      },
+      "output_truncated": false
+    },
+    {
+      "status": "exited",
+      "exit_code": 0,
+      "resources": {
+        "status": "exited",
+        "exit_code": 0,
+        "limits": {
+          "memory_max": "3221225472",
+          "pids_max": "64",
+          "memory_swap_max": "0"
+        },
+        "wall_seconds": 0.5655588270019507,
+        "memory_peak_bytes": 482766848,
+        "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+        "cpu_stat": "usage_usec 576637\nuser_usec 346789\nsystem_usec 229848\nnice_usec 0",
+        "memory_scope": "cgroup v2 peak through sandbox process exit, including supervisor and sandbox descendants; before final cleanup, not hosted model memory"
+      },
+      "output_truncated": false
+    },
+    {
+      "status": "exited",
+      "exit_code": 0,
+      "resources": {
+        "status": "exited",
+        "exit_code": 0,
+        "limits": {
+          "memory_max": "3221225472",
+          "pids_max": "64",
+          "memory_swap_max": "0"
+        },
+        "wall_seconds": 75.9947798409994,
+        "memory_peak_bytes": 3221225472,
+        "memory_events": "low 0\nhigh 0\nmax 19\noom 0\noom_kill 0\noom_group_kill 0",
+        "cpu_stat": "usage_usec 76084514\nuser_usec 72496679\nsystem_usec 3587835\nnice_usec 0",
+        "memory_scope": "cgroup v2 peak through sandbox process exit, including supervisor and sandbox descendants; before final cleanup, not hosted model memory"
+      },
+      "output_truncated": true
+    },
+    {
+      "status": "exited",
+      "exit_code": 0,
+      "resources": {
+        "status": "exited",
+        "exit_code": 0,
+        "limits": {
+          "memory_max": "3221225472",
+          "pids_max": "64",
+          "memory_swap_max": "0"
+        },
+        "wall_seconds": 1.268251216999488,
+        "memory_peak_bytes": 580358144,
+        "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+        "cpu_stat": "usage_usec 1264966\nuser_usec 967799\nsystem_usec 297166\nnice_usec 0",
+        "memory_scope": "cgroup v2 peak through sandbox process exit, including supervisor and sandbox descendants; before final cleanup, not hosted model memory"
+      },
+      "output_truncated": false
+    }
+  ],
+  "verifier_sha256": "4050e137025851426fbbc79aec36063c69f2633f50e200aedb785db1c058ca34"
+}

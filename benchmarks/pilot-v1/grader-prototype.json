@@ -34,9 +34,15 @@
     },
     {
       "test": "test_rocq_grader_core.py",
-      "script_sha256": "2ff2e0e83580b9682577c6514d0c8262721acdf808efd1898d63b9c17c19be91",
+      "script_sha256": "42f6f2634512364c0842975589073ec3dacffd19b3a25ba260022870df107d28",
       "exit_code": 0,
-      "output": "rocq valid accepted\nrocq admitted rejected\nrocq axiom rejected\nrocq stdout-spoof rejected\nrocq wrong-type rejected\nrocq forged-gate package refused\ncompcert valid accepted\ncompcert admitted rejected\ncompcert axiom rejected\ncompcert stdout-spoof rejected\ncompcert wrong-type rejected\ncompcert forged-gate package refused\nOnly toy propositions were used; no benchmark theorem was proved.\n"
+      "output": "rocq valid accepted\nrocq admitted rejected\nrocq axiom rejected\nrocq trusted-name-spoof rejected\nrocq stdout-spoof rejected\nrocq wrong-type rejected\nrocq forged-gate package refused\ncompcert valid accepted\ncompcert admitted rejected\ncompcert axiom rejected\ncompcert trusted-name-spoof rejected\ncompcert stdout-spoof rejected\ncompcert wrong-type rejected\ncompcert forged-gate package refused\nOnly toy propositions were used; no benchmark theorem was proved.\n"
+    },
+    {
+      "test": "test_compcert_assumptions.py",
+      "script_sha256": "995e3937964fc194b8fd459b5e73d5556f79840bd4b18ee5938a3cee02f09b0f",
+      "exit_code": 0,
+      "output": "CompCert standard assumptions accepted; unknown, duplicate and spoofed assumptions rejected\n"
     },
     {
       "test": "test_release_gate.py",
@@ -70,7 +76,7 @@
     },
     {
       "path": "scripts/pilot/rocq_grader_core.py",
-      "sha256": "afc253c91af4da9218e5c34e63a6f21791bd3166601e36331a8b5b9aa0848426"
+      "sha256": "7e3b33fe344f0d60864f1d9a43342cc1a4b18c08849cd24bc23e0c028a2aa2f9"
     },
     {
       "path": "scripts/pilot/release_gate.py",
@@ -86,7 +92,7 @@
     },
     {
       "path": "scripts/pilot/test_prototype.py",
-      "sha256": "37f05ff9c5ba7187b4bfd35b2afb10471101faa144d9bf350c41f33e5432b73f"
+      "sha256": "d36c619aad02da93ccf77054183354770d5f47690eafbb555dd98bf9d311db0d"
     }
   ],
   "scope": "these regression tests use toy propositions and OS boundary probes only",

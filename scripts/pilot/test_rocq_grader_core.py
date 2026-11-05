@@ -15,6 +15,7 @@ def test(platform):
         for name,proof,expected in [('valid','Definition solve : Obligation.goal := I.','accepted'),
           ('admitted','Theorem solve : Obligation.goal. Admitted.','rejected'),
           ('axiom','Axiom cheat : False. Definition solve : Obligation.goal := False_rect _ cheat.','rejected'),
+          ('trusted-name-spoof','Module Axioms. Axiom proof_irr : False. End Axioms. Definition solve : Obligation.goal := False_rect _ Axioms.proof_irr.','rejected'),
           ('stdout-spoof','Goal True. idtac "Closed under the global context". exact I. Qed.\nAxiom cheat : False. Definition solve : Obligation.goal := False_rect _ cheat.','rejected'),
           ('wrong-type','Definition solve : False := I.','rejected')]:
             (submission/'Submission.v').write_text('From Trusted Require Import Obligation.\n'+proof+'\n')

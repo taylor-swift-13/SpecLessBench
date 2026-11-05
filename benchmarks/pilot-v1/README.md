@@ -67,11 +67,11 @@ To generate an example report without a model, use `--config scripts/pilot/examp
 
 `scripts/pilot/sandbox.py` 是评分边界原型：使用 bubblewrap 的文件系统／网络／进程命名空间和用户级 systemd cgroup，设置资源上限，并记录作业级内存峰值。`grader-prototype.json` 仅记录玩具命题测试：正常证明、`sorry`／`Admitted`、额外公理、错误目标及文件／网络／资源限制等。它尚未接入真实题目的可信封装；Rocq 假设检查输出、加载器和对抗场景仍需审计，且共享主机内核并非完整虚拟机安全边界。
 
-简化执行链由 `scripts/pilot/single_task_runner.py` 和 `scripts/pilot/grade_sealed.py` 提供。前者将整理方提供的单题目录按可信哈希复制后只读挂入沙箱，每次新建工作目录；后者重新核验独立的可信目标包，调用相应平台的证明检查器。Lean 允许 `propext`、`Classical.choice`、`Quot.sound`，拒绝其他证明依赖；Rocq/CompCert 目前保守地拒绝所有公理。题目目录、哈希和待评分目标必须由可信的整理方选择，不能由 agent 指定。两个目录可以不同：agent 可见目录只能放该题所需材料，可信评分目录可以包含 agent 不可见的检查依赖。
+The sealed grader checks task packages against trusted hashes and starts each run in a fresh sandbox. Lean permits `propext`, `Classical.choice` and `Quot.sound`; native Rocq requires a closed proof. CompCert permits only the seven explicitly named Rocq and CompCert library assumptions in `rocq_grader_core.py`, including its external-call semantics; extra assumptions are rejected. The task, digest and target must be selected by the trusted evaluator, not the agent. Adversarial review of this prototype remains open.
 
 `test_single_task_runner.py` 检查其他目录、前次运行及题目篡改隔离；`test_grade_sealed.py` 对三个工具链测试接受合法证明和拒绝未完成证明、额外公理、篡改目标包；`test_attempt_to_grade.py` 测试从沙箱输出到 Lean 评分的完整链路。这些测试使用玩具命题。
 
-The Lean factorial equivalence and fixed-witness counterexample references use isolated packages. `test_real_factorial.py` and `test_factorial_cex.py` check rejection of `sorry`, extra axioms, and incorrect goals. Reference scoring requires `--reference`. The Rocq factorial equivalence and counterexample proofs have also been checked after rebuilding the frozen source, with `coqchk` and an assumption audit. CompCert proofs remain pending. See [reference reports](../reports/README.md) for the proof status and replay commands.
+The Lean factorial equivalence and fixed-witness counterexample references use isolated packages. `test_real_factorial.py` and `test_factorial_cex.py` check rejection of `sorry`, extra axioms, and incorrect goals. Reference scoring requires `--reference`. The Rocq factorial equivalence and counterexample proofs have also been checked after rebuilding the frozen source, with `coqchk` and an assumption audit. The CompCert counterexample is checked under the documented trusted-library assumptions; CompCert equivalence remains pending. See [reference reports](../reports/README.md) for the proof status and replay commands.
 
 2026-11-05 的原型测试继续向 `benchmarks/construction/pilot-jobs.jsonl` 记录沙箱作业的 cgroup 资源；本次外层命令没有逐条加入早期的命令计时器，因此总命令时间仍不完整。`pilot-freeze-v0.12` 的 token 快照覆盖了两次用户请求，时间窗口包括两次请求之间的等待，不能当作实际工作时长。
 
