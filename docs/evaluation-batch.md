@@ -17,7 +17,7 @@ systemd-run --user --unit=specless-luna-batch --working-directory="$PWD" \
 ```
 
 Only packages with checked correspondence to the frozen sources are eligible
-for the worker. The initial adapter covers native Lean reversal and sum pairs.
+for the worker. The initial adapter covers native Lean reversal, sum and matrix pairs.
 Other instances wait for adapters; they are not counted as model failures.
 Adding a certified package lets the same serial worker pick it up. Preparation
 must wait until no theorem is running. An exclusive worker lock prevents two

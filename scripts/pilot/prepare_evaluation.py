@@ -36,10 +36,27 @@ def definition(source, name):
     return match.group().strip()+'\n'
 
 
+def matrix_definition(name, style):
+    header = f'''def {name} (xs : Words) : Words :=
+  let r := (iz xs 0).toNat; let k := (iz xs 1).toNat; let c := (iz xs 2).toNat
+'''
+    if style == 1:
+        return header+'''  (List.range r).foldl (fun out i =>
+    (List.range k).foldl (fun out t => (List.range c).foldl (fun out j =>
+      put out (i*c+j) (iz out (i*c+j)+iz xs (3+i*k+t)*iz xs (3+r*k+t*c+j))) out) out)
+    (List.replicate (r*c) 0)
+'''
+    index = 'j*k+t' if style == 2 else 't*c+j'
+    return header+f'''  (List.range (r*c)).map (fun pos =>
+    let i := pos/c; let j := pos%c
+    (List.range k).foldl (fun a t => a+iz xs (3+i*k+t)*iz xs (3+r*k+({index}))) 0)
+'''
+
+
 def prepare(row):
-    """First adapter: reversal/sum; remaining families stay explicitly pending."""
+    """Native sequence/matrix adapters; other families remain pending."""
     ctx = row['context']; family = ctx.get('family_index')
-    if ctx.get('tranche') != 'algorithms' or family not in (1, 2):
+    if ctx.get('tranche') != 'algorithms' or family not in (1, 2, 3):
         return None
     package = PACKAGES/row['pilot_id']/'lean'
     if (package/'registry.json').exists():
@@ -59,7 +76,7 @@ def prepare(row):
     if styles[0] != '0' or len(styles) != 2 or styles[1] not in ('1', '2'):
         raise ValueError('Unsupported frozen pair')
     style = int(styles[1])
-    names = ('reverseRec', 'reverseAcc') if family == 1 else ('sumRec', 'sumAcc')
+    names = {1: ('reverseRec', 'reverseAcc'), 2: ('sumRec', 'sumAcc'), 3: ()}[family]
     definitions = ''.join(definition(native, n) for n in ('iz', 'finish', *names))
     left = 'reverseRec data' if family == 1 else '[sumRec data]'
     right = ('reverseAcc data '+('[0]' if style == 2 else '[]')) if family == 1 else (
@@ -70,8 +87,20 @@ def valid (xs : Words) : Prop :=
   (inRange (iz xs 0) 0 64 && xs.length == 1+(iz xs 0).toNat &&
    (xs.drop 1).all (fun v => inRange v (-1000000) 1000000)) = true
 '''
+    data_prefix = '  let data := (xs.drop 1).take (iz xs 0).toNat\n'
+    if family == 3:
+        source = 'import Lean\nnamespace Task\nabbrev Words := List Int\n'+definitions+definition(native, 'put')
+        source += matrix_definition('matrixA', 0)+matrix_definition('matrixB', style)+'''
+def inRange (v lo hi : Int) : Bool := lo ≤ v && v ≤ hi
+def valid (xs : Words) : Prop :=
+  (let a := iz xs 0; let b := iz xs 1; let c := iz xs 2
+   let n := a.toNat; let m := b.toNat; let z := c.toNat
+   inRange a 0 6 && inRange b 0 6 && inRange c 0 6 && xs.length == 3+n*m+m*z &&
+     (xs.drop 3).all (fun v => inRange v (-1000) 1000)) = true
+'''
+        left, right, data_prefix = 'matrixA xs', 'matrixB xs', ''
     for name, expr in (('a', left), ('b', right)):
-        source += f'def {name} (xs : Words) : Option Words :=\n  let data := (xs.drop 1).take (iz xs 0).toNat\n  some (finish ({expr}))\n'
+        source += f'def {name} (xs : Words) : Option Words :=\n'+data_prefix+f'  some (finish ({expr}))\n'
     source += '''def equivalent : Prop := ∀ x, valid x → ∃ o, a x = some o ∧ b x = some o
 def refutationAt (x oa ob : Words) : Prop := valid x ∧ a x = some oa ∧ b x = some ob ∧ oa ≠ ob
 end Task
@@ -97,7 +126,10 @@ end Task
 '''
     helper_names = ', '.join(n+'_eq' for n in names)
     for name, selected in (('a', 0), ('b', style)):
-        helper += f'''theorem {name}_eq (x : Task.Words) : Task.{name} x = SpecLessBenchBasic.entry {family} {selected} x := by
+        if family == 3:
+            helper += f'theorem {name}_eq (x : Task.Words) : Task.{name} x = SpecLessBenchBasic.entry {family} {selected} x := by rfl\n'
+        else:
+            helper += f'''theorem {name}_eq (x : Task.Words) : Task.{name} x = SpecLessBenchBasic.entry {family} {selected} x := by
   simp [Task.{name}, Task.finish, Task.iz, SpecLessBenchBasic.entry, SpecLessBenchBasic.finish, SpecLessBenchBasic.iz, {helper_names}]
 '''
     helper += f'''theorem valid_eq : Task.valid = SpecLessBenchBasic.valid {family} := by funext x; rfl
