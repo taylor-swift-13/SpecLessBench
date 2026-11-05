@@ -22,8 +22,9 @@ naive matching/KMP and queue pairs on all three platforms: 30 eligible instances
 Prim/Kruskal forest comparisons and stable record sorting add five contexts
 on all three platforms. Two block/stream Base64 contexts add another six
 instances. Six Floyd/Dijkstra, Tarjan/Kosaraju and naive/Boyer–Moore contexts
-add 12 Rocq/Clight instances, bringing certified coverage to 63 instances;
-their Lean packages remain pending. Frozen observations compare distance
+add 12 Rocq/Clight instances and four Lean shortest-path/search instances,
+bringing certified coverage to 67 instances. The two Lean component packages
+remain pending. Frozen observations compare distance
 matrices, pairwise component membership and first-match positions. Tie/edge-mask,
 payload-order and exact encoded-byte observations retain their frozen domains.
 Other instances wait for adapters; they are not counted as model failures.

@@ -234,7 +234,7 @@ LEAN_BRIDGES = {
 
 def lean_declarations(text):
     return {m.group(1): m.group().strip() for m in re.finditer(
-        r'^(?:def|abbrev)\s+([A-Za-z_][A-Za-z_0-9]*)\b.*?(?=\n(?:def|abbrev|end)\b|\Z)', text, re.M | re.S)}
+        r'^(?:def|abbrev)\s+([A-Za-z_][A-Za-z_0-9]*)\b.*?(?=\n(?:def|abbrev|structure|end)\b|\Z)', text, re.M | re.S)}
 
 
 def prepare_classics_lean(row):

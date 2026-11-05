@@ -5,8 +5,8 @@ import re
 import resource
 import time
 
-from prepare_evaluation import ROOT, PACKAGES, compile_rocq
-from prepare_classics_evaluation import declarations
+from prepare_evaluation import ROOT, PACKAGES, compile_rocq, compile_lean
+from prepare_classics_evaluation import declarations, lean_declarations
 from single_task_runner import tree_digest
 
 
@@ -115,6 +115,93 @@ Proof. exact (@source_congruence3 _ _ _ Prop (fun v a b => GraphSuiteNative.Refu
     meta={'pilot_id':row['pilot_id'],'platform':'rocq','public_sha256':tree_digest(task),
         'binding':'rocq-kernel-checked-exact-frozen-target-for-both-branches','source_context':row['source_context_id'],'source_goal':ctx['equivalence_goal'],
         'frozen_source_sha256':{n:hashlib.sha256((source/(n+'.v')).read_bytes()).hexdigest() for n in ('GraphSuiteNative','GraphSuiteDomain','GraphSuiteGoals')},
+        'preparation_wall_seconds':time.monotonic()-started,'preparation_controller_peak_rss_bytes':resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024,
+        'compiler_costs':'compile-costs.jsonl','preparation_model_tokens':None,'final_proof_attempted':False}
+    (package/'registry.json').write_text(json.dumps(meta,indent=2)+'\n');return meta
+
+
+def prepare_graphsuite_lean(row):
+    ctx=row['context'];family=ctx.get('family_index')
+    if ctx.get('tranche')!='graphsuite' or family not in (0,2):return None
+    package=PACKAGES/row['pilot_id']/'lean'
+    if (package/'registry.json').exists():
+        meta=json.loads((package/'registry.json').read_text())
+        if tree_digest(package/'task')!=meta['public_sha256']:raise ValueError('Existing Lean graph/search task changed')
+        return meta
+    if package.exists():raise ValueError('Incomplete Lean graph/search preparation needs inspection: '+str(package))
+    started=time.monotonic();task=package/'task';binding=package/'binding'
+    task.mkdir(parents=True,mode=0o700);binding.mkdir(mode=0o700)
+    source=ROOT/'benchmarks/tasks/graphsuite-core/lean'
+    native=lean_declarations((source/'GraphSuiteNative.lean').read_text());domain=lean_declarations((source/'GraphSuiteDomain.lean').read_text());goals=lean_declarations((source/'GraphSuiteGoals.lean').read_text())
+    styles=re.findall(r'entry\s+'+str(family)+r'\s+(\d+)',goals[ctx['equivalence_goal']])
+    if len(styles)!=2 or styles[0]!='0' or styles[1] not in ('1','2'):raise ValueError('Unexpected frozen Lean pair')
+    pair=[];algorithms=[]
+    for name,style in zip(('a','b'),map(int,styles)):
+        root='apsp' if family==0 else 'search';text=native[root].replace('def '+root+' (style : Nat)','def '+name,1)
+        if family==0:
+            algorithm='floyd' if style==0 else 'dijkstra'
+            expression='floyd n xs' if style==0 else 'dijkstra n xs '+('true' if style==2 else 'false')
+            text,count=re.subn(r'if style == 0 then floyd n xs else dijkstra n xs \(style == 2\)',expression,text)
+        else:
+            algorithm='brute' if style==0 else 'bmLoop'
+            expression='brute text pattern' if style==0 else 'if m == 0 then 0 else bmLoop text pattern '+('true' if style==2 else 'false')+' 49 0'
+            text,count=re.subn(r'if style == 0 then brute text pattern else if m == 0 then 0 else bmLoop text pattern \(style == 2\) 49 0',expression,text)
+        if count!=1 or re.search(r'\bstyle\b',text):raise ValueError('Unexpected Lean implementation dispatcher')
+        pair.append(text);algorithms.append(algorithm)
+    branches=re.fullmatch(r'\s*if domain == 0 \|\| domain == 1 then\s*(.*?)\n  else if domain == 2 then\s*(.*?)\n  else false',domain['validB'].split(':=',1)[1],re.S)
+    if not branches:raise ValueError('Unexpected Lean graph/search domain')
+    valid='def valid (xs : Words) : Prop := ('+re.sub(r'\bdomain\b',str(family),branches.group(1 if family==0 else 2))+') = true'
+    available=dict(native);available['between']=domain['between'];needed=set();todo=[*pair,valid]
+    while todo:
+        for name in set(re.findall(r'\b[A-Za-z_][A-Za-z_0-9]*\b',todo.pop())) & available.keys():
+            if name not in needed:needed.add(name);todo.append(available[name])
+    if needed & {'entry','apsp','scc','search','TS','Equivalent','RefutationAt'}:raise ValueError('Unexpected unrelated Lean declaration')
+    public='import Lean\nnamespace Task\n'+'\n'.join([d for n,d in available.items() if n in needed]+[valid,*pair])+'''
+def equivalent : Prop := ∀ x, valid x → ∃ o, a x=some o ∧ b x=some o
+def refutationAt (x oa ob : Words) : Prop := valid x ∧ a x=some oa ∧ b x=some ob ∧ oa≠ob
+end Task
+'''
+    public=re.sub(r'\bmutant\b','mode',public);public=re.sub(r'(?<![A-Za-z0-9_.])pure\b','Pure.pure',public)
+    (task/'Task.lean').write_text(public);(task/'Obligation.lean').write_text('import Task\nnamespace Obligation\ndef goal : Prop := Task.equivalent\nend Obligation\n')
+    original=ROOT/'_build/pilot-v1/graphsuite-lean-binding';original.mkdir(parents=True,exist_ok=True);paths=[task,original]
+    def compile_at(folder,name):return compile_lean(folder,name,paths)
+    logs=[compile_at(task,n) for n in ('Task','Obligation')]
+    for name in ('GraphSuiteNative','GraphSuiteDomain','GraphSuiteGoals'):
+        src=source/(name+'.lean');dest=original/src.name
+        if not dest.exists() or dest.read_bytes()!=src.read_bytes() or not (original/(name+'.olean')).exists():dest.write_bytes(src.read_bytes());logs.append(compile_at(original,name))
+    bridge='import Task\nimport GraphSuiteGoals\n'
+    if family==2:
+        bridge+='''theorem bmLoop_eq (text pattern : Task.Words) (mode : Bool) (fuel i : Nat) :
+    Task.bmLoop text pattern mode fuel i = SpecLessBenchGraphSuite.bmLoop text pattern mode fuel i := by
+  induction fuel generalizing i with
+  | zero => rfl
+  | succ fuel ih =>
+    simp only [Task.bmLoop, SpecLessBenchGraphSuite.bmLoop, Task.word,
+      SpecLessBenchGraphSuite.word, Task.getOr, SpecLessBenchGraphSuite.getOr, ih]
+    rfl
+'''
+    types={'floyd':'Nat → Task.Words → Task.Words','dijkstra':'Nat → Task.Words → Bool → Task.Words','brute':'Task.Words → Task.Words → Int','bmLoop':'Task.Words → Task.Words → Bool → Nat → Nat → Int'}
+    for name,style,body,algorithm in zip(('a','b'),styles,pair,algorithms):
+        def qualify(m):
+            token=m.group();return 'sl_impl_fn' if token==algorithm else ('Task.'+token if token in native else token)
+        context=re.sub(r'\b[A-Za-z_][A-Za-z_0-9]*\b',qualify,body.split(':=',1)[1])
+        proof='by\n    funext text pattern mode fuel i\n    exact bmLoop_eq text pattern mode fuel i' if algorithm=='bmLoop' else 'by rfl'
+        bridge+=f'''theorem {name}_eq : Task.{name} = SpecLessBenchGraphSuite.entry {family} {style} := by
+  have h : Task.{algorithm} = SpecLessBenchGraphSuite.{algorithm} := {proof}
+  exact congrArg (fun (sl_impl_fn : {types[algorithm]}) => fun (xs : Task.Words) => {context}) h
+'''
+    bridge+=f'''theorem valid_eq : Task.valid = SpecLessBenchGraphSuite.valid {family} := by rfl
+example : Task.equivalent = SpecLessBenchGraphSuite.{ctx['equivalence_goal']} := by
+  unfold Task.equivalent SpecLessBenchGraphSuite.{ctx['equivalence_goal']} SpecLessBenchGraphSuite.Equivalent
+  rw [valid_eq,a_eq,b_eq]
+example (x oa ob : Task.Words) : Task.refutationAt x oa ob = SpecLessBenchGraphSuite.{ctx['refutation_at_goal']} x oa ob := by
+  unfold Task.refutationAt SpecLessBenchGraphSuite.{ctx['refutation_at_goal']} SpecLessBenchGraphSuite.RefutationAt
+  rw [valid_eq,a_eq,b_eq]
+'''
+    (binding/'Binding.lean').write_text(bridge);logs.append(compile_at(binding,'Binding'));(binding/'compile.log').write_text('\n'.join(logs))
+    meta={'pilot_id':row['pilot_id'],'platform':'lean','public_sha256':tree_digest(task),
+        'binding':'lean-kernel-checked-exact-frozen-target-for-both-branches','source_context':row['source_context_id'],'source_goal':ctx['equivalence_goal'],
+        'frozen_source_sha256':{n:hashlib.sha256((source/(n+'.lean')).read_bytes()).hexdigest() for n in ('GraphSuiteNative','GraphSuiteDomain','GraphSuiteGoals')},
         'preparation_wall_seconds':time.monotonic()-started,'preparation_controller_peak_rss_bytes':resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024,
         'compiler_costs':'compile-costs.jsonl','preparation_model_tokens':None,'final_proof_attempted':False}
     (package/'registry.json').write_text(json.dumps(meta,indent=2)+'\n');return meta
