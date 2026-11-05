@@ -17,7 +17,8 @@ systemd-run --user --unit=specless-luna-batch --working-directory="$PWD" \
 ```
 
 Only packages with checked correspondence to the frozen sources are eligible
-for the worker. The initial adapter covers native Lean reversal, sum and matrix pairs.
+for the worker. The initial adapters cover native Lean reversal, sum, matrix and
+queue pairs, and native Rocq reversal and sum pairs.
 Other instances wait for adapters; they are not counted as model failures.
 Adding a certified package lets the same serial worker pick it up. Preparation
 must wait until no theorem is running. An exclusive worker lock prevents two
@@ -30,6 +31,11 @@ witness is given. The host independently constructs the selected obligation,
 checks the submitted proof, and audits axiom dependencies. Counterexamples must
 prove validity, both executions and distinct observations. Existing gold proofs
 and their checker dependencies are unchanged.
+
+Native Rocq submissions are independently checked by `coqchk` and must have no
+axiom dependencies. The Lean prompt is unchanged from the first batch; early
+submissions with missing claims or an incorrect theorem name remain rejected
+and are never silently repaired or overwritten.
 
 Private artifacts are on WSL's Linux filesystem:
 
