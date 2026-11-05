@@ -10,6 +10,9 @@ Run from the repository in the existing WSL environment:
 ```bash
 python3 scripts/pilot/prepare_evaluation.py
 systemd-run --user --unit=specless-luna-batch --working-directory="$PWD" \
+  --setenv="HTTP_PROXY=$HTTP_PROXY" --setenv="HTTPS_PROXY=$HTTPS_PROXY" \
+  --setenv="NO_PROXY=$NO_PROXY" --setenv="http_proxy=$http_proxy" \
+  --setenv="https_proxy=$https_proxy" --setenv="no_proxy=$no_proxy" \
   /usr/bin/python3 -u "$PWD/scripts/pilot/batch_evaluation.py"
 ```
 
@@ -45,6 +48,11 @@ workspace is retained. This records all CLI-emitted information; hidden model
 reasoning and data omitted by the CLI cannot be recovered. Billing and hosted
 inference memory remain null. Cached input tokens are part of input tokens and
 must not be added to them again.
+
+Systemd does not inherit interactive-shell proxies automatically. The launch
+command passes the configured proxy variables explicitly. An initial attempt
+without them failed model routing; its raw events and partial report remain
+separate from the corrected retry, with unavailable usage/memory fields null.
 
 Inspect progress without starting another worker:
 

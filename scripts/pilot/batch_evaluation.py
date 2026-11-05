@@ -36,10 +36,13 @@ def main():
             for job in state['jobs']:
                 counts[job['status']] = counts.get(job['status'], 0)+1
             state['counts'] = counts
+            state['ready_instances'] = sum(j['status'] == 'pending-package' and (PACKAGES/j['task_id']/j['platform']/'registry.json').exists() for j in state['jobs'])
+            state['unprepared_instances'] = counts.get('pending-package', 0)-state['ready_instances']
             reports = [json.loads(Path(p).read_text()) for j in state['jobs'] for p in j.get('reports', [])]
             state['totals'] = {'attempts_with_reports': len(reports),
                 'agent_seconds': sum(r['resources'].get('agent_wall_seconds') or 0 for r in reports),
                 'checker_seconds': sum(r['resources'].get('checker_wall_seconds') or 0 for r in reports),
+                'sum_attempt_wall_seconds': sum(r['resources'].get('total_wall_seconds') or 0 for r in reports),
                 'reported_tokens': {k: sum((r['resources'].get('tokens') or {}).get(k, 0) for r in reports)
                                     for k in ('input_tokens', 'cached_input_tokens', 'output_tokens')},
                 'attempts_missing_usage': sum(r['resources'].get('tokens') is None for r in reports),

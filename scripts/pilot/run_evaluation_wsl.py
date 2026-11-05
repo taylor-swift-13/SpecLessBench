@@ -3,6 +3,7 @@ import argparse
 import datetime as dt
 import json
 import os
+import resource as process_resource
 import shutil
 import subprocess
 import threading
@@ -119,7 +120,8 @@ enabled = false
     (home/'config.toml').write_text(config); (run_dir/'codex-config.toml').write_text(config)
     (run_dir/'prompt.txt').write_text(PROMPT)
     unit = 'specless-eval-'+uuid.uuid4().hex+'.scope'
-    agent_seconds = None; checker_seconds = None; complete = False; invalid = 0; event_count = 0
+    agent_seconds = None; agent_clock = None; checker_seconds = None; complete = False; invalid = 0; event_count = 0
+    cgroup = None
     try:
         preflight = time.monotonic()
         catalog = subprocess.run([str(CODEX), 'debug', 'models'], capture_output=True, timeout=60)
@@ -180,8 +182,19 @@ enabled = false
                         invalid += 1
             reader = threading.Thread(target=capture, daemon=True); reader.start()
             while proc.poll() is None:
+                if cgroup is None:
+                    observed = subprocess.run(['systemctl', '--user', 'show', unit, '-p', 'ControlGroup', '--value'], capture_output=True, text=True, timeout=10)
+                    if observed.returncode == 0 and observed.stdout.strip():
+                        cgroup = Path('/sys/fs/cgroup')/observed.stdout.strip().lstrip('/')
+                memory = {}
+                if cgroup is not None:
+                    for key, filename in (('memory_current_bytes', 'memory.current'), ('memory_peak_bytes', 'memory.peak')):
+                        try:
+                            memory[key] = int((cgroup/filename).read_text())
+                        except OSError:
+                            pass
                 dump(run_dir/'live.json', {'phase': 'agent', 'updated_utc': now(), 'agent_seconds': time.monotonic()-agent_clock,
-                     'events': event_count, 'event_bytes': out.tell(), 'usage_events': usage})
+                     'events': event_count, 'event_bytes': out.tell(), 'usage_events': usage, **memory})
                 if time.monotonic()-agent_clock > timeout+45 or shutil.disk_usage(run_dir).free < 512*1024**2:
                     subprocess.run(['systemctl', '--user', 'stop', unit], capture_output=True, timeout=15)
                     proc.kill(); proc.wait(); break
@@ -218,14 +231,26 @@ enabled = false
                 compile_lean(trusted, 'Obligation', [trusted])
                 result = grade(platform, trusted, tree_digest(trusted), run_dir/'Submission.lean', timeout=600, trace=trace)
             checker_seconds = time.monotonic()-check_clock
-    except Exception as error:
+    except (Exception, KeyboardInterrupt) as error:
         result = {'status': 'infrastructure-error', 'detail': type(error).__name__+': '+str(error)}
     finally:
+        if agent_clock is not None and agent_seconds is None:
+            agent_seconds = time.monotonic()-agent_clock
+        if resources is None and (private/'resources.json').exists():
+            resources = json.loads((private/'resources.json').read_text())
+        if resources is None and cgroup is not None:
+            try:
+                resources = {'status': 'interrupted-observation', 'memory_peak_bytes': int((cgroup/'memory.peak').read_text()),
+                             'observed_utc': now(), 'memory_scope': 'Agent cgroup observed before interrupted-run cleanup; not hosted model memory'}
+            except OSError:
+                pass
         subprocess.run(['systemctl', '--user', 'stop', unit], capture_output=True, timeout=20)
         (home/'auth.json').unlink(missing_ok=True)
         dump(run_dir/'checker.log', trace)
         costs = {'agent_wall_seconds': agent_seconds, 'checker_wall_seconds': checker_seconds,
                  'total_wall_seconds': time.monotonic()-clock, 'sandbox': resources,
+                 'checker_max_cgroup_memory_peak_bytes': max([((row.get('resources') or {}).get('memory_peak_bytes') or 0) for row in trace], default=0) or None,
+                 'controller_peak_rss_bytes_linux': process_resource.getrusage(process_resource.RUSAGE_SELF).ru_maxrss*1024,
                  'provider_usage_events': usage,
                  'tokens': {key: sum(u.get(key, 0) for u in usage) for key in ('input_tokens', 'cached_input_tokens', 'output_tokens')} if usage else None,
                  'monetary_cost': None, 'hosted_inference_memory_bytes': None}
