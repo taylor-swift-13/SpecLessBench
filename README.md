@@ -18,7 +18,7 @@ Tasks cover classical algorithms, data structures, and programs adapted from rea
 
 SpecLessBench is a research prototype. The pilot's three-platform definitions and goal types have been checked, and its implementations have undergone differential testing. Final task proofs are not provided.
 
-The isolated evaluator is under development. Currently, one Lean equivalence task is connected to the scorer; the remaining tasks and counterexample branch are not yet available for evaluation. The existing public sources may contain answer hints, so the repository is not yet a leakage-free evaluation release.
+The isolated evaluator is under development. A [serial evaluation runner](docs/evaluation-batch.md) supports agent-selected equivalence proofs or concrete, checked counterexamples. The first adapter covers four native Lean reversal and sum tasks; the remaining platform instances await isolated packages. The public construction sources may contain answer hints and are not exposed to evaluation agents.
 
 ## Getting started
 

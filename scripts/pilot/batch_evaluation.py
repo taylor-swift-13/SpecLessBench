@@ -1,0 +1,82 @@
+"""Durable serial evaluator. Unprepared instances wait; they are not failures."""
+import fcntl
+import json
+import os
+import time
+from pathlib import Path
+
+from prepare_evaluation import PACKAGES
+from run_evaluation_wsl import dump, now, run
+from selection import selection
+from verify_freeze import main as verify_freeze
+
+BASE = Path.home()/'.local/share/speclessbench/batches/luna-medium'
+
+
+def main():
+    os.umask(0o077); BASE.mkdir(parents=True, exist_ok=True, mode=0o700)
+    with (BASE/'worker.lock').open('w') as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        verify_freeze()
+        state_file = BASE/'status.json'
+        if state_file.exists():
+            state = json.loads(state_file.read_text())
+        else:
+            state = {'schema_version': 1, 'created_utc': now(), 'model': 'gpt-6-luna', 'reasoning_effort': 'medium',
+                     'agent_timeout_seconds': 3600, 'concurrency': 1, 'jobs': [
+                         {'task_id': r['pilot_id'], 'platform': platform, 'status': 'pending-package', 'attempts': []}
+                         for r in selection()[0] for platform in r['platforms']]}
+        # A restarted controller must preserve, rather than silently repeat, interrupted attempts.
+        interrupted = [j for j in state['jobs'] if j['status'] == 'running']
+        for job in interrupted:
+            job['status'] = 'interrupted-needs-review'
+        def save(phase):
+            state.update(worker_pid=os.getpid(), updated_utc=now(), phase=phase)
+            counts = {}
+            for job in state['jobs']:
+                counts[job['status']] = counts.get(job['status'], 0)+1
+            state['counts'] = counts
+            reports = [json.loads(Path(p).read_text()) for j in state['jobs'] for p in j.get('reports', [])]
+            state['totals'] = {'attempts_with_reports': len(reports),
+                'agent_seconds': sum(r['resources'].get('agent_wall_seconds') or 0 for r in reports),
+                'checker_seconds': sum(r['resources'].get('checker_wall_seconds') or 0 for r in reports),
+                'reported_tokens': {k: sum((r['resources'].get('tokens') or {}).get(k, 0) for r in reports)
+                                    for k in ('input_tokens', 'cached_input_tokens', 'output_tokens')},
+                'attempts_missing_usage': sum(r['resources'].get('tokens') is None for r in reports),
+                'max_agent_cgroup_memory_peak_bytes': max([((r['resources'].get('sandbox') or {}).get('memory_peak_bytes') or 0) for r in reports], default=0) or None,
+                'monetary_cost': None, 'hosted_inference_memory_bytes': None}
+            dump(state_file, state)
+        if interrupted:
+            save('blocked-interrupted-attempt'); return
+        while True:
+            ready = [j for j in state['jobs'] if j['status'] == 'pending-package' and
+                     (PACKAGES/j['task_id']/j['platform']/'registry.json').is_file()]
+            if not ready:
+                if all(j['status'] not in ('pending-package', 'running') for j in state['jobs']):
+                    save('finished'); return
+                save('waiting-for-certified-packages'); time.sleep(30); continue
+            job = ready[0]; job['status'] = 'running'
+            save('running')
+            def started(path):
+                job['attempts'].append(str(path)); job['current_run'] = str(path); save('running')
+            try:
+                with (PACKAGES/'activity.lock').open('a') as activity:
+                    fcntl.flock(activity, fcntl.LOCK_EX)
+                    directory, report = run(job['task_id'], job['platform'], on_run=started)
+            except Exception as error:
+                job['status'] = 'infrastructure-error'; job['detail'] = type(error).__name__+': '+str(error)
+                save('blocked-infrastructure'); return
+            job['status'] = report['result']['status']
+            job.setdefault('reports', []).append(str(directory/'report.json'))
+            job.pop('current_run', None)
+            with (BASE/'history.jsonl').open('a') as history:
+                history.write(json.dumps({'ended_utc': now(), 'task_id': job['task_id'], 'platform': job['platform'],
+                                          'result': report['result'], 'report': str(directory/'report.json')})+'\n')
+                history.flush(); os.fsync(history.fileno())
+            if job['status'] == 'infrastructure-error':
+                save('blocked-infrastructure'); return
+            save('between-jobs')
+
+
+if __name__ == '__main__':
+    main()
