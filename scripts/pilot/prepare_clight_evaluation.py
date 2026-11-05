@@ -11,7 +11,8 @@ from single_task_runner import tree_digest
 
 def prepare_compcert(row):
     ctx = row['context']; family = ctx.get('family_index')
-    if ctx.get('tranche') != 'algorithms' or family not in (1, 2, 3, 4, 5):
+    tranche = ctx.get('tranche')
+    if not ((tranche == 'algorithms' and family in (1, 2, 3, 4, 5)) or (tranche == 'classics' and family in (0, 1))):
         return None
     package = PACKAGES/row['pilot_id']/'compcert'
     if (package/'registry.json').exists():
@@ -23,15 +24,22 @@ def prepare_compcert(row):
         raise ValueError('Incomplete Clight preparation needs inspection: '+str(package))
     started = time.monotonic(); task = package/'task'; binding = package/'binding'
     task.mkdir(parents=True, mode=0o700); binding.mkdir(mode=0o700)
-    source = ROOT/'benchmarks/tasks/algorithms-core/compcert'
-    targets = (ROOT/'benchmarks/proof-interface/compcert/BranchTargets.v').read_text()
+    classical = tranche == 'classics'
+    source = ROOT/('benchmarks/tasks/classics-core/compcert' if classical else 'benchmarks/tasks/algorithms-core/compcert')
+    target_file = 'ClassicsTargets.v' if classical else 'BranchTargets.v'
+    targets = (ROOT/'benchmarks/proof-interface/compcert'/target_file).read_text()
+    stem = ({0: 'FOREST', 1: 'SORTING'} if classical else {1: 'REVERSE', 2: 'SUM', 3: 'MATRIX', 4: 'SEARCH', 5: 'QUEUE'})[family]
+    domain_module = 'ClassicsDomain' if classical else 'BasicDomain'
+    namespace = 'SpecLessBenchClassics' if classical else 'SpecLessBenchAlgorithms'
+    goals = (source/(stem+'Goals.v')).read_text()
     def target_definition(name):
-        match = re.search(r'^Definition '+re.escape(name)+r'\b.*?(?=\nDefinition |\Z)', targets, re.M | re.S)
+        match = re.search(r'^Definition '+re.escape(name)+r'\b.*?(?=\nDefinition |\Z)', goals if classical else targets, re.M | re.S)
         if not match:
             raise ValueError('Missing frozen Clight target')
+        if classical and not re.search(r'Definition\s+'+re.escape(name)+r'(?:\s*:\s*Prop)?\s*:=\s*'+stem+'Goals\.'+re.escape(name)+r'\.', targets):
+            raise ValueError('Frozen public target is not the selected alias')
         return match.group().strip()
     selected = [target_definition(ctx[k]) for k in ('equivalence_goal', 'refutation_at_goal')]
-    stem = {1: 'REVERSE', 2: 'SUM', 3: 'MATRIX', 4: 'SEARCH', 5: 'QUEUE'}[family]
     styles = re.findall(r'impl_'+stem+r'_V(\d+)', selected[0])
     if len(styles) != 2 or styles[0] != '0' or styles[1] not in ('1', '2'):
         raise ValueError('Unexpected Clight implementation pair')
@@ -44,7 +52,7 @@ def prepare_compcert(row):
         hashes[original.relative_to(ROOT).as_posix()] = hashlib.sha256(original.read_bytes()).hexdigest()
         destination.write_bytes(original.read_bytes())
     frozen_copy(source/'Execution.v', task/'Execution.v'); logs.append(compile_at(task, 'Execution'))
-    frozen_copy(source/'BasicDomain.v', binding/'BasicDomain.v'); logs.append(compile_at(binding, 'BasicDomain'))
+    frozen_copy(source/(domain_module+'.v'), binding/(domain_module+'.v')); logs.append(compile_at(binding, domain_module))
     exports = json.loads((source/'build.json').read_text())['exports']
     for public_name, module in zip(('Left', 'Right'), modules):
         original = source/'ast'/(module+'.v'); frozen_copy(original, binding/original.name)
@@ -54,14 +62,14 @@ def prepare_compcert(row):
             raise ValueError('Expected one non-executable AST metadata module')
         (task/(public_name+'.v')).write_text(ast)
         logs.append(compile_at(task, public_name)); logs.append(compile_at(binding, module))
-        cfile = ROOT/'_build/algorithms-v0.3/compcert'/(module+'.c')
+        cfile = ROOT/('_build/classics-v0.8/compcert' if classical else '_build/algorithms-v0.3/compcert')/(module+'.c')
         export = next(e for e in exports if e['module'] == module)
         if hashlib.sha256(cfile.read_bytes()).hexdigest() != export['preprocessed_sha256']:
             raise ValueError('Readable C source does not match frozen AST build provenance')
         (task/(public_name+'.c')).write_bytes(cfile.read_bytes())
     native = (PACKAGES/row['pilot_id']/'rocq/task/Task.v').read_text()
     domain = []
-    for name in ('words', 'iz', 'in_range', 'valid'):
+    for name in (('words', 'word', 'between', 'valid') if classical else ('words', 'iz', 'in_range', 'valid')):
         match = re.search(r'^Definition '+name+r'\b.*?(?=\n(?:Definition|Fixpoint) |\Z)', native, re.M | re.S)
         if not match:
             raise ValueError('Missing isolated input domain')
@@ -77,18 +85,18 @@ Definition refutationAt (x : words) (oa ob : Execution.observation) : Prop :=
     (task/'Task.v').write_text(text); logs.append(compile_at(task, 'Task'))
     (task/'Obligation.v').write_text('From Trusted Require Import Task.\nDefinition goal : Prop := Task.equivalent.\n')
     logs.append(compile_at(task, 'Obligation'))
-    goals = (source/(stem+'Goals.v')).read_text(); records = []
+    records = []
     for module in modules:
-        match = re.search(r'Definition impl_'+module+r' : implementation :=\s*\{\|.*?\|\}\.', goals, re.S)
+        match = re.search(r'Definition\s+impl_'+module+r'\s*:\s*implementation\s*:=\s*\{\|.*?\|\}\.', goals, re.S)
         if not match:
             raise ValueError('Missing frozen implementation record')
         records.append(match.group())
     rebound = '\n'.join(selected)
-    for a, b in (('SpecLessBenchAlgorithms.Execution.', 'Execution.'), ('SpecLessBenchAlgorithms.BasicDomain.', 'BasicDomain.'), ('SpecLessBenchAlgorithms.'+stem+'Goals.', '')):
+    for a, b in ((namespace+'.Execution.', 'Execution.'), (namespace+'.'+domain_module+'.', domain_module+'.'), (namespace+'.'+stem+'Goals.', '')):
         rebound = rebound.replace(a, b)
-    if 'SpecLessBenchAlgorithms.' in rebound:
+    if namespace+'.' in rebound:
         raise ValueError('Unresolved original module path')
-    (binding/'FrozenTarget.v').write_text('From Stdlib Require Import ZArith List.\nFrom Trusted Require Import Execution.\nFrom Frozen Require Import BasicDomain '+' '.join(modules)+'.\n'+'\n'.join(records)+'\n'+rebound+'\n')
+    (binding/'FrozenTarget.v').write_text('From Stdlib Require Import ZArith List.\nFrom Trusted Require Import Execution.\nFrom Frozen Require Import '+domain_module+' '+' '.join(modules)+'.\n'+'\n'.join(records)+'\n'+rebound+'\n')
     logs.append(compile_at(binding, 'FrozenTarget'))
     (binding/'ExactTargetBinding.v').write_text(f'''From Trusted Require Import Task Execution.
 From Frozen Require Import FrozenTarget.

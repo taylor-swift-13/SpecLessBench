@@ -19,6 +19,9 @@ systemd-run --user --unit=specless-luna-batch --working-directory="$PWD" \
 Only packages with checked correspondence to the frozen sources are eligible
 for the worker. The initial adapters cover reversal, sum, matrix multiplication,
 naive matching/KMP and queue pairs on all three platforms: 30 eligible instances.
+Prim/Kruskal forest comparisons and stable record sorting add five Rocq and
+five Clight instances. Their tie/edge-mask and payload-order observations match
+the frozen domains; their Lean packaging is still pending.
 Other instances wait for adapters; they are not counted as model failures.
 Adding a certified package lets the same serial worker pick it up. Preparation
 must wait until no theorem is running. An exclusive worker lock prevents two

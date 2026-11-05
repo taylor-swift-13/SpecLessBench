@@ -194,7 +194,7 @@ enabled = false
              'git_status': subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT, text=True).splitlines(),
              'toolchain_tree': fingerprint_tree(toolchain), 'preflight_seconds': time.monotonic()-preflight,
              'runner_dependencies': {p: sha((ROOT/p).read_bytes()) for p in (
-                 'scripts/pilot/run_evaluation_wsl.py', 'scripts/pilot/prepare_evaluation.py', 'scripts/pilot/prepare_clight_evaluation.py',
+                 'scripts/pilot/run_evaluation_wsl.py', 'scripts/pilot/prepare_evaluation.py', 'scripts/pilot/prepare_clight_evaluation.py', 'scripts/pilot/prepare_classics_evaluation.py',
                  'scripts/pilot/grade_sealed.py', 'scripts/pilot/lean_grader_core.py',
                  'scripts/pilot/TrustedLeanAudit.lean', 'scripts/pilot/rocq_grader_core.py',
                  'scripts/pilot/sandbox.py', 'scripts/pilot/resource_supervisor.py')},
