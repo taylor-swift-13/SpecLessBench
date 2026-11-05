@@ -17,8 +17,8 @@ systemd-run --user --unit=specless-luna-batch --working-directory="$PWD" \
 ```
 
 Only packages with checked correspondence to the frozen sources are eligible
-for the worker. The initial adapters cover native Lean and Rocq reversal, sum,
-matrix and queue pairs, plus Clight reversal and sum pairs.
+for the worker. The initial adapters cover reversal, sum, matrix multiplication,
+naive matching/KMP and queue pairs on all three platforms: 30 eligible instances.
 Other instances wait for adapters; they are not counted as model failures.
 Adding a certified package lets the same serial worker pick it up. Preparation
 must wait until no theorem is running. An exclusive worker lock prevents two
@@ -63,6 +63,12 @@ workspace is retained. This records all CLI-emitted information; hidden model
 reasoning and data omitted by the CLI cannot be recovered. Billing and hosted
 inference memory remain null. Cached input tokens are part of input tokens and
 must not be added to them again.
+
+New preparation and obligation builds also retain `compile-costs.jsonl`: command,
+exit status, wall/CPU time and GNU time's process maximum RSS. This RSS measure
+is separate from the agent/checker cgroup peaks. Earlier unmeasured stages are
+not backfilled with estimates. Failed preparation sources, compiler diagnostics
+and issue records remain in private package directories, outside agent mounts.
 
 Systemd does not inherit interactive-shell proxies automatically. The launch
 command passes the configured proxy variables explicitly. An initial attempt

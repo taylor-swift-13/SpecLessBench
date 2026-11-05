@@ -11,7 +11,7 @@ from single_task_runner import tree_digest
 
 def prepare_compcert(row):
     ctx = row['context']; family = ctx.get('family_index')
-    if ctx.get('tranche') != 'algorithms' or family not in (1, 2):
+    if ctx.get('tranche') != 'algorithms' or family not in (1, 2, 3, 4, 5):
         return None
     package = PACKAGES/row['pilot_id']/'compcert'
     if (package/'registry.json').exists():
@@ -31,7 +31,7 @@ def prepare_compcert(row):
             raise ValueError('Missing frozen Clight target')
         return match.group().strip()
     selected = [target_definition(ctx[k]) for k in ('equivalence_goal', 'refutation_at_goal')]
-    stem = {1: 'REVERSE', 2: 'SUM'}[family]
+    stem = {1: 'REVERSE', 2: 'SUM', 3: 'MATRIX', 4: 'SEARCH', 5: 'QUEUE'}[family]
     styles = re.findall(r'impl_'+stem+r'_V(\d+)', selected[0])
     if len(styles) != 2 or styles[0] != '0' or styles[1] not in ('1', '2'):
         raise ValueError('Unexpected Clight implementation pair')

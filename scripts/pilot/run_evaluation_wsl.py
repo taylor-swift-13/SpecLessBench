@@ -325,6 +325,7 @@ enabled = false
                  'total_wall_seconds': time.monotonic()-clock, 'sandbox': resources,
                  'checker_max_cgroup_memory_peak_bytes': max([((row.get('resources') or {}).get('memory_peak_bytes') or 0) for row in trace], default=0) or None,
                  'controller_peak_rss_bytes_linux': process_resource.getrusage(process_resource.RUSAGE_SELF).ru_maxrss*1024,
+                 'obligation_compiler_costs': [json.loads(line) for line in (private/'compile-costs.jsonl').read_text().splitlines()] if (private/'compile-costs.jsonl').exists() else [],
                  'provider_usage_events': usage,
                  'tokens': {key: sum(u.get(key, 0) for u in usage) for key in ('input_tokens', 'cached_input_tokens', 'output_tokens')} if usage else None,
                  'monetary_cost': None, 'hosted_inference_memory_bytes': None}

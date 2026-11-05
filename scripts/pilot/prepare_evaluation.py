@@ -6,6 +6,9 @@ import re
 import resource
 import hashlib
 import subprocess
+import signal
+import tempfile
+import datetime as dt
 import time
 from pathlib import Path
 
@@ -22,28 +25,47 @@ ROCQ = Path.home()/'.opam/qcp-8.20'
 COMPCERT = Path.home()/'.opam/five'
 
 
+def run_compiler(folder, name, argv, env):
+    """Keep per-command wall time and GNU time's process maximum RSS."""
+    started = time.monotonic(); timed_out = False
+    with tempfile.TemporaryDirectory(prefix='specless-compiler-cost-') as temp:
+        metrics = Path(temp)/'rss.txt'; timer = Path('/usr/bin/time')
+        command = [str(timer), '-f', '%M %U %S', '-o', str(metrics), '--', *argv] if timer.exists() else argv
+        proc = subprocess.Popen(command, cwd=folder, env=env,
+                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, start_new_session=True)
+        try:
+            stdout, stderr = proc.communicate(timeout=180)
+        except subprocess.TimeoutExpired:
+            timed_out = True; os.killpg(proc.pid, signal.SIGKILL); stdout, stderr = proc.communicate()
+        observed = metrics.read_text().splitlines()[-1].split() if metrics.exists() and metrics.read_text().strip() else []
+        try:
+            rss, user, system = int(observed[0])*1024, float(observed[1]), float(observed[2])
+        except (IndexError, ValueError):
+            rss = user = system = None
+    row = {'ended_utc': dt.datetime.now(dt.timezone.utc).isoformat(), 'module': name, 'argv': argv,
+           'status': 'timeout' if timed_out else 'exited', 'exit_code': proc.returncode,
+           'wall_seconds': time.monotonic()-started, 'peak_rss_bytes': rss, 'user_seconds': user, 'system_seconds': system,
+           'memory_scope': 'GNU time process maximum RSS, including waited-for children; not an aggregate cgroup peak or hosted-model memory',
+           'model_tokens': None}
+    with (folder.parent/'compile-costs.jsonl').open('a') as log:
+        log.write(json.dumps(row)+'\n'); log.flush(); os.fsync(log.fileno())
+    if timed_out or proc.returncode:
+        (folder/(name+'.failure.log')).write_text(stdout+stderr)
+        raise RuntimeError(name+(': compiler timeout\n' if timed_out else ':\n')+stdout+stderr)
+    return stdout+stderr
+
+
 def compile_rocq(folder, name, paths, toolchain=ROCQ):
     argv = [str(toolchain/'bin/coqc'), '-q', '-noglob']
     for path, logical in paths:
         argv += ['-Q', str(path), logical]
-    result = subprocess.run(argv+[str(folder/(name+'.v'))], cwd=folder,
-                            env=dict(os.environ, OCAMLFIND_CONF=str(toolchain/'lib/findlib.conf'), OCAMLPATH=str(toolchain/'lib')),
-                            capture_output=True, text=True, timeout=180)
-    if result.returncode:
-        (folder/(name+'.failure.log')).write_text(result.stdout+result.stderr)
-        raise RuntimeError(name+':\n'+result.stdout+result.stderr)
-    return result.stdout+result.stderr
+    return run_compiler(folder, name, argv+[str(folder/(name+'.v'))],
+                        dict(os.environ, OCAMLFIND_CONF=str(toolchain/'lib/findlib.conf'), OCAMLPATH=str(toolchain/'lib')))
 
 
 def compile_lean(folder, name, paths):
-    result = subprocess.run([str(LEAN), '-j', '1', '-o', str(folder/(name+'.olean')),
-                             str(folder/(name+'.lean'))], cwd=folder,
-                            env=dict(os.environ, LEAN_PATH=':'.join(map(str, paths))),
-                            capture_output=True, text=True, timeout=180)
-    if result.returncode:
-        (folder/(name+'.failure.log')).write_text(result.stdout+result.stderr)
-        raise RuntimeError(name+':\n'+result.stdout+result.stderr)
-    return result.stdout+result.stderr
+    return run_compiler(folder, name, [str(LEAN), '-j', '1', '-o', str(folder/(name+'.olean')), str(folder/(name+'.lean'))],
+                        dict(os.environ, LEAN_PATH=':'.join(map(str, paths))))
 
 
 def definition(source, name):
@@ -119,7 +141,7 @@ def rocq_queue_definition(name, style):
 def prepare(row):
     """Native sequence/matrix adapters; other families remain pending."""
     ctx = row['context']; family = ctx.get('family_index')
-    if ctx.get('tranche') != 'algorithms' or family not in (1, 2, 3, 5):
+    if ctx.get('tranche') != 'algorithms' or family not in (1, 2, 3, 4, 5):
         return None
     package = PACKAGES/row['pilot_id']/'lean'
     if (package/'registry.json').exists():
@@ -139,8 +161,9 @@ def prepare(row):
     if styles[0] != '0' or len(styles) != 2 or styles[1] not in ('1', '2'):
         raise ValueError('Unsupported frozen pair')
     style = int(styles[1])
-    names = {1: ('reverseRec', 'reverseAcc'), 2: ('sumRec', 'sumAcc'), 3: (), 5: ('reverseRec',)}[family]
-    definitions = ''.join(definition(native, n) for n in ('iz', 'finish', *names))
+    names = {1: ('reverseRec', 'reverseAcc'), 2: ('sumRec', 'sumAcc'), 3: (),
+             4: ('matchAt', 'naiveSearch', 'fallback', 'prefixTable', 'kmpLoop', 'kmp'), 5: ('reverseRec',)}[family]
+    definitions = ''.join(definition(native, n) for n in ('iz', 'finish', *names)).replace('mutant', 'mode')
     left = 'reverseRec data' if family == 1 else '[sumRec data]'
     right = ('reverseAcc data '+('[0]' if style == 2 else '[]')) if family == 1 else (
         '[sumAcc '+('(data.take (data.length-1))' if style == 2 else 'data')+' 0]')
@@ -162,6 +185,14 @@ def valid (xs : Words) : Prop :=
      (xs.drop 3).all (fun v => inRange v (-1000) 1000)) = true
 '''
         left, right, data_prefix = 'matrixA xs', 'matrixB xs', ''
+    elif family == 4:
+        source = 'import Lean\nnamespace Task\nabbrev Words := List Int\n'+definitions+'''
+def inRange (v lo hi : Int) : Bool := lo ≤ v && v ≤ hi
+def valid (xs : Words) : Prop :=
+  (let a := iz xs 0; let b := iz xs 1
+   inRange a 0 64 && inRange b 0 32 && xs.length == 2+a.toNat+b.toNat &&
+     (xs.drop 2).all (fun v => inRange v 0 255)) = true
+'''
     elif family == 5:
         source = 'import Lean\nnamespace Task\nabbrev Words := List Int\n'+definitions
         source += queue_definition('queueA', 0)+queue_definition('queueB', style)+'''
@@ -174,11 +205,23 @@ def valid (xs : Words) : Prop :=
 '''
         left, right, data_prefix = 'queueA xs', 'queueB xs', ''
     for name, expr in (('a', left), ('b', right)):
-        source += f'def {name} (xs : Words) : Option Words :=\n'+data_prefix+f'  some (finish ({expr}))\n'
+        if family == 4:
+            source += f'''def {name} (xs : Words) : Option Words := do
+  let n := (iz xs 0).toNat; let m := (iz xs 1).toNat
+  let text := (xs.drop 2).take n; let pat := (xs.drop (2+n)).take m
+'''
+            source += ('  let result ← some (naiveSearch text pat)\n' if name == 'a' else
+                       '  let result ← kmp '+('true' if style == 2 else 'false')+' text pat\n')
+            source += '  pure (finish [result])\n'
+        else:
+            source += f'def {name} (xs : Words) : Option Words :=\n'+data_prefix+f'  some (finish ({expr}))\n'
     source += '''def equivalent : Prop := ∀ x, valid x → ∃ o, a x = some o ∧ b x = some o
 def refutationAt (x oa ob : Words) : Prop := valid x ∧ a x = some oa ∧ b x = some ob ∧ oa ≠ ob
 end Task
 '''
+    if family == 4:
+        # Task.pure is Lean's asynchronous Task constructor, not Option's pure.
+        source = re.sub(r'(?<![A-Za-z0-9_.])pure\b', 'Pure.pure', source)
     (task/'Task.lean').write_text(source)
     (task/'Obligation.lean').write_text('import Task\nnamespace Obligation\ndef goal : Prop := Task.equivalent\nend Obligation\n')
     logs = [compile_lean(task, name, [task]) for name in ('Task', 'Obligation')]
@@ -189,7 +232,23 @@ end Task
         if not path.exists() or path.read_bytes() != frozen.read_bytes() or not (original/(name+'.olean')).exists():
             path.write_bytes(frozen.read_bytes()); logs.append(compile_lean(original, name, [original]))
     helper = ''
-    for name in names:
+    if family == 4:
+        helper = '''theorem fallback_eq (mode : Bool) (pat : Task.Words) (tab : List Nat) (b : Int) (fuel j : Nat) :
+  Task.fallback mode pat tab b fuel j = SpecLessBenchBasic.fallback mode pat tab b fuel j := by
+  induction fuel generalizing j with
+  | zero => rfl
+  | succ fuel ih => simp [Task.fallback, SpecLessBenchBasic.fallback, Task.iz, SpecLessBenchBasic.iz, ih]
+theorem prefix_eq (pat : Task.Words) : Task.prefixTable pat = SpecLessBenchBasic.prefixTable pat := by
+  simp [Task.prefixTable, SpecLessBenchBasic.prefixTable, fallback_eq, Task.iz, SpecLessBenchBasic.iz]
+theorem loop_eq (mode : Bool) (text pat : Task.Words) (tab : List Nat) (fuel i j : Nat) :
+  Task.kmpLoop mode text pat tab fuel i j = SpecLessBenchBasic.kmpLoop mode text pat tab fuel i j := by
+  induction fuel generalizing i j with
+  | zero => rfl
+  | succ fuel ih => simp [Task.kmpLoop, SpecLessBenchBasic.kmpLoop, fallback_eq, Task.iz, SpecLessBenchBasic.iz, ih]
+theorem kmp_eq (mode : Bool) (text pat : Task.Words) : Task.kmp mode text pat = SpecLessBenchBasic.kmp mode text pat := by
+  simp [Task.kmp, SpecLessBenchBasic.kmp, prefix_eq, loop_eq]
+'''
+    for name in (names if family != 4 else ()):
         acc = name.endswith('Acc')
         params = '(xs a : Task.Words)' if family == 1 and acc else ('(xs : Task.Words) (a : Int)' if acc else '(xs : Task.Words)')
         args = 'xs a' if acc else 'xs'
@@ -200,7 +259,11 @@ end Task
 '''
     helper_names = ', '.join(n+'_eq' for n in names)
     for name, selected in (('a', 0), ('b', style)):
-        if family == 3:
+        if family == 4 and name == 'b':
+            helper += f'''theorem {name}_eq (x : Task.Words) : Task.{name} x = SpecLessBenchBasic.entry {family} {selected} x := by
+  simp [Task.b, SpecLessBenchBasic.entry, Task.finish, SpecLessBenchBasic.finish, Task.iz, SpecLessBenchBasic.iz, kmp_eq]
+'''
+        elif family in (3, 4):
             helper += f'theorem {name}_eq (x : Task.Words) : Task.{name} x = SpecLessBenchBasic.entry {family} {selected} x := by rfl\n'
         elif family == 5:
             helper += f'''theorem {name}_eq (x : Task.Words) : Task.{name} x = SpecLessBenchBasic.entry {family} {selected} x := by
@@ -262,7 +325,7 @@ Example exact_refutation_binding (x oa ob : Task.words) : Task.refutationAt x oa
 
 def prepare_rocq(row):
     ctx = row['context']; family = ctx.get('family_index')
-    if ctx.get('tranche') != 'algorithms' or family not in (1, 2, 3, 5):
+    if ctx.get('tranche') != 'algorithms' or family not in (1, 2, 3, 4, 5):
         return None
     package = PACKAGES/row['pilot_id']/'rocq'
     if (package/'registry.json').exists():
@@ -280,12 +343,17 @@ def prepare_rocq(row):
     styles = re.findall(r'SpecLessBenchBasic.entry '+str(family)+r' (\d+)', definition(targets, ctx['equivalence_goal']))
     if len(styles) != 2 or styles[0] != '0' or styles[1] not in ('1', '2'):
         raise ValueError('Unsupported frozen Rocq pair')
-    style = int(styles[1]); names = {1: ('reverse_rec', 'reverse_acc'), 2: ('sum_rec', 'sum_acc'), 3: ('put',), 5: ('reverse_rec',)}[family]
+    style = int(styles[1]); names = {1: ('reverse_rec', 'reverse_acc'), 2: ('sum_rec', 'sum_acc'), 3: ('put',),
+                                   4: ('obind', 'matches', 'naive_search', 'fallback', 'prefix_table', 'kmp_loop', 'kmp'), 5: ('reverse_rec',)}[family]
     def extract(name):
         match = re.search(r'^(?:Definition|Fixpoint) '+re.escape(name)+r'\b.*?(?=\n(?:Definition|Fixpoint|Notation) |\Z)', native, re.M | re.S)
         if not match:
             raise ValueError('Missing frozen Rocq definition: '+name)
-        return match.group().strip()+'\n'
+        text = match.group().strip().replace('mutant', 'mode')+'\n'
+        if name == 'obind':
+            text += '''Notation "'let*' x ':=' c 'in' b" := (obind c (fun x => b)) (at level 200, x ident, c at level 100, b at level 200).
+'''
+        return text
     text = 'From Coq Require Import ZArith List Bool.\nImport ListNotations.\nOpen Scope nat_scope.\n'
     text += ''.join(extract(n) for n in ('words', 'iz', 'finish', *names))
     text += '''Definition in_range v lo hi := Z.leb lo v && Z.leb v hi.
@@ -307,6 +375,14 @@ Definition valid (xs : words) : Prop :=
    forallb (fun v => in_range v (-1000) 1000) (skipn 3 xs)) = true.
 '''
         left, right, data_prefix = 'matrixA xs', 'matrixB xs', ''
+    elif family == 4:
+        text = text[:text.index('Definition in_range')]+'''
+Definition in_range v lo hi := Z.leb lo v && Z.leb v hi.
+Definition valid (xs : words) : Prop :=
+  (let a := iz xs 0 in let b := iz xs 1 in
+   in_range a 0 64 && in_range b 0 32 && Nat.eqb (length xs) (2+Z.to_nat a+Z.to_nat b) &&
+   forallb (fun v => in_range v 0 255) (skipn 2 xs)) = true.
+'''
     elif family == 5:
         text = text[:text.index('Definition in_range')]+rocq_queue_definition('queueA', 0)+rocq_queue_definition('queueB', style)+'''
 Definition in_range v lo hi := Z.leb lo v && Z.leb v hi.
@@ -318,7 +394,15 @@ Definition valid (xs : words) : Prop :=
 '''
         left, right, data_prefix = 'queueA xs', 'queueB xs', ''
     for name, expression in (('a', left), ('b', right)):
-        text += f'Definition {name} (xs : words) : option words :=\n'+data_prefix+f'Some (finish ({expression})).\n'
+        if family == 4:
+            text += f'''Definition {name} (xs : words) : option words :=
+  let n := Z.to_nat (iz xs 0) in let m := Z.to_nat (iz xs 1) in
+  let text := firstn n (skipn 2 xs) in let pat := firstn m (skipn (2+n) xs) in
+'''
+            expression = 'Some (naive_search text pat)' if name == 'a' else ('kmp '+('true' if style == 2 else 'false')+' text pat')
+            text += '  obind ('+expression+') (fun result => Some (finish [result])).\n'
+        else:
+            text += f'Definition {name} (xs : words) : option words :=\n'+data_prefix+f'Some (finish ({expression})).\n'
     text += '''Definition equivalent : Prop := forall x, valid x -> exists o, a x = Some o /\ b x = Some o.
 Definition refutationAt (x oa ob : words) : Prop := valid x /\ a x = Some oa /\ b x = Some ob /\ oa <> ob.
 '''
