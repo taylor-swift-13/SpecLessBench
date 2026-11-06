@@ -9,6 +9,32 @@ from prepare_evaluation import ROOT, PACKAGES, COMPCERT, compile_rocq
 from single_task_runner import tree_digest
 
 
+def isolated_frozen_domain(text, ctx):
+    """Project a word-vector predicate without depending on a native package."""
+    defs={m.group(1):m.group().strip() for m in re.finditer(
+        r'^Definition\s+(\w+)\b.*?(?=\nDefinition\b|\Z)',text,re.M|re.S)}
+    tranche=ctx['tranche'];index=ctx['domain_index']
+    if tranche in ('boundaries','stateful'):
+        selector='domain' if tranche=='boundaries' else 'family'
+        pre,match=defs['validb'].split(':=',1)[1].split('match '+selector+' with',1)
+        clauses=re.findall(r'\n\s+\| (.*?)=>(.*?)(?=\n\s+\| |\n\s+end\.)',match,re.S)
+        choices=[body for pattern,body in clauses if pattern.strip()!='_' and pattern.count('S')==index]
+        if not choices:choices=[body for pattern,body in clauses if pattern.strip()=='_']
+        if len(choices)!=1:raise ValueError('Missing frozen word-vector domain branch')
+        names=('words','get','in_range');valid='Definition valid (xs:words) : Prop := ('+pre+choices[0]+')=true.'
+    elif tranche=='systems' and index==2:
+        body=defs['valid_familyb'].split(':=',1)[1]
+        branches=re.fullmatch(r'\s*(let q := word xs 0 in)\s*if Nat.eqb family 3 then\s*(.*?)\n  else if Nat.eqb family 4 then\s*(.*?)\n  else\s*(.*?)\.',body,re.S)
+        if not branches:raise ValueError('Unexpected frozen systems domain')
+        names=('words','word','between','valid_command')
+        valid='Definition valid (xs:words) : Prop := ('+branches.group(1)+' '+re.sub(r'\bfamily\b','2',branches.group(4))+')=true.'
+    elif tranche=='countsort':
+        names=('words','word','between','validb');valid='Definition valid (xs:words) : Prop := validb 0 xs=true.'
+    else:
+        raise ValueError('No independent frozen-domain adapter for this tranche')
+    return [defs[n] for n in names]+[valid]
+
+
 def prepare_compcert(row):
     ctx = row['context']; family = ctx.get('family_index')
     tranche = ctx.get('tranche')
@@ -22,9 +48,13 @@ def prepare_compcert(row):
         'graphsuite': ('graphsuite-core','GraphSuiteTargets','GraphSuiteDomain','SpecLessBenchGraphSuite','classics-graphs-v0.10',
                        {0:'APSP',1:'SCC',2:'SEARCH'},('words','word','between','valid')),
         'boundaries': ('boundaries-core','BoundaryTargets','BoundaryDomain','SpecLessBenchBoundary','boundaries-v0.4',
-                       {0:'TREE',1:'UNIONFIND',2:'PRIORITY',4:'TLV',6:'PACKBITS',7:'PATH'},('words','get','in_range','valid')),
+                       {0:'TREE',1:'UNIONFIND',2:'PRIORITY',3:'EVAL',4:'TLV',5:'QUOTES',6:'PACKBITS',7:'PATH'},('words','get','in_range','valid')),
         'systems': ('systems-core','SystemsTargets','SystemsDomain','SpecLessBenchSystems','systems-v0.6',
-                    {0:'GRAPH',1:'SCOPES',3:'ALIGNMENT',4:'RESAMPLE'},('words','word','between','valid_command','valid')),
+                    {0:'GRAPH',1:'SCOPES',2:'LEASES',3:'ALIGNMENT',4:'RESAMPLE'},('words','word','between','valid_command','valid')),
+        'stateful': ('stateful-core','StatefulTargets','StatefulDomain','SpecLessBenchStateful','stateful-v0.5',
+                     {0:'FRAMES',1:'TRANSACTIONS',2:'LRU'},('words','get','in_range','valid')),
+        'countsort': ('countsort-core','CountSortTargets','CountSortDomain','SpecLessBenchCountSort','construction-continuation-v0.11',
+                      {0:'RECORDS'},('words','word','between','validb','valid')),
     }
     if tranche not in profiles or family not in profiles[tranche][5]:
         return None
@@ -78,15 +108,18 @@ def prepare_compcert(row):
         if hashlib.sha256(cfile.read_bytes()).hexdigest() != export['preprocessed_sha256']:
             raise ValueError('Readable C source does not match frozen AST build provenance')
         (task/(public_name+'.c')).write_bytes(cfile.read_bytes())
-    native = (PACKAGES/row['pilot_id']/'rocq/task/Task.v').read_text()
-    domain = []
-    for name in domain_names:
-        match = re.search(r'^Definition '+name+r'\b.*?(?=\n(?:Definition|Fixpoint) |\Z)', native, re.M | re.S)
-        if not match and name == 'valid_command' and tranche == 'systems' and family in (3,4):
-            continue
-        if not match:
-            raise ValueError('Missing isolated input domain')
-        domain.append(match.group().strip())
+    native_path=PACKAGES/row['pilot_id']/'rocq/task/Task.v'
+    if native_path.exists():
+        native = native_path.read_text();domain = []
+        for name in domain_names:
+            match = re.search(r'^Definition '+name+r'\b.*?(?=\n(?:Definition|Fixpoint) |\Z)', native, re.M | re.S)
+            if not match and name == 'valid_command' and tranche == 'systems' and family in (3,4):
+                continue
+            if not match:
+                raise ValueError('Missing isolated input domain')
+            domain.append(match.group().strip())
+    else:
+        domain=isolated_frozen_domain((source/(domain_module+'.v')).read_text(),ctx)
     text = 'From Stdlib Require Import ZArith List Bool.\nFrom Trusted Require Import Execution Left Right.\nImport ListNotations.\nOpen Scope nat_scope.\n'+'\n'.join(domain)+'''
 Definition encode (xs : words) := xs ++ repeat 0%Z (8192-length xs).
 Definition left : Execution.implementation := {| Execution.program := Left.prog; Execution.input_symbol := Left._eb_input; Execution.output_symbol := Left._eb_output |}.

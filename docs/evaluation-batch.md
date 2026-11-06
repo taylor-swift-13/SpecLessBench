@@ -17,15 +17,15 @@ systemd-run --user --unit=specless-luna-batch --working-directory="$PWD" \
 ```
 
 Only packages with checked correspondence to the frozen sources are eligible
-for the worker. Certified coverage is 127 of 207 instances (41 Lean, 43 Rocq, 43 Clight): reversal, sum,
-matrix multiplication, naive matching/KMP, queues, Prim/Kruskal, record sorting,
-Base64, all-pairs shortest paths, strongly connected components, Boyer–Moore,
-TLV, PackBits, tree mirroring, union-find, priority queues, path normalization,
-dependency invalidation, scoped bindings, affine alignment and integer resampling.
-These selected contexts cover all three platforms except the two pending
-Lean component packages. Observations retain the frozen distance
-matrices, component membership, first-match positions, tie/edge masks, payload
-order, encoded bytes, error codes/offsets and consumption/production counts.
+for the worker. Certified coverage is 141 of 207 instances: 41 Lean, 43 Rocq
+and 57 Clight packages. This includes algorithmic, codec, graph, data-structure,
+path and systems/numerical pairs. Two Lean component packages remain pending.
+Fourteen Clight-only contexts cover tagged evaluation, quoted tokenization,
+streaming frames, nested transactions, LRU, leases and counting sort; their
+native packages remain pending. Clight input predicates can be projected
+directly from their frozen word-vector domains, with kernel checking against
+both original goals, independently of native packaging. Frozen observations
+retain ordering/tie semantics, error details, traces and full C output buffers.
 Other instances wait for adapters; they are not counted as model failures.
 Adding a certified package lets the same serial worker pick it up. Preparation
 must wait until no theorem is running. An exclusive worker lock prevents two
