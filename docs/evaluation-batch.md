@@ -1,56 +1,19 @@
-# Sequential Luna evaluation
+# Sequential evaluation
 
-Evaluation and monitoring resumed on 2026-11-06 at the user's request.
-The serial worker uses the same-session continuation policy below.
+All historical model evaluation and reference-run artifacts were deleted at the user's request on 2026-11-06, including previously accepted results. The batch is paused
+for prompt review; all 207 eligible platform instances are pending. No retained
+proof result will be skipped or counted in the next study. The paused monitor must
+not restart the worker until the user authorizes the reviewed protocol.
 
-The strengthened prompt adds an explicit completion checklist: save both required
-artifacts, compile the final exact theorem, fix errors before ending, and await
-independent target/axiom checking. It states the actual shared budget and total
-round cap. The worker was restarted with this prompt on 2026-11-06 after retaining
-33 accepted attempts (31 legacy and two continuation successes). The interrupted
-CompCert attempt was deleted at the user's request; known aggregate costs are
-recorded separately, with incomplete-round costs explicitly unknown. Each attempt's stored
-prompt and runner fingerprint identify its actual protocol. Do not relabel old
-attempts as having received the revised checklist.
+The Chinese review draft is [evaluation-protocol.zh-CN.md](evaluation-protocol.zh-CN.md).
+The provisional configuration remains gpt-6-luna medium, strictly serial, with ten
+total rounds (initial plus nine same-session resumes), a shared 7200-second budget
+for Lean/Rocq and 14400 seconds for CompCert, including checking. It is not running.
 
-New runs use `gpt-6-luna`, medium reasoning, one theorem at a time and a
-3 GiB sandbox. Lean/Rocq have a shared two-hour budget; Clight has four hours.
-The budget covers all resumed agent rounds and deterministic checking, starting
-after setup. At most ten rounds are allowed: the initial run and nine resumes.
-The controller records the original session ID and uses `codex exec resume ID`;
-it never substitutes a new session. A failed check is fed back to that session.
-Acceptance, budget exhaustion or the round limit stops the attempt. Infrastructure
-failures stop for review. Checker stages retain a 600-second cap, reduced to fit
-the remaining attempt budget.
-
-Old runs used ephemeral sessions, so failed historical runs cannot be resumed.
-At the user's request, 110 rejected attempts and one infrastructure attempt were
-deleted. All 31 accepted attempts remain, migrated to `rounds/000` with original
-reports/configurations preserved under `legacy/`. Their actual old 3,600-second
-configuration is unchanged and they are labelled `legacy-one-shot`; they are
-not evidence for the new continuation policy. They will be skipped on rerun.
-At the updated-prompt restart, 174 instances remained: 108 certified and 66 unprepared.
-Factorial remains reference-only and excluded from the 207-instance evaluation.
-
-After the user explicitly resumes, launch the same serial worker with the
-existing proxy environment and pass `--resume` to `batch_evaluation.py`.
-Without that flag, a paused batch exits without launching an agent.
-
-Only packages with checked correspondence to the frozen sources are eligible
-for the worker. Certified coverage is 141 of 207 instances: 41 Lean, 43 Rocq
-and 57 Clight packages. This includes algorithmic, codec, graph, data-structure,
-path and systems/numerical pairs. Two Lean component packages remain pending.
-Fourteen Clight-only contexts cover tagged evaluation, quoted tokenization,
-streaming frames, nested transactions, LRU, leases and counting sort; their
-native packages remain pending. Clight input predicates can be projected
-directly from their frozen word-vector domains, with kernel checking against
-both original goals, independently of native packaging. Frozen observations
-retain ordering/tie semantics, error details, traces and full C output buffers.
-Other instances wait for adapters; they are not counted as model failures.
-Adding a certified package lets the same serial worker pick it up. Preparation
-must wait until no theorem is running. An exclusive worker lock prevents two
-controllers. An interrupted attempt requires review before another attempt.
-Infrastructure errors stop the batch for inspection.
+Certified source-bound packaging currently covers 141 of 207 instances; the other
+66 remain unprepared. Task sources, frozen goals, package bindings, differential
+tests and construction cost records are preserved. Factorial remains outside the
+evaluation split; its historical reference-run artifacts were also deleted.
 
 Each agent sees only one read-only task package and its own writable workspace.
 It chooses either equivalence or a literal counterexample; no expected label or
@@ -110,10 +73,8 @@ The historical construction summarizer includes only explicitly tagged
 prototype jobs when reading the shared pilot-job memory log, so downstream
 evaluation/reference checking cannot silently inflate that construction view.
 
-Systemd does not inherit interactive-shell proxies automatically. The launch
-command passes the configured proxy variables explicitly. An initial attempt
-without them failed model routing; its raw events and partial report remain
-separate from the corrected retry, with unavailable usage/memory fields null.
+Systemd does not inherit interactive-shell proxies automatically. A future launch
+must pass configured proxy variables explicitly.
 
 Inspect progress without starting another worker:
 

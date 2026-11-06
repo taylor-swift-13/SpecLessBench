@@ -1,4 +1,0 @@
-projection_eq: #[propext, Classical.choice, Quot.sound]
-projection_refutation_eq: #[propext, Classical.choice, Quot.sound]
-gold_original: #[propext, Classical.choice, Quot.sound]
-Reference checksums, timestamps, source rebuild, frozen-target binding and original theorem proof check passed.

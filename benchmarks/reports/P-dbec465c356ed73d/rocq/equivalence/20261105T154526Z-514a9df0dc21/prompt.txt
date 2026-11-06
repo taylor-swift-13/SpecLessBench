@@ -1,1 +1,0 @@
-Prove exactly the fixed Rocq theorem Obligation.goal in /task. Work only in /work. Write /work/Submission.v, importing From Trusted Require Import Obligation and defining Submission.solve : Obligation.goal. Use coqc -Q /task Trusted -Q /work Candidate /work/Submission.v to check. You may add helper lemmas. Do not use axioms, Admitted, or admit.

@@ -1,8 +1,0 @@
-DIGEST d7827011ab5c0b80f4a22ca46ed8cca5
-FTrusted.Obligation
-R24:29 Coq.ZArith.ZArith <> <> lib
-R31:34 Coq.Lists.List <> <> lib
-R44:56 Coq.Lists.List ListNotations <> mod
-R87:90 Trusted.Task <> <> lib
-def 104:107 <> goal
-R119:133 Trusted.Task <> equivalent def

@@ -1,7 +1,0 @@
-{
-  "wall_seconds": 19.060402047995012,
-  "child_cpu_seconds": 3.323843,
-  "max_child_process_rss_bytes": 320741376,
-  "memory_scope": "largest individual child-process maximum RSS, not a concurrent process-tree peak",
-  "checker_sha256": "237bc4dc9593139c60f81b178896c299235d0f1d62e00476401e724a11d845b4"
-}

@@ -6,7 +6,7 @@ Given an input domain and an observation model, an agent must either prove that 
 
 ## Benchmark
 
-The frozen pilot contains **71 task contexts across 30 families**, with implementations and proof goals for three platforms. The entire factorial family is reserved for public gold-standard examples and excluded from evaluation, leaving **69 contexts across 29 families** eligible for the evaluation set:
+The frozen pilot contains **71 task contexts across 30 families**, with implementations and proof goals for three platforms. The entire factorial family is reserved for demonstration examples and excluded from evaluation, leaving **69 contexts across 29 families** eligible for the evaluation set:
 
 - **Lean:** native functional implementations.
 - **Rocq:** native functional implementations.

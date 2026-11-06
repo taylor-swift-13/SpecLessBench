@@ -1,1 +1,0 @@
-Prove the one fixed Lean theorem Obligation.goal. The task source and compiled dependencies are in /task. Work only in /work. Create /work/Submission.lean which imports Obligation and defines Submission.solve : Obligation.goal. You may create helper lemmas in that file. Do not use sorry or add axioms. The checker recompiles against the fixed task and audits proof dependencies.

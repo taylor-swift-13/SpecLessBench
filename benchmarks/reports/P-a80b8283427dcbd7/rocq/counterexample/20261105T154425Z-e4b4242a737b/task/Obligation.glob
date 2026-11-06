@@ -1,9 +1,0 @@
-DIGEST 625ffe6ed59cea3df6bf7bc90ab3b448
-FTrusted.Obligation
-R28:38 Trusted.BasicNative <> <> lib
-R40:50 Trusted.BasicDomain <> <> lib
-def 64:67 <> goal
-R79:104 Trusted.BasicNative <> Counterexample def
-R107:123 Trusted.BasicDomain <> valid def
-R129:145 Trusted.BasicNative <> entry def
-R153:169 Trusted.BasicNative <> entry def
