@@ -3,6 +3,7 @@ import hashlib
 import json
 import re
 import resource
+import textwrap
 import time
 
 from prepare_evaluation import ROOT, PACKAGES, compile_rocq, compile_lean
@@ -210,10 +211,33 @@ theorem packIndexed_eq (mode : Bool) (cap : Nat) (data : Task.Words) (fuel p : N
 '''
 
 
+LEAN_SYSTEMS_RECURSIVE = {
+    'flood': '''theorem clone_flood : Task.flood = SpecLessBenchSystems.flood := by
+  funext edges dirty skipDirty fuel seen todo
+  induction fuel generalizing seen todo with
+  | zero => cases todo <;> rfl
+  | succ fuel ih => cases todo with
+    | nil => rfl
+    | cons src rest =>
+      simp only [Task.flood, SpecLessBenchSystems.flood, clone_enqueueNeighbors, ih]
+      all_goals rfl
+''',
+    'resolveBinding': '''theorem clone_resolveBinding : Task.resolveBinding = SpecLessBenchSystems.resolveBinding := by
+  funext key layers
+  induction layers with
+  | nil => rfl
+  | cons layer rest ih =>
+    simp only [Task.resolveBinding, SpecLessBenchSystems.resolveBinding, clone_getOr, clone_absent, ih]
+    all_goals rfl
+''',
+}
+
+
 def prepare_word_lean(row):
     ctx=row['context'];family=ctx.get('family_index')
     boundary=ctx.get('tranche')=='boundaries' and family in (4,6)
-    if not boundary and not (ctx.get('tranche')=='graphsuite' and family in (0,2)):return None
+    systems=ctx.get('tranche')=='systems' and family in (0,1,3,4)
+    if not boundary and not systems and not (ctx.get('tranche')=='graphsuite' and family in (0,2)):return None
     package=PACKAGES/row['pilot_id']/'lean'
     if (package/'registry.json').exists():
         meta=json.loads((package/'registry.json').read_text())
@@ -222,15 +246,20 @@ def prepare_word_lean(row):
     if package.exists():raise ValueError('Incomplete Lean graph/search preparation needs inspection: '+str(package))
     started=time.monotonic();task=package/'task';binding=package/'binding'
     task.mkdir(parents=True,mode=0o700);binding.mkdir(mode=0o700)
-    prefix='Boundary' if boundary else 'GraphSuite';namespace='SpecLessBench'+prefix
-    source=ROOT/'benchmarks/tasks'/('boundaries-core' if boundary else 'graphsuite-core')/'lean'
+    prefix='Systems' if systems else ('Boundary' if boundary else 'GraphSuite');namespace='SpecLessBench'+prefix
+    source=ROOT/'benchmarks/tasks'/('systems-core' if systems else ('boundaries-core' if boundary else 'graphsuite-core'))/'lean'
     native=lean_declarations((source/(prefix+'Native.lean')).read_text());domain=lean_declarations((source/(prefix+'Domain.lean')).read_text());goals=lean_declarations((source/(prefix+'Goals.lean')).read_text())
+    if systems:
+        first,last={0:('eligibleEdge','graph'),1:('Binding','scopes'),3:('infinity','alignment'),4:('Phase','resample')}[family]
+        names=list(native);allowed=set(names[:names.index('eligibleEdge')]+names[names.index(first):names.index(last)+1]);native={n:d for n,d in native.items() if n in allowed}
     styles=re.findall(r'entry\s+'+str(family)+r'\s+(\d+)',goals[ctx['equivalence_goal']])
     if len(styles)!=2 or styles[0]!='0' or styles[1] not in ('1','2'):raise ValueError('Unexpected frozen Lean pair')
     pair=[];algorithms=[]
     for name,style in zip(('a','b'),map(int,styles)):
-        root=({4:'tlv',6:'packbits'}[family] if boundary else ('apsp' if family==0 else 'search'));text=native[root].replace('def '+root+' (style : Nat)','def '+name,1)
-        if boundary:
+        root=({0:'graph',1:'scopes',3:'alignment',4:'resample'}[family] if systems else ({4:'tlv',6:'packbits'}[family] if boundary else ('apsp' if family==0 else 'search')));text=native[root].replace('def '+root+' (style : Nat)','def '+name,1)
+        if systems:
+            text=re.sub(r'\binput\b','xs',text);text,n=re.subn(r'\bstyle\b',str(style),text);count=1 if n else 0;algorithm='finish'
+        elif boundary:
             stem='tlv' if family==4 else 'pack';algorithm=stem+('Suffix' if style==1 else 'Indexed')
             expression=(stem+'Suffix false 128 data 0 0 []' if style==1 else stem+'Indexed '+('true' if style==2 else 'false')+' data 128 0 0 []') if family==4 else (stem+'Suffix false cap 128 data 0 []' if style==1 else stem+'Indexed '+('true' if style==2 else 'false')+' cap data 128 0 []')
             pattern=r'if style == 1 then tlvSuffix false 128 data 0 0 \[\] else tlvIndexed \(style == 2\) data 128 0 0 \[\]' if family==4 else r'if style == 1 then packSuffix false cap 128 data 0 \[\] else packIndexed \(style == 2\) cap data 128 0 \[\]'
@@ -246,7 +275,13 @@ def prepare_word_lean(row):
         if count!=1 or re.search(r'\bstyle\b',text):raise ValueError('Unexpected Lean implementation dispatcher')
         pair.append(text);algorithms.append(algorithm)
     index=ctx['domain_index']
-    if boundary:
+    if systems:
+        branches=re.fullmatch(r'\s*(let q := word xs 0)\s*if family == 3 then\s*(.*?)\n  else if family == 4 then\s*(.*?)\n  else\s*(.*)',domain['validFamilyB'].split(':=',1)[1],re.S)
+        if not branches:raise ValueError('Unexpected Lean systems domain dispatcher')
+        selected=re.sub(r'\bfamily\b',str(index),branches.group(2 if index==3 else 3 if index==4 else 4))
+        body='  '+branches.group(1)+'\n'+textwrap.indent(textwrap.dedent('    '+selected),'  ')
+        valid='def valid (xs : Words) : Prop := (\n'+body+'\n) = true'
+    elif boundary:
         pre,match=domain['validB'].split(':=',1)[1].split('match domain with',1)
         clauses=re.findall(r'\n  \| (\d+|_) => (.*?)(?=\n  \| |\Z)',match,re.S)
         choices=[body for pattern,body in clauses if pattern==str(index)]
@@ -256,11 +291,11 @@ def prepare_word_lean(row):
         branches=re.fullmatch(r'\s*if domain == 0 \|\| domain == 1 then\s*(.*?)\n  else if domain == 2 then\s*(.*?)\n  else false',domain['validB'].split(':=',1)[1],re.S)
         if not branches:raise ValueError('Unexpected Lean graph/search domain')
         valid='def valid (xs : Words) : Prop := ('+re.sub(r'\bdomain\b',str(index),branches.group(1 if family==0 else 2))+') = true'
-    available=dict(native);extra='inRange' if boundary else 'between';available[extra]=domain[extra];needed=set();todo=[*pair,valid]
+    available=dict(native);extras=('between','validCommand') if systems else (('inRange',) if boundary else ('between',));available.update({n:domain[n] for n in extras});needed=set();todo=[*pair,valid]
     while todo:
         for name in set(re.findall(r'(?<![A-Za-z0-9_.])[A-Za-z_][A-Za-z_0-9]*\b',todo.pop())) & available.keys():
             if name not in needed:needed.add(name);todo.append(available[name])
-    if needed & {'entry','apsp','scc','search','TS','tree','unionfind','priority','evaluator','tlv','quotes','packbits','path','Equivalent','RefutationAt'}:raise ValueError('Unexpected unrelated Lean declaration')
+    if needed & {'entry','apsp','scc','search','TS','tree','unionfind','priority','evaluator','tlv','quotes','packbits','path','graph','scopes','alignment','resample','Equivalent','RefutationAt'}:raise ValueError('Unexpected unrelated Lean declaration')
     public='import Lean\nnamespace Task\n'+'\n'.join([d for n,d in available.items() if n in needed]+[valid,*pair])+'''
 def equivalent : Prop := ∀ x, valid x → ∃ o, a x=some o ∧ b x=some o
 def refutationAt (x oa ob : Words) : Prop := valid x ∧ a x=some oa ∧ b x=some ob ∧ oa≠ob
@@ -275,7 +310,19 @@ end Task
         src=source/(name+'.lean');dest=original/src.name
         if not dest.exists() or dest.read_bytes()!=src.read_bytes() or not (original/(name+'.olean')).exists():dest.write_bytes(src.read_bytes());logs.append(compile_at(original,name))
     bridge='import Task\nimport '+prefix+'Goals\n'
-    if boundary:
+    helpers=[]
+    if systems:
+        for name,d in available.items():
+            if name not in needed:continue
+            owner=namespace
+            if name in LEAN_SYSTEMS_RECURSIVE:
+                bridge+=LEAN_SYSTEMS_RECURSIVE[name]
+            else:
+                deps=set(re.findall(r'(?<![A-Za-z0-9_.])[A-Za-z_][A-Za-z_0-9]*\b',d))
+                rewrites=''.join('  try rewrite [clone_'+n+']\n' for n in helpers if n in deps)
+                bridge+=f'theorem clone_{name} : @Task.{name} = @{owner}.{name} := by\n  unfold Task.{name} {owner}.{name}\n'+rewrites+'  rfl\n'
+            helpers.append(name)
+    elif boundary:
         for match in re.finditer(r'^theorem (\w+)_eq\b.*?(?=^theorem |\Z)',LEAN_CODEC_BRIDGES,re.M|re.S):
             if match.group(1) in needed:bridge+=match.group()
     elif family==2:
@@ -295,6 +342,10 @@ end Task
            'packIndexed':'Bool → Nat → Task.Words → Nat → Nat → Task.Words → Option Task.Words'}
     args={'bmLoop':'text pattern mode fuel i','tlvSuffix':'mode fuel src p count out','tlvIndexed':'mode data fuel p count out','packSuffix':'mode cap fuel src p out','packIndexed':'mode cap data fuel p out'}
     for name,style,body,algorithm in zip(('a','b'),styles,pair,algorithms):
+        if systems:
+            rewrites=''.join('  try rewrite [clone_'+n+']\n' for n in helpers)
+            bridge+=f'theorem {name}_eq : Task.{name} = {namespace}.entry {family} {style} := by\n  unfold Task.{name} {namespace}.entry {namespace}.{root}\n'+rewrites+'  rfl\n'
+            continue
         def qualify(m):
             token=m.group();return 'sl_impl_fn' if token==algorithm else ('Task.'+token if token in native else token)
         context=re.sub(r'\b[A-Za-z_][A-Za-z_0-9]*\b',qualify,body.split(':=',1)[1])
