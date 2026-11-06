@@ -23,6 +23,8 @@ def prepare_compcert(row):
                        {0:'APSP',1:'SCC',2:'SEARCH'},('words','word','between','valid')),
         'boundaries': ('boundaries-core','BoundaryTargets','BoundaryDomain','SpecLessBenchBoundary','boundaries-v0.4',
                        {0:'TREE',1:'UNIONFIND',2:'PRIORITY',4:'TLV',6:'PACKBITS',7:'PATH'},('words','get','in_range','valid')),
+        'systems': ('systems-core','SystemsTargets','SystemsDomain','SpecLessBenchSystems','systems-v0.6',
+                    {0:'GRAPH',1:'SCOPES',3:'ALIGNMENT',4:'RESAMPLE'},('words','word','between','valid_command','valid')),
     }
     if tranche not in profiles or family not in profiles[tranche][5]:
         return None
@@ -80,6 +82,8 @@ def prepare_compcert(row):
     domain = []
     for name in domain_names:
         match = re.search(r'^Definition '+name+r'\b.*?(?=\n(?:Definition|Fixpoint) |\Z)', native, re.M | re.S)
+        if not match and name == 'valid_command' and tranche == 'systems' and family in (3,4):
+            continue
         if not match:
             raise ValueError('Missing isolated input domain')
         domain.append(match.group().strip())

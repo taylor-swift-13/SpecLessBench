@@ -13,7 +13,9 @@ from single_task_runner import tree_digest
 def prepare_word_rocq(row):
     ctx = row['context']
     boundary=ctx.get('tranche')=='boundaries' and ctx.get('family_index') in (0,1,2,4,6,7)
-    if ctx.get('tranche') != 'graphsuite' and not boundary:
+    systems=ctx.get('tranche')=='systems' and ctx.get('family_index') in (0,1,3,4)
+    general=systems or (boundary and ctx['family_index'] not in (4,6))
+    if ctx.get('tranche') != 'graphsuite' and not boundary and not systems:
         return None
     package = PACKAGES/row['pilot_id']/'rocq'
     if (package/'registry.json').exists():
@@ -25,20 +27,30 @@ def prepare_word_rocq(row):
         raise ValueError('Incomplete graph/search preparation needs inspection: '+str(package))
     started = time.monotonic();task = package/'task';binding = package/'binding'
     task.mkdir(parents=True,mode=0o700);binding.mkdir(mode=0o700)
-    prefix='Boundary' if boundary else 'GraphSuite'
-    source = ROOT/'benchmarks/tasks'/('boundaries-core' if boundary else 'graphsuite-core')/'rocq'
+    prefix='Systems' if systems else ('Boundary' if boundary else 'GraphSuite')
+    source = ROOT/'benchmarks/tasks'/('systems-core' if systems else ('boundaries-core' if boundary else 'graphsuite-core'))/'rocq'
     native = declarations(re.sub(r'\(\*.*?\*\)', '', (source/(prefix+'Native.v')).read_text(), flags=re.S))
     domain = declarations((source/(prefix+'Domain.v')).read_text())
     goals = declarations((source/(prefix+'Goals.v')).read_text())
     selected = [goals[ctx[k]] for k in ('equivalence_goal','refutation_at_goal')]
-    family = ctx['family_index'];index = ctx['domain_index'];root = ({0:'tree',1:'unionfind',2:'priority',4:'tlv',6:'packbits',7:'path'}[family] if boundary else ('apsp','scc','search')[family])
+    family = ctx['family_index'];index = ctx['domain_index']
+    root=({0:'graph',1:'scopes',3:'alignment',4:'resample'}[family] if systems else ({0:'tree',1:'unionfind',2:'priority',4:'tlv',6:'packbits',7:'path'}[family] if boundary else ('apsp','scc','search')[family]))
+    if systems:
+        # Restrict lexical lookup to this source section before taking closure;
+        # local names such as scopes' cell must not pull another family's cell.
+        first,last={0:('eligible_edge','graph'),1:('binding','scopes'),3:('infinity','alignment'),4:('phase','resample')}[family]
+        names=list(native);allowed=set(names[:names.index('eligible_edge')]+names[names.index(first):names.index(last)+1])
+        native={n:d for n,d in native.items() if n in allowed}
     styles = re.findall(prefix+r'Native.entry\s+'+str(family)+r'\s+(\d+)',selected[0])
     if len(styles)!=2 or styles[0]!='0' or styles[1] not in ('1','2') or not re.search(prefix+r'Domain.valid\s+'+str(index)+r'\b',selected[0]):
         raise ValueError('Unexpected frozen graph/search pair or domain')
     pair=[];algorithms=[]
     for name,style in zip(('a','b'),map(int,styles)):
-        text=native[root].replace('Definition '+root+' style xs','Definition '+name+' xs',1)
-        if boundary and family not in (4,6):
+        text=native[root].replace('Definition '+root+' style '+('input' if systems else 'xs'),'Definition '+name+' xs',1)
+        if systems:
+            text=re.sub(r'\binput\b','xs',text);text,n=re.subn(r'\bstyle\b',str(style),text)
+            count=1 if n else 0;algorithm='finish'
+        elif boundary and family not in (4,6):
             if family==0:
                 algorithm='mirror_stack' if style==1 else 'mirror_rec'
                 expression='mirror_stack 256 ns[root]' if style==1 else 'mirror_rec '+('true' if style==2 else 'false')+' 64 ns root'
@@ -66,7 +78,12 @@ def prepare_word_rocq(row):
             text,count=re.subn(r'if Nat.eqb style 0 then brute text pattern else if Nat.eqb m 0 then 0%Z else bm_loop 49 0 text pattern\(Nat.eqb style 2\)',expression+' ',text)
         if count!=1 or re.search(r'\bstyle\b',text):raise ValueError('Unexpected implementation dispatcher')
         pair.append(text);algorithms.append(algorithm)
-    if boundary:
+    if systems:
+        branches=re.fullmatch(r'\s*(let q := word xs 0 in)\s*if Nat.eqb family 3 then\s*(.*?)\n  else if Nat.eqb family 4 then\s*(.*?)\n  else\s*(.*?)\.',domain['valid_familyb'].split(':=',1)[1],re.S)
+        if not branches:raise ValueError('Unexpected systems domain dispatcher')
+        body=branches.group(1)+' '+re.sub(r'\bfamily\b',str(index),branches.group(2 if index==3 else 3 if index==4 else 4))
+        valid='Definition valid (xs:words) : Prop := ('+body+')=true.'
+    elif boundary:
         pre,match=domain['validb'].split(':=',1)[1].split('match domain with',1)
         clauses=re.findall(r'\n  \| (.*?)=>(.*?)(?=\n  \| |\n  end\.)',match,re.S)
         choices=[body for pattern,body in clauses if pattern.count('S')==index and pattern.strip()!='_']
@@ -77,14 +94,14 @@ def prepare_word_rocq(row):
         branches=re.fullmatch(r'\s*if Nat.eqb domain 0\|\|Nat.eqb domain 1 then\s*(.*?)\n else if Nat.eqb domain 2 then (.*?)\n else false\.',domain['validb'].split(':=',1)[1],re.S)
         if not branches:raise ValueError('Unexpected graph/search domain dispatcher')
         valid='Definition valid (xs:words) : Prop := ('+re.sub(r'\bdomain\b',str(index),branches.group(1 if index in (0,1) else 2))+')=true.'
-    available=dict(native);extra=('get','in_range') if boundary else ('between',)
+    available=dict(native);extra=('between','valid_command') if systems else (('get','in_range') if boundary else ('between',))
     available.update({n:domain[n] for n in extra});needed=set();todo=[*pair,valid]
     while todo:
         text=todo.pop();deps=set(re.findall(r'\b[A-Za-z_][A-Za-z_0-9]*\b',text))
         if 'let*' in text:deps.add('obind')
         for name in deps & available.keys():
             if name not in needed:needed.add(name);todo.append(available[name])
-    if needed & {'entry','apsp','scc','search','tree','unionfind','priority','evaluator','tlv','quotes','packbits','path','Equivalent','RefutationAt'}:raise ValueError('Unrelated dispatcher in dependency closure')
+    if needed & {'entry','apsp','scc','search','tree','unionfind','priority','evaluator','tlv','quotes','packbits','path','graph','scopes','alignment','resample','Equivalent','RefutationAt'}:raise ValueError('Unrelated dispatcher in dependency closure')
     notation='Notation "\'let*\' x \':=\' c \'in\' b" := (obind c (fun x=>b)) (at level 200,x ident,c at level 100,b at level 200).'
     parts=[]
     for name,d in available.items():
@@ -113,17 +130,18 @@ Definition refutationAt (x oa ob:words) : Prop := valid x /\ a x=Some oa /\ b x=
         if 'let*' in d:deps.add('obind')
         rewrites=''.join('try rewrite clone_'+n+'.\n' for n in helpers if n in deps)
         bridge+=f'Lemma clone_{name} : @Task.{name} = @{owner}.{name}.\nProof. unfold Task.{name}, {owner}.{name}.\n'+rewrites+'reflexivity. Qed.\n';helpers.append(name)
-    if boundary and family not in (4,6):
+    aliases={'node','parse_error','binding','layers','align_state','phase'}
+    if general:
         for name in helpers:
-            if name not in ('node','parse_error'):
+            if name not in aliases:
                 owner=prefix+'Domain' if name in extra else prefix+'Native'
                 bridge+=f'Opaque Task.{name} {owner}.{name}.\n'
     else:
         for algorithm in algorithms:bridge+=f'Opaque Task.{algorithm} {prefix}Native.{algorithm}.\n'
     if 'obind' in needed:bridge+='Local '+notation.replace('(obind c','(Task.obind c')+'\n'
     for name,style,body,algorithm in zip(('a','b'),styles,pair,algorithms):
-        if boundary and family not in (4,6):
-            rewrites=''.join('try rewrite <- clone_'+n+'.\n' for n in helpers if n not in ('node','parse_error'))
+        if general:
+            rewrites=''.join('try rewrite <- clone_'+n+'.\n' for n in helpers if n not in aliases)
             bridge+=f'Lemma {name}_eq : Task.{name} = {prefix}Native.entry {family} {style}.\nProof. unfold Task.{name}, {prefix}Native.entry, {prefix}Native.{root}.\n'+rewrites+'reflexivity. Qed.\n'
             continue
         def qualify(m):
