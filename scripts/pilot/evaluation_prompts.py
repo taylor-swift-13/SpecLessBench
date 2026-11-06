@@ -77,33 +77,19 @@ on the grader's allowlist are permitted, with independent checking and audit.
 ''',
 }
 
-FEEDBACK = '''Grading result: {result}
-Remaining shared time: {remaining_seconds} seconds
-Remaining rounds: {remaining_rounds}
-Checker output:
-{checker_output}
-'''
-
-
 def digest(text):
     return hashlib.sha256(text.encode()).hexdigest()
 
 
-def build_prompt(platform, variant, budget, max_rounds):
+def build_prompt(platform, variant, budget):
     if variant not in VARIANTS:
         raise ValueError('Unknown prompt variant')
     interface = INTERFACES[platform]
-    if max_rounds is None:
-        runtime = (f'Runtime: shared wall budget {budget} seconds including agent work and grading. '
-                   'The external controller enforces this budget.\n')
-    else:
-        runtime = (f'Runtime: shared wall budget {budget} seconds, at most {max_rounds} total '
-                   'rounds, including agent work and grading. The controller measures the '
-                   'budget; resumed rounds use the same session and workspace.\n')
+    runtime = (f'Runtime: shared wall budget {budget} seconds including agent work and grading. '
+               'The external controller enforces this budget.\n')
     components = {'task': TASK, 'interface': interface, 'runtime': runtime,
-                  'execution_guidance': None,
-                  'feedback_template': FEEDBACK}
-    prompt = '\n'.join(x for k, x in components.items() if k != 'feedback_template' and x)
+                  'execution_guidance': None}
+    prompt = '\n'.join(x for k, x in components.items() if x)
     metadata = {'revision': REVISION, 'variant': variant, 'language': 'en',
                 'delivery': 'prompt sections',
                 'component_sha256': {k: digest(v) if v is not None else None
@@ -111,9 +97,3 @@ def build_prompt(platform, variant, budget, max_rounds):
                 'initial_prompt_sha256': digest(prompt)}
     return prompt, metadata, components
 
-
-def feedback_prompt(result, remaining_seconds, remaining_rounds, trace):
-    return FEEDBACK.format(result=json.dumps(result, ensure_ascii=False),
-                           remaining_seconds=max(0, int(remaining_seconds)),
-                           remaining_rounds=remaining_rounds,
-                           checker_output=json.dumps(trace, ensure_ascii=False)[-24000:])

@@ -12,7 +12,7 @@ import uuid
 from pathlib import Path
 
 from grade_sealed import grade
-from evaluation_prompts import VARIANTS, build_prompt, feedback_prompt
+from evaluation_prompts import VARIANTS, build_prompt
 from audit_evaluation_costs import session_tokens
 from prepare_evaluation import PACKAGES, ROCQ, COMPCERT, compile_lean, compile_rocq
 from rocq_grader_core import COMPCERT_ROCQ_ASSUMPTIONS
@@ -67,7 +67,7 @@ def report_markdown(report):
         +f"- Result: **{report['result']['status']}**\n"
         +f"- Policy: {c.get('policy',report.get('execution_policy','legacy-one-shot'))}\n"
         +f"- Session: {report.get('session_id')}\n"
-        +f"- Rounds / resumes: {len(v.get('rounds',[]))} / {report.get('resume_count',0)}\n"
+        +'- Manual resumes: 0\n'
         +f"- Stop: {report.get('stop_reason')}\n"
         +f"- Configured limit seconds: {c.get('total_budget_seconds',c.get('agent_timeout_seconds'))}\n"
         +f"- Agent / checker seconds: {v.get('agent_wall_seconds')} / {v.get('checker_wall_seconds')}\n"
@@ -76,25 +76,12 @@ def report_markdown(report):
         +'- Billing / hosted-model memory: unavailable\n')
 
 
-def continuation_stop(result, elapsed, budget, resumes, max_resumes, session_id):
-    if result['status'] == 'accepted': return 'accepted'
-    if elapsed >= budget or result['status'] == 'timeout': return 'time-budget'
-    if result['status'] in ('agent-error', 'infrastructure-error'): return 'infrastructure-review'
-    if resumes >= max_resumes: return 'resume-limit'
-    if not session_id: raise RuntimeError('No persisted session ID; refusing a fresh-session retry')
-    return None
-
-
-def round_arguments(index, session_id, prompt):
-    if index and not session_id: raise ValueError('Resume requires the original session ID')
-    return (['resume'] if index else []) + ['--skip-git-repo-check', '--json', '--model', 'gpt-6-luna'] + ([session_id] if index else ['-C','/work']) + [prompt]
-
-
-def run(task_id, platform='lean', timeout=None, on_run=None, max_resumes=0, prompt_variant='baseline', goal_mode=None):
+def run(task_id, platform='compcert', timeout=None, on_run=None, prompt_variant='baseline', goal_mode='off'):
     timeout = timeout if timeout is not None else (14400 if platform == 'compcert' else 7200)
-    if timeout <= 0 or max_resumes < 0: raise ValueError('Invalid time/resume limit')
-    if goal_mode is not None and (goal_mode not in ('on','off') or max_resumes != 0 or platform != 'compcert'):
-        raise ValueError('Native Goal probe requires CompCert and no manual resumes')
+    if timeout <= 0:
+        raise ValueError('Invalid time limit')
+    if goal_mode not in ('on','off') or platform != 'compcert':
+        raise ValueError('Native Goal probe currently supports CompCert only')
     os.umask(0o077)
     if task_id not in {r['pilot_id'] for r in selection()[0]}:
         raise ValueError('Task is not evaluation-eligible')
@@ -102,14 +89,14 @@ def run(task_id, platform='lean', timeout=None, on_run=None, max_resumes=0, prom
         raise ValueError('No certified adapter for this platform yet')
     toolchain = {'lean': LEAN, 'rocq': ROCQ, 'compcert': COMPCERT}[platform]
     proof_name = 'Submission.lean' if platform == 'lean' else 'Submission.v'
-    prompt, prompt_protocol, prompt_components = build_prompt(platform, prompt_variant, timeout, None if goal_mode is not None else max_resumes+1)
+    prompt, prompt_protocol, prompt_components = build_prompt(platform, prompt_variant, timeout)
     source = PACKAGES/task_id/platform
     meta = json.loads((source/'registry.json').read_text())
     if (meta['pilot_id'], meta['platform']) != (task_id, platform) or tree_digest(source/'task') != meta['public_sha256']:
         raise ValueError('Trusted package mismatch')
     if not AUTH.is_file() or not CODEX.is_file() or not CODE_HOST.is_file():
         raise RuntimeError('Codex authentication/executables unavailable')
-    condition = 'goal-'+goal_mode if goal_mode is not None else prompt_variant
+    condition = 'goal-'+goal_mode
     parent = BASE/task_id/platform/condition/'attempts'
     parent.mkdir(parents=True, exist_ok=True, mode=0o700)
     run_dir = parent/(dt.datetime.now(dt.timezone.utc).strftime('%Y%m%dT%H%M%SZ')+'-'+uuid.uuid4().hex[:12])
@@ -128,7 +115,8 @@ def run(task_id, platform='lean', timeout=None, on_run=None, max_resumes=0, prom
            'model': 'gpt-6-luna', 'model_reasoning_effort': 'medium',
            'agent_timeout_seconds': timeout, 'total_budget_seconds': timeout,
            'budget_scope': 'Shared wall time across all agent rounds and checking',
-           'policy': 'same-session-check-feedback', 'max_resumes': max_resumes, 'max_rounds': max_resumes+1,
+           'policy': 'native-goal' if goal_mode=='on' else 'single-turn', 'goal_mode':goal_mode,
+           'transport':'app-server', 'manual_resumes':False,
            'checker_stage_timeout_seconds': 600,
            'memory_limit_bytes': 3*1024**3, 'pids_limit': 512,
            'agent_version': subprocess.check_output([str(CODEX), '--version'], text=True).strip(),
@@ -139,10 +127,7 @@ def run(task_id, platform='lean', timeout=None, on_run=None, max_resumes=0, prom
            'codex_code_host_sha256': sha(CODE_HOST.read_bytes()),
            'toolchain_version': subprocess.check_output([str(toolchain/('bin/lean' if platform == 'lean' else 'bin/coqc')), '--version'], text=True).strip(),
            'prompt_sha256': sha(prompt.encode()), 'prompt_protocol': prompt_protocol}
-    if goal_mode is not None:
-        cfg.update(policy='native-goal-probe', goal_mode=goal_mode, transport='app-server',
-                   manual_resumes=False, max_rounds=None, max_resumes=0,
-                   native_driver_sha256=sha((ROOT/'scripts/pilot/goal_client.py').read_bytes()))
+    cfg['native_driver_sha256'] = sha((ROOT/'scripts/pilot/goal_client.py').read_bytes())
     dump(run_dir/'config.json', cfg)
     config = '''default_permissions = "eval"
 approval_policy = "never"
@@ -215,156 +200,142 @@ enabled = false
                 if parsed.username or parsed.password:
                     raise RuntimeError('Credential-bearing proxy is unsupported')
                 cmd += ['--setenv', key, os.environ[key]]
-        if goal_mode is not None:
-            cmd += ['--ro-bind',str(ROOT/'scripts/pilot/goal_client.py'),'/opt/goal_client.py',
-                    '--ro-bind',str(run_dir/'prompt.txt'),'/opt/prompt.txt']
-            sandbox_prefix = cmd + ['--chdir','/work','--','/usr/bin/python3','/opt/goal_client.py',
-                                    '--goal-mode',goal_mode,'--prompt','/opt/prompt.txt']
-        else:
-            sandbox_prefix = cmd + ['--chdir', '/work', '--', '/opt/codex', 'exec']
+        cmd += ['--ro-bind',str(ROOT/'scripts/pilot/goal_client.py'),'/opt/goal_client.py',
+                '--ro-bind',str(run_dir/'prompt.txt'),'/opt/prompt.txt']
+        sandbox_prefix = cmd + ['--chdir','/work','--','/usr/bin/python3','/opt/goal_client.py',
+                                '--goal-mode',goal_mode,'--prompt','/opt/prompt.txt']
         budget_clock = time.monotonic()
         feedback = prompt
-        while True:
-            remaining = timeout-(time.monotonic()-budget_clock)
-            if remaining <= 0:
-                result = {'status': 'timeout', 'detail': 'Shared attempt time budget reached'}
-                stop_reason = 'time-budget'; break
-            complete = False; resources = None; cgroup = None; trace = []; checker_seconds = 0.0
-            cmd = sandbox_prefix if goal_mode is not None else sandbox_prefix + round_arguments(round_index, session_id, feedback)
-            unit = 'specless-eval-'+uuid.uuid4().hex+'.scope'
-            session_mismatch = False
-            claim = None; agent_seconds = None
-            (private/'resources.json').unlink(missing_ok=True)
-            round_dir = run_dir/'rounds'/f'{round_index:03d}'
-            round_dir.mkdir(parents=True, mode=0o700)
-            (round_dir/'prompt.txt').write_text(feedback)
-            round_prompt_sha256 = sha(feedback.encode())
-            event_start = event_count; usage_start = len(usage); round_started = now()
-            stderr_start = (run_dir/'agent.stderr').stat().st_size if (run_dir/'agent.stderr').exists() else 0
-            dump(private/'supervisor.json', {'argv': cmd, 'timeout': remaining, 'memory_limit': 3*1024**3,
-                 'pids_limit': 512, 'report': str(private/'resources.json')})
-            shutil.copyfile(private/'supervisor.json', round_dir/'supervisor.json')
-            launch = ['/usr/bin/systemd-run', '--user', '--scope', '--quiet', '--unit', unit, '-p', 'MemoryMax=3221225472',
-                      '-p', 'MemorySwapMax=0', '-p', 'TasksMax=512', '/usr/bin/python3', str(SUPERVISOR), str(private/'supervisor.json')]
-            agent_clock = time.monotonic()
-            with (run_dir/'events.jsonl').open('ab') as out, (run_dir/'events.timestamps.jsonl').open('a') as stamps, (run_dir/'agent.stderr').open('ab') as err:
-                proc = subprocess.Popen(launch, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=err, start_new_session=True)
-                def capture():
-                    nonlocal event_count, invalid, complete, session_id, session_mismatch, native_summary
-                    for line in proc.stdout:
-                        out.write(line); out.flush(); event_count += 1
-                        stamps.write(json.dumps({'line': event_count, 'round': round_index, 'received_utc': now()})+'\n'); stamps.flush()
-                        try:
-                            event = json.loads(line)
-                            if event.get('type') == 'thread.started':
-                                observed_id = event['thread_id']
-                                if session_id is not None and observed_id != session_id:
-                                    invalid += 1
-                                    session_mismatch = True
-                                    complete = False
-                                    continue
-                                session_id = observed_id
-                            if event.get('type') == 'turn.completed':
-                                complete = True
-                                if event.get('usage'):
-                                    usage.append(event['usage'])
-                            if event.get('type') == 'native.run.completed':
-                                native_summary = event['summary']
-                            if event.get('usage') and event.get('type') == 'native.usage':
+        remaining = timeout-(time.monotonic()-budget_clock)
+        if remaining <= 0:
+            raise TimeoutError('Shared attempt time budget reached')
+        complete = False; resources = None; cgroup = None; trace = []; checker_seconds = 0.0
+        cmd = sandbox_prefix
+        unit = 'specless-eval-'+uuid.uuid4().hex+'.scope'
+        session_mismatch = False
+        claim = None; agent_seconds = None
+        (private/'resources.json').unlink(missing_ok=True)
+        round_dir = run_dir/'rounds'/f'{round_index:03d}'
+        round_dir.mkdir(parents=True, mode=0o700)
+        (round_dir/'prompt.txt').write_text(feedback)
+        round_prompt_sha256 = sha(feedback.encode())
+        event_start = event_count; usage_start = len(usage); round_started = now()
+        stderr_start = (run_dir/'agent.stderr').stat().st_size if (run_dir/'agent.stderr').exists() else 0
+        dump(private/'supervisor.json', {'argv': cmd, 'timeout': remaining, 'memory_limit': 3*1024**3,
+             'pids_limit': 512, 'report': str(private/'resources.json')})
+        shutil.copyfile(private/'supervisor.json', round_dir/'supervisor.json')
+        launch = ['/usr/bin/systemd-run', '--user', '--scope', '--quiet', '--unit', unit, '-p', 'MemoryMax=3221225472',
+                  '-p', 'MemorySwapMax=0', '-p', 'TasksMax=512', '/usr/bin/python3', str(SUPERVISOR), str(private/'supervisor.json')]
+        agent_clock = time.monotonic()
+        with (run_dir/'events.jsonl').open('ab') as out, (run_dir/'events.timestamps.jsonl').open('a') as stamps, (run_dir/'agent.stderr').open('ab') as err:
+            proc = subprocess.Popen(launch, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=err, start_new_session=True)
+            def capture():
+                nonlocal event_count, invalid, complete, session_id, session_mismatch, native_summary
+                for line in proc.stdout:
+                    out.write(line); out.flush(); event_count += 1
+                    stamps.write(json.dumps({'line': event_count, 'round': round_index, 'received_utc': now()})+'\n'); stamps.flush()
+                    try:
+                        event = json.loads(line)
+                        if event.get('type') == 'thread.started':
+                            observed_id = event['thread_id']
+                            if session_id is not None and observed_id != session_id:
+                                invalid += 1
+                                session_mismatch = True
+                                complete = False
+                                continue
+                            session_id = observed_id
+                        if event.get('type') == 'turn.completed':
+                            complete = True
+                            if event.get('usage'):
                                 usage.append(event['usage'])
-                        except (ValueError, AttributeError):
-                            invalid += 1
-                reader = threading.Thread(target=capture, daemon=True); reader.start()
-                while proc.poll() is None:
-                    if cgroup is None:
-                        observed = subprocess.run(['systemctl', '--user', 'show', unit, '-p', 'ControlGroup', '--value'], capture_output=True, text=True, timeout=10)
-                        if observed.returncode == 0 and observed.stdout.strip():
-                            cgroup = Path('/sys/fs/cgroup')/observed.stdout.strip().lstrip('/')
-                    memory = {}
-                    if cgroup is not None:
-                        for key, filename in (('memory_current_bytes', 'memory.current'), ('memory_peak_bytes', 'memory.peak')):
-                            try:
-                                memory[key] = int((cgroup/filename).read_text())
-                            except OSError:
-                                pass
-                    dump(run_dir/'live.json', {'phase': 'agent', 'updated_utc': now(), 'agent_seconds': time.monotonic()-agent_clock,
-                         'session_id': session_id, 'round': round_index, 'remaining_seconds': max(0,timeout-(time.monotonic()-budget_clock)), 'cumulative_agent_seconds': agent_total+time.monotonic()-agent_clock, 'events': event_count, 'event_bytes': out.tell(), 'usage_events': usage, **memory})
-                    if time.monotonic()-agent_clock > remaining+10 or shutil.disk_usage(run_dir).free < 512*1024**2:
-                        subprocess.run(['systemctl', '--user', 'stop', unit], capture_output=True, timeout=15)
-                        proc.kill(); proc.wait(); break
-                    time.sleep(5)
-                reader.join(timeout=15)
-                if reader.is_alive():
-                    raise RuntimeError('Agent event stream did not close')
-            if session_mismatch: raise RuntimeError('Resume returned a different session ID')
-            agent_seconds = time.monotonic()-agent_clock
-            if (private/'resources.json').exists():
-                resources = json.loads((private/'resources.json').read_text())
-            for name in (proof_name, 'claim.json'):
-                (run_dir/name).unlink(missing_ok=True)
-                candidate = work/name
-                if candidate.is_file() and not candidate.is_symlink() and candidate.stat().st_size <= 1024*1024:
-                    shutil.copyfile(candidate, run_dir/name)
-            dump(run_dir/'live.json', {'phase': 'checker', 'round': round_index, 'session_id':session_id, 'updated_utc': now(), 'agent_seconds': agent_seconds, 'events': event_count})
-            if not resources or resources.get('status') == 'limits-not-enforced':
-                raise RuntimeError('Cgroup supervision failed')
-            if resources['status'] == 'timeout':
-                result = {'status': 'timeout', 'detail': 'Shared attempt time budget reached'}
-            elif resources.get('status') != 'exited' or resources.get('exit_code') != 0 or not complete:
-                result = {'status': 'agent-error', 'detail': 'Agent did not complete successfully'}
-            elif not (run_dir/'claim.json').is_file() or not (run_dir/proof_name).is_file():
-                result = {'status': 'rejected', 'detail': 'Missing claim or proof'}
+                        if event.get('type') == 'native.run.completed':
+                            native_summary = event['summary']
+                        if event.get('usage') and event.get('type') == 'native.usage':
+                            usage.append(event['usage'])
+                    except (ValueError, AttributeError):
+                        invalid += 1
+            reader = threading.Thread(target=capture, daemon=True); reader.start()
+            while proc.poll() is None:
+                if cgroup is None:
+                    observed = subprocess.run(['systemctl', '--user', 'show', unit, '-p', 'ControlGroup', '--value'], capture_output=True, text=True, timeout=10)
+                    if observed.returncode == 0 and observed.stdout.strip():
+                        cgroup = Path('/sys/fs/cgroup')/observed.stdout.strip().lstrip('/')
+                memory = {}
+                if cgroup is not None:
+                    for key, filename in (('memory_current_bytes', 'memory.current'), ('memory_peak_bytes', 'memory.peak')):
+                        try:
+                            memory[key] = int((cgroup/filename).read_text())
+                        except OSError:
+                            pass
+                dump(run_dir/'live.json', {'phase': 'agent', 'updated_utc': now(), 'agent_seconds': time.monotonic()-agent_clock,
+                     'session_id': session_id, 'round': round_index, 'remaining_seconds': max(0,timeout-(time.monotonic()-budget_clock)), 'cumulative_agent_seconds': agent_total+time.monotonic()-agent_clock, 'events': event_count, 'event_bytes': out.tell(), 'usage_events': usage, **memory})
+                if time.monotonic()-agent_clock > remaining+10 or shutil.disk_usage(run_dir).free < 512*1024**2:
+                    subprocess.run(['systemctl', '--user', 'stop', unit], capture_output=True, timeout=15)
+                    proc.kill(); proc.wait(); break
+                time.sleep(5)
+            reader.join(timeout=15)
+            if reader.is_alive():
+                raise RuntimeError('Agent event stream did not close')
+        if session_mismatch: raise RuntimeError('Resume returned a different session ID')
+        agent_seconds = time.monotonic()-agent_clock
+        if (private/'resources.json').exists():
+            resources = json.loads((private/'resources.json').read_text())
+        for name in (proof_name, 'claim.json'):
+            (run_dir/name).unlink(missing_ok=True)
+            candidate = work/name
+            if candidate.is_file() and not candidate.is_symlink() and candidate.stat().st_size <= 1024*1024:
+                shutil.copyfile(candidate, run_dir/name)
+        dump(run_dir/'live.json', {'phase': 'checker', 'round': round_index, 'session_id':session_id, 'updated_utc': now(), 'agent_seconds': agent_seconds, 'events': event_count})
+        if not resources or resources.get('status') == 'limits-not-enforced':
+            raise RuntimeError('Cgroup supervision failed')
+        if resources['status'] == 'timeout':
+            result = {'status': 'timeout', 'detail': 'Shared attempt time budget reached'}
+        elif resources.get('status') != 'exited' or resources.get('exit_code') != 0 or not complete:
+            result = {'status': 'agent-error', 'detail': 'Agent did not complete successfully'}
+        elif not (run_dir/'claim.json').is_file() or not (run_dir/proof_name).is_file():
+            result = {'status': 'rejected', 'detail': 'Missing claim or proof'}
+        else:
+            check_clock = time.monotonic(); checker_seconds = None
+            try:
+                claim = json.loads((run_dir/'claim.json').read_text()); goal = render_claim(claim, platform)
+            except (ValueError, UnicodeDecodeError) as error:
+                result = {'status': 'rejected', 'detail': str(error)}
             else:
-                check_clock = time.monotonic(); checker_seconds = None
-                try:
-                    claim = json.loads((run_dir/'claim.json').read_text()); goal = render_claim(claim, platform)
-                except (ValueError, UnicodeDecodeError) as error:
-                    result = {'status': 'rejected', 'detail': str(error)}
+                trusted = private/('grading-'+str(round_index)); shutil.copytree(task, trusted)
+                if platform == 'lean':
+                    (trusted/'Obligation.lean').write_text('import Task\nnamespace Obligation\ndef goal : Prop := '+goal+'\nend Obligation\n')
+                    compile_lean(trusted, 'Obligation', [trusted], timeout=max(1,min(180,timeout-(time.monotonic()-budget_clock))))
                 else:
-                    trusted = private/('grading-'+str(round_index)); shutil.copytree(task, trusted)
-                    if platform == 'lean':
-                        (trusted/'Obligation.lean').write_text('import Task\nnamespace Obligation\ndef goal : Prop := '+goal+'\nend Obligation\n')
-                        compile_lean(trusted, 'Obligation', [trusted], timeout=max(1,min(180,timeout-(time.monotonic()-budget_clock))))
-                    else:
-                        (trusted/'Obligation.v').write_text('From '+('Stdlib' if platform == 'compcert' else 'Coq')+' Require Import ZArith List.\nImport ListNotations.\nFrom Trusted Require Import Task.\nDefinition goal : Prop := '+goal+'.\n')
-                        compile_rocq(trusted, 'Obligation', [(trusted, 'Trusted')], toolchain=toolchain, timeout=max(1,min(180,timeout-(time.monotonic()-budget_clock))))
-                    obligation = 'Obligation.lean' if platform == 'lean' else 'Obligation.v'
-                    shutil.copyfile(trusted/obligation, run_dir/obligation)
-                    result = grade(platform, trusted, tree_digest(trusted), run_dir/proof_name, timeout=max(1,min(600,int((timeout-(time.monotonic()-budget_clock))/(3 if platform == 'lean' else 4)))), trace=trace)
-                checker_seconds = time.monotonic()-check_clock
-            agent_total += agent_seconds or 0
-            checker_total += checker_seconds or 0
-            dump(round_dir/'checker.log', trace)
-            for name in (proof_name, 'claim.json', 'Obligation.lean', 'Obligation.v'):
-                f = run_dir/name
-                if f.is_file(): shutil.copyfile(f, round_dir/name)
-            record = {'round': round_index, 'session_id': session_id, 'result': result,
-                      'started_utc': round_started, 'ended_utc': now(), 'configuration': cfg, 'round_prompt_sha256': round_prompt_sha256,
-                      'provider_usage_events': usage[usage_start:],
-                      'stderr_byte_start': stderr_start, 'stderr_byte_end': (run_dir/'agent.stderr').stat().st_size,
-                      'started_event': event_start+1, 'ended_event': event_count,
-                      'agent_seconds': agent_seconds, 'checker_seconds': checker_seconds,
-                      'sandbox': resources, 'claim': claim, 'checker_max_cgroup_memory_peak_bytes': max([((t.get('resources') or {}).get('memory_peak_bytes') or 0) for t in trace],default=0)}
-            dump(round_dir/'report.json', record); rounds.append(record)
-            (round_dir/'SHA256SUMS').write_text(''.join(sha(f.read_bytes())+'  '+f.name+'\n' for f in sorted(round_dir.iterdir()) if f.is_file()))
-            dump(run_dir/'rounds.json', rounds)
-            subprocess.run(['systemctl', '--user', 'stop', unit], capture_output=True, timeout=20)
-            if goal_mode is not None:
-                if result['status'] == 'timeout':
-                    stop_reason = 'time-budget'
-                elif native_summary is None:
-                    result = {'status':'infrastructure-error','detail':'Native client did not report a final lifecycle state'}
-                    stop_reason = 'native-client-error'
-                else:
-                    stop_reason = 'accepted' if result['status']=='accepted' else native_summary['stop_reason']
-                break
-            stop_reason = continuation_stop(result, time.monotonic()-budget_clock, timeout, round_index, max_resumes, session_id)
-            if stop_reason:
-                if stop_reason == 'time-budget': result = {'status':'timeout','detail':'Shared attempt time budget reached'}
-                break
-            feedback = feedback_prompt(result, timeout-(time.monotonic()-budget_clock),
-                                       max_resumes-round_index, trace)
-            round_index += 1
+                    (trusted/'Obligation.v').write_text('From '+('Stdlib' if platform == 'compcert' else 'Coq')+' Require Import ZArith List.\nImport ListNotations.\nFrom Trusted Require Import Task.\nDefinition goal : Prop := '+goal+'.\n')
+                    compile_rocq(trusted, 'Obligation', [(trusted, 'Trusted')], toolchain=toolchain, timeout=max(1,min(180,timeout-(time.monotonic()-budget_clock))))
+                obligation = 'Obligation.lean' if platform == 'lean' else 'Obligation.v'
+                shutil.copyfile(trusted/obligation, run_dir/obligation)
+                result = grade(platform, trusted, tree_digest(trusted), run_dir/proof_name, timeout=max(1,min(600,int((timeout-(time.monotonic()-budget_clock))/(3 if platform == 'lean' else 4)))), trace=trace)
+            checker_seconds = time.monotonic()-check_clock
+        agent_total += agent_seconds or 0
+        checker_total += checker_seconds or 0
+        dump(round_dir/'checker.log', trace)
+        for name in (proof_name, 'claim.json', 'Obligation.lean', 'Obligation.v'):
+            f = run_dir/name
+            if f.is_file(): shutil.copyfile(f, round_dir/name)
+        record = {'round': round_index, 'session_id': session_id, 'result': result,
+                  'started_utc': round_started, 'ended_utc': now(), 'configuration': cfg, 'round_prompt_sha256': round_prompt_sha256,
+                  'provider_usage_events': usage[usage_start:],
+                  'stderr_byte_start': stderr_start, 'stderr_byte_end': (run_dir/'agent.stderr').stat().st_size,
+                  'started_event': event_start+1, 'ended_event': event_count,
+                  'agent_seconds': agent_seconds, 'checker_seconds': checker_seconds,
+                  'sandbox': resources, 'claim': claim, 'checker_max_cgroup_memory_peak_bytes': max([((t.get('resources') or {}).get('memory_peak_bytes') or 0) for t in trace],default=0)}
+        dump(round_dir/'report.json', record); rounds.append(record)
+        (round_dir/'SHA256SUMS').write_text(''.join(sha(f.read_bytes())+'  '+f.name+'\n' for f in sorted(round_dir.iterdir()) if f.is_file()))
+        dump(run_dir/'rounds.json', rounds)
+        subprocess.run(['systemctl', '--user', 'stop', unit], capture_output=True, timeout=20)
+        if result['status'] == 'timeout':
+            stop_reason = 'time-budget'
+        elif native_summary is None:
+            result = {'status':'infrastructure-error','detail':'Native client did not report a final lifecycle state'}
+            stop_reason = 'native-client-error'
+        else:
+            stop_reason = 'accepted' if result['status']=='accepted' else native_summary['stop_reason']
         agent_seconds = agent_total; checker_seconds = checker_total
     except (Exception, KeyboardInterrupt) as error:
         result = {'status': 'timeout' if budget_clock is not None and time.monotonic()-budget_clock >= timeout else 'infrastructure-error', 'detail': type(error).__name__+': '+str(error)}
@@ -415,7 +386,7 @@ enabled = false
                              'allowed_axioms': ['propext', 'Classical.choice', 'Quot.sound'] if platform == 'lean' else (['compcert.*', *sorted(COMPCERT_ROCQ_ASSUMPTIONS)] if platform == 'compcert' else []),
                              'full_stage_output': 'checker.log'},
                   'proof_sha256': sha((run_dir/proof_name).read_bytes()) if (run_dir/proof_name).exists() else None,
-                  'transcript': {'format': 'Codex app-server JSON-RPC with normalized observations' if goal_mode is not None else 'Codex CLI --json', 'event_count': event_count, 'invalid_lines': invalid,
+                  'transcript': {'format': 'Codex app-server JSON-RPC with normalized observations', 'event_count': event_count, 'invalid_lines': invalid,
                                  'turn_completed': complete, 'events_flushed_live': True,
                                  'limitations': 'All CLI-emitted events are retained; hidden reasoning, tool output omitted by the CLI, and server-side resolved model metadata are not independently available.'}}
         dump(run_dir/'report.json', report)
@@ -429,11 +400,10 @@ enabled = false
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--task', required=True)
-    parser.add_argument('--platform', choices=('lean', 'rocq', 'compcert'), default='lean')
+    parser.add_argument('--platform', choices=('lean', 'rocq', 'compcert'), default='compcert')
     parser.add_argument('--timeout', type=int)
-    parser.add_argument('--max-resumes', type=int, default=0)
-    parser.add_argument('--goal-mode', choices=('on','off'))
+    parser.add_argument('--goal-mode', choices=('on','off'), required=True)
     parser.add_argument('--prompt-variant', choices=VARIANTS, default='baseline')
     args = parser.parse_args()
-    directory, report = run(args.task, args.platform, timeout=args.timeout, max_resumes=args.max_resumes, prompt_variant=args.prompt_variant, goal_mode=args.goal_mode)
+    directory, report = run(args.task, args.platform, timeout=args.timeout, prompt_variant=args.prompt_variant, goal_mode=args.goal_mode)
     print(json.dumps({'run_dir': str(directory), 'result': report['result']}))
