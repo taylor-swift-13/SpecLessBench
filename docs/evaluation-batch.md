@@ -6,8 +6,10 @@ The serial worker uses the same-session continuation policy below.
 The strengthened prompt adds an explicit completion checklist: save both required
 artifacts, compile the final exact theorem, fix errors before ending, and await
 independent target/axiom checking. It states the actual shared budget and total
-round cap. This prompt revision applies when a worker loads the revised runner;
-the already-running worker retains its original prompts. Each attempt's stored
+round cap. The worker was restarted with this prompt on 2026-11-06 after retaining
+33 accepted attempts (31 legacy and two continuation successes). The interrupted
+CompCert attempt was deleted at the user's request; known aggregate costs are
+recorded separately, with incomplete-round costs explicitly unknown. Each attempt's stored
 prompt and runner fingerprint identify its actual protocol. Do not relabel old
 attempts as having received the revised checklist.
 
@@ -27,7 +29,7 @@ deleted. All 31 accepted attempts remain, migrated to `rounds/000` with original
 reports/configurations preserved under `legacy/`. Their actual old 3,600-second
 configuration is unchanged and they are labelled `legacy-one-shot`; they are
 not evidence for the new continuation policy. They will be skipped on rerun.
-The queue contains 176 remaining instances: 110 certified and 66 unprepared.
+At the updated-prompt restart, 174 instances remained: 108 certified and 66 unprepared.
 Factorial remains reference-only and excluded from the 207-instance evaluation.
 
 After the user explicitly resumes, launch the same serial worker with the
