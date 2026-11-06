@@ -17,11 +17,13 @@ systemd-run --user --unit=specless-luna-batch --working-directory="$PWD" \
 ```
 
 Only packages with checked correspondence to the frozen sources are eligible
-for the worker. Certified coverage is 79 of 207 instances: reversal, sum,
+for the worker. Certified coverage is 95 of 207 instances: reversal, sum,
 matrix multiplication, naive matching/KMP, queues, Prim/Kruskal, record sorting,
 Base64, all-pairs shortest paths, strongly connected components, Boyer–Moore,
-TLV and PackBits. These selected contexts cover all three platforms except the
-two pending Lean component packages. Observations retain the frozen distance
+TLV, PackBits, tree mirroring, union-find, priority queues and path normalization.
+The last four categories currently cover Rocq/Clight; their eight Lean packages
+and the two Lean component packages remain pending. Other listed contexts
+cover all three platforms. Observations retain the frozen distance
 matrices, component membership, first-match positions, tie/edge masks, payload
 order, encoded bytes, error codes/offsets and consumption/production counts.
 Other instances wait for adapters; they are not counted as model failures.

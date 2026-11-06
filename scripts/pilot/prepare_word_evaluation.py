@@ -12,7 +12,7 @@ from single_task_runner import tree_digest
 
 def prepare_word_rocq(row):
     ctx = row['context']
-    boundary=ctx.get('tranche')=='boundaries' and ctx.get('family_index') in (4,6)
+    boundary=ctx.get('tranche')=='boundaries' and ctx.get('family_index') in (0,1,2,4,6,7)
     if ctx.get('tranche') != 'graphsuite' and not boundary:
         return None
     package = PACKAGES/row['pilot_id']/'rocq'
@@ -31,14 +31,22 @@ def prepare_word_rocq(row):
     domain = declarations((source/(prefix+'Domain.v')).read_text())
     goals = declarations((source/(prefix+'Goals.v')).read_text())
     selected = [goals[ctx[k]] for k in ('equivalence_goal','refutation_at_goal')]
-    family = ctx['family_index'];index = ctx['domain_index'];root = ({4:'tlv',6:'packbits'}[family] if boundary else ('apsp','scc','search')[family])
+    family = ctx['family_index'];index = ctx['domain_index'];root = ({0:'tree',1:'unionfind',2:'priority',4:'tlv',6:'packbits',7:'path'}[family] if boundary else ('apsp','scc','search')[family])
     styles = re.findall(prefix+r'Native.entry\s+'+str(family)+r'\s+(\d+)',selected[0])
     if len(styles)!=2 or styles[0]!='0' or styles[1] not in ('1','2') or not re.search(prefix+r'Domain.valid\s+'+str(index)+r'\b',selected[0]):
         raise ValueError('Unexpected frozen graph/search pair or domain')
     pair=[];algorithms=[]
     for name,style in zip(('a','b'),map(int,styles)):
         text=native[root].replace('Definition '+root+' style xs','Definition '+name+' xs',1)
-        if boundary:
+        if boundary and family not in (4,6):
+            if family==0:
+                algorithm='mirror_stack' if style==1 else 'mirror_rec'
+                expression='mirror_stack 256 ns[root]' if style==1 else 'mirror_rec '+('true' if style==2 else 'false')+' 64 ns root'
+                text,count=re.subn(r'if Nat.eqb style 1 then mirror_stack 256 ns\[root\]else mirror_rec\(Nat.eqb style 2\)64 ns root',expression+' ',text)
+            else:
+                algorithm={1:'find_uf',2:'pq_push',7:'split_path'}[family]
+                text,n=re.subn(r'\bstyle\b',str(style),text);count=1 if n else 0
+        elif boundary:
             stem='tlv' if family==4 else 'pack'
             algorithm=stem+('_suffix' if style==1 else '_indexed')
             expression=(stem+'_suffix false 128 data 0 0[]' if style==1 else stem+'_indexed '+('true' if style==2 else 'false')+' data 128 0 0[]') if family==4 else (stem+'_suffix false cap 128 data 0[]' if style==1 else stem+'_indexed '+('true' if style==2 else 'false')+' cap data 128 0[]')
@@ -62,6 +70,7 @@ def prepare_word_rocq(row):
         pre,match=domain['validb'].split(':=',1)[1].split('match domain with',1)
         clauses=re.findall(r'\n  \| (.*?)=>(.*?)(?=\n  \| |\n  end\.)',match,re.S)
         choices=[body for pattern,body in clauses if pattern.count('S')==index and pattern.strip()!='_']
+        if not choices:choices=[body for pattern,body in clauses if pattern.strip()=='_']
         if len(choices)!=1:raise ValueError('Missing isolated codec input domain')
         valid='Definition valid (xs:words) : Prop := ('+pre+choices[0]+')=true.'
     else:
@@ -104,9 +113,19 @@ Definition refutationAt (x oa ob:words) : Prop := valid x /\ a x=Some oa /\ b x=
         if 'let*' in d:deps.add('obind')
         rewrites=''.join('try rewrite clone_'+n+'.\n' for n in helpers if n in deps)
         bridge+=f'Lemma clone_{name} : @Task.{name} = @{owner}.{name}.\nProof. unfold Task.{name}, {owner}.{name}.\n'+rewrites+'reflexivity. Qed.\n';helpers.append(name)
-    for algorithm in algorithms:bridge+=f'Opaque Task.{algorithm} {prefix}Native.{algorithm}.\n'
+    if boundary and family not in (4,6):
+        for name in helpers:
+            if name not in ('node','parse_error'):
+                owner=prefix+'Domain' if name in extra else prefix+'Native'
+                bridge+=f'Opaque Task.{name} {owner}.{name}.\n'
+    else:
+        for algorithm in algorithms:bridge+=f'Opaque Task.{algorithm} {prefix}Native.{algorithm}.\n'
     if 'obind' in needed:bridge+='Local '+notation.replace('(obind c','(Task.obind c')+'\n'
     for name,style,body,algorithm in zip(('a','b'),styles,pair,algorithms):
+        if boundary and family not in (4,6):
+            rewrites=''.join('try rewrite <- clone_'+n+'.\n' for n in helpers if n not in ('node','parse_error'))
+            bridge+=f'Lemma {name}_eq : Task.{name} = {prefix}Native.entry {family} {style}.\nProof. unfold Task.{name}, {prefix}Native.entry, {prefix}Native.{root}.\n'+rewrites+'reflexivity. Qed.\n'
+            continue
         def qualify(m):
             token=m.group();return 'sl_impl_fn' if token==algorithm else ('Task.'+token if token in native else token)
         context=re.sub(r'\b[A-Za-z_][A-Za-z_0-9]*\b',qualify,body.split(':=',1)[1].strip()[:-1])
