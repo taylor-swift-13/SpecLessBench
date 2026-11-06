@@ -13,6 +13,7 @@ from pathlib import Path
 
 from grade_sealed import grade
 from evaluation_prompts import VARIANTS, build_prompt, feedback_prompt
+from audit_evaluation_costs import session_tokens
 from prepare_evaluation import PACKAGES, ROCQ, COMPCERT, compile_lean, compile_rocq
 from rocq_grader_core import COMPCERT_ROCQ_ASSUMPTIONS
 from run_codex_wsl import AUTH, CODEX, CODE_HOST, LEAN, ROOT, SUPERVISOR, fingerprint_tree, now, sha
@@ -372,7 +373,8 @@ enabled = false
                  'controller_peak_rss_bytes_linux': process_resource.getrusage(process_resource.RUSAGE_SELF).ru_maxrss*1024,
                  'obligation_compiler_costs': [json.loads(line) for line in (private/'compile-costs.jsonl').read_text().splitlines()] if (private/'compile-costs.jsonl').exists() else [],
                  'provider_usage_events': usage,
-                 'tokens': {key: sum(u.get(key, 0) for u in usage) for key in ('input_tokens', 'cached_input_tokens', 'output_tokens')} if usage else None,
+                 'tokens': session_tokens(usage),
+                 'token_accounting': 'last-session-cumulative-event',
                  'monetary_cost': None, 'hosted_inference_memory_bytes': None}
         dump(run_dir/'resources.json', costs)
         report = {'schema_version': 2, 'started_utc': started, 'ended_utc': now(), 'configuration': cfg,

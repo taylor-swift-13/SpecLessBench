@@ -3,9 +3,17 @@ import unittest
 from run_evaluation_wsl import continuation_stop, round_arguments, report_markdown
 from evaluation_prompts import build_prompt, feedback_prompt, digest, GUIDANCE
 from batch_evaluation import make_jobs
+from audit_evaluation_costs import session_tokens
 
 
 class SessionContinuationTests(unittest.TestCase):
+    def test_resumed_session_usage_snapshots_not_summed(self):
+        self.assertEqual(session_tokens([{'input_tokens':100,'output_tokens':10},
+                                         {'input_tokens':250,'output_tokens':30}]),
+                         {'input_tokens':250,'cached_input_tokens':0,'output_tokens':30})
+        self.assertIsNone(session_tokens([]))
+        with self.assertRaises(ValueError):session_tokens([{'input_tokens':100},{'input_tokens':50}])
+
     def test_pairwise_prompt_order_and_independent_attempts(self):
         jobs=make_jobs([{'pilot_id':'A','platforms':['lean','rocq']},
                         {'pilot_id':'B','platforms':['compcert']}],('baseline','verification'))
