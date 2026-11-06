@@ -5,10 +5,29 @@ for prompt review; all 207 eligible platform instances are pending. No retained
 proof result will be skipped or counted in the next study. The paused monitor must
 not restart the worker until the user authorizes the reviewed protocol.
 
-The Chinese review draft is [evaluation-protocol.zh-CN.md](evaluation-protocol.zh-CN.md).
+The reviewed Chinese protocol is [evaluation-protocol.zh-CN.md](evaluation-protocol.zh-CN.md).
 The provisional configuration remains gpt-6-luna medium, strictly serial, with ten
 total rounds (initial plus nine same-session resumes), a shared 7200-second budget
 for Lean/Rocq and 14400 seconds for CompCert, including checking. It is not running.
+
+Two prompt conditions are maintained in `scripts/pilot/evaluation_prompts.py`:
+`baseline` and `verification` (default). They share the task, platform interface,
+runtime description and structured rejection feedback. Only `verification`
+includes execution guidance to compile, repair errors and continue incomplete
+proofs. The guidance is delivered as a prompt section, not an externally loaded skill.
+Select either with `--prompt-variant` on `run_evaluation_wsl.py` or
+`batch_evaluation.py`. This option does not change grading or resource limits.
+Batch states are separate: `luna-medium` for verification and
+`luna-medium-baseline` for baseline. The shared activity lock serializes their
+evaluations; do not launch both workers.
+
+Both JSON configuration and reports contain `configuration.prompt_protocol`:
+revision, variant, language, initial prompt SHA-256 and per-component hashes.
+`prompt-components.json` preserves the text, with null execution guidance for
+baseline. Markdown reports display the variant and initial hash. Every round
+stores its actual `prompt.txt` and `round_prompt_sha256`, including feedback.
+Group results by prompt condition and execution configuration, never by filenames
+or success labels. There are no retained historical results to migrate.
 
 Certified source-bound packaging currently covers 141 of 207 instances; the other
 66 remain unprepared. Task sources, frozen goals, package bindings, differential

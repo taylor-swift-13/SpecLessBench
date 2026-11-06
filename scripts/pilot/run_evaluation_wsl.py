@@ -12,6 +12,7 @@ import uuid
 from pathlib import Path
 
 from grade_sealed import grade
+from evaluation_prompts import VARIANTS, build_prompt, feedback_prompt
 from prepare_evaluation import PACKAGES, ROCQ, COMPCERT, compile_lean, compile_rocq
 from rocq_grader_core import COMPCERT_ROCQ_ASSUMPTIONS
 from run_codex_wsl import AUTH, CODEX, CODE_HOST, LEAN, ROOT, SUPERVISOR, fingerprint_tree, now, sha
@@ -19,97 +20,6 @@ from selection import selection
 from single_task_runner import tree_digest
 
 BASE = Path.home()/'.local/share/speclessbench/runs/evaluation'
-PROMPT = '''Determine whether the two fixed implementations in /task/Task.lean agree
-on every Task.valid input. You have one implementation pair only. Work in /work.
-Choose exactly one branch and write /work/claim.json:
-  {"claim":"equivalence"}
-or {"claim":"counterexample","input":[...],"left":[...],"right":[...]}
-All arrays must be literal integer lists. The observations left/right are the
-complete Words returned inside some, INCLUDING the leading payload length.
-No witness is supplied. For equivalence create Submission.lean importing Task,
-with Submission.solve : Task.equivalent. For a counterexample use
-Submission.solve : Task.refutationAt <input literal> <left literal> <right literal>.
-The checker independently renders the selected obligation and checks your proof
-against it. A bare disjunction, conditional proof, unverified test, or mere claim
-is insufficient. Helper definitions/lemmas in Submission.lean are allowed.
-Do not modify implementations, domain or targets. No sorry or new axioms.
-Lean is on PATH; LEAN_PATH=/task:/work. Test your Submission.lean before finishing.
-'''
-ROCQ_PROMPT = '''Determine whether the fixed implementations in /task/Task.v agree
-on every Task.valid input. Work only in /work. Choose exactly one branch and write
-/work/claim.json as {"claim":"equivalence"} or
-{"claim":"counterexample","input":[...],"left":[...],"right":[...]}.
-The arrays are literal integers; left/right include the leading payload length
-returned inside Some. No expected branch or witness is supplied.
-Write /work/Submission.v, starting with:
-From Coq Require Import ZArith List.
-From Trusted Require Import Task.
-Import ListNotations.
-Define the TOP-LEVEL theorem solve : Task.equivalent, or for a literal counterexample
-solve : Task.refutationAt <input> <left> <right>. The file itself is the
-Submission library: do not wrap it in a Module Submission. You may import
-Coq ZArith/List and ListNotations for integer lists. Add helper lemmas if needed.
-The checker independently renders the selected goal and checks solve and its
-assumptions. No Admitted, admit, new axioms, bare disjunction, conditional proof,
-or mere test results. Keep implementations, domain and observations unchanged.
-Check using: coqc -Q /task Trusted -Q /work Candidate /work/Submission.v
-Both claim.json and Submission.v are required even when claiming equivalence.
-'''
-COMPCERT_PROMPT = '''Compare the two fixed C implementations in /task/Left.c and
-/task/Right.c. Their authoritative Clight ASTs are Left.v and Right.v. The frozen
-execution semantics, valid inputs and targets are in Execution.v and Task.v.
-Prove Task.equivalent, or provide a concrete, formally proved counterexample.
-Work only in /work. Write BOTH claim.json and Submission.v. The literal claim is
-{"claim":"equivalence"} or
-{"claim":"counterexample","input":[...],"left":[...],"right":[...]}.
-input is the unpadded integer input. left/right include slot zero (payload length)
-and the meaningful output payload. The checker pads EACH observation with zeros
-to exactly 8192 words and pairs it with main return 0. To submit a counterexample,
-prove Task.refutationAt <input> (0%Z, <left> ++ repeat 0%Z <8192-left_length>)
-(0%Z, <right> ++ repeat 0%Z <8192-right_length>). Use literal lists and lengths.
-For equivalence, prove Task.equivalent. Name the TOP-LEVEL theorem solve in
-Submission.v; do not wrap it in Module Submission. Start with:
-From Stdlib Require Import ZArith List.
-From Trusted Require Import Task Execution Left Right.
-Import ListNotations.
-The fixed goal requires safe, terminating Clight executions and exact observations.
-Keep the full 8192-word buffer and all implementations/domains/semantics unchanged.
-The final theorem must retain the stated Clight semantics. Functional helper
-models are allowed when their correspondence to Clight is proved.
-No Admitted, admit, new axioms, unverified testing, or bare Eq-or-Cex disjunction.
-CompCert's existing standard assumptions are permitted; candidate axioms are not.
-Check with: coqc -Q /task Trusted -Q /work Candidate /work/Submission.v
-No expected branch, witness, other task or prior attempt is supplied.
-'''
-
-
-def acceptance_contract(platform, budget, max_rounds):
-    proof = 'Submission.lean' if platform == 'lean' else 'Submission.v'
-    return f'''
-COMPLETION AND ACCEPTANCE CONTRACT
-Your task is to produce a formally checked submission, not a progress report.
-Before ending your turn, verify ALL of these:
-1. /work/claim.json exists, uses the specified literal format, and agrees with
-   the branch proved by /work/{proof}.
-2. The exact required solve theorem is complete and has the selected target
-   type. A counterexample proves input validity, both observations and their
-   inequality; an equivalence covers every valid input.
-3. Run the compilation command above on the final saved file and resolve every
-   error. Inspect its exit status. No sorry/admit/Admitted, candidate axioms,
-   changed targets, or weakened premises may discharge the obligation.
-The host then independently checks the exact target and axiom dependencies.
-Only a host acceptance counts as success; local compilation alone is insufficient.
-If compilation fails or a proof is unfinished, keep working: inspect the error,
-revise the proof, try another lemma or proof strategy, and compile again. Do not
-end merely to report difficulty or incomplete work. Do not ask the user whether
-to continue. Preserve partial work if the external controller interrupts you.
-The controller allows {max_rounds} TOTAL turns in the SAME session, with a
-shared {budget}-second wall budget including checking, not a fresh budget per
-turn. It returns deterministic rejection feedback for continued work. Do not
-deliberately consume a turn by submitting a known failing proof.
-'''
-
-
 def dump(path, value):
     tmp = path.with_name(path.name+'.tmp')
     tmp.write_text(json.dumps(value, indent=2, ensure_ascii=False)+'\n')
@@ -148,6 +58,8 @@ def report_markdown(report):
     c=report['configuration'];v=report['resources']
     return ('# Evaluation report\n\n'
         +f"- Task: `{c['task_id']}` / {c['platform']}\n"
+        +f"- Prompt: {c['prompt_protocol']['variant']} / {c['prompt_protocol']['revision']}\n"
+        +f"- Prompt SHA-256: {c['prompt_protocol']['initial_prompt_sha256']}\n"
         +f"- Model: `{c['model']}`, {c['model_reasoning_effort']}\n"
         +f"- Result: **{report['result']['status']}**\n"
         +f"- Policy: {c.get('policy',report.get('execution_policy','legacy-one-shot'))}\n"
@@ -175,7 +87,7 @@ def round_arguments(index, session_id, prompt):
     return (['resume'] if index else []) + ['--skip-git-repo-check', '--json', '--model', 'gpt-6-luna'] + ([session_id] if index else ['-C','/work']) + [prompt]
 
 
-def run(task_id, platform='lean', timeout=None, on_run=None, max_resumes=9):
+def run(task_id, platform='lean', timeout=None, on_run=None, max_resumes=9, prompt_variant='verification'):
     timeout = timeout if timeout is not None else (14400 if platform == 'compcert' else 7200)
     if timeout <= 0 or max_resumes < 0: raise ValueError('Invalid time/resume limit')
     os.umask(0o077)
@@ -185,8 +97,7 @@ def run(task_id, platform='lean', timeout=None, on_run=None, max_resumes=9):
         raise ValueError('No certified adapter for this platform yet')
     toolchain = {'lean': LEAN, 'rocq': ROCQ, 'compcert': COMPCERT}[platform]
     proof_name = 'Submission.lean' if platform == 'lean' else 'Submission.v'
-    prompt = ({'lean': PROMPT, 'rocq': ROCQ_PROMPT, 'compcert': COMPCERT_PROMPT}[platform]
-              + acceptance_contract(platform, timeout, max_resumes+1))
+    prompt, prompt_protocol, prompt_components = build_prompt(platform, prompt_variant, timeout, max_resumes+1)
     source = PACKAGES/task_id/platform
     meta = json.loads((source/'registry.json').read_text())
     if (meta['pilot_id'], meta['platform']) != (task_id, platform) or tree_digest(source/'task') != meta['public_sha256']:
@@ -221,7 +132,7 @@ def run(task_id, platform='lean', timeout=None, on_run=None, max_resumes=9):
            'codex_executable_sha256': sha(CODEX.read_bytes()),
            'codex_code_host_sha256': sha(CODE_HOST.read_bytes()),
            'toolchain_version': subprocess.check_output([str(toolchain/('bin/lean' if platform == 'lean' else 'bin/coqc')), '--version'], text=True).strip(),
-           'prompt_sha256': sha(prompt.encode())}
+           'prompt_sha256': sha(prompt.encode()), 'prompt_protocol': prompt_protocol}
     dump(run_dir/'config.json', cfg)
     config = '''default_permissions = "eval"
 approval_policy = "never"
@@ -241,6 +152,7 @@ enabled = false
     (home/'auth.json').touch(mode=0o600)
     (home/'config.toml').write_text(config); (run_dir/'codex-config.toml').write_text(config)
     (run_dir/'prompt.txt').write_text(prompt)
+    dump(run_dir/'prompt-components.json', prompt_components)
     unit = 'specless-eval-'+uuid.uuid4().hex+'.scope'
     agent_seconds = None; agent_clock = None; checker_seconds = None; complete = False; invalid = 0; event_count = 0
     cgroup = None; session_id = None; round_index = 0; rounds = []; budget_clock = None
@@ -310,6 +222,7 @@ enabled = false
             round_dir = run_dir/'rounds'/f'{round_index:03d}'
             round_dir.mkdir(parents=True, mode=0o700)
             (round_dir/'prompt.txt').write_text(feedback)
+            round_prompt_sha256 = sha(feedback.encode())
             event_start = event_count; usage_start = len(usage); round_started = now()
             stderr_start = (run_dir/'agent.stderr').stat().st_size if (run_dir/'agent.stderr').exists() else 0
             dump(private/'supervisor.json', {'argv': cmd, 'timeout': remaining, 'memory_limit': 3*1024**3,
@@ -406,7 +319,7 @@ enabled = false
                 f = run_dir/name
                 if f.is_file(): shutil.copyfile(f, round_dir/name)
             record = {'round': round_index, 'session_id': session_id, 'result': result,
-                      'started_utc': round_started, 'ended_utc': now(), 'configuration': cfg,
+                      'started_utc': round_started, 'ended_utc': now(), 'configuration': cfg, 'round_prompt_sha256': round_prompt_sha256,
                       'provider_usage_events': usage[usage_start:],
                       'stderr_byte_start': stderr_start, 'stderr_byte_end': (run_dir/'agent.stderr').stat().st_size,
                       'started_event': event_start+1, 'ended_event': event_count,
@@ -420,13 +333,8 @@ enabled = false
             if stop_reason:
                 if stop_reason == 'time-budget': result = {'status':'timeout','detail':'Shared attempt time budget reached'}
                 break
-            feedback = ('The deterministic checker did not accept your submission. Continue in this SAME session and /work. '
-                        'Keep the frozen task unchanged. Repair your own proof and claim; do not stop merely because it is difficult. '
-                        'Before ending, compile the final saved proof and fix every error; a progress report or known failing proof is not completion. '
-                        'Only the host checker can accept the exact target and permitted axiom dependencies. '
-                        'No admit, sorry, candidate axioms or unproved claims. Remaining shared budget: '
-                        +str(int(timeout-(time.monotonic()-budget_clock)))+' seconds.\nResult: '+json.dumps(result)
-                        +'\nChecker output:\n'+json.dumps(trace,ensure_ascii=False)[-24000:])
+            feedback = feedback_prompt(result, timeout-(time.monotonic()-budget_clock),
+                                       max_resumes-round_index, trace)
             round_index += 1
         agent_seconds = agent_total; checker_seconds = checker_total
     except (Exception, KeyboardInterrupt) as error:
@@ -447,7 +355,7 @@ enabled = false
             for name in (proof_name,'claim.json'):
                 f=work/name
                 if f.is_file() and not f.is_symlink() and f.stat().st_size<=1024*1024: shutil.copyfile(f,round_dir/name)
-            record={'round':round_index,'configuration':cfg,'provider_usage_events':usage[usage_start:],'started_utc':round_started,'ended_utc':now(),'session_id':session_id,'result':result,'started_event':event_start+1,'ended_event':event_count,'agent_seconds':current_agent,'checker_seconds':current_checker,'sandbox':resources,'claim':claim}
+            record={'round':round_index,'configuration':cfg,'round_prompt_sha256':round_prompt_sha256,'provider_usage_events':usage[usage_start:],'started_utc':round_started,'ended_utc':now(),'session_id':session_id,'result':result,'started_event':event_start+1,'ended_event':event_count,'agent_seconds':current_agent,'checker_seconds':current_checker,'sandbox':resources,'claim':claim}
             dump(round_dir/'report.json',record);dump(round_dir/'checker.log',trace);rounds.append(record)
             (round_dir/'SHA256SUMS').write_text(''.join(sha(f.read_bytes())+'  '+f.name+'\n' for f in sorted(round_dir.iterdir()) if f.is_file() and f.name!='SHA256SUMS'))
         if rounds:
@@ -493,6 +401,7 @@ if __name__ == '__main__':
     parser.add_argument('--platform', choices=('lean', 'rocq', 'compcert'), default='lean')
     parser.add_argument('--timeout', type=int)
     parser.add_argument('--max-resumes', type=int, default=9)
+    parser.add_argument('--prompt-variant', choices=VARIANTS, default='verification')
     args = parser.parse_args()
-    directory, report = run(args.task, args.platform, timeout=args.timeout, max_resumes=args.max_resumes)
+    directory, report = run(args.task, args.platform, timeout=args.timeout, max_resumes=args.max_resumes, prompt_variant=args.prompt_variant)
     print(json.dumps({'run_dir': str(directory), 'result': report['result']}))

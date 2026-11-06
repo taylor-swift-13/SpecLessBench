@@ -1,18 +1,41 @@
 import unittest
 
-from run_evaluation_wsl import acceptance_contract, continuation_stop, round_arguments
+from run_evaluation_wsl import continuation_stop, round_arguments, report_markdown
+from evaluation_prompts import build_prompt, feedback_prompt, digest, GUIDANCE
 
 
 class SessionContinuationTests(unittest.TestCase):
-    def test_acceptance_contract_uses_actual_budget_and_artifact(self):
+    def test_prompt_variants_only_differ_in_execution_guidance(self):
         for platform, budget, artifact in [('lean',7200,'Submission.lean'),
                                            ('rocq',7200,'Submission.v'),
                                            ('compcert',14400,'Submission.v')]:
-            prompt = acceptance_contract(platform, budget, 10)
-            self.assertIn(artifact, prompt)
-            self.assertIn(f'{budget}-second', prompt)
-            self.assertIn('10 TOTAL', prompt)
-            self.assertIn('local compilation alone is insufficient', prompt)
+            baseline, bm, bc = build_prompt(platform, 'baseline', budget, 10)
+            stronger, sm, sc = build_prompt(platform, 'verification', budget, 10)
+            self.assertEqual(stronger, baseline+'\n'+GUIDANCE)
+            self.assertIsNone(bc.pop('execution_guidance'))
+            self.assertEqual(sc.pop('execution_guidance'), GUIDANCE)
+            self.assertEqual(bc, sc)
+            for prompt, metadata in [(baseline,bm),(stronger,sm)]:
+                self.assertIn(artifact, prompt)
+                self.assertIn(f'{budget} seconds', prompt)
+                self.assertIn('10 total', prompt)
+                self.assertEqual(metadata['initial_prompt_sha256'], digest(prompt))
+            self.assertNotEqual(bm['initial_prompt_sha256'],sm['initial_prompt_sha256'])
+            self.assertIsNone(bm['component_sha256']['execution_guidance'])
+        with self.assertRaises(ValueError):build_prompt('lean','unknown',7200,10)
+
+    def test_shared_feedback_and_report_variant(self):
+        feedback=feedback_prompt({'status':'rejected'},6000,9,[{'stdout':'proof error'}])
+        self.assertIn('9',feedback)
+        self.assertIn('proof error',feedback)
+        for variant in ('baseline','verification'):
+            _,metadata,_=build_prompt('lean',variant,7200,10)
+            report={'configuration':{'task_id':'test','platform':'lean','model':'gpt-6-luna',
+                    'model_reasoning_effort':'medium','prompt_protocol':metadata},
+                    'resources':{},'result':{'status':'rejected'}}
+            markdown=report_markdown(report)
+            self.assertIn(variant,markdown)
+            self.assertIn(metadata['initial_prompt_sha256'],markdown)
 
     def test_same_session_nine_resumes_then_stop(self):
         session = 'same-original-session'
