@@ -1,0 +1,42 @@
+{
+  "task_id": "P-00e48e122a4702fd",
+  "attempt_id": "20261106T114447Z-11fce20e0212",
+  "model": "gpt-6-luna",
+  "reasoning_effort": "medium",
+  "goal_mode": "on",
+  "result": {
+    "status": "timeout",
+    "detail": "Shared attempt time budget reached"
+  },
+  "stop_reason": "time-budget",
+  "configured_seconds": 14400,
+  "agent_seconds": 14401.10978306699,
+  "wall_seconds": 14408.549894175987,
+  "native_turns_started": 45,
+  "native_turns_completed": 44,
+  "client_turn_starts": 1,
+  "manual_resumes": 0,
+  "completed_tool_commands": 1067,
+  "file_change_events": 191,
+  "tokens_last_reported": {
+    "input_tokens": 198298453,
+    "cached_input_tokens": 196388480,
+    "output_tokens": 465554
+  },
+  "token_usage_complete": false,
+  "goal_tokens_used_last_observed": 2375527,
+  "goal_token_counter_definition_observed": "input_tokens - cached_input_tokens + output_tokens; do not add to model usage",
+  "agent_cgroup_memory_peak_bytes": 3221237760,
+  "memory_events": "low 0\nhigh 0\nmax 22639\noom 94\noom_kill 81\noom_group_kill 0",
+  "final_proof_lines": 4298,
+  "solve_declaration_present": false,
+  "host_grading_performed": false,
+  "model_goal_complete_observed": false,
+  "proof_sha256": "3fec3e63eee3ac56c3e2e5f647c1e05cb4e4b9eb92c59f2f4680a60f956b97ad",
+  "events_sha256": "837cdf5f7735c72aad4d25ec5618e9c0926b10968ca005122af915a960a39d21",
+  "report_sha256": "8bbc6c291bdbfb1f0698fa35223471f2fbaa026730f281432a553351f2935d7c",
+  "private_artifact_directory": "/home/yangfp/.local/share/speclessbench/runs/evaluation/P-00e48e122a4702fd/compcert/goal-on/attempts/20261106T114447Z-11fce20e0212",
+  "billing": null,
+  "hosted_inference_memory": null,
+  "interpretation": "Native continuation and sustained attempts observed; complete theorem not proved; no fresh Goal-off control run exists"
+}

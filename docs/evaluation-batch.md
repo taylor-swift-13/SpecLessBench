@@ -6,7 +6,7 @@ batch controller. The full benchmark is not running.
 
 The user requested first testing ONE CompCert theorem with native Goal:
 `P-00e48e122a4702fd`, gpt-6-luna medium, 14400-second shared wall budget and a
-3 GiB isolated sandbox. The service is `specless-goal-probe.service`.
+3 GiB isolated sandbox. The service was `specless-goal-probe.service`; it is now inactive after the four-hour timeout. See [the audited probe result](goal-probe.md). No full batch or Goal-off run was launched.
 
 `goal_client.py` uses the installed Codex app-server's real `thread/goal/set`
 and `thread/goal/get` APIs. It sends exactly one client `turn/start`; later turns
@@ -36,7 +36,7 @@ Native probe artifacts:
 `~/.local/share/speclessbench/runs/evaluation/<task>/compcert/goal-on/attempts/<id>/`.
 Read live.json, events.jsonl, per-attempt configuration and final report. Only one
 probe may run; do not prepare task packages or launch another theorem concurrently.
-The remaining 207-instance study awaits this probe's outcome and user direction.
+The remaining 207-instance study awaits user direction after this probe.
 All frozen sources, differential tests, source-bound packages and construction
 cost records remain intact; factorial stays excluded from the evaluation split.
 
