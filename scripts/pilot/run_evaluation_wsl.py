@@ -88,7 +88,7 @@ def round_arguments(index, session_id, prompt):
     return (['resume'] if index else []) + ['--skip-git-repo-check', '--json', '--model', 'gpt-6-luna'] + ([session_id] if index else ['-C','/work']) + [prompt]
 
 
-def run(task_id, platform='lean', timeout=None, on_run=None, max_resumes=9, prompt_variant='verification'):
+def run(task_id, platform='lean', timeout=None, on_run=None, max_resumes=9, prompt_variant='baseline'):
     timeout = timeout if timeout is not None else (14400 if platform == 'compcert' else 7200)
     if timeout <= 0 or max_resumes < 0: raise ValueError('Invalid time/resume limit')
     os.umask(0o077)
@@ -403,7 +403,7 @@ if __name__ == '__main__':
     parser.add_argument('--platform', choices=('lean', 'rocq', 'compcert'), default='lean')
     parser.add_argument('--timeout', type=int)
     parser.add_argument('--max-resumes', type=int, default=9)
-    parser.add_argument('--prompt-variant', choices=VARIANTS, default='verification')
+    parser.add_argument('--prompt-variant', choices=VARIANTS, default='baseline')
     args = parser.parse_args()
     directory, report = run(args.task, args.platform, timeout=args.timeout, max_resumes=args.max_resumes, prompt_variant=args.prompt_variant)
     print(json.dumps({'run_dir': str(directory), 'result': report['result']}))

@@ -1,9 +1,9 @@
-"""Reviewed evaluation instructions; variants differ only in execution guidance."""
+"""Reviewed baseline evaluation instructions."""
 import hashlib
 import json
 
 REVISION = '2026-11-06'
-VARIANTS = ('baseline', 'verification')
+VARIANTS = ('baseline',)
 
 TASK = '''Determine whether the two fixed implementations have the same observable
 behavior and submit a machine-checkable proof. Read the task in the read-only
@@ -77,20 +77,6 @@ on the grader's allowlist are permitted, with independent checking and audit.
 ''',
 }
 
-GUIDANCE = '''Execution guidance
-Develop a proof of the selected goal and check the final saved submission using
-the platform command. If checking fails, use the errors to revise the proof or
-change proof strategy, then check again. An unfinished proof is not a reason to
-end work. Continue until the submission checks successfully or the controller
-terminates the run.
-Before submitting, confirm that the claim matches the proof branch, solve has
-the complete required type, and the final file compiles. If the grader rejects
-the submission, address its feedback in the same session. Preserve unresolved
-errors honestly; do not use placeholders, extra assumptions or changed targets.
-After local compilation succeeds, return the submission for controller grading.
-Only independent grader acceptance counts as success.
-'''
-
 FEEDBACK = '''Grading result: {result}
 Remaining shared time: {remaining_seconds} seconds
 Remaining rounds: {remaining_rounds}
@@ -111,7 +97,7 @@ def build_prompt(platform, variant, budget, max_rounds):
                'rounds, including agent work and grading. The controller measures the '
                'budget; resumed rounds use the same session and workspace.\n')
     components = {'task': TASK, 'interface': interface, 'runtime': runtime,
-                  'execution_guidance': GUIDANCE if variant == 'verification' else None,
+                  'execution_guidance': None,
                   'feedback_template': FEEDBACK}
     prompt = '\n'.join(x for k, x in components.items() if k != 'feedback_template' and x)
     metadata = {'revision': REVISION, 'variant': variant, 'language': 'en',

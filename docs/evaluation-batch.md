@@ -1,32 +1,31 @@
-# Sequential evaluation
+# Sequential baseline evaluation
 
-All historical model evaluation and reference-run artifacts were deleted at the user's request on 2026-11-06. Evaluation now restarts from zero with both reviewed prompt conditions, strictly serially: for each theorem/platform, run baseline first, then verification in a fresh session and workspace, then move to the next item. Both conditions run even if the first succeeds. Factorial stays excluded: 207 eligible theorem/platform instances yield **414 independent runs**.
+Only the reviewed baseline prompt is used. The verification prompt, its run
+artifacts and paired queue entries were removed at the user's request. Two
+accepted baseline attempts remain (one Lean, one Rocq); their actual prompt text
+and fingerprints match the current baseline byte for byte. They are not rerun.
+The study has 207 eligible theorem/platform instances, with factorial excluded.
 
-The model is `gpt-6-luna`, medium reasoning. Each run has at most ten total rounds
-(initial plus nine resumes in the identical session), a shared 7200-second wall
-budget for Lean/Rocq or 14400 seconds for CompCert, including grading. Resume a
-failed check with structured feedback; stop on acceptance, budget or round cap.
+Run gpt-6-luna medium strictly serially. Each attempt has at most ten total rounds
+(initial plus nine resumes in the same persisted session), sharing a wall budget
+of 7200 seconds for Lean/Rocq or 14400 seconds for CompCert, including checks.
+The baseline already defines required artifacts, exact proof targets, immutable
+semantics, permitted assumptions, local compiler commands and independent grading.
+Neutral structured rejection feedback is returned for resumed rounds.
 
-The reviewed Chinese protocol is [evaluation-protocol.zh-CN.md](evaluation-protocol.zh-CN.md).
-Launch the single alternating worker with `batch_evaluation.py --prompt-variant both --resume` using the existing systemd/proxy setup. Do not launch separate workers for the two conditions. A global controller lock and shared preparation/evaluation activity lock prevent overlap. Unexpected exits and infrastructure failures require review.
+`evaluation_prompts.py` is the single prompt source. Reports retain baseline
+version, component hashes, initial prompt, actual per-round prompts/hashes and
+all available evidence/costs. The only supported variant is baseline, also the
+default. Launch one `batch_evaluation.py --resume` controller using the existing
+systemd/proxy setup. Global controller and preparation/activity locks prevent
+overlap. Unexpected exits and infrastructure failures require inspection.
 
-Two prompt conditions are maintained in `scripts/pilot/evaluation_prompts.py`:
-`baseline` and `verification` (default). They share the task, platform interface,
-runtime description and structured rejection feedback. Only `verification`
-includes execution guidance to compile, repair errors and continue incomplete
-proofs. The guidance is delivered as a prompt section, not an externally loaded skill.
-Select either with `--prompt-variant` on `run_evaluation_wsl.py` or
-`batch_evaluation.py`. This option does not change grading or resource limits.
-The alternating batch state is `luna-medium-both`. Standalone batch states remain
-`luna-medium` and `luna-medium-baseline`; they are not part of this restarted study.
-
-Both JSON configuration and reports contain `configuration.prompt_protocol`:
-revision, variant, language, initial prompt SHA-256 and per-component hashes.
-`prompt-components.json` preserves the text, with null execution guidance for
-baseline. Markdown reports display the variant and initial hash. Every round
-stores its actual `prompt.txt` and `round_prompt_sha256`, including feedback.
-Group results by prompt condition and execution configuration, never by filenames
-or success labels. There are no retained historical results to migrate.
+Batch state: `~/.local/share/speclessbench/batches/luna-medium-baseline/status.json`.
+The ordinary Lean sample accepted in seven rounds; the Rocq sample accepted in
+two. This does not establish ten-round sufficiency for the corpus or CompCert.
+Record acceptance, budget exhaustion and round-cap stops separately, including
+remaining budget. Higher-round follow-up studies must be distinguished from the
+fixed-budget main evaluation; do not change the cap midattempt.
 
 Certified source-bound packaging currently covers 141 of 207 instances; the other
 66 remain unprepared. Task sources, frozen goals, package bindings, differential
@@ -56,8 +55,8 @@ existing grader allowlist; candidate axioms, including namespace spoofing, fail.
 Private artifacts are on WSL's Linux filesystem:
 
 ```text
-~/.local/share/speclessbench/batches/luna-medium-both/status.json
-~/.local/share/speclessbench/batches/luna-medium-both/history.jsonl
+~/.local/share/speclessbench/batches/luna-medium-baseline/status.json
+~/.local/share/speclessbench/batches/luna-medium-baseline/history.jsonl
 ~/.local/share/speclessbench/runs/evaluation/<task>/<platform>/<variant>/attempts/<run-id>/
 ```
 
@@ -96,7 +95,7 @@ must pass configured proxy variables explicitly.
 Inspect progress without starting another worker:
 
 ```bash
-cat ~/.local/share/speclessbench/batches/luna-medium-both/status.json
+cat ~/.local/share/speclessbench/batches/luna-medium-baseline/status.json
 journalctl --user -u specless-luna-batch -n 30 --no-pager
 systemctl --user status specless-luna-batch --no-pager
 ```
@@ -106,6 +105,6 @@ packages when the worker is idle. It reports meaningful milestones, actionable
 failures and completion; unchanged state stays quiet. No finite completion time
 is promised until every instance has a certified adapter. Ten rounds is a maximum, not a requirement to keep an already accepted proof running.
 
-The batch status includes separate `by_prompt_variant` counts, token usage, agent/checker and total wall time, and cgroup memory peaks. Peak memory is a maximum, not a sum; billing and hosted inference memory remain null. Currently 141 source-bound platform packages support 282 runs; 66 packages (132 runs) still require preparation while evaluation is idle. Unprepared entries are pending, not model failures.
+The status aggregates baseline counts and measured costs. Memory peaks are maxima, not sums. Billing and hosted inference memory remain null.
 
 Resumed CLI turn.completed usage is cumulative over the session, verified against persisted token_count totals. Use the last available snapshot, never sum resumed-round snapshots. Raw events remain unchanged. Run `audit_evaluation_costs.py --batch <status.json>` to normalize completed reports produced by an already-loaded older runner; it preserves previous counters/evidence hashes in token-accounting-audit.json and leaves proofs, round evidence, prompts and outcomes unchanged. Batch aggregates refresh on the next save. Partial final-turn usage may be unreported; do not estimate it.
