@@ -232,11 +232,22 @@ LEAN_SYSTEMS_RECURSIVE = {
 ''',
 }
 
+LEAN_BOUNDARY_FUEL = {
+    'mirrorRec': ('mode fuel ns id','ns id','rfl',''),
+    'mirrorStack': ('fuel ns todo','ns todo','cases todo <;> rfl','cases todo <;> '),
+    'projectTree': ('fuel ns id','ns id','rfl',''),
+    'findUF': ('style fuel p x','p x','rfl',''),
+    'siftUp': ('fuel q i','q i','rfl',''),
+    'siftDown': ('mode fuel q i','q i','rfl',''),
+    'pqDrain': ('style fuel q out','q out','rfl',''),
+}
+
 
 def prepare_word_lean(row):
     ctx=row['context'];family=ctx.get('family_index')
-    boundary=ctx.get('tranche')=='boundaries' and family in (4,6)
+    boundary=ctx.get('tranche')=='boundaries' and family in (0,1,2,4,6,7)
     systems=ctx.get('tranche')=='systems' and family in (0,1,3,4)
+    general=systems or (boundary and family not in (4,6))
     if not boundary and not systems and not (ctx.get('tranche')=='graphsuite' and family in (0,2)):return None
     package=PACKAGES/row['pilot_id']/'lean'
     if (package/'registry.json').exists():
@@ -252,13 +263,23 @@ def prepare_word_lean(row):
     if systems:
         first,last={0:('eligibleEdge','graph'),1:('Binding','scopes'),3:('infinity','alignment'),4:('Phase','resample')}[family]
         names=list(native);allowed=set(names[:names.index('eligibleEdge')]+names[names.index(first):names.index(last)+1]);native={n:d for n,d in native.items() if n in allowed}
+    elif boundary and general:
+        first,last={0:('nodeAt','tree'),1:('findUF','unionfind'),2:('sortedPush','priority'),7:('splitPath','path')}[family]
+        names=list(native);allowed=set(names[:names.index('nodeAt')]+names[names.index(first):names.index(last)+1]);native={n:d for n,d in native.items() if n in allowed}
     styles=re.findall(r'entry\s+'+str(family)+r'\s+(\d+)',goals[ctx['equivalence_goal']])
     if len(styles)!=2 or styles[0]!='0' or styles[1] not in ('1','2'):raise ValueError('Unexpected frozen Lean pair')
     pair=[];algorithms=[]
     for name,style in zip(('a','b'),map(int,styles)):
-        root=({0:'graph',1:'scopes',3:'alignment',4:'resample'}[family] if systems else ({4:'tlv',6:'packbits'}[family] if boundary else ('apsp' if family==0 else 'search')));text=native[root].replace('def '+root+' (style : Nat)','def '+name,1)
+        root=({0:'graph',1:'scopes',3:'alignment',4:'resample'}[family] if systems else ({0:'tree',1:'unionfind',2:'priority',4:'tlv',6:'packbits',7:'path'}[family] if boundary else ('apsp' if family==0 else 'search')));text=native[root].replace('def '+root+' (style : Nat)','def '+name,1)
         if systems:
             text=re.sub(r'\binput\b','xs',text);text,n=re.subn(r'\bstyle\b',str(style),text);count=1 if n else 0;algorithm='finish'
+        elif boundary and general:
+            if family==0:
+                expression='mirrorStack 256 ns [root]' if style==1 else 'mirrorRec '+('true' if style==2 else 'false')+' 64 ns root'
+                text,count=re.subn(r'if style == 1 then mirrorStack 256 ns \[root\] else mirrorRec \(style == 2\) 64 ns root',expression,text)
+            else:
+                text,n=re.subn(r'\bstyle\b',str(style),text);count=1 if n else 0
+            algorithm='finish'
         elif boundary:
             stem='tlv' if family==4 else 'pack';algorithm=stem+('Suffix' if style==1 else 'Indexed')
             expression=(stem+'Suffix false 128 data 0 0 []' if style==1 else stem+'Indexed '+('true' if style==2 else 'false')+' data 128 0 0 []') if family==4 else (stem+'Suffix false cap 128 data 0 []' if style==1 else stem+'Indexed '+('true' if style==2 else 'false')+' cap data 128 0 []')
@@ -285,6 +306,7 @@ def prepare_word_lean(row):
         pre,match=domain['validB'].split(':=',1)[1].split('match domain with',1)
         clauses=re.findall(r'\n  \| (\d+|_) => (.*?)(?=\n  \| |\Z)',match,re.S)
         choices=[body for pattern,body in clauses if pattern==str(index)]
+        if not choices:choices=[body for pattern,body in clauses if pattern=='_']
         if len(choices)!=1:raise ValueError('Missing Lean codec input domain')
         valid='def valid (xs : Words) : Prop := ('+pre+choices[0]+') = true'
     else:
@@ -311,14 +333,27 @@ end Task
         if not dest.exists() or dest.read_bytes()!=src.read_bytes() or not (original/(name+'.olean')).exists():dest.write_bytes(src.read_bytes());logs.append(compile_at(original,name))
     bridge='import Task\nimport '+prefix+'Goals\n'
     helpers=[]
-    if systems:
+    if general:
         for name,d in available.items():
             if name not in needed:continue
             owner=namespace
-            if name in LEAN_SYSTEMS_RECURSIVE:
+            deps=set(re.findall(r'(?<![A-Za-z0-9_.])[A-Za-z_][A-Za-z_0-9]*\b',d))
+            if name in LEAN_BOUNDARY_FUEL and boundary:
+                args,varying,zero,cases=LEAN_BOUNDARY_FUEL[name]
+                simps=', '.join(['Task.'+name,owner+'.'+name]+['clone_'+n for n in helpers if n in deps]+['ih'])
+                bridge+=f'theorem clone_{name} : Task.{name} = {owner}.{name} := by\n  funext {args}\n  induction fuel generalizing {varying} with\n  | zero => {zero}\n  | succ fuel ih =>\n    {cases}simp only [{simps}]\n    all_goals rfl\n'
+            elif name=='sortedPush' and boundary:
+                bridge+=f'''theorem clone_sortedPush : Task.sortedPush = {owner}.sortedPush := by
+  funext v xs
+  induction xs with
+  | nil => rfl
+  | cons x xs ih =>
+    simp only [Task.sortedPush, {owner}.sortedPush, ih]
+    all_goals rfl
+'''
+            elif name in LEAN_SYSTEMS_RECURSIVE:
                 bridge+=LEAN_SYSTEMS_RECURSIVE[name]
             else:
-                deps=set(re.findall(r'(?<![A-Za-z0-9_.])[A-Za-z_][A-Za-z_0-9]*\b',d))
                 rewrites=''.join('  try rewrite [clone_'+n+']\n' for n in helpers if n in deps)
                 bridge+=f'theorem clone_{name} : @Task.{name} = @{owner}.{name} := by\n  unfold Task.{name} {owner}.{name}\n'+rewrites+'  rfl\n'
             helpers.append(name)
@@ -342,7 +377,7 @@ end Task
            'packIndexed':'Bool → Nat → Task.Words → Nat → Nat → Task.Words → Option Task.Words'}
     args={'bmLoop':'text pattern mode fuel i','tlvSuffix':'mode fuel src p count out','tlvIndexed':'mode data fuel p count out','packSuffix':'mode cap fuel src p out','packIndexed':'mode cap data fuel p out'}
     for name,style,body,algorithm in zip(('a','b'),styles,pair,algorithms):
-        if systems:
+        if general:
             rewrites=''.join('  try rewrite [clone_'+n+']\n' for n in helpers)
             bridge+=f'theorem {name}_eq : Task.{name} = {namespace}.entry {family} {style} := by\n  unfold Task.{name} {namespace}.entry {namespace}.{root}\n'+rewrites+'  rfl\n'
             continue
