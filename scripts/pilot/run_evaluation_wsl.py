@@ -61,6 +61,8 @@ def report_markdown(report):
         +f"- Task: `{c['task_id']}` / {c['platform']}\n"
         +f"- Prompt: {c['prompt_protocol']['variant']} / {c['prompt_protocol']['revision']}\n"
         +f"- Prompt SHA-256: {c['prompt_protocol']['initial_prompt_sha256']}\n"
+        +f"- Goal mode: {c.get('goal_mode', 'not configured')}\n"
+        +f"- Native turns: {(report.get('native_goal_session') or {}).get('native_turn_count')}\n"
         +f"- Model: `{c['model']}`, {c['model_reasoning_effort']}\n"
         +f"- Result: **{report['result']['status']}**\n"
         +f"- Policy: {c.get('policy',report.get('execution_policy','legacy-one-shot'))}\n"
@@ -88,9 +90,11 @@ def round_arguments(index, session_id, prompt):
     return (['resume'] if index else []) + ['--skip-git-repo-check', '--json', '--model', 'gpt-6-luna'] + ([session_id] if index else ['-C','/work']) + [prompt]
 
 
-def run(task_id, platform='lean', timeout=None, on_run=None, max_resumes=9, prompt_variant='baseline'):
+def run(task_id, platform='lean', timeout=None, on_run=None, max_resumes=0, prompt_variant='baseline', goal_mode=None):
     timeout = timeout if timeout is not None else (14400 if platform == 'compcert' else 7200)
     if timeout <= 0 or max_resumes < 0: raise ValueError('Invalid time/resume limit')
+    if goal_mode is not None and (goal_mode not in ('on','off') or max_resumes != 0 or platform != 'compcert'):
+        raise ValueError('Native Goal probe requires CompCert and no manual resumes')
     os.umask(0o077)
     if task_id not in {r['pilot_id'] for r in selection()[0]}:
         raise ValueError('Task is not evaluation-eligible')
@@ -98,14 +102,15 @@ def run(task_id, platform='lean', timeout=None, on_run=None, max_resumes=9, prom
         raise ValueError('No certified adapter for this platform yet')
     toolchain = {'lean': LEAN, 'rocq': ROCQ, 'compcert': COMPCERT}[platform]
     proof_name = 'Submission.lean' if platform == 'lean' else 'Submission.v'
-    prompt, prompt_protocol, prompt_components = build_prompt(platform, prompt_variant, timeout, max_resumes+1)
+    prompt, prompt_protocol, prompt_components = build_prompt(platform, prompt_variant, timeout, None if goal_mode is not None else max_resumes+1)
     source = PACKAGES/task_id/platform
     meta = json.loads((source/'registry.json').read_text())
     if (meta['pilot_id'], meta['platform']) != (task_id, platform) or tree_digest(source/'task') != meta['public_sha256']:
         raise ValueError('Trusted package mismatch')
     if not AUTH.is_file() or not CODEX.is_file() or not CODE_HOST.is_file():
         raise RuntimeError('Codex authentication/executables unavailable')
-    parent = BASE/task_id/platform/prompt_variant/'attempts'
+    condition = 'goal-'+goal_mode if goal_mode is not None else prompt_variant
+    parent = BASE/task_id/platform/condition/'attempts'
     parent.mkdir(parents=True, exist_ok=True, mode=0o700)
     run_dir = parent/(dt.datetime.now(dt.timezone.utc).strftime('%Y%m%dT%H%M%SZ')+'-'+uuid.uuid4().hex[:12])
     run_dir.mkdir(mode=0o700)
@@ -134,6 +139,10 @@ def run(task_id, platform='lean', timeout=None, on_run=None, max_resumes=9, prom
            'codex_code_host_sha256': sha(CODE_HOST.read_bytes()),
            'toolchain_version': subprocess.check_output([str(toolchain/('bin/lean' if platform == 'lean' else 'bin/coqc')), '--version'], text=True).strip(),
            'prompt_sha256': sha(prompt.encode()), 'prompt_protocol': prompt_protocol}
+    if goal_mode is not None:
+        cfg.update(policy='native-goal-probe', goal_mode=goal_mode, transport='app-server',
+                   manual_resumes=False, max_rounds=None, max_resumes=0,
+                   native_driver_sha256=sha((ROOT/'scripts/pilot/goal_client.py').read_bytes()))
     dump(run_dir/'config.json', cfg)
     config = '''default_permissions = "eval"
 approval_policy = "never"
@@ -157,7 +166,7 @@ enabled = false
     unit = 'specless-eval-'+uuid.uuid4().hex+'.scope'
     agent_seconds = None; agent_clock = None; checker_seconds = None; complete = False; invalid = 0; event_count = 0
     cgroup = None; session_id = None; round_index = 0; rounds = []; budget_clock = None
-    agent_total = 0.0; checker_total = 0.0; stop_reason = None
+    agent_total = 0.0; checker_total = 0.0; stop_reason = None; native_summary = None
     try:
         preflight = time.monotonic()
         catalog = subprocess.run([str(CODEX), 'debug', 'models'], capture_output=True, timeout=60)
@@ -206,7 +215,13 @@ enabled = false
                 if parsed.username or parsed.password:
                     raise RuntimeError('Credential-bearing proxy is unsupported')
                 cmd += ['--setenv', key, os.environ[key]]
-        sandbox_prefix = cmd + ['--chdir', '/work', '--', '/opt/codex', 'exec']
+        if goal_mode is not None:
+            cmd += ['--ro-bind',str(ROOT/'scripts/pilot/goal_client.py'),'/opt/goal_client.py',
+                    '--ro-bind',str(run_dir/'prompt.txt'),'/opt/prompt.txt']
+            sandbox_prefix = cmd + ['--chdir','/work','--','/usr/bin/python3','/opt/goal_client.py',
+                                    '--goal-mode',goal_mode,'--prompt','/opt/prompt.txt']
+        else:
+            sandbox_prefix = cmd + ['--chdir', '/work', '--', '/opt/codex', 'exec']
         budget_clock = time.monotonic()
         feedback = prompt
         while True:
@@ -215,7 +230,7 @@ enabled = false
                 result = {'status': 'timeout', 'detail': 'Shared attempt time budget reached'}
                 stop_reason = 'time-budget'; break
             complete = False; resources = None; cgroup = None; trace = []; checker_seconds = 0.0
-            cmd = sandbox_prefix + round_arguments(round_index, session_id, feedback)
+            cmd = sandbox_prefix if goal_mode is not None else sandbox_prefix + round_arguments(round_index, session_id, feedback)
             unit = 'specless-eval-'+uuid.uuid4().hex+'.scope'
             session_mismatch = False
             claim = None; agent_seconds = None
@@ -235,7 +250,7 @@ enabled = false
             with (run_dir/'events.jsonl').open('ab') as out, (run_dir/'events.timestamps.jsonl').open('a') as stamps, (run_dir/'agent.stderr').open('ab') as err:
                 proc = subprocess.Popen(launch, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=err, start_new_session=True)
                 def capture():
-                    nonlocal event_count, invalid, complete, session_id, session_mismatch
+                    nonlocal event_count, invalid, complete, session_id, session_mismatch, native_summary
                     for line in proc.stdout:
                         out.write(line); out.flush(); event_count += 1
                         stamps.write(json.dumps({'line': event_count, 'round': round_index, 'received_utc': now()})+'\n'); stamps.flush()
@@ -253,6 +268,10 @@ enabled = false
                                 complete = True
                                 if event.get('usage'):
                                     usage.append(event['usage'])
+                            if event.get('type') == 'native.run.completed':
+                                native_summary = event['summary']
+                            if event.get('usage') and event.get('type') == 'native.usage':
+                                usage.append(event['usage'])
                         except (ValueError, AttributeError):
                             invalid += 1
                 reader = threading.Thread(target=capture, daemon=True); reader.start()
@@ -330,6 +349,15 @@ enabled = false
             (round_dir/'SHA256SUMS').write_text(''.join(sha(f.read_bytes())+'  '+f.name+'\n' for f in sorted(round_dir.iterdir()) if f.is_file()))
             dump(run_dir/'rounds.json', rounds)
             subprocess.run(['systemctl', '--user', 'stop', unit], capture_output=True, timeout=20)
+            if goal_mode is not None:
+                if result['status'] == 'timeout':
+                    stop_reason = 'time-budget'
+                elif native_summary is None:
+                    result = {'status':'infrastructure-error','detail':'Native client did not report a final lifecycle state'}
+                    stop_reason = 'native-client-error'
+                else:
+                    stop_reason = 'accepted' if result['status']=='accepted' else native_summary['stop_reason']
+                break
             stop_reason = continuation_stop(result, time.monotonic()-budget_clock, timeout, round_index, max_resumes, session_id)
             if stop_reason:
                 if stop_reason == 'time-budget': result = {'status':'timeout','detail':'Shared attempt time budget reached'}
@@ -380,13 +408,14 @@ enabled = false
         report = {'schema_version': 2, 'started_utc': started, 'ended_utc': now(), 'configuration': cfg,
                   'result': result, 'resources': costs, 'submission_claim': claim,
                   'session_id': session_id, 'resume_count': round_index, 'stop_reason': stop_reason,
+                  'native_goal_session':native_summary,
                   'checks': {'fixed_goal_gate': 'passed' if len(trace) > 1 and trace[1].get('exit_code') == 0 else 'not-passed-or-not-run',
                              'axiom_audit': 'passed' if len(trace) == (3 if platform == 'lean' else 4) and trace[-1].get('exit_code') == 0 else 'not-passed-or-not-run',
                              'independent_coqchk': ('passed' if len(trace) > 2 and trace[2].get('exit_code') == 0 else 'not-passed-or-not-run') if platform != 'lean' else None,
                              'allowed_axioms': ['propext', 'Classical.choice', 'Quot.sound'] if platform == 'lean' else (['compcert.*', *sorted(COMPCERT_ROCQ_ASSUMPTIONS)] if platform == 'compcert' else []),
                              'full_stage_output': 'checker.log'},
                   'proof_sha256': sha((run_dir/proof_name).read_bytes()) if (run_dir/proof_name).exists() else None,
-                  'transcript': {'format': 'Codex CLI --json', 'event_count': event_count, 'invalid_lines': invalid,
+                  'transcript': {'format': 'Codex app-server JSON-RPC with normalized observations' if goal_mode is not None else 'Codex CLI --json', 'event_count': event_count, 'invalid_lines': invalid,
                                  'turn_completed': complete, 'events_flushed_live': True,
                                  'limitations': 'All CLI-emitted events are retained; hidden reasoning, tool output omitted by the CLI, and server-side resolved model metadata are not independently available.'}}
         dump(run_dir/'report.json', report)
@@ -402,8 +431,9 @@ if __name__ == '__main__':
     parser.add_argument('--task', required=True)
     parser.add_argument('--platform', choices=('lean', 'rocq', 'compcert'), default='lean')
     parser.add_argument('--timeout', type=int)
-    parser.add_argument('--max-resumes', type=int, default=9)
+    parser.add_argument('--max-resumes', type=int, default=0)
+    parser.add_argument('--goal-mode', choices=('on','off'))
     parser.add_argument('--prompt-variant', choices=VARIANTS, default='baseline')
     args = parser.parse_args()
-    directory, report = run(args.task, args.platform, timeout=args.timeout, max_resumes=args.max_resumes, prompt_variant=args.prompt_variant)
+    directory, report = run(args.task, args.platform, timeout=args.timeout, max_resumes=args.max_resumes, prompt_variant=args.prompt_variant, goal_mode=args.goal_mode)
     print(json.dumps({'run_dir': str(directory), 'result': report['result']}))

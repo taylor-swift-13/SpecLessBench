@@ -93,9 +93,13 @@ def build_prompt(platform, variant, budget, max_rounds):
     if variant not in VARIANTS:
         raise ValueError('Unknown prompt variant')
     interface = INTERFACES[platform]
-    runtime = (f'Runtime: shared wall budget {budget} seconds, at most {max_rounds} total '
-               'rounds, including agent work and grading. The controller measures the '
-               'budget; resumed rounds use the same session and workspace.\n')
+    if max_rounds is None:
+        runtime = (f'Runtime: shared wall budget {budget} seconds including agent work and grading. '
+                   'The external controller enforces this budget.\n')
+    else:
+        runtime = (f'Runtime: shared wall budget {budget} seconds, at most {max_rounds} total '
+                   'rounds, including agent work and grading. The controller measures the '
+                   'budget; resumed rounds use the same session and workspace.\n')
     components = {'task': TASK, 'interface': interface, 'runtime': runtime,
                   'execution_guidance': None,
                   'feedback_template': FEEDBACK}
