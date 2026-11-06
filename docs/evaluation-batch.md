@@ -1,9 +1,9 @@
 # Sequential Luna evaluation
 
-Evaluation is **paused by user request**. The monitor is also paused. Do not
-launch the worker until the user requests resumption.
+Evaluation and monitoring resumed on 2026-11-06 at the user's request.
+The serial worker uses the same-session continuation policy below.
 
-The next runs use `gpt-6-luna`, medium reasoning, one theorem at a time and a
+New runs use `gpt-6-luna`, medium reasoning, one theorem at a time and a
 3 GiB sandbox. Lean/Rocq have a shared two-hour budget; Clight has four hours.
 The budget covers all resumed agent rounds and deterministic checking, starting
 after setup. At most ten rounds are allowed: the initial run and nine resumes.
