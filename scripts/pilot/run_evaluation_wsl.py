@@ -14,6 +14,8 @@ from pathlib import Path
 from grade_sealed import grade
 from evaluation_prompts import VARIANTS, build_prompt
 from audit_evaluation_costs import session_tokens
+from goal_observation import initial_observation, observe
+from goal_client import goal_objective
 from prepare_evaluation import PACKAGES, ROCQ, COMPCERT, compile_lean, compile_rocq
 from rocq_grader_core import COMPCERT_ROCQ_ASSUMPTIONS
 from run_codex_wsl import AUTH, CODEX, CODE_HOST, LEAN, ROOT, SUPERVISOR, fingerprint_tree, now, sha
@@ -80,8 +82,8 @@ def run(task_id, platform='compcert', timeout=None, on_run=None, prompt_variant=
     timeout = timeout if timeout is not None else (14400 if platform == 'compcert' else 7200)
     if timeout <= 0:
         raise ValueError('Invalid time limit')
-    if goal_mode not in ('on','off') or platform != 'compcert':
-        raise ValueError('Native Goal probe currently supports CompCert only')
+    if goal_mode not in ('on','off'):
+        raise ValueError('Invalid Goal mode')
     os.umask(0o077)
     if task_id not in {r['pilot_id'] for r in selection()[0]}:
         raise ValueError('Task is not evaluation-eligible')
@@ -117,6 +119,9 @@ def run(task_id, platform='compcert', timeout=None, on_run=None, prompt_variant=
            'budget_scope': 'Shared wall time across all agent rounds and checking',
            'policy': 'native-goal' if goal_mode=='on' else 'single-turn', 'goal_mode':goal_mode,
            'transport':'app-server', 'manual_resumes':False,
+           'evaluation_protocol_revision':'native-goal-study-2026-11-07',
+           'goal_objective':goal_objective(platform) if goal_mode=='on' else None,
+           'native_idle_grace_seconds':120,
            'checker_stage_timeout_seconds': 600,
            'memory_limit_bytes': 3*1024**3, 'pids_limit': 512,
            'agent_version': subprocess.check_output([str(CODEX), '--version'], text=True).strip(),
@@ -148,10 +153,17 @@ enabled = false
     (home/'config.toml').write_text(config); (run_dir/'codex-config.toml').write_text(config)
     (run_dir/'prompt.txt').write_text(prompt)
     dump(run_dir/'prompt-components.json', prompt_components)
+    for source_name in ('run_evaluation_wsl.py','goal_client.py','goal_observation.py','evaluation_prompts.py'):
+        destination=run_dir/'runner-sources'/source_name
+        destination.parent.mkdir(exist_ok=True)
+        shutil.copyfile(ROOT/'scripts/pilot'/source_name,destination)
+    sources=run_dir/'runner-sources'
+    (sources/'SHA256SUMS').write_text(''.join(sha(f.read_bytes())+'  '+f.name+'\n' for f in sorted(sources.iterdir()) if f.is_file()))
     unit = 'specless-eval-'+uuid.uuid4().hex+'.scope'
     agent_seconds = None; agent_clock = None; checker_seconds = None; complete = False; invalid = 0; event_count = 0
     cgroup = None; session_id = None; round_index = 0; rounds = []; budget_clock = None
     agent_total = 0.0; checker_total = 0.0; stop_reason = None; native_summary = None
+    native_observed = initial_observation(goal_mode)
     try:
         preflight = time.monotonic()
         catalog = subprocess.run([str(CODEX), 'debug', 'models'], capture_output=True, timeout=60)
@@ -203,7 +215,7 @@ enabled = false
         cmd += ['--ro-bind',str(ROOT/'scripts/pilot/goal_client.py'),'/opt/goal_client.py',
                 '--ro-bind',str(run_dir/'prompt.txt'),'/opt/prompt.txt']
         sandbox_prefix = cmd + ['--chdir','/work','--','/usr/bin/python3','/opt/goal_client.py',
-                                '--goal-mode',goal_mode,'--prompt','/opt/prompt.txt']
+                                '--goal-mode',goal_mode,'--prompt','/opt/prompt.txt','--platform',platform]
         budget_clock = time.monotonic()
         feedback = prompt
         remaining = timeout-(time.monotonic()-budget_clock)
@@ -236,6 +248,7 @@ enabled = false
                     stamps.write(json.dumps({'line': event_count, 'round': round_index, 'received_utc': now()})+'\n'); stamps.flush()
                     try:
                         event = json.loads(line)
+                        observe(native_observed,event)
                         if event.get('type') == 'thread.started':
                             observed_id = event['thread_id']
                             if session_id is not None and observed_id != session_id:
@@ -268,6 +281,7 @@ enabled = false
                         except OSError:
                             pass
                 dump(run_dir/'live.json', {'phase': 'agent', 'updated_utc': now(), 'agent_seconds': time.monotonic()-agent_clock,
+                     'native_goal_session':native_observed.copy(),
                      'session_id': session_id, 'round': round_index, 'remaining_seconds': max(0,timeout-(time.monotonic()-budget_clock)), 'cumulative_agent_seconds': agent_total+time.monotonic()-agent_clock, 'events': event_count, 'event_bytes': out.tell(), 'usage_events': usage, **memory})
                 if time.monotonic()-agent_clock > remaining+10 or shutil.disk_usage(run_dir).free < 512*1024**2:
                     subprocess.run(['systemctl', '--user', 'stop', unit], capture_output=True, timeout=15)
@@ -340,6 +354,13 @@ enabled = false
     except (Exception, KeyboardInterrupt) as error:
         result = {'status': 'timeout' if budget_clock is not None and time.monotonic()-budget_clock >= timeout else 'infrastructure-error', 'detail': type(error).__name__+': '+str(error)}
     finally:
+        if native_observed['native_turn_count']:
+            if native_summary is None:
+                native_summary={**native_observed,'thread_id':session_id,
+                                'stop_reason':stop_reason or result['status'],
+                'terminal_goal_status_observed':False}
+            else:
+                native_summary={**native_observed,**native_summary}
         if resources is None and (private/'resources.json').exists():
             resources = json.loads((private/'resources.json').read_text())
         if resources is None and cgroup is not None:
@@ -374,6 +395,8 @@ enabled = false
                  'provider_usage_events': usage,
                  'tokens': session_tokens(usage),
                  'token_accounting': 'last-session-cumulative-event',
+                 'token_usage_complete':complete and result['status'] not in ('timeout','infrastructure-error'),
+                 'token_usage_scope':'Last reported session cumulative snapshot; interrupted final turn may have unreported usage',
                  'monetary_cost': None, 'hosted_inference_memory_bytes': None}
         dump(run_dir/'resources.json', costs)
         report = {'schema_version': 2, 'started_utc': started, 'ended_utc': now(), 'configuration': cfg,

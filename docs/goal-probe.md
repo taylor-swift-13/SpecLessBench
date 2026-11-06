@@ -52,4 +52,6 @@ were not changed; no candidate proof was repaired or regraded.
 
 This is one feasibility probe, not a paired effectiveness experiment. There is no
 retained fresh Goal-off control, so no comparative success-rate or efficiency
-claim is supported. Further evaluation awaits user direction.
+claim is supported. CompCert evaluation is now suspended. The user authorized a separate Lean/Rocq Goal-on/off study; this failed CompCert probe is excluded from its results and costs.
+
+The complete attempt was additionally archived after verifying all464regular files. Archive SHA-256: `bc905b6b1c1878fd60a6e1156aa3594d9ec6a5468ffd5169afcde77b4c7abb8b`. The original directory and per-file archive manifest remain private; no proof or event was changed.

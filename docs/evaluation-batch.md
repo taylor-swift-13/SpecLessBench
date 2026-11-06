@@ -1,47 +1,65 @@
-# Goal-mode evaluation pilot
+# Native Lean/Rocq Goal study
 
-The previous model-run results and baseline batch were deleted at the user's
-request. The ten-round external resume policy is retired. Do not launch the old
-batch controller. The full benchmark is not running.
+The current study runs `gpt-6-luna`, medium reasoning, over Lean and Rocq only.
+CompCert evaluation is suspended. Its four-hour failed probe is preserved in its
+original directory and a separately verified full archive; see [the result](goal-probe.md).
+It is excluded from the native study's counts and costs.
 
-The user requested first testing ONE CompCert theorem with native Goal:
-`P-00e48e122a4702fd`, gpt-6-luna medium, 14400-second shared wall budget and a
-3 GiB isolated sandbox. The service was `specless-goal-probe.service`; it is now inactive after the four-hour timeout. See [the audited probe result](goal-probe.md). No full batch or Goal-off run was launched.
+The frozen evaluation selection contains 69 contexts (factorial excluded), each
+on Lean and Rocq. Each theorem/platform runs once with Goal off and once with
+Goal on: **276 independent runs**. Order is deterministic: context, Lean then
+Rocq, off then on. The initial task prompt and platform interface are identical
+within each pair. Workspaces and sessions are fresh and isolated for every run;
+no proofs or outcomes are shared. Only native Goal mode differs.
 
-`goal_client.py` uses the installed Codex app-server's real `thread/goal/set`
-and `thread/goal/get` APIs. It sends exactly one client `turn/start`; later turns
-are native Goal continuations, not manual resumes. Raw requests, responses,
-notifications, lifecycle state and cumulative usage are preserved in events.jsonl.
-The goal must be confirmed active before inference. A plain `/goal` text prompt
-is not used as a substitute. Any unsupported API or unexpected permission request
-is an infrastructure error, not a model proof failure.
+Each run has a shared 7200-second wall limit including model work and checking,
+a 3 GiB sandbox and no token budget. Goal-off starts one ordinary turn. Goal-on
+sets and verifies a real persisted Goal and permits its native automatic turns.
+The client issues exactly one `turn/start` in either condition. There is no
+external retry/resume loop or ten-round cap. After a native Goal stays idle for
+120 seconds without continuing, it is recorded as `native-continuation-not-observed`;
+this is distinguished from timeout, blocked, complete and accepted.
 
-For a future same-model Goal-on/off comparison, both conditions use the same
-baseline task prompt, interface, tools, frozen target and time limit. Goal-off
-runs one normal turn; Goal-on enables the persisted native objective and allows
-its native continuations. There is no external ten-round cap or rejection-feedback
-resume loop. The host grades the original final submission with the same sealed
-grader. Native Goal completion is recorded separately and never counts as proof
-acceptance by itself. The current probe supports CompCert only; other platforms
-and the full comparison are not yet launched.
+The single controller is `scripts/pilot/batch_native_evaluation.py`, launched as
+`specless-native-study.service`. Global controller and preparation/activity locks
+serialize complete attempts including setup and grading. Never launch two workers.
+Infrastructure errors or interrupted attempts stop for inspection; any actual
+retry needs a new attempt ID and must retain the previous partial evidence.
 
-If the native goal stays active but no continuation begins for 120 seconds after
-a completed turn, the probe records `native-continuation-not-observed`. This
-bounds an idle infrastructure probe; it is not an assertion that the theorem is
-unprovable. Goal blocked/complete statuses and timeout are recorded distinctly.
-The raw stream must establish actual tool activity and source changes before
-claiming sustained proof work.
+State and artifacts on the private WSL filesystem:
 
-Native probe artifacts:
-`~/.local/share/speclessbench/runs/evaluation/<task>/compcert/goal-on/attempts/<id>/`.
-Read live.json, events.jsonl, per-attempt configuration and final report. Only one
-probe may run; do not prepare task packages or launch another theorem concurrently.
-The remaining 207-instance study awaits user direction after this probe.
-All frozen sources, differential tests, source-bound packages and construction
-cost records remain intact; factorial stays excluded from the evaluation split.
+```text
+~/.local/share/speclessbench/batches/native-luna-medium/status.json
+~/.local/share/speclessbench/batches/native-luna-medium/history.jsonl
+~/.local/share/speclessbench/runs/evaluation/<task>/<platform>/goal-<off|on>/attempts/<id>/
+```
 
-Token accounting uses the last session-cumulative usage snapshot, never the sum
-of snapshots. Timing and cgroup peaks include local app-server/client/tool work,
-not hosted inference memory. Billing and hosted memory remain unknown. The
-curator whole-chat usage series is separate and overlaps construction snapshots;
-never sum it with those snapshots or call it construction-only/per-family cost.
+The status contains separate `by_condition` counts and costs for `lean/off`,
+`lean/on`, `rocq/off`, `rocq/on`. No prior results are reused. Currently 84 of
+138 native platform packages are certified (41 Lean,43 Rocq), supporting168runs;
+54 packages/108runs await preparation. Unprepared items are pending, not failures.
+Prepare only native packages while no evaluation or checker is running, retain
+frozen implementations/domains/observations/targets and certify source binding
+before making them eligible. Do not start CompCert or expose other tasks/labels.
+
+Each attempt preserves config/model/catalog observations, exact prompt/components
+and hashes, native Goal objective and API confirmation, all available RPC requests,
+responses and notifications with timestamps, original work/submission/claim,
+deterministic target/axiom audits and checker logs, token/time/cgroup data and
+checksums. Runner sources are snapshotted and hashed. Native lifecycle counts and
+last observed Goal state survive timeouts; a Goal self-report is never acceptance.
+Lean allows its documented three standard axioms; native Rocq requires a closed
+proof and independent coqchk. Candidate placeholders/axioms/changed goals fail.
+
+Use the last reported cumulative model-usage snapshot, never sum native-turn
+snapshots. Cached input is part of input; reasoning output is part of output.
+Interrupted final-turn usage may be incomplete and is marked as such. Goal's own
+usage counter is separate and not added again. Peak memory is a maximum, not a
+sum. Billing and hosted inference memory remain null. The curator whole-chat
+metering overlaps construction snapshots and must not be summed with them or
+reported as construction-only/per-family cost.
+
+Inspect the status and `journalctl --user -u specless-native-study`; do not launch
+another controller to inspect progress. The monitor checks live processes first,
+stays quiet on ordinary progress, and reports milestones, actionable failures or
+completion. When all276runs are terminal, summarize results/costs and stop monitoring.

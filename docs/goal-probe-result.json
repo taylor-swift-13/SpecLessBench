@@ -38,5 +38,10 @@
   "private_artifact_directory": "/home/yangfp/.local/share/speclessbench/runs/evaluation/P-00e48e122a4702fd/compcert/goal-on/attempts/20261106T114447Z-11fce20e0212",
   "billing": null,
   "hosted_inference_memory": null,
-  "interpretation": "Native continuation and sustained attempts observed; complete theorem not proved; no fresh Goal-off control run exists"
+  "interpretation": "Native continuation and sustained attempts observed; complete theorem not proved; no fresh Goal-off control run exists",
+  "sealed_archive": {
+    "path": "/home/yangfp/.local/share/speclessbench/archives/20261106T114447Z-11fce20e0212-compcert-goal-failure.tar.gz",
+    "sha256": "bc905b6b1c1878fd60a6e1156aa3594d9ec6a5468ffd5169afcde77b4c7abb8b",
+    "verified_files": 464
+  }
 }

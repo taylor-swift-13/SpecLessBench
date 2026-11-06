@@ -11,7 +11,8 @@ def session_tokens(events):
         return None
     if any(b.get(k, 0) < a.get(k, 0) for a, b in zip(events, events[1:]) for k in KEYS):
         raise ValueError('Session usage decreased; manual review required')
-    return {k: events[-1].get(k, 0) for k in KEYS}
+    return {k: events[-1].get(k, 0) for k in (*KEYS,'reasoning_output_tokens','cache_write_input_tokens','total_tokens')
+            if k in KEYS or k in events[-1]}
 
 
 def main(batch):

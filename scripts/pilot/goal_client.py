@@ -13,7 +13,18 @@ def emit(event):
     print(json.dumps(event, ensure_ascii=False), flush=True)
 
 
-def main(mode, prompt_file):
+def goal_objective(platform):
+    proof = 'Submission.lean' if platform == 'lean' else 'Submission.v'
+    task = 'Task.lean' if platform == 'lean' else 'Task.v'
+    return (f'Produce /work/claim.json and /work/{proof} proving exactly '
+            f'the equivalence or literal counterexample target defined in /task/{task}. '
+            'Keep implementations, domains and observations fixed. Compile the final '
+            'complete solve theorem using the supplied platform interface. '
+            'No admitted proofs, placeholders or candidate-defined axioms. '
+            'The external evaluator independently grades the final submission.')
+
+
+def main(mode, prompt_file, platform):
     prompt = Path(prompt_file).read_text()
     process = subprocess.Popen(['/opt/codex', 'app-server', '--stdio'],
                                stdin=subprocess.PIPE, stdout=subprocess.PIPE,
@@ -74,6 +85,8 @@ def main(mode, prompt_file):
         if 'id' in message and method:
             # A never-approval evaluation must not silently grant new privileges.
             raise RuntimeError('Unexpected server request: '+method)
+        if thread and params.get('threadId') not in (None,thread):
+            return
         if method == 'thread/goal/updated':
             goal = params.get('goal')
         elif method == 'turn/started':
@@ -88,7 +101,9 @@ def main(mode, prompt_file):
                 'input_tokens':total['inputTokens'],
                 'cached_input_tokens':total['cachedInputTokens'],
                 'output_tokens':total['outputTokens'],
-                'reasoning_output_tokens':total['reasoningOutputTokens']}})
+                'reasoning_output_tokens':total['reasoningOutputTokens'],
+                'cache_write_input_tokens':total.get('cacheWriteInputTokens',0),
+                'total_tokens':total['totalTokens']}})
         elif method == 'item/completed':
             item = params.get('item') or {}
             if item.get('type') == 'agentMessage':
@@ -106,11 +121,7 @@ def main(mode, prompt_file):
         thread = result['thread']['id']
         emit({'type':'thread.started','thread_id':thread})
         if mode == 'on':
-            objective = ('Produce /work/claim.json and /work/Submission.v proving exactly '
-                         'the equivalence or literal counterexample target defined in /task/Task.v. '
-                         'Keep implementations, domains and semantics fixed. Compile the final '
-                         'proof using the task interface. No admitted proofs or new axioms. '
-                         'Only independent target checking and axiom audit count as success.')
+            objective = goal_objective(platform)
             goal = request('thread/goal/set', {'threadId':thread,'objective':objective,
                             'status':'active','origin':'user'})['goal']
             observed = request('thread/goal/get', {'threadId':thread})['goal']
@@ -121,6 +132,7 @@ def main(mode, prompt_file):
             observed = request('thread/goal/get', {'threadId':thread}).get('goal')
             if observed is not None:
                 raise RuntimeError('Goal-off thread unexpectedly has a Goal')
+            emit({'type':'native.goal.absent','goal':None})
         # This is the only client-issued turn/start. Any later turns must be native.
         request('turn/start', {'threadId':thread,'model':'gpt-6-luna','effort':'medium',
                               'input':[{'type':'text','text':prompt}]})
@@ -158,5 +170,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--goal-mode', choices=('on','off'), required=True)
     parser.add_argument('--prompt', required=True)
+    parser.add_argument('--platform', choices=('lean','rocq','compcert'), required=True)
     args = parser.parse_args()
-    main(args.goal_mode,args.prompt)
+    main(args.goal_mode,args.prompt,args.platform)
