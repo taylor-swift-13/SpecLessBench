@@ -1,14 +1,14 @@
 # Sequential evaluation
 
-All historical model evaluation and reference-run artifacts were deleted at the user's request on 2026-11-06, including previously accepted results. The batch is paused
-for prompt review; all 207 eligible platform instances are pending. No retained
-proof result will be skipped or counted in the next study. The paused monitor must
-not restart the worker until the user authorizes the reviewed protocol.
+All historical model evaluation and reference-run artifacts were deleted at the user's request on 2026-11-06. Evaluation now restarts from zero with both reviewed prompt conditions, strictly serially: for each theorem/platform, run baseline first, then verification in a fresh session and workspace, then move to the next item. Both conditions run even if the first succeeds. Factorial stays excluded: 207 eligible theorem/platform instances yield **414 independent runs**.
+
+The model is `gpt-6-luna`, medium reasoning. Each run has at most ten total rounds
+(initial plus nine resumes in the identical session), a shared 7200-second wall
+budget for Lean/Rocq or 14400 seconds for CompCert, including grading. Resume a
+failed check with structured feedback; stop on acceptance, budget or round cap.
 
 The reviewed Chinese protocol is [evaluation-protocol.zh-CN.md](evaluation-protocol.zh-CN.md).
-The provisional configuration remains gpt-6-luna medium, strictly serial, with ten
-total rounds (initial plus nine same-session resumes), a shared 7200-second budget
-for Lean/Rocq and 14400 seconds for CompCert, including checking. It is not running.
+Launch the single alternating worker with `batch_evaluation.py --prompt-variant both --resume` using the existing systemd/proxy setup. Do not launch separate workers for the two conditions. A global controller lock and shared preparation/evaluation activity lock prevent overlap. Unexpected exits and infrastructure failures require review.
 
 Two prompt conditions are maintained in `scripts/pilot/evaluation_prompts.py`:
 `baseline` and `verification` (default). They share the task, platform interface,
@@ -17,9 +17,8 @@ includes execution guidance to compile, repair errors and continue incomplete
 proofs. The guidance is delivered as a prompt section, not an externally loaded skill.
 Select either with `--prompt-variant` on `run_evaluation_wsl.py` or
 `batch_evaluation.py`. This option does not change grading or resource limits.
-Batch states are separate: `luna-medium` for verification and
-`luna-medium-baseline` for baseline. The shared activity lock serializes their
-evaluations; do not launch both workers.
+The alternating batch state is `luna-medium-both`. Standalone batch states remain
+`luna-medium` and `luna-medium-baseline`; they are not part of this restarted study.
 
 Both JSON configuration and reports contain `configuration.prompt_protocol`:
 revision, variant, language, initial prompt SHA-256 and per-component hashes.
@@ -38,13 +37,12 @@ Each agent sees only one read-only task package and its own writable workspace.
 It chooses either equivalence or a literal counterexample; no expected label or
 witness is given. The host independently constructs the selected obligation,
 checks the submitted proof, and audits axiom dependencies. Counterexamples must
-prove validity, both executions and distinct observations. Existing gold proofs
-and their checker dependencies are unchanged.
+prove validity, both executions and distinct observations. No earlier accepted
+model submissions are reused.
 
 Native Rocq submissions are independently checked by `coqchk` and must have no
-axiom dependencies. The Lean prompt is unchanged from the first batch; early
-submissions with missing claims or an incorrect theorem name remain rejected
-and are never silently repaired or overwritten.
+axiom dependencies. Missing claims or incorrect theorem names are rejected;
+model submissions are never silently repaired or overwritten.
 
 Clight packages retain the frozen execution semantics, safety and termination
 requirements, and full 8192-word output observations. Their C sources match the
@@ -58,9 +56,9 @@ existing grader allowlist; candidate axioms, including namespace spoofing, fail.
 Private artifacts are on WSL's Linux filesystem:
 
 ```text
-~/.local/share/speclessbench/batches/luna-medium/status.json
-~/.local/share/speclessbench/batches/luna-medium/history.jsonl
-~/.local/share/speclessbench/runs/evaluation/<task>/<platform>/attempts/<run-id>/
+~/.local/share/speclessbench/batches/luna-medium-both/status.json
+~/.local/share/speclessbench/batches/luna-medium-both/history.jsonl
+~/.local/share/speclessbench/runs/evaluation/<task>/<platform>/<variant>/attempts/<run-id>/
 ```
 
 Each attempt contains the prompt, model/agent/sandbox configuration, CLI model
@@ -98,12 +96,14 @@ must pass configured proxy variables explicitly.
 Inspect progress without starting another worker:
 
 ```bash
-cat ~/.local/share/speclessbench/batches/luna-medium/status.json
+cat ~/.local/share/speclessbench/batches/luna-medium-both/status.json
 journalctl --user -u specless-luna-batch -n 30 --no-pager
 systemctl --user status specless-luna-batch --no-pager
 ```
 
-When re-enabled by the user, the chat heartbeat checks every ten minutes and continues preparing pending
+The chat heartbeat checks every ten minutes and continues preparing pending
 packages when the worker is idle. It reports meaningful milestones, actionable
 failures and completion; unchanged state stays quiet. No finite completion time
 is promised until every instance has a certified adapter. Ten rounds is a maximum, not a requirement to keep an already accepted proof running.
+
+The batch status includes separate `by_prompt_variant` counts, token usage, agent/checker and total wall time, and cgroup memory peaks. Peak memory is a maximum, not a sum; billing and hosted inference memory remain null. Currently 141 source-bound platform packages support 282 runs; 66 packages (132 runs) still require preparation while evaluation is idle. Unprepared entries are pending, not model failures.

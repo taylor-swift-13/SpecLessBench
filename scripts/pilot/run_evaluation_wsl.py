@@ -104,7 +104,7 @@ def run(task_id, platform='lean', timeout=None, on_run=None, max_resumes=9, prom
         raise ValueError('Trusted package mismatch')
     if not AUTH.is_file() or not CODEX.is_file() or not CODE_HOST.is_file():
         raise RuntimeError('Codex authentication/executables unavailable')
-    parent = BASE/task_id/platform/'attempts'
+    parent = BASE/task_id/platform/prompt_variant/'attempts'
     parent.mkdir(parents=True, exist_ok=True, mode=0o700)
     run_dir = parent/(dt.datetime.now(dt.timezone.utc).strftime('%Y%m%dT%H%M%SZ')+'-'+uuid.uuid4().hex[:12])
     run_dir.mkdir(mode=0o700)

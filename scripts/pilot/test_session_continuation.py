@@ -2,9 +2,22 @@ import unittest
 
 from run_evaluation_wsl import continuation_stop, round_arguments, report_markdown
 from evaluation_prompts import build_prompt, feedback_prompt, digest, GUIDANCE
+from batch_evaluation import make_jobs
 
 
 class SessionContinuationTests(unittest.TestCase):
+    def test_pairwise_prompt_order_and_independent_attempts(self):
+        jobs=make_jobs([{'pilot_id':'A','platforms':['lean','rocq']},
+                        {'pilot_id':'B','platforms':['compcert']}],('baseline','verification'))
+        self.assertEqual([(j['task_id'],j['platform'],j['prompt_variant']) for j in jobs],
+                         [('A','lean','baseline'),('A','lean','verification'),
+                          ('A','rocq','baseline'),('A','rocq','verification'),
+                          ('B','compcert','baseline'),('B','compcert','verification')])
+        jobs[0]['attempts'].append('first-run')
+        jobs[0]['status']='accepted'
+        self.assertEqual(jobs[1]['attempts'],[])
+        self.assertEqual(jobs[1]['status'],'pending-package')
+
     def test_prompt_variants_only_differ_in_execution_guidance(self):
         for platform, budget, artifact in [('lean',7200,'Submission.lean'),
                                            ('rocq',7200,'Submission.v'),
