@@ -3,6 +3,14 @@
 Evaluation and monitoring resumed on 2026-11-06 at the user's request.
 The serial worker uses the same-session continuation policy below.
 
+The strengthened prompt adds an explicit completion checklist: save both required
+artifacts, compile the final exact theorem, fix errors before ending, and await
+independent target/axiom checking. It states the actual shared budget and total
+round cap. This prompt revision applies when a worker loads the revised runner;
+the already-running worker retains its original prompts. Each attempt's stored
+prompt and runner fingerprint identify its actual protocol. Do not relabel old
+attempts as having received the revised checklist.
+
 New runs use `gpt-6-luna`, medium reasoning, one theorem at a time and a
 3 GiB sandbox. Lean/Rocq have a shared two-hour budget; Clight has four hours.
 The budget covers all resumed agent rounds and deterministic checking, starting

@@ -1,9 +1,19 @@
 import unittest
 
-from run_evaluation_wsl import continuation_stop, round_arguments
+from run_evaluation_wsl import acceptance_contract, continuation_stop, round_arguments
 
 
 class SessionContinuationTests(unittest.TestCase):
+    def test_acceptance_contract_uses_actual_budget_and_artifact(self):
+        for platform, budget, artifact in [('lean',7200,'Submission.lean'),
+                                           ('rocq',7200,'Submission.v'),
+                                           ('compcert',14400,'Submission.v')]:
+            prompt = acceptance_contract(platform, budget, 10)
+            self.assertIn(artifact, prompt)
+            self.assertIn(f'{budget}-second', prompt)
+            self.assertIn('10 TOTAL', prompt)
+            self.assertIn('local compilation alone is insufficient', prompt)
+
     def test_same_session_nine_resumes_then_stop(self):
         session = 'same-original-session'
         commands = []

@@ -83,6 +83,33 @@ No expected branch, witness, other task or prior attempt is supplied.
 '''
 
 
+def acceptance_contract(platform, budget, max_rounds):
+    proof = 'Submission.lean' if platform == 'lean' else 'Submission.v'
+    return f'''
+COMPLETION AND ACCEPTANCE CONTRACT
+Your task is to produce a formally checked submission, not a progress report.
+Before ending your turn, verify ALL of these:
+1. /work/claim.json exists, uses the specified literal format, and agrees with
+   the branch proved by /work/{proof}.
+2. The exact required solve theorem is complete and has the selected target
+   type. A counterexample proves input validity, both observations and their
+   inequality; an equivalence covers every valid input.
+3. Run the compilation command above on the final saved file and resolve every
+   error. Inspect its exit status. No sorry/admit/Admitted, candidate axioms,
+   changed targets, or weakened premises may discharge the obligation.
+The host then independently checks the exact target and axiom dependencies.
+Only a host acceptance counts as success; local compilation alone is insufficient.
+If compilation fails or a proof is unfinished, keep working: inspect the error,
+revise the proof, try another lemma or proof strategy, and compile again. Do not
+end merely to report difficulty or incomplete work. Do not ask the user whether
+to continue. Preserve partial work if the external controller interrupts you.
+The controller allows {max_rounds} TOTAL turns in the SAME session, with a
+shared {budget}-second wall budget including checking, not a fresh budget per
+turn. It returns deterministic rejection feedback for continued work. Do not
+deliberately consume a turn by submitting a known failing proof.
+'''
+
+
 def dump(path, value):
     tmp = path.with_name(path.name+'.tmp')
     tmp.write_text(json.dumps(value, indent=2, ensure_ascii=False)+'\n')
@@ -158,7 +185,8 @@ def run(task_id, platform='lean', timeout=None, on_run=None, max_resumes=9):
         raise ValueError('No certified adapter for this platform yet')
     toolchain = {'lean': LEAN, 'rocq': ROCQ, 'compcert': COMPCERT}[platform]
     proof_name = 'Submission.lean' if platform == 'lean' else 'Submission.v'
-    prompt = {'lean': PROMPT, 'rocq': ROCQ_PROMPT, 'compcert': COMPCERT_PROMPT}[platform]
+    prompt = ({'lean': PROMPT, 'rocq': ROCQ_PROMPT, 'compcert': COMPCERT_PROMPT}[platform]
+              + acceptance_contract(platform, timeout, max_resumes+1))
     source = PACKAGES/task_id/platform
     meta = json.loads((source/'registry.json').read_text())
     if (meta['pilot_id'], meta['platform']) != (task_id, platform) or tree_digest(source/'task') != meta['public_sha256']:
@@ -394,7 +422,9 @@ enabled = false
                 break
             feedback = ('The deterministic checker did not accept your submission. Continue in this SAME session and /work. '
                         'Keep the frozen task unchanged. Repair your own proof and claim; do not stop merely because it is difficult. '
-                        'No admit, sorry, axioms or unproved claims. Remaining shared budget: '
+                        'Before ending, compile the final saved proof and fix every error; a progress report or known failing proof is not completion. '
+                        'Only the host checker can accept the exact target and permitted axiom dependencies. '
+                        'No admit, sorry, candidate axioms or unproved claims. Remaining shared budget: '
                         +str(int(timeout-(time.monotonic()-budget_clock)))+' seconds.\nResult: '+json.dumps(result)
                         +'\nChecker output:\n'+json.dumps(trace,ensure_ascii=False)[-24000:])
             round_index += 1
