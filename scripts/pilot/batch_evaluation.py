@@ -1,4 +1,5 @@
 """Durable serial evaluator. Unprepared instances wait; they are not failures."""
+import argparse
 import fcntl
 import json
 import os
@@ -13,7 +14,7 @@ from verify_freeze import main as verify_freeze
 BASE = Path.home()/'.local/share/speclessbench/batches/luna-medium'
 
 
-def main():
+def main(resume=False):
     os.umask(0o077); BASE.mkdir(parents=True, exist_ok=True, mode=0o700)
     with (BASE/'worker.lock').open('w') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
@@ -21,9 +22,13 @@ def main():
         state_file = BASE/'status.json'
         if state_file.exists():
             state = json.loads(state_file.read_text())
+            if state.get('paused'):
+                if not resume:
+                    print('Evaluation paused by user; no tasks launched.', flush=True); return
+                state['paused'] = False
         else:
             state = {'schema_version': 1, 'created_utc': now(), 'model': 'gpt-6-luna', 'reasoning_effort': 'medium',
-                     'agent_timeout_seconds': 3600, 'concurrency': 1, 'jobs': [
+                     'time_limits_seconds': {'lean':7200,'rocq':7200,'compcert':14400}, 'max_resumes':9, 'max_rounds':10, 'concurrency': 1, 'jobs': [
                          {'task_id': r['pilot_id'], 'platform': platform, 'status': 'pending-package', 'attempts': []}
                          for r in selection()[0] for platform in r['platforms']]}
         # A restarted controller must preserve, rather than silently repeat, interrupted attempts.
@@ -46,7 +51,7 @@ def main():
                 'reported_tokens': {k: sum((r['resources'].get('tokens') or {}).get(k, 0) for r in reports)
                                     for k in ('input_tokens', 'cached_input_tokens', 'output_tokens')},
                 'attempts_missing_usage': sum(r['resources'].get('tokens') is None for r in reports),
-                'max_agent_cgroup_memory_peak_bytes': max([((r['resources'].get('sandbox') or {}).get('memory_peak_bytes') or 0) for r in reports], default=0) or None,
+                'max_agent_cgroup_memory_peak_bytes': max([((r['resources'].get('sandbox') or {}).get('memory_peak_bytes') or 0) if not r['resources'].get('agent_max_cgroup_memory_peak_bytes') else r['resources']['agent_max_cgroup_memory_peak_bytes'] for r in reports], default=0) or None,
                 'monetary_cost': None, 'hosted_inference_memory_bytes': None}
             dump(state_file, state)
         if interrupted:
@@ -65,7 +70,7 @@ def main():
             try:
                 with (PACKAGES/'activity.lock').open('a') as activity:
                     fcntl.flock(activity, fcntl.LOCK_EX)
-                    directory, report = run(job['task_id'], job['platform'], on_run=started)
+                    directory, report = run(job['task_id'], job['platform'], timeout=state.get('time_limits_seconds',{'lean':7200,'rocq':7200,'compcert':14400})[job['platform']], max_resumes=state.get('max_resumes',9), on_run=started)
             except Exception as error:
                 job['status'] = 'infrastructure-error'; job['detail'] = type(error).__name__+': '+str(error)
                 save('blocked-infrastructure'); return
@@ -82,4 +87,6 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    parser=argparse.ArgumentParser()
+    parser.add_argument("--resume",action="store_true",help="Explicitly resume a user-paused batch")
+    main(resume=parser.parse_args().resume)

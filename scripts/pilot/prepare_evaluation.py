@@ -25,7 +25,7 @@ ROCQ = Path.home()/'.opam/qcp-8.20'
 COMPCERT = Path.home()/'.opam/five'
 
 
-def run_compiler(folder, name, argv, env):
+def run_compiler(folder, name, argv, env, timeout=180):
     """Keep per-command wall time and GNU time's process maximum RSS."""
     started = time.monotonic(); timed_out = False
     with tempfile.TemporaryDirectory(prefix='specless-compiler-cost-') as temp:
@@ -34,7 +34,7 @@ def run_compiler(folder, name, argv, env):
         proc = subprocess.Popen(command, cwd=folder, env=env,
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, start_new_session=True)
         try:
-            stdout, stderr = proc.communicate(timeout=180)
+            stdout, stderr = proc.communicate(timeout=timeout)
         except subprocess.TimeoutExpired:
             timed_out = True; os.killpg(proc.pid, signal.SIGKILL); stdout, stderr = proc.communicate()
         observed = metrics.read_text().splitlines()[-1].split() if metrics.exists() and metrics.read_text().strip() else []
@@ -55,17 +55,17 @@ def run_compiler(folder, name, argv, env):
     return stdout+stderr
 
 
-def compile_rocq(folder, name, paths, toolchain=ROCQ):
+def compile_rocq(folder, name, paths, toolchain=ROCQ, timeout=180):
     argv = [str(toolchain/'bin/coqc'), '-q', '-noglob']
     for path, logical in paths:
         argv += ['-Q', str(path), logical]
     return run_compiler(folder, name, argv+[str(folder/(name+'.v'))],
-                        dict(os.environ, OCAMLFIND_CONF=str(toolchain/'lib/findlib.conf'), OCAMLPATH=str(toolchain/'lib')))
+                        dict(os.environ, OCAMLFIND_CONF=str(toolchain/'lib/findlib.conf'), OCAMLPATH=str(toolchain/'lib')), timeout=timeout)
 
 
-def compile_lean(folder, name, paths):
+def compile_lean(folder, name, paths, timeout=180):
     return run_compiler(folder, name, [str(LEAN), '-j', '1', '-o', str(folder/(name+'.olean')), str(folder/(name+'.lean'))],
-                        dict(os.environ, LEAN_PATH=':'.join(map(str, paths))))
+                        dict(os.environ, LEAN_PATH=':'.join(map(str, paths))), timeout=timeout)
 
 
 def definition(source, name):

@@ -1,20 +1,30 @@
 # Sequential Luna evaluation
 
-This batch uses `gpt-6-luna`, medium reasoning, one theorem attempt at a time,
-a 3 GiB agent cgroup and a 3,600-second agent timeout. Checker stages have a
-separate 600-second limit. The entire factorial family remains reference-only.
-The evaluation manifest contains 69 contexts / 207 platform instances.
+Evaluation is **paused by user request**. The monitor is also paused. Do not
+launch the worker until the user requests resumption.
 
-Run from the repository in the existing WSL environment:
+The next runs use `gpt-6-luna`, medium reasoning, one theorem at a time and a
+3 GiB sandbox. Lean/Rocq have a shared two-hour budget; Clight has four hours.
+The budget covers all resumed agent rounds and deterministic checking, starting
+after setup. At most ten rounds are allowed: the initial run and nine resumes.
+The controller records the original session ID and uses `codex exec resume ID`;
+it never substitutes a new session. A failed check is fed back to that session.
+Acceptance, budget exhaustion or the round limit stops the attempt. Infrastructure
+failures stop for review. Checker stages retain a 600-second cap, reduced to fit
+the remaining attempt budget.
 
-```bash
-python3 scripts/pilot/prepare_evaluation.py
-systemd-run --user --unit=specless-luna-batch --working-directory="$PWD" \
-  --setenv="HTTP_PROXY=$HTTP_PROXY" --setenv="HTTPS_PROXY=$HTTPS_PROXY" \
-  --setenv="NO_PROXY=$NO_PROXY" --setenv="http_proxy=$http_proxy" \
-  --setenv="https_proxy=$https_proxy" --setenv="no_proxy=$no_proxy" \
-  /usr/bin/python3 -u "$PWD/scripts/pilot/batch_evaluation.py"
-```
+Old runs used ephemeral sessions, so failed historical runs cannot be resumed.
+At the user's request, 110 rejected attempts and one infrastructure attempt were
+deleted. All 31 accepted attempts remain, migrated to `rounds/000` with original
+reports/configurations preserved under `legacy/`. Their actual old 3,600-second
+configuration is unchanged and they are labelled `legacy-one-shot`; they are
+not evidence for the new continuation policy. They will be skipped on rerun.
+The queue contains 176 remaining instances: 110 certified and 66 unprepared.
+Factorial remains reference-only and excluded from the 207-instance evaluation.
+
+After the user explicitly resumes, launch the same serial worker with the
+existing proxy environment and pass `--resume` to `batch_evaluation.py`.
+Without that flag, a paused batch exits without launching an agent.
 
 Only packages with checked correspondence to the frozen sources are eligible
 for the worker. Certified coverage is 141 of 207 instances: 41 Lean, 43 Rocq
@@ -103,8 +113,7 @@ journalctl --user -u specless-luna-batch -n 30 --no-pager
 systemctl --user status specless-luna-batch --no-pager
 ```
 
-The chat heartbeat checks every ten minutes and continues preparing pending
+When re-enabled by the user, the chat heartbeat checks every ten minutes and continues preparing pending
 packages when the worker is idle. It reports meaningful milestones, actionable
 failures and completion; unchanged state stays quiet. No finite completion time
-is promised until every instance has a certified adapter. Model time alone is
-bounded by 207 hours at the current timeout, excluding preparation/checking.
+is promised until every instance has a certified adapter. Ten rounds is a maximum, not a requirement to keep an already accepted proof running.
