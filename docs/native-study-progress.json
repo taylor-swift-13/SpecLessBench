@@ -1,0 +1,144 @@
+{
+  "as_of_utc": "2026-11-07T13:08:21.215531+00:00",
+  "model": "gpt-6-luna",
+  "reasoning_effort": "medium",
+  "planned_runs": 276,
+  "completed_runs": 51,
+  "counts": {
+    "rejected": 24,
+    "accepted": 21,
+    "pending-package": 224,
+    "timeout": 6,
+    "running": 1
+  },
+  "by_condition": {
+    "lean/off": {
+      "completed": 13,
+      "accepted": 0,
+      "tokens": {
+        "input_tokens": 968417,
+        "cached_input_tokens": 751360,
+        "output_tokens": 22236
+      },
+      "missing_usage": 0,
+      "incomplete_usage": 0,
+      "agent_seconds": 761.1071142649744,
+      "checker_seconds": 90.04714117996627,
+      "wall_seconds": 1024.0284239749599,
+      "native_turns": 13,
+      "agent_memory_peak_bytes": 1158258688,
+      "checker_memory_peak_bytes": 2570805248,
+      "billing": null,
+      "hosted_model_memory": null
+    },
+    "lean/on": {
+      "completed": 12,
+      "accepted": 6,
+      "tokens": {
+        "input_tokens": 203913041,
+        "cached_input_tokens": 200611072,
+        "output_tokens": 1090752
+      },
+      "missing_usage": 0,
+      "incomplete_usage": 3,
+      "agent_seconds": 28032.048583505035,
+      "checker_seconds": 125.2954511900025,
+      "wall_seconds": 28275.239747862972,
+      "native_turns": 156,
+      "agent_memory_peak_bytes": 3221225472,
+      "checker_memory_peak_bytes": 2740830208,
+      "billing": null,
+      "hosted_model_memory": null
+    },
+    "rocq/off": {
+      "completed": 13,
+      "accepted": 5,
+      "tokens": {
+        "input_tokens": 1478734,
+        "cached_input_tokens": 1175296,
+        "output_tokens": 28518
+      },
+      "missing_usage": 0,
+      "incomplete_usage": 0,
+      "agent_seconds": 881.2112787960214,
+      "checker_seconds": 173.1230169670598,
+      "wall_seconds": 1182.0038636719983,
+      "native_turns": 13,
+      "agent_memory_peak_bytes": 596713472,
+      "checker_memory_peak_bytes": 291569664,
+      "billing": null,
+      "hosted_model_memory": null
+    },
+    "rocq/on": {
+      "completed": 13,
+      "accepted": 10,
+      "tokens": {
+        "input_tokens": 343296142,
+        "cached_input_tokens": 338942592,
+        "output_tokens": 1353613
+      },
+      "missing_usage": 0,
+      "incomplete_usage": 3,
+      "agent_seconds": 35692.00198578907,
+      "checker_seconds": 338.6214645069558,
+      "wall_seconds": 36126.258190970955,
+      "native_turns": 158,
+      "agent_memory_peak_bytes": 3221229568,
+      "checker_memory_peak_bytes": 429723648,
+      "billing": null,
+      "hosted_model_memory": null
+    }
+  },
+  "totals": {
+    "completed": 51,
+    "accepted": 21,
+    "tokens": {
+      "input_tokens": 549656334,
+      "cached_input_tokens": 541480320,
+      "output_tokens": 2495119
+    },
+    "missing_usage": 0,
+    "incomplete_usage": 6,
+    "agent_seconds": 65366.3689623551,
+    "checker_seconds": 727.0870738439844,
+    "wall_seconds": 66607.53022648089,
+    "native_turns": 340,
+    "agent_memory_peak_bytes": 3221229568,
+    "checker_memory_peak_bytes": 2740830208,
+    "billing": null,
+    "hosted_model_memory": null
+  },
+  "paired_comparison": {
+    "lean": {
+      "paired_instances": 12,
+      "off_accepted": 0,
+      "on_accepted": 6,
+      "on_only_accepted": 6,
+      "off_only_accepted": 0,
+      "wall_seconds": {
+        "off": 926.92615922197,
+        "on": 28275.239747862972
+      }
+    },
+    "rocq": {
+      "paired_instances": 13,
+      "off_accepted": 5,
+      "on_accepted": 10,
+      "on_only_accepted": 5,
+      "off_only_accepted": 0,
+      "wall_seconds": {
+        "off": 1182.0038636719983,
+        "on": 36126.258190970955
+      }
+    }
+  },
+  "notes": [
+    "Completed reports only; current attempt excluded.",
+    "Use last session-cumulative token snapshot; cached input is a subset of input.",
+    "Six timeout reports contain incomplete final-turn usage; reported tokens are observed counters, not full estimates.",
+    "Memory peaks are maxima across attempts, not sums; agent and checker peaks shown separately.",
+    "Billing and hosted inference memory unknown.",
+    "Snapshot is interim, ordered pilot coverage; not a final benchmark-wide estimate.",
+    "CompCert probe and curator whole-chat costs excluded."
+  ]
+}
