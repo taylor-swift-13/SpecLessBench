@@ -35,15 +35,15 @@ State and artifacts on the private WSL filesystem:
 ```
 
 The status contains separate `by_condition` counts and costs for `lean/off`,
-`lean/on`, `rocq/off`, `rocq/on`. No prior results are reused. Currently 90 of
-138 native platform packages are certified (43 Lean,47 Rocq), supporting180runs;
-48 packages/96runs await preparation. Unprepared items are pending, not failures.
+`lean/on`, `rocq/off`, `rocq/on`. No prior results are reused. Currently 91 of
+138 native platform packages are certified (43 Lean,48 Rocq), supporting182runs;
+47 packages/94runs await preparation. Unprepared items are pending, not failures.
 Prepare only native packages while no evaluation or checker is running, retain
 frozen implementations/domains/observations/targets and certify source binding
 before making them eligible. Do not start CompCert or expose other tasks/labels.
 For isolated record types, correspondence may use an explicit representation
-map and constructive two-way proofs for both frozen branches. The tokenizer
-adapter checks this transport without adding functional extensionality or axioms.
+map and constructive two-way proofs for both frozen branches. The tokenizer and
+transaction adapters check this transport without adding functional extensionality or axioms.
 
 Each attempt preserves config/model/catalog observations, exact prompt/components
 and hashes, native Goal objective and API confirmation, all available RPC requests,
