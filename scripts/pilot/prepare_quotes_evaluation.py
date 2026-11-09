@@ -5,8 +5,8 @@ import re
 import resource
 import time
 
-from prepare_evaluation import ROOT, PACKAGES, compile_rocq
-from prepare_classics_evaluation import declarations
+from prepare_evaluation import ROOT, PACKAGES, compile_rocq, compile_lean
+from prepare_classics_evaluation import declarations, lean_declarations
 from single_task_runner import tree_digest
 
 
@@ -154,6 +154,127 @@ Print Assumptions refutation_binding.
             'binding': 'rocq-kernel-checked-record-transport-and-exact-frozen-target',
             'source_context': row['source_context_id'], 'source_goal': ctx['equivalence_goal'],
             'frozen_source_sha256': {n: hashlib.sha256((source / (n + '.v')).read_bytes()).hexdigest()
+                                     for n in ('BoundaryNative', 'BoundaryDomain', 'BoundaryGoals')},
+            'preparation_wall_seconds': time.monotonic() - started,
+            'preparation_controller_peak_rss_bytes': resource.getrusage(resource.RUSAGE_SELF).ru_maxrss * 1024,
+            'compiler_costs': 'compile-costs.jsonl', 'preparation_model_tokens': None,
+            'final_proof_attempted': False}
+    (package / 'registry.json').write_text(json.dumps(meta, indent=2) + '\n')
+    return meta
+
+
+def prepare_quotes_lean(row):
+    ctx = row['context']
+    if ctx.get('tranche') != 'boundaries' or ctx.get('family_index') != 5:
+        return None
+    package = PACKAGES / row['pilot_id'] / 'lean'
+    if (package / 'registry.json').exists():
+        meta = json.loads((package / 'registry.json').read_text())
+        if tree_digest(package / 'task') != meta['public_sha256']:
+            raise ValueError('Existing quoted-tokenizer package changed')
+        return meta
+    if package.exists():
+        raise ValueError('Incomplete preparation requires inspection: ' + str(package))
+    started = time.monotonic()
+    source = ROOT / 'benchmarks/tasks/boundaries-core/lean'
+    raw = (source / 'BoundaryNative.lean').read_text()
+    native = lean_declarations(raw)
+    domains = lean_declarations((source / 'BoundaryDomain.lean').read_text())
+    goals = lean_declarations((source / 'BoundaryGoals.lean').read_text())
+    styles = re.findall(r'entry\s+5\s+(\d+)', goals[ctx['equivalence_goal']])
+    if styles != ['0', '2']:
+        raise ValueError('This adapter certifies only the frozen folded tokenizer pair')
+    record = raw.split('structure QuoteState where', 1)[1].split('def appendChar', 1)[0]
+    before, after = native['quotes'].split('  let final :=', 1)
+    observe = ('def observe (s : QuoteState) (data : Words) : Option Words := do\n  let final :=' + after).replace('  pure (finish', '  return (finish')
+    pair = []
+    pattern = r'if style == 1 then quoteSpans 128 data 0 \{\} else some \(\(data.zipIdx\).foldl \(fun s \(c,p\) => quoteStep \(style == 2\) s c p\) \{\}\)'
+    for name, style in zip(('a', 'b'), styles):
+        text = before.replace('def quotes (style : Nat)', 'def ' + name, 1)
+        expr = 'some ((data.zipIdx).foldl (fun s (c,p) => quoteStep ' + ('true' if style == '2' else 'false') + ' s c p) {})'
+        text, count = re.subn(pattern, expr, text)
+        if count != 1 or re.search(r'\bstyle\b', text):
+            raise ValueError('Unexpected tokenizer dispatcher')
+        pair.append(text + '  observe s data\n')
+    pre, branches = domains['validB'].split(':=', 1)[1].split('match domain with', 1)
+    body = branches.split('  | _ =>', 1)[1]
+    valid = 'def valid (xs : Words) : Prop := (' + pre + body + ') = true\n'
+    task = package / 'task'; binding = package / 'binding'
+    task.mkdir(parents=True, mode=0o700); binding.mkdir(mode=0o700)
+    public = 'import Lean\nnamespace Task\n' + '\n'.join(
+        [native[n] for n in ('Words', 'getOr', 'iz', 'finish')] + ['structure QuoteState where' + record] +
+        [native[n] for n in ('appendChar', 'commitToken', 'quoteStep')] + [domains['inRange'], valid, observe, *pair]) + '''
+def equivalent : Prop := ∀ x, valid x → ∃ o, a x=some o ∧ b x=some o
+def refutationAt (x oa ob : Words) : Prop := valid x ∧ a x=some oa ∧ b x=some ob ∧ oa≠ob
+end Task
+'''
+    public = re.sub(r'\bmutant\b', 'modeFlag', public)
+    (task / 'Task.lean').write_text(public)
+    (task / 'Obligation.lean').write_text('import Task\nnamespace Obligation\ndef goal : Prop := Task.equivalent\nend Obligation\n')
+    original = ROOT / '_build/pilot-v1/boundary-lean-binding'
+    original.mkdir(parents=True, exist_ok=True)
+    def compile_at(folder, name):
+        return compile_lean(folder, name, [task, original])
+    logs = [compile_at(task, n) for n in ('Task', 'Obligation')]
+    for name in ('BoundaryNative', 'BoundaryDomain', 'BoundaryGoals'):
+        src = source / (name + '.lean'); dest = original / src.name
+        if not dest.exists() or dest.read_bytes() != src.read_bytes() or not (original / (name + '.olean')).exists():
+            dest.write_bytes(src.read_bytes()); logs.append(compile_at(original, name))
+    bridge = 'import Task\nimport BoundaryGoals\nopen SpecLessBenchBoundary\nset_option maxRecDepth 4096\nset_option maxHeartbeats 2000000\n'
+    bridge += observe.replace('def observe ', 'def sourceObserve ', 1) + '''
+def lift (s : Task.QuoteState) : QuoteState :=
+  ⟨s.mode,s.opening,s.escaping,s.slash,s.active,s.current,s.tokens,s.code,s.offset⟩
+theorem step_lift (m : Bool) (s : Task.QuoteState) (c : Int) (p : Nat) :
+  lift (Task.quoteStep m s c p) = quoteStep m (lift s) c p := by
+  cases s
+  dsimp only [Task.quoteStep, quoteStep, Task.appendChar, appendChar, Task.commitToken, commitToken, lift]
+  repeat first | rfl | split
+theorem fold_lift (m : Bool) (cps : List (Int × Nat)) (s : Task.QuoteState) :
+  lift (cps.foldl (fun s (c,p) => Task.quoteStep m s c p) s) =
+  cps.foldl (fun s (c,p) => quoteStep m s c p) (lift s) := by
+  induction cps generalizing s with
+  | nil => rfl
+  | cons cp cps ih =>
+    cases cp
+    simp only [List.foldl_cons]
+    rw [← step_lift]
+    exact ih _
+theorem observe_lift (s : Task.QuoteState) (data : Task.Words) :
+  Task.observe s data = sourceObserve (lift s) data := by
+  cases s
+  dsimp only [Task.observe, sourceObserve, Task.commitToken, commitToken, lift]
+  repeat first | rfl | split
+'''
+    for name, style in zip(('a', 'b'), styles):
+        mode = 'true' if style == '2' else 'false'
+        bridge += f'''theorem {name}_binding : Task.{name} = entry 5 {style} := by
+  funext xs
+  let data := (xs.drop 1).take (Task.iz xs 0).toNat
+  change Task.observe (data.zipIdx.foldl (fun s (c,p) => Task.quoteStep {mode} s c p) {{}}) data =
+    sourceObserve (data.zipIdx.foldl (fun s (c,p) => quoteStep {mode} s c p) {{}}) data
+  have h := fold_lift {mode} data.zipIdx ({{}} : Task.QuoteState)
+  have init : lift ({{}} : Task.QuoteState) = ({{}} : QuoteState) := rfl
+  rw [init] at h
+  rw [← h]
+  exact observe_lift _ _
+'''
+    bridge += f'''theorem domain_binding : Task.valid = valid 6 := by rfl
+theorem equivalent_binding : Task.equivalent = {ctx['equivalence_goal']} := by
+  unfold Task.equivalent {ctx['equivalence_goal']} Equivalent
+  rw [domain_binding, a_binding, b_binding]
+theorem refutation_binding (x oa ob : Task.Words) : Task.refutationAt x oa ob = {ctx['refutation_at_goal']} x oa ob := by
+  unfold Task.refutationAt {ctx['refutation_at_goal']} RefutationAt
+  rw [domain_binding, a_binding, b_binding]
+#print axioms equivalent_binding
+#print axioms refutation_binding
+'''
+    (binding / 'Binding.lean').write_text(bridge)
+    logs.append(compile_at(binding, 'Binding'))
+    (binding / 'compile.log').write_text('\n'.join(logs))
+    meta = {'pilot_id': row['pilot_id'], 'platform': 'lean', 'public_sha256': tree_digest(task),
+            'binding': 'lean-kernel-checked-record-transport-and-exact-frozen-target',
+            'source_context': row['source_context_id'], 'source_goal': ctx['equivalence_goal'],
+            'frozen_source_sha256': {n: hashlib.sha256((source / (n + '.lean')).read_bytes()).hexdigest()
                                      for n in ('BoundaryNative', 'BoundaryDomain', 'BoundaryGoals')},
             'preparation_wall_seconds': time.monotonic() - started,
             'preparation_controller_peak_rss_bytes': resource.getrusage(resource.RUSAGE_SELF).ru_maxrss * 1024,
