@@ -5,8 +5,8 @@ import re
 import resource
 import time
 
-from prepare_evaluation import ROOT, PACKAGES, compile_rocq
-from prepare_classics_evaluation import declarations
+from prepare_evaluation import ROOT, PACKAGES, compile_rocq, compile_lean
+from prepare_classics_evaluation import declarations, lean_declarations
 from single_task_runner import tree_digest
 
 
@@ -152,6 +152,188 @@ Print Assumptions refutation_binding.
             'binding': 'rocq-kernel-checked-record-transport-and-exact-frozen-target',
             'source_context': row['source_context_id'], 'source_goal': ctx['equivalence_goal'],
             'frozen_source_sha256': {n: hashlib.sha256((source / (n + '.v')).read_bytes()).hexdigest()
+                                     for n in ('StatefulNative', 'StatefulDomain', 'StatefulGoals')},
+            'preparation_wall_seconds': time.monotonic() - started,
+            'preparation_controller_peak_rss_bytes': resource.getrusage(resource.RUSAGE_SELF).ru_maxrss * 1024,
+            'compiler_costs': 'compile-costs.jsonl', 'preparation_model_tokens': None,
+            'final_proof_attempted': False}
+    (package / 'registry.json').write_text(json.dumps(meta, indent=2) + '\n')
+    return meta
+
+
+def prepare_transactions_lean(row):
+    ctx = row['context']
+    if ctx.get('tranche') != 'stateful' or ctx.get('family_index') != 1:
+        return None
+    package = PACKAGES / row['pilot_id'] / 'lean'
+    if (package / 'registry.json').exists():
+        meta = json.loads((package / 'registry.json').read_text())
+        if tree_digest(package / 'task') != meta['public_sha256']:
+            raise ValueError('Existing transaction package changed')
+        return meta
+    if package.exists():
+        raise ValueError('Incomplete preparation requires inspection: ' + str(package))
+    started = time.monotonic()
+    source = ROOT / 'benchmarks/tasks/stateful-core/lean'
+    raw = (source / 'StatefulNative.lean').read_text()
+    native = lean_declarations(raw)
+    domains = lean_declarations((source / 'StatefulDomain.lean').read_text())
+    goals = lean_declarations((source / 'StatefulGoals.lean').read_text())
+    styles = re.findall(r'entry\s+1\s+(\d+)', goals[ctx['equivalence_goal']])
+    if styles not in (['0', '1'], ['0', '2']):
+        raise ValueError('Unexpected frozen transaction pair')
+    record = raw.split('structure TxState where', 1)[1].split('def txDepth', 1)[0]
+    names = list(native)
+    names = ['Words', 'Item', 'getOr', 'iz', 'put', 'finish'] + names[names.index('txDepth'):names.index('transactions')]
+    pair = [re.sub(r'\bstyle\b', style, native['transactions'].replace('def transactions (style : Nat)', 'def ' + name, 1))
+            for name, style in zip(('a', 'b'), styles)]
+    pre, branches = domains['validB'].split(':=', 1)[1].split('match family with', 1)
+    body = branches.split('  | 1 =>', 1)[1].split('  | _ =>', 1)[0]
+    valid = 'def valid (xs : Words) : Prop := (' + pre + body + ') = true\n'
+    task = package / 'task'; binding = package / 'binding'
+    task.mkdir(parents=True, mode=0o700); binding.mkdir(mode=0o700)
+    public = 'import Lean\nnamespace Task\n' + '\n'.join(
+        [native[n] for n in names[:6]] + ['structure TxState where' + record] + [native[n] for n in names[6:]] +
+        [domains['inRange'], valid, *pair]) + '''
+def equivalent : Prop := ∀ x, valid x → ∃ o, a x=some o ∧ b x=some o
+def refutationAt (x oa ob : Words) : Prop := valid x ∧ a x=some oa ∧ b x=some ob ∧ oa≠ob
+end Task
+'''
+    (task / 'Task.lean').write_text(public)
+    (task / 'Obligation.lean').write_text('import Task\nnamespace Obligation\ndef goal : Prop := Task.equivalent\nend Obligation\n')
+    original = ROOT / '_build/pilot-v1/stateful-lean-binding'
+    original.mkdir(parents=True, exist_ok=True)
+    def compile_at(folder, name):
+        return compile_lean(folder, name, [task, original])
+    logs = [compile_at(task, n) for n in ('Task', 'Obligation')]
+    for name in ('StatefulNative', 'StatefulDomain', 'StatefulGoals'):
+        src = source / (name + '.lean'); dest = original / src.name
+        if not dest.exists() or dest.read_bytes() != src.read_bytes() or not (original / (name + '.olean')).exists():
+            dest.write_bytes(src.read_bytes()); logs.append(compile_at(original, name))
+    bridge = '''import Task
+import StatefulGoals
+set_option maxRecDepth 4096
+set_option maxHeartbeats 2000000
+open SpecLessBenchStateful
+def lift (s : Task.TxState) : TxState := ⟨s.slots,s.snaps,s.undo,s.marks⟩
+def liftPair (p : Task.TxState × Task.Words) : TxState × Words := (lift p.1,p.2)
+theorem restore_lift (s : Task.TxState) (u : Int × Int × Int) :
+  lift (Task.restoreUndo s u) = restoreUndo (lift s) u := by rfl
+theorem restore_fold_lift (us : List (Int × Int × Int)) (s : Task.TxState) :
+  lift (us.foldl Task.restoreUndo s) = us.foldl restoreUndo (lift s) := by
+  induction us generalizing s with
+  | nil => rfl
+  | cons u us ih => simpa only [List.foldl_cons, restore_lift] using ih (Task.restoreUndo s u)
+theorem undo_lift (s : Task.TxState) (mark : Nat) :
+  lift (Task.undoTo s mark) = undoTo (lift s) mark := by
+  unfold Task.undoTo undoTo
+  have h := restore_fold_lift (s.undo.drop mark).reverse s
+  cases s
+  simp only [lift] at h ⊢
+  rw [← h]
+def liftInt (p : Task.TxState × Int) : TxState × Int := (lift p.1,p.2)
+theorem liftInt_pair (s : Task.TxState) (i : Int) : liftInt (s,i) = (lift s,i) := by rfl
+theorem depth_lift (style : Nat) (s : Task.TxState) : Task.txDepth style s = txDepth style (lift s) := by rfl
+theorem write_lift (style : Nat) (s : Task.TxState) (key : Nat) (f v : Int) :
+  lift (Task.txWrite style s key f v) = txWrite style (lift s) key f v := by
+  unfold Task.txWrite txWrite Task.appendUndo appendUndo
+  simp only [← depth_lift]
+  split <;> rfl
+theorem begin_lift (style : Nat) (s : Task.TxState) : liftInt (Task.txBegin style s) = txBegin style (lift s) := by
+  unfold Task.txBegin txBegin
+  simp only [← depth_lift]
+  split
+  · rfl
+  · split <;> rfl
+theorem commit_lift (style : Nat) (s : Task.TxState) : liftInt (Task.txCommit style s) = txCommit style (lift s) := by
+  unfold Task.txCommit txCommit
+  simp only [← depth_lift]
+  split
+  · rfl
+  · split <;> rfl
+theorem rollback_lift (style : Nat) (s : Task.TxState) : liftInt (Task.txRollback style s) = txRollback style (lift s) := by
+  unfold Task.txRollback txRollback
+  simp only [← depth_lift]
+  split
+  · rfl
+  · split
+    · rfl
+    · have h := undo_lift s (Task.getOr s.marks 0 0)
+      dsimp only [Task.getOr, getOr, lift] at h ⊢
+      rw [← h]
+      rfl
+theorem execute_lift (style : Nat) (s : Task.TxState) (op key value : Int) :
+  liftPair (Task.executeTx style s op key value) = executeTx style (lift s) op key value := by
+  unfold Task.executeTx executeTx
+  have h : liftInt (if op == 0 then (Task.txWrite style s key.toNat 1 value,0)
+    else if op == 1 then (Task.txWrite style s key.toNat 0 0,0)
+    else if op == 3 then Task.txBegin style s else if op == 4 then Task.txCommit style s
+    else if op == 5 then Task.txRollback style s else (s,0)) =
+    (if op == 0 then (txWrite style (lift s) key.toNat 1 value,0)
+    else if op == 1 then (txWrite style (lift s) key.toNat 0 0,0)
+    else if op == 3 then txBegin style (lift s) else if op == 4 then txCommit style (lift s)
+    else if op == 5 then txRollback style (lift s) else (lift s,0)) := by
+      by_cases h0 : (op == 0) = true
+      · simp only [if_pos h0, liftInt_pair, write_lift]
+      · simp only [if_neg h0]
+        by_cases h1 : (op == 1) = true
+        · simp only [if_pos h1, liftInt_pair, write_lift]
+        · simp only [if_neg h1]
+          by_cases h3 : (op == 3) = true
+          · simp only [if_pos h3, begin_lift]
+          · simp only [if_neg h3]
+            by_cases h4 : (op == 4) = true
+            · simp only [if_pos h4, commit_lift]
+            · simp only [if_neg h4]
+              by_cases h5 : (op == 5) = true
+              · simp only [if_pos h5, rollback_lift]
+              · simp only [if_neg h5, liftInt_pair]
+  rw [← h]
+  dsimp only [liftInt, liftPair]
+  rfl
+theorem commands_lift (style : Nat) (xs : Task.Words) (is : List Nat) (p : Task.TxState × Task.Words) :
+  liftPair (is.foldl (fun (s,out) i =>
+    let (next,data) := Task.executeTx style s (Task.iz xs (1+3*i)) (Task.iz xs (2+3*i)) (Task.iz xs (3+3*i))
+    (next,out++data)) p) =
+  is.foldl (fun (s,out) i =>
+    let (next,data) := executeTx style s (iz xs (1+3*i)) (iz xs (2+3*i)) (iz xs (3+3*i))
+    (next,out++data)) (liftPair p) := by
+  induction is generalizing p with
+  | nil => rfl
+  | cons i is ih =>
+    cases p with
+    | mk s out =>
+      dsimp only [List.foldl_cons, liftPair, Prod.fst, Prod.snd]
+      rw [← execute_lift]
+      simpa only [liftPair, Task.iz, Task.getOr, iz, getOr] using ih _
+'''
+    for name, style in zip(('a', 'b'), styles):
+        bridge += f'''theorem {name}_binding : Task.{name} = entry 1 {style} := by
+  funext xs
+  unfold Task.{name} entry transactions
+  have h := commands_lift {style} xs (List.range (Task.iz xs 0).toNat) (({{}} : Task.TxState),([] : Task.Words))
+  dsimp only [liftPair, lift, Task.iz, Task.getOr, iz, getOr] at h ⊢
+  change some _ = some _
+  rw [← h]
+  rfl
+'''
+    bridge += f'''theorem domain_binding : Task.valid = valid 1 := by rfl
+theorem equivalent_binding : Task.equivalent = {ctx['equivalence_goal']} := by
+  unfold Task.equivalent {ctx['equivalence_goal']} Equivalent
+  rw [domain_binding, a_binding, b_binding]
+theorem refutation_binding (x oa ob : Task.Words) : Task.refutationAt x oa ob = {ctx['refutation_at_goal']} x oa ob := by
+  unfold Task.refutationAt {ctx['refutation_at_goal']} RefutationAt
+  rw [domain_binding, a_binding, b_binding]
+#print axioms equivalent_binding
+#print axioms refutation_binding
+'''
+    (binding / 'Binding.lean').write_text(bridge)
+    logs.append(compile_at(binding, 'Binding'))
+    (binding / 'compile.log').write_text('\n'.join(logs))
+    meta = {'pilot_id': row['pilot_id'], 'platform': 'lean', 'public_sha256': tree_digest(task),
+            'binding': 'lean-kernel-checked-record-transport-and-exact-frozen-target',
+            'source_context': row['source_context_id'], 'source_goal': ctx['equivalence_goal'],
+            'frozen_source_sha256': {n: hashlib.sha256((source / (n + '.lean')).read_bytes()).hexdigest()
                                      for n in ('StatefulNative', 'StatefulDomain', 'StatefulGoals')},
             'preparation_wall_seconds': time.monotonic() - started,
             'preparation_controller_peak_rss_bytes': resource.getrusage(resource.RUSAGE_SELF).ru_maxrss * 1024,
