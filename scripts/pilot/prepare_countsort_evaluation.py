@@ -5,8 +5,8 @@ import re
 import resource
 import time
 
-from prepare_evaluation import ROOT, PACKAGES, compile_rocq
-from prepare_classics_evaluation import declarations
+from prepare_evaluation import ROOT, PACKAGES, compile_rocq, compile_lean
+from prepare_classics_evaluation import declarations, lean_declarations
 from single_task_runner import tree_digest
 
 
@@ -83,6 +83,100 @@ Print Assumptions refutation_binding.
             'binding': 'rocq-kernel-checked-exact-frozen-target-for-both-branches',
             'source_context': row['source_context_id'], 'source_goal': ctx['equivalence_goal'],
             'frozen_source_sha256': {n: hashlib.sha256((source / (n + '.v')).read_bytes()).hexdigest()
+                                     for n in ('CountSortNative', 'CountSortDomain', 'CountSortGoals')},
+            'preparation_wall_seconds': time.monotonic() - started,
+            'preparation_controller_peak_rss_bytes': resource.getrusage(resource.RUSAGE_SELF).ru_maxrss * 1024,
+            'compiler_costs': 'compile-costs.jsonl', 'preparation_model_tokens': None,
+            'final_proof_attempted': False}
+    (package / 'registry.json').write_text(json.dumps(meta, indent=2) + '\n')
+    return meta
+
+
+def prepare_countsort_lean(row):
+    ctx = row['context']
+    if ctx.get('tranche') != 'countsort':
+        return None
+    package = PACKAGES / row['pilot_id'] / 'lean'
+    if (package / 'registry.json').exists():
+        meta = json.loads((package / 'registry.json').read_text())
+        if tree_digest(package / 'task') != meta['public_sha256']:
+            raise ValueError('Existing counting-sort package changed')
+        return meta
+    if package.exists():
+        raise ValueError('Incomplete preparation requires inspection: ' + str(package))
+    started = time.monotonic()
+    source = ROOT / 'benchmarks/tasks/countsort-core/lean'
+    native = lean_declarations((source / 'CountSortNative.lean').read_text())
+    domains = lean_declarations((source / 'CountSortDomain.lean').read_text())
+    goals = lean_declarations((source / 'CountSortGoals.lean').read_text())
+    styles = re.findall(r'entry\s+0\s+(\d+)', goals[ctx['equivalence_goal']])
+    if styles not in (['0', '1'], ['0', '2']):
+        raise ValueError('Unexpected frozen counting-sort pair')
+    pair = []
+    for name, style in zip(('a', 'b'), styles):
+        text = native['entry'].replace('def entry (_family style : Nat)', 'def ' + name, 1)
+        expr = ('items.foldl (fun acc x => insertRecord x acc) []' if name == 'a'
+                else 'counting items ' + ('true' if style == '2' else 'false'))
+        text, count = re.subn(r'if style == 0 then items.foldl \(fun acc x => insertRecord x acc\) \[\] else counting items \(style == 2\)', expr, text)
+        if count != 1 or re.search(r'\b(?:style|_family)\b', text):
+            raise ValueError('Unexpected implementation dispatcher')
+        pair.append(text)
+    names = [n for n in native if n not in ('entry', 'Equivalent', 'RefutationAt')]
+    valid = 'def valid (xs : Words) : Prop := (' + domains['validB'].split(':=', 1)[1].replace('domain == 0', '0 == 0') + ') = true\n'
+    task = package / 'task'
+    binding = package / 'binding'
+    task.mkdir(parents=True, mode=0o700)
+    binding.mkdir(mode=0o700)
+    (task / 'Task.lean').write_text('import Lean\nnamespace Task\n' + '\n'.join(
+        [native[n] for n in names] + [domains['between'], valid, *pair]) + '''
+def equivalent : Prop := ∀ x, valid x → ∃ o, a x=some o ∧ b x=some o
+def refutationAt (x oa ob : Words) : Prop := valid x ∧ a x=some oa ∧ b x=some ob ∧ oa≠ob
+end Task
+''')
+    (task / 'Obligation.lean').write_text('import Task\nnamespace Obligation\ndef goal : Prop := Task.equivalent\nend Obligation\n')
+    original = ROOT / '_build/pilot-v1/countsort-lean-binding'
+    original.mkdir(parents=True, exist_ok=True)
+    def compile_at(folder, name):
+        return compile_lean(folder, name, [task, original])
+    logs = [compile_at(task, n) for n in ('Task', 'Obligation')]
+    for name in ('CountSortNative', 'CountSortDomain', 'CountSortGoals'):
+        src = source / (name + '.lean')
+        dest = original / src.name
+        if not dest.exists() or dest.read_bytes() != src.read_bytes() or not (original / (name + '.olean')).exists():
+            dest.write_bytes(src.read_bytes())
+            logs.append(compile_at(original, name))
+    bridge = '''import Task
+import CountSortGoals
+theorem clone_insertRecord : Task.insertRecord = SpecLessBenchCountSort.insertRecord := by
+  funext item xs
+  induction xs with
+  | nil => rfl
+  | cons x xs ih =>
+    simp only [Task.insertRecord, SpecLessBenchCountSort.insertRecord, ih]
+'''
+    for name, style in zip(('a', 'b'), styles):
+        bridge += f'''theorem {name}_binding : Task.{name} = SpecLessBenchCountSort.entry 0 {style} := by
+  unfold Task.{name} SpecLessBenchCountSort.entry
+  try rw [clone_insertRecord]
+  rfl
+'''
+    bridge += f'''theorem domain_binding : Task.valid = SpecLessBenchCountSort.valid 0 := by rfl
+theorem equivalent_binding : Task.equivalent = SpecLessBenchCountSort.{ctx['equivalence_goal']} := by
+  unfold Task.equivalent SpecLessBenchCountSort.{ctx['equivalence_goal']} SpecLessBenchCountSort.Equivalent
+  rw [domain_binding, a_binding, b_binding]
+theorem refutation_binding (x oa ob : Task.Words) : Task.refutationAt x oa ob = SpecLessBenchCountSort.{ctx['refutation_at_goal']} x oa ob := by
+  unfold Task.refutationAt SpecLessBenchCountSort.{ctx['refutation_at_goal']} SpecLessBenchCountSort.RefutationAt
+  rw [domain_binding, a_binding, b_binding]
+#print axioms equivalent_binding
+#print axioms refutation_binding
+'''
+    (binding / 'Binding.lean').write_text(bridge)
+    logs.append(compile_at(binding, 'Binding'))
+    (binding / 'compile.log').write_text('\n'.join(logs))
+    meta = {'pilot_id': row['pilot_id'], 'platform': 'lean', 'public_sha256': tree_digest(task),
+            'binding': 'lean-kernel-checked-exact-frozen-target-for-both-branches',
+            'source_context': row['source_context_id'], 'source_goal': ctx['equivalence_goal'],
+            'frozen_source_sha256': {n: hashlib.sha256((source / (n + '.lean')).read_bytes()).hexdigest()
                                      for n in ('CountSortNative', 'CountSortDomain', 'CountSortGoals')},
             'preparation_wall_seconds': time.monotonic() - started,
             'preparation_controller_peak_rss_bytes': resource.getrusage(resource.RUSAGE_SELF).ru_maxrss * 1024,
