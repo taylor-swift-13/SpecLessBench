@@ -182,8 +182,8 @@ def prepare_quotes_lean(row):
     domains = lean_declarations((source / 'BoundaryDomain.lean').read_text())
     goals = lean_declarations((source / 'BoundaryGoals.lean').read_text())
     styles = re.findall(r'entry\s+5\s+(\d+)', goals[ctx['equivalence_goal']])
-    if styles != ['0', '2']:
-        raise ValueError('This adapter certifies only the frozen folded tokenizer pair')
+    if styles not in (['0', '1'], ['0', '2']):
+        raise ValueError('Unexpected frozen tokenizer pair')
     record = raw.split('structure QuoteState where', 1)[1].split('def appendChar', 1)[0]
     before, after = native['quotes'].split('  let final :=', 1)
     observe = ('def observe (s : QuoteState) (data : Words) : Option Words := do\n  let final :=' + after).replace('  pure (finish', '  return (finish')
@@ -191,7 +191,8 @@ def prepare_quotes_lean(row):
     pattern = r'if style == 1 then quoteSpans 128 data 0 \{\} else some \(\(data.zipIdx\).foldl \(fun s \(c,p\) => quoteStep \(style == 2\) s c p\) \{\}\)'
     for name, style in zip(('a', 'b'), styles):
         text = before.replace('def quotes (style : Nat)', 'def ' + name, 1)
-        expr = 'some ((data.zipIdx).foldl (fun s (c,p) => quoteStep ' + ('true' if style == '2' else 'false') + ' s c p) {})'
+        expr = ('quoteSpans 128 data 0 {}' if style == '1' else
+                'some ((data.zipIdx).foldl (fun s (c,p) => quoteStep ' + ('true' if style == '2' else 'false') + ' s c p) {})')
         text, count = re.subn(pattern, expr, text)
         if count != 1 or re.search(r'\bstyle\b', text):
             raise ValueError('Unexpected tokenizer dispatcher')
@@ -203,7 +204,8 @@ def prepare_quotes_lean(row):
     task.mkdir(parents=True, mode=0o700); binding.mkdir(mode=0o700)
     public = 'import Lean\nnamespace Task\n' + '\n'.join(
         [native[n] for n in ('Words', 'getOr', 'iz', 'finish')] + ['structure QuoteState where' + record] +
-        [native[n] for n in ('appendChar', 'commitToken', 'quoteStep')] + [domains['inRange'], valid, observe, *pair]) + '''
+        [native[n] for n in ('appendChar', 'commitToken', 'quoteStep')] +
+        ([native[n] for n in ('ordinary', 'quoteSpans')] if '1' in styles else []) + [domains['inRange'], valid, observe, *pair]) + '''
 def equivalent : Prop := ∀ x, valid x → ∃ o, a x=some o ∧ b x=some o
 def refutationAt (x oa ob : Words) : Prop := valid x ∧ a x=some oa ∧ b x=some ob ∧ oa≠ob
 end Task
@@ -245,7 +247,43 @@ theorem observe_lift (s : Task.QuoteState) (data : Task.Words) :
   dsimp only [Task.observe, sourceObserve, Task.commitToken, commitToken, lift]
   repeat first | rfl | split
 '''
+    if '1' in styles:
+        bridge += '''theorem ordinary_binding : Task.ordinary = ordinary := by rfl
+theorem spans_lift (fuel : Nat) (src : Task.Words) (p : Nat) (s : Task.QuoteState) :
+  Option.map lift (Task.quoteSpans fuel src p s) = quoteSpans fuel src p (lift s) := by
+  induction fuel generalizing src p s with
+  | zero => cases src <;> rfl
+  | succ fuel ih =>
+    cases src with
+    | nil => rfl
+    | cons c cs =>
+      cases s
+      dsimp only [Task.quoteSpans, quoteSpans, lift, Task.iz, Task.getOr, iz, getOr]
+      simp only [ordinary_binding]
+      split
+      · rfl
+      · split
+        · rw [ih]
+          simp_all [lift]
+        · rw [ih, step_lift]
+          simp_all [lift]
+'''
     for name, style in zip(('a', 'b'), styles):
+        if style == '1':
+            bridge += f'''theorem {name}_binding : Task.{name} = entry 5 {style} := by
+  funext xs
+  let data := (xs.drop 1).take (Task.iz xs 0).toNat
+  change ((Task.quoteSpans 128 data 0 {{}}).bind (fun s => Task.observe s data)) =
+    ((quoteSpans 128 data 0 {{}}).bind (fun s => sourceObserve s data))
+  have h := spans_lift 128 data 0 ({{}} : Task.QuoteState)
+  have init : lift ({{}} : Task.QuoteState) = ({{}} : QuoteState) := rfl
+  rw [init] at h
+  rw [← h]
+  cases Task.quoteSpans 128 data 0 ({{}} : Task.QuoteState) with
+  | none => rfl
+  | some s => exact observe_lift s data
+'''
+            continue
         mode = 'true' if style == '2' else 'false'
         bridge += f'''theorem {name}_binding : Task.{name} = entry 5 {style} := by
   funext xs
