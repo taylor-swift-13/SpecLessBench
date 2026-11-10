@@ -52,8 +52,13 @@ responses and notifications with timestamps, original work/submission/claim,
 deterministic target/axiom audits and checker logs, token/time/cgroup data and
 checksums. Runner sources are snapshotted and hashed. Native lifecycle counts and
 last observed Goal state survive timeouts; a Goal self-report is never acceptance.
-Lean allows its documented three standard axioms; native Rocq requires a closed
-proof and independent coqchk. Candidate placeholders/axioms/changed goals fail.
+Lean allows its documented three standard axioms. Under scoring revision
+`lean-native-kernel-replay-v1`, closed native-decide facts can also be independently
+discharged by kernel checking; their names alone never justify acceptance.
+Native Rocq requires a closed proof and independent coqchk. Candidate placeholders,
+undischarged axioms and changed goals fail. The dated [native computation
+adjudication](native-computation-audit.md) preserves original reports, revised
+decisions and separate post-hoc checking costs without rerunning model attempts.
 
 Use the last reported cumulative model-usage snapshot, never sum native-turn
 snapshots. Cached input is part of input; reasoning output is part of output.

@@ -1,15 +1,40 @@
-"""Internal Lean proof-gate core for vetted, task-specific packages only.
+"""Lean proof gate for vetted source-bound packages and a protected exact goal.
 
-No public task packages are certified yet. The release entry point must not
-call this core on pilot tasks until source disclosure and target binding have
-been audited. The core generates its own protected proof gate.
+Standard axioms are allowed. Native-decide-shaped closed computation facts are
+accepted only after the trusted auditor independently proves them by kernel
+reduction; their names alone do not establish provenance or acceptance.
 """
-import shutil,tempfile
+import json,shutil,tempfile
 from pathlib import Path
 from sandbox import run_isolated,TOOLCHAINS
-ROOT=Path(__file__).resolve().parents[2];LEAN=TOOLCHAINS['lean']+'/bin/lean'
+AUDITOR=Path(__file__).with_name('TrustedLeanAudit.lean');LEAN=TOOLCHAINS['lean']+'/bin/lean'
+LEAN_GRADING_POLICY = 'lean-native-kernel-replay-v1'
+STANDARD_AXIOMS = ('propext', 'Classical.choice', 'Quot.sound')
 
-def _result(status,stage,detail=None):return {'status':status,'stage':stage,'detail':detail}
+def _result(status,stage,detail=None,**extra):
+    return {'status':status,'stage':stage,'detail':detail,
+            'grading_policy':LEAN_GRADING_POLICY,**extra}
+
+def audit_evidence(stdout):
+    """Read only the trusted auditor's exact, versioned success record."""
+    records=[line[len('native_audit: '):] for line in stdout.splitlines()
+             if line.startswith('native_audit: ')]
+    if len(records)!=1:
+        raise ValueError('Expected one trusted native-audit record')
+    value=json.loads(records[0])
+    if type(value) is not dict or value.get('policy')!=LEAN_GRADING_POLICY:
+        raise ValueError('Unknown native-audit policy')
+    if (value.get('verification')!='independent-kernel-reduction' or
+            type(value.get('trust_level')) is not int or value['trust_level']!=0):
+        raise ValueError('Unknown native-audit verification method')
+    for field in ('verified_native_decide_axioms','standard_axioms'):
+        if (type(value.get(field)) is not list or
+                not all(type(n) is str and n for n in value[field]) or
+                len(set(value[field]))!=len(value[field])):
+            raise ValueError('Malformed native-audit dependencies')
+    if not set(value['standard_axioms']).issubset(STANDARD_AXIOMS):
+        raise ValueError('Unexpected standard axiom')
+    return value
 def _valid_dir(path):
     path=Path(path)
     return path.is_dir() and not path.is_symlink() and not any(p.is_symlink()for p in path.rglob('*'))
@@ -25,7 +50,7 @@ def grade_prepared(package,submission,timeout=90,trace=None):
     with tempfile.TemporaryDirectory(prefix='specless-lean-core-')as temp:
         trusted=Path(temp)/'trusted';shutil.copytree(package,trusted)
         (trusted/'Gate.lean').write_text('import Obligation\nimport Submission\ntheorem pilot_checked : Obligation.goal := Submission.solve\n')
-        shutil.copyfile(ROOT/'scripts/pilot/TrustedLeanAudit.lean',trusted/'TrustedLeanAudit.lean')
+        shutil.copyfile(AUDITOR,trusted/'TrustedLeanAudit.lean')
         def run(args,**kwargs):
             result=run_isolated('lean',trusted,submission,args,timeout=timeout,phase='evaluation-checker' if trace is not None else 'synthetic-prototype',**kwargs)
             if trace is not None:trace.append({k:result.get(k) for k in ('status','exit_code','stdout','stderr','output_truncated','resources')})
@@ -39,7 +64,17 @@ def grade_prepared(package,submission,timeout=90,trace=None):
         if gate['exit_code']!=0:return _result('rejected','gate','submission does not inhabit the protected goal')
         audit=run([LEAN,'-j','1','--run','/trusted/TrustedLeanAudit.lean'],artifacts={'Submission.olean':sub,'Gate.olean':gate['artifacts']['Gate.olean']})
         if audit['status']!='exited':return _result('infrastructure-error','audit',audit['status'])
-        if audit['exit_code']==0:return _result('accepted','audit')
-        if 'forbidden axioms:' in audit['stderr'] or 'checked theorem does not have the fixed goal type' in audit['stderr']:
+        if audit['exit_code']==3 and 'native_decide kernel replay incomplete:' in audit['stderr']:
+            return _result('infrastructure-error','audit','native_decide kernel replay incomplete',
+                           native_replay_status='incomplete')
+        if audit['exit_code']==0:
+            try:
+                evidence=audit_evidence(audit['stdout'])
+            except (ValueError,TypeError) as error:
+                return _result('infrastructure-error','audit','trusted auditor output: '+str(error))
+            return _result('accepted','audit',audit_evidence=evidence)
+        if ('forbidden axioms:' in audit['stderr'] or
+                'checked theorem does not have the fixed goal type' in audit['stderr'] or
+                'native_decide kernel replay failed:' in audit['stderr']):
             return _result('rejected','audit','unapproved dependency or wrong goal')
         return _result('infrastructure-error','audit','trusted auditor failed')

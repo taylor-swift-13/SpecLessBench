@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "as_of_utc": "2026-11-10T04:33:08.638221+00:00",
+  "grading_policy": "lean-native-kernel-replay-v1",
+  "adjudication_revision": "20261110T042924Z-7f7e71d32df3",
+  "reviewed_lean_reports": 102,
+  "regraded_audit_rejections": 14,
+  "changed_to_accepted": 11,
+  "still_rejected": 3,
+  "counts_before": {
+    "rejected": 76,
+    "accepted": 121,
+    "pending-package": 66,
+    "timeout": 13
+  },
+  "counts_after": {
+    "rejected": 65,
+    "accepted": 132,
+    "pending-package": 66,
+    "timeout": 13
+  },
+  "paired_complete_contexts": {
+    "off": {
+      "contexts": 51,
+      "lean": 18,
+      "rocq": 24
+    },
+    "on": {
+      "contexts": 51,
+      "lean": 44,
+      "rocq": 44
+    }
+  },
+  "by_condition": {
+    "lean/off": {
+      "accepted_before": 15,
+      "accepted_after": 18,
+      "completed": 51
+    },
+    "lean/on": {
+      "accepted_before": 36,
+      "accepted_after": 44,
+      "completed": 51
+    },
+    "rocq/off": {
+      "accepted_before": 25,
+      "accepted_after": 25,
+      "completed": 54
+    },
+    "rocq/on": {
+      "accepted_before": 45,
+      "accepted_after": 45,
+      "completed": 54
+    }
+  },
+  "posthoc_checker_wall_seconds": 222.7256839890615,
+  "posthoc_checker_peak_bytes": 2282876928,
+  "additional_model_tokens": 0,
+  "original_model_costs_unchanged": true,
+  "regression_cases": 13,
+  "grader_sources_sha256": {
+    "TrustedLeanAudit.lean": "0cbef9be9b6c970c68f222fc5471b44eb98d1b1fc222e3bc227dd4a19575956c",
+    "grade_sealed.py": "0ba29b7581af6963ff28e7becc1e9162c16f785672241962e3af6c2191a237c1",
+    "lean_grader_core.py": "7eb5d4022e14f08122e1b93c8e99bc278f55bc2eb124bc20d68abd1afa8ba263",
+    "regrade_native_audits.py": "19ec000020710320092bfe7a09ee39009b60aa6e3d980a01cdaf1b29214b1689",
+    "resource_supervisor.py": "a9003c464588718517b82847d80cceba305c76e269d7e2390eca97538ee9709b",
+    "run_evaluation_wsl.py": "0bf1efab039605f15f74a427f7cf7ab9cf794bc8306da7d62f8edb529f1455e8",
+    "sandbox.py": "dc59e26babaa0191a9aa1090c62168bdbbef06f34108d5bc2ed3bfe68f8f6c41"
+  },
+  "scope": "Dated partial-study adjudication snapshot; not a final study result",
+  "mocked_incomplete_handling": true,
+  "malformed_audit_records_rejected": true
+}

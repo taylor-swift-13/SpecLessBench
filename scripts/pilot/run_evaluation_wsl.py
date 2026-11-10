@@ -12,6 +12,7 @@ import uuid
 from pathlib import Path
 
 from grade_sealed import grade
+from lean_grader_core import LEAN_GRADING_POLICY
 from evaluation_prompts import VARIANTS, build_prompt
 from audit_evaluation_costs import session_tokens
 from goal_observation import initial_observation, observe
@@ -67,6 +68,7 @@ def report_markdown(report):
         +f"- Native turns: {(report.get('native_goal_session') or {}).get('native_turn_count')}\n"
         +f"- Model: `{c['model']}`, {c['model_reasoning_effort']}\n"
         +f"- Result: **{report['result']['status']}**\n"
+        +f"- Grading policy: {(report.get('adjudication') or {}).get('policy_id', c.get('grading_policy_revision', 'legacy-strict-audit'))}\n"
         +f"- Policy: {c.get('policy',report.get('execution_policy','legacy-one-shot'))}\n"
         +f"- Session: {report.get('session_id')}\n"
         +'- Manual resumes: 0\n'
@@ -120,6 +122,7 @@ def run(task_id, platform='compcert', timeout=None, on_run=None, prompt_variant=
            'policy': 'native-goal' if goal_mode=='on' else 'single-turn', 'goal_mode':goal_mode,
            'transport':'app-server', 'manual_resumes':False,
            'evaluation_protocol_revision':'native-goal-study-2026-11-07',
+           'grading_policy_revision':LEAN_GRADING_POLICY if platform=='lean' else 'rocq-zero-axiom-coqchk-v1',
            'goal_objective':goal_objective(platform) if goal_mode=='on' else None,
            'native_idle_grace_seconds':120,
            'checker_stage_timeout_seconds': 600,
@@ -153,12 +156,17 @@ enabled = false
     (home/'config.toml').write_text(config); (run_dir/'codex-config.toml').write_text(config)
     (run_dir/'prompt.txt').write_text(prompt)
     dump(run_dir/'prompt-components.json', prompt_components)
-    for source_name in ('run_evaluation_wsl.py','goal_client.py','goal_observation.py','evaluation_prompts.py'):
+    for source_name in ('run_evaluation_wsl.py','goal_client.py','goal_observation.py','evaluation_prompts.py',
+                        'TrustedLeanAudit.lean','lean_grader_core.py','grade_sealed.py',
+                        'rocq_grader_core.py','sandbox.py','resource_supervisor.py'):
         destination=run_dir/'runner-sources'/source_name
         destination.parent.mkdir(exist_ok=True)
         shutil.copyfile(ROOT/'scripts/pilot'/source_name,destination)
     sources=run_dir/'runner-sources'
     (sources/'SHA256SUMS').write_text(''.join(sha(f.read_bytes())+'  '+f.name+'\n' for f in sorted(sources.iterdir()) if f.is_file()))
+    cfg['grading_policy_sources_sha256']={name:sha((sources/name).read_bytes()) for name in
+        ('TrustedLeanAudit.lean','lean_grader_core.py','grade_sealed.py','rocq_grader_core.py','sandbox.py','resource_supervisor.py')}
+    dump(run_dir/'config.json', cfg)
     unit = 'specless-eval-'+uuid.uuid4().hex+'.scope'
     agent_seconds = None; agent_clock = None; checker_seconds = None; complete = False; invalid = 0; event_count = 0
     cgroup = None; session_id = None; round_index = 0; rounds = []; budget_clock = None
@@ -407,6 +415,8 @@ enabled = false
                              'axiom_audit': 'passed' if len(trace) == (3 if platform == 'lean' else 4) and trace[-1].get('exit_code') == 0 else 'not-passed-or-not-run',
                              'independent_coqchk': ('passed' if len(trace) > 2 and trace[2].get('exit_code') == 0 else 'not-passed-or-not-run') if platform != 'lean' else None,
                              'allowed_axioms': ['propext', 'Classical.choice', 'Quot.sound'] if platform == 'lean' else (['compcert.*', *sorted(COMPCERT_ROCQ_ASSUMPTIONS)] if platform == 'compcert' else []),
+                             'grading_policy_revision':cfg['grading_policy_revision'],
+                             'native_computation_audit':result.get('audit_evidence') if platform=='lean' else None,
                              'full_stage_output': 'checker.log'},
                   'proof_sha256': sha((run_dir/proof_name).read_bytes()) if (run_dir/proof_name).exists() else None,
                   'transcript': {'format': 'Codex app-server JSON-RPC with normalized observations', 'event_count': event_count, 'invalid_lines': invalid,
