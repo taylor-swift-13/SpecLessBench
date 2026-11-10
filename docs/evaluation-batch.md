@@ -17,10 +17,19 @@ recorded separately as `interrupted-needs-review`, not a completed model failure
 The last available native state is 10 turns started, 9 completed, Goal active;
 final-turn usage remains incomplete. All 217 canonical completed-report checksum
 lists and the preserved CompCert archive hash were also verified after recovery.
-The service remains stopped pending storage recovery preflight and the timing
-correction below. Host diagnostics, partial costs and verified backup evidence
-are separate from completed-run totals. Further distribution maintenance can
-interrupt unrelated workloads and requires authorization.
+On 2026-11-11 (Asia/Shanghai), the user explicitly authorized resuming the study
+after disclosure of low C: free space; this did not authorize cleanup or a WSL
+restart. Resumption preflight `20261110T161455Z-bb263167c5dd` passed the read/write
+filesystem and write/fsync checks, all 217 canonical report hashes, and
+the frozen-source checks for 71 contexts and 472 files. C: had approximately
+12.6 GB free at preflight; the largest historical native attempt occupied
+160.7 MB. At 16:25 UTC on 2026-11-10 (2026-11-11 in Asia/Shanghai), exactly one
+controller started a fresh Lean/off attempt for `P-e69f7e9ea72f14cf/lean`,
+`20261110T162522Z-59d9b398b251`, using `gpt-6-luna`, medium reasoning and the
+7200-second `attempt-entry-deadline-v1` budget. Startup establishes no model outcome.
+Host diagnostics, partial costs and verified backup evidence are separate from
+completed-run totals. Further distribution maintenance can interrupt unrelated
+workloads and requires authorization.
 
 The frozen evaluation selection contains 69 contexts (factorial excluded), each
 on Lean and Rocq. Each theorem/platform runs once with Goal off and once with
@@ -33,11 +42,15 @@ At the budget-revision boundary, every incomplete pair whose completed companion
 used the legacy clock is restarted in fresh off/on sessions, regardless of that
 companion's result. Its original report and costs remain separately visible as
 protocol-superseded evidence. Complete legacy pairs are retained and reported by
-budget revision. The reviewed [transition plan](../benchmarks/construction/native-budget-transition-plan-20261110.json)
-currently selects one Lean pair and retains 108 complete pairs; applying it would
-change the canonical completed count from 217 to 216 before fresh off/on runs.
-It has not been applied and requires separate storage/requeue clearance. This
-transition does not identify a causal effect of changing the budget policy.
+budget revision. The original reviewed [transition-plan snapshot](../benchmarks/construction/native-budget-transition-plan-20261110.json)
+is preserved unchanged. After storage/requeue clearance, transition
+`20261110T162125Z-c62c4ad93401` was applied once: it retained 108 complete legacy
+pairs and selected only `P-e69f7e9ea72f14cf/lean` for fresh off/on sessions. Moving
+its unmatched legacy off report to separately preserved protocol-superseded
+evidence changed the canonical completed count from 217 to 216 (135 accepted,
+67 rejected, 14 timeouts) at the transition. The original report
+and its costs remain retained separately. This transition does not identify a
+causal effect of changing the budget policy.
 
 The requested protocol has a shared 7200-second wall limit including setup,
 model work and checking, a 3 GiB sandbox and no token budget. A dated timing
@@ -64,6 +77,13 @@ The single controller is `scripts/pilot/batch_native_evaluation.py`, launched as
 serialize complete attempts including setup and grading. Never launch two workers.
 Infrastructure errors or interrupted attempts stop for inspection; any actual
 retry needs a new attempt ID and must retain the previous partial evidence.
+
+An external operational guard checks C: free space every five seconds against
+a 5 GiB threshold. On a breach it freezes the verified controller and stops only
+its descendant native agent/checker scopes. This best-effort guard never retries
+or resumes an attempt; affected partials require infrastructure review and do
+not count as completed model outcomes. It changes no prompt, grader or frozen
+source. Seven isolated mock tests and independent review passed before startup.
 
 State and artifacts on the private WSL filesystem:
 
