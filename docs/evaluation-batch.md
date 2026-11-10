@@ -35,9 +35,9 @@ State and artifacts on the private WSL filesystem:
 ```
 
 The status contains separate `by_condition` counts and costs for `lean/off`,
-`lean/on`, `rocq/off`, `rocq/on`. No prior results are reused. Currently 108 of
-138 native platform packages are certified (51 Lean,57 Rocq), supporting216runs;
-30 packages/60runs await preparation. Unprepared items are pending, not failures.
+`lean/on`, `rocq/off`, `rocq/on`. No prior results are reused. Currently 109 of
+138 native platform packages are certified (52 Lean,57 Rocq), supporting218runs;
+29 packages/58runs await preparation. Unprepared items are pending, not failures.
 Prepare only native packages while no evaluation or checker is running, retain
 frozen implementations/domains/observations/targets and certify source binding
 before making them eligible. Do not start CompCert or expose other tasks/labels.
