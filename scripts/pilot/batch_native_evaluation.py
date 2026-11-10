@@ -10,6 +10,8 @@ from prepare_evaluation import PACKAGES
 from run_evaluation_wsl import dump, now, run
 from selection import selection
 from verify_freeze import main as verify_freeze
+from native_runtime_policy import (RUNTIME_CONFIG_SHA256, RUNTIME_SCOPE_REVISION, pair_runtime_hold,
+                                  retained_storage_hold, runtime_config, storage_hold)
 
 BASE=Path.home()/'.local/share/speclessbench/batches/native-luna-medium'
 
@@ -70,7 +72,7 @@ def main():
                 if all(j['status']!='pending-package' for j in state['jobs']):
                     save('finished');return
                 save('waiting-for-certified-packages');time.sleep(30);continue
-            job=ready[0];job['status']='running';save('running')
+            job=ready[0]
 
             def started(path):
                 job['attempts'].append(str(path));job['current_run']=str(path);save('running')
@@ -78,6 +80,20 @@ def main():
             try:
                 with (PACKAGES/'activity.lock').open('a') as activity:
                     fcntl.flock(activity,fcntl.LOCK_EX)
+                    try:
+                        hold=storage_hold() or retained_storage_hold() or pair_runtime_hold(job,state['jobs'])
+                    except (OSError,RuntimeError) as error:
+                        hold={'kind':'runtime','reason':'Runtime admission could not be verified; no attempt started',
+                              'error_type':type(error).__name__}
+                    if hold:
+                        state['preflight_hold']=hold
+                        state['prospective_runtime']={'revision':RUNTIME_SCOPE_REVISION,
+                                                      'expected_config_sha256':RUNTIME_CONFIG_SHA256}
+                        save('blocked-infrastructure-storage' if hold['kind']=='storage' else 'blocked-runtime-revision')
+                        state['worker_pid']=None;dump(status,state)
+                        return
+                    state.pop('preflight_hold',None)
+                    job['status']='running';save('running')
                     directory,report=run(job['task_id'],job['platform'],timeout=7200,
                                          goal_mode=job['goal_mode'],on_run=started)
                 job['reports'].append(str(directory/'report.json'))

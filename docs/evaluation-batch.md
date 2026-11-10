@@ -12,7 +12,8 @@ I/O errors and emergency read-only state. The last confirmed checkpoint had
 WSL VM booted and re-exposed the disk; the initiator is unknown. The curator did
 not issue a termination or restart command. The interrupted Lean/on attempt was
 inspected after recovery: 432 files were archived and every file hash verified,
-with the original directory unchanged. It has no host grading report and is
+with the original directory unchanged at that recovery checkpoint. Subsequent
+user-authorized pruning of unrelated cached resources is disclosed below. It has no host grading report and is
 recorded separately as `interrupted-needs-review`, not a completed model failure.
 The last available native state is 10 turns started, 9 completed, Goal active;
 final-turn usage remains incomplete. All 217 canonical completed-report checksum
@@ -60,6 +61,47 @@ was started. Preserve the partial without repair or resumption; any eventual
 retry requires a fresh attempt and current storage clearance. After the readiness
 check the current phase is `blocked-infrastructure-storage`; no new on session
 was started, and its completed new-revision off companion remains canonical.
+
+At the user's request, the recurring monitor was deleted and unrelated retained
+runtime resources were removed on 2026-11-10 at 18:19 and 18:25 UTC. Two independently
+reviewed plans removed 76,262 files (13,899,455,060 content bytes): per-attempt
+remote plugin catalogs, plugin/template caches and five non-proof system-skill
+copies. Every removed file has a checksum-matched D: backup member; newer files
+were separately archived and verified first. Exact removal manifests, original
+metadata and backup-member pointers are retained privately. Original checksum
+lists were not rewritten. Complete before/after hashes and metadata matched for
+all retained files, including proofs, sessions, Goal databases, reports, checker
+logs and usage records. The 217 canonical results and status hash are unchanged;
+the CompCert probe and archive were untouched. The study directory's allocated
+size fell from 18.03 GB to 3.79 GB. C: still had about 2.91 GB free: no VHD
+compaction or distribution restart was performed, and the storage hold remains.
+See the [cleanup audit](../benchmarks/construction/native-storage-cleanup-20261110.json).
+
+A [minimal runtime configuration](../scripts/pilot/native_proof_runtime_minimal.toml)
+now supplies future native attempts with apps, memories, plugins and the remote
+plugin catalog disabled. The same installed
+CLI, version 0.162.0, parsed it successfully in an isolated HOME/CODEX_HOME and
+reported all four features disabled. This was a static configuration check;
+no app-server or model was started and startup storage savings remain unmeasured.
+Future reports snapshot the preset and policy sources and record runtime revision
+`native-proof-runtime-minimal-v1`, the effective configuration hash and configured
+feature values. Historical attempt configurations remain unchanged. After taking
+the activity lock and before marking any job running, the controller refuses a
+new attempt if C: free space is below 5 GiB or the retained study directory has
+reached 8 GiB. The latter is an admission threshold between attempts, not a live
+per-attempt disk quota; the existing external guard remains necessary during a
+run. An unreadable storage measurement also stops admission.
+
+The controller additionally checks the completed opposite-mode report's task,
+platform, Goal mode, runtime revision and configuration hash. A missing legacy
+runtime tag or any mismatch produces a separate runtime hold, without starting
+an attempt, changing job/report status or automatically rerunning its companion.
+Thus the completed new-wall-budget off report is retained; adopting the minimal
+feature surface for its unfinished pair requires a separately reviewed runtime
+transition. Existing complete pairs retain their original runtime cohort.
+Forty-one isolated runtime-policy, protocol and deadline tests passed, including
+controller hold scenarios; no model or real grader was run. Actual model-startup
+storage savings remain unmeasured, and no new evaluation was started.
 
 The frozen evaluation selection contains 69 contexts (factorial excluded), each
 on Lean and Rocq. Each theorem/platform runs once with Goal off and once with

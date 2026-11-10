@@ -17,6 +17,7 @@ from evaluation_prompts import VARIANTS, build_prompt
 from audit_evaluation_costs import session_tokens
 from goal_observation import initial_observation, observe
 from goal_client import goal_objective
+from native_runtime_policy import RUNTIME_SCOPE_REVISION, runtime_config
 from prepare_evaluation import PACKAGES, ROCQ, COMPCERT, compile_lean, compile_rocq
 from rocq_grader_core import COMPCERT_ROCQ_ASSUMPTIONS
 from run_codex_wsl import AUTH, CODEX, CODE_HOST, LEAN, ROOT, SUPERVISOR, fingerprint_tree, now, sha
@@ -180,11 +181,18 @@ extends = ":workspace"
 [permissions.eval.network]
 enabled = false
 '''
+    if platform in ('lean', 'rocq'):
+        config, config_sha256 = runtime_config()
+        cfg['runtime_scope_revision'] = RUNTIME_SCOPE_REVISION
+        cfg['runtime_config_sha256'] = config_sha256
+        cfg['runtime_features'] = {'apps': False, 'memories': False, 'plugins': False, 'remote_plugin': False}
+        dump(run_dir/'config.json', cfg)
     (home/'auth.json').touch(mode=0o600)
     (home/'config.toml').write_text(config); (run_dir/'codex-config.toml').write_text(config)
     (run_dir/'prompt.txt').write_text(prompt)
     dump(run_dir/'prompt-components.json', prompt_components)
     for source_name in ('run_evaluation_wsl.py','goal_client.py','goal_observation.py','evaluation_prompts.py',
+                        'native_runtime_policy.py','native_proof_runtime_minimal.toml',
                         'TrustedLeanAudit.lean','lean_grader_core.py','grade_sealed.py',
                         'rocq_grader_core.py','sandbox.py','resource_supervisor.py','prepare_evaluation.py'):
         destination=run_dir/'runner-sources'/source_name

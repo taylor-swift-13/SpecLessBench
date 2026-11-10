@@ -1,0 +1,24 @@
+# Prospective proof-only configuration; not applied to historical attempts.
+# Enabling this changes the feature surface and requires matched off/on runtime
+# conditions before the existing study can use it. The goal client selects Goal
+# mode separately. This file does not start or resume any evaluation.
+default_permissions = "eval"
+approval_policy = "never"
+model = "gpt-6-luna"
+model_reasoning_effort = "medium"
+web_search = "disabled"
+
+[features]
+apps = false
+memories = false
+plugins = false
+remote_plugin = false
+
+[permissions.eval]
+extends = ":workspace"
+
+[permissions.eval.filesystem]
+"/home/runner/.codex/auth.json" = "deny"
+
+[permissions.eval.network]
+enabled = false

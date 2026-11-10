@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-11-10T18:26:25.038231+00:00",
+  "user_authorization": "Remove components unrelated to the proof benchmark; retain benchmark evidence.",
+  "scope": "Lean/Rocq per-attempt remote plugin catalogs, plugin/template asset caches and five non-proof system-skill copies. CompCert probe/archive excluded.",
+  "before": {
+    "allocated_bytes": 18027036672,
+    "measured_utc": "2026-11-10T17:48:52Z"
+  },
+  "after": {
+    "allocated_bytes": 3787984896,
+    "measured_utc": "2026-11-10T18:26:25.038231+00:00",
+    "host_c_free_bytes": 2908966912
+  },
+  "removed": {
+    "files": 76262,
+    "directories": 33617,
+    "logical_bytes": 13899455060,
+    "directory_allocated_decrease_bytes": 14239051776
+  },
+  "stages": [
+    {
+      "scope": "Unrelated plugin/template/catalog caches",
+      "completed_utc": "2026-11-10T18:19:19.478229+00:00",
+      "plan_sha256": "2b183ca11111ec4c1ef8d39bef97c625106baced857c574d834088b3824f41e3",
+      "files": 65606,
+      "directories": 28955,
+      "logical_bytes": 13831179182,
+      "retained_files_verified": 33336,
+      "retained_hashes_and_metadata_equal": true,
+      "supplemental_archive": {
+        "sha256": "3d9311889ebe1d145abaa29eaab6aa83d40f178aed02c754e4933a8c56829108",
+        "bytes": 27468430
+      }
+    },
+    {
+      "scope": "Unrelated system-skill copies",
+      "completed_utc": "2026-11-10T18:25:50.602602+00:00",
+      "plan_sha256": "cc98f49cabdd10c4d6428dca105ba385afacc6d70a752194b9f205743dc1fa23",
+      "files": 10656,
+      "directories": 4662,
+      "logical_bytes": 68275878,
+      "retained_files_verified": 22680,
+      "retained_hashes_and_metadata_equal": true,
+      "supplemental_archive": {
+        "sha256": "d35caa0bf1b265e612c8af251a9999105d439eb2ca5a89900692cb0197456131",
+        "bytes": 209931
+      }
+    }
+  ],
+  "preservation": {
+    "full_original_backup_sha256": "d5845a36a2765a1c47319222e1116bf70c214a3d7feb0b085f7ad536819e40c7",
+    "full_original_backup_manifest_sha256": "ffe83c8d4ee50bf2c8c4ce90251f23883678e258b3f45fa717ed75ce2df742e3",
+    "backups": "Verified complete D: archive plus two verified supplemental archives for newer cache files; exact member mappings, original metadata, reviews and unlink logs retained privately.",
+    "original_reports_checksums_proofs_sessions_goal_databases_usage_and_checker_logs": "Preserved unchanged; old checksum lists were not rewritten.",
+    "compcert_probe_and_archive": "Preserved unchanged and excluded from native results."
+  },
+  "study": {
+    "canonical_status_sha256": "75730328addd7a872e36c7a072fd362580a618f1a25af914bb10e15b4a4825c9",
+    "completed": 217,
+    "counts": {
+      "rejected": 68,
+      "accepted": 135,
+      "pending-package": 58,
+      "timeout": 14,
+      "interrupted-needs-review": 1
+    },
+    "phase": "blocked-infrastructure-storage",
+    "model_attempts_started": 0,
+    "packaging_performed": false,
+    "recurring_monitor": "Deleted at user request; not recreated."
+  },
+  "validation": {
+    "guard_tests_passed": 4,
+    "frozen_contexts_verified": 71,
+    "protected_files_verified": 472,
+    "independent_plan_reviews": "Passed for both stages.",
+    "retained_before_each_deletion": "Matched complete cryptographic and metadata snapshots.",
+    "retained_after_each_deletion": "Matched those snapshots.",
+    "runtime_policy_protocol_deadline_tests_passed": 41
+  },
+  "prospective_config": {
+    "file": "scripts/pilot/native_proof_runtime_minimal.toml",
+    "sha256": "c30d41b3f0c260d08b56ff6f2cfab221dcc6623ed1ce309b877f73eb8d179170",
+    "cli_version": "codex-cli 0.162.0",
+    "static_load_test": "Passed in isolated HOME/CODEX_HOME; apps, memories, plugins and remote_plugin all false; no app-server or model started.",
+    "applied_to_current_study": false,
+    "limitation": "Static CLI configuration and mocked admission/lifecycle tests passed; actual model startup storage savings were not measured. Legacy runtime pairs are preserved, and incomplete cross-runtime pairs require a separately reviewed transition. No model or grader was run.",
+    "wired_into_future_native_runner": true,
+    "runtime_scope_revision": "native-proof-runtime-minimal-v1",
+    "pair_guard": "Checks companion identity, canonical runtime revision and effective config hash before a job is marked running. Does not requeue or retry.",
+    "admission_guards": {
+      "host_c_free_floor_bytes": 5368709120,
+      "retained_directory_ceiling_bytes": 8589934592,
+      "scope": "Checked under the activity lock before each attempt; 8GiB is an admission threshold, not a live per-attempt disk quota.",
+      "runtime_monitor": "Existing separately launched 5GiB host-space guard remains required; best effort against unrelated writes."
+    }
+  },
+  "maintenance": {
+    "vhd_compaction_performed": false,
+    "distro_restart_or_termination_performed": false,
+    "unrelated_workloads_controlled": false,
+    "host_space_reclaim_guaranteed": false
+  },
+  "attribution_limitation": "The ~18GB directory already occupied 17,978,306,560 allocated bytes at 10:01 UTC. Its pre-cleanup increase was only 48,730,112 bytes; this cleanup does not establish the source of the later ~20GB Ubuntu VHD growth."
+}
