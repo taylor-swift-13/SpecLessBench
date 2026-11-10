@@ -5,6 +5,17 @@ CompCert evaluation is suspended. Its four-hour failed probe is preserved in its
 original directory and a separately verified full archive; see [the result](goal-probe.md).
 It is excluded from the native study's counts and costs.
 
+Operational checkpoint, 2026-11-10 09:35 UTC: Windows removed Ubuntu's virtual
+disk after a write failed with `STATUS_DISK_FULL`. WSL subsequently reported
+I/O errors and emergency read-only state. The last confirmed checkpoint had
+217 terminal runs (135 accepted, 68 rejected, 14 timeouts); the live Lean/on
+attempt requires inspection after storage recovery. It is not a completed model
+failure. Host diagnostic evidence and the last observed usage are retained
+separately; the original partial remains on the inaccessible virtual disk.
+No restart, filesystem repair, evaluation retry or package preparation has been
+performed in response. Controlled recovery awaits user authorization because
+restarting the distribution can interrupt unrelated workloads.
+
 The frozen evaluation selection contains 69 contexts (factorial excluded), each
 on Lean and Rocq. Each theorem/platform runs once with Goal off and once with
 Goal on: **276 independent runs**. Order is deterministic: context, Lean then
