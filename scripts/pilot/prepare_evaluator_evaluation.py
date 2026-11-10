@@ -5,8 +5,8 @@ import re
 import resource
 import time
 
-from prepare_evaluation import ROOT, PACKAGES, compile_rocq
-from prepare_classics_evaluation import declarations
+from prepare_evaluation import ROOT, PACKAGES, compile_rocq, compile_lean
+from prepare_classics_evaluation import declarations, lean_declarations
 from single_task_runner import tree_digest
 
 
@@ -176,6 +176,193 @@ Print Assumptions refutation_binding.
             'binding': 'rocq-kernel-checked-result-cache-transport-and-exact-frozen-target',
             'source_context': row['source_context_id'], 'source_goal': ctx['equivalence_goal'],
             'frozen_source_sha256': {n: hashlib.sha256((source / (n + '.v')).read_bytes()).hexdigest()
+                                     for n in ('BoundaryNative', 'BoundaryDomain', 'BoundaryGoals')},
+            'preparation_wall_seconds': time.monotonic() - started,
+            'preparation_controller_peak_rss_bytes': resource.getrusage(resource.RUSAGE_SELF).ru_maxrss * 1024,
+            'compiler_costs': 'compile-costs.jsonl', 'preparation_model_tokens': None,
+            'final_proof_attempted': False}
+    (package / 'registry.json').write_text(json.dumps(meta, indent=2) + '\n')
+    return meta
+
+
+def prepare_evaluator_lean(row):
+    ctx = row['context']
+    if ctx.get('tranche') != 'boundaries' or ctx.get('family_index') != 3:
+        return None
+    package = PACKAGES / row['pilot_id'] / 'lean'
+    if (package / 'registry.json').exists():
+        meta = json.loads((package / 'registry.json').read_text())
+        if tree_digest(package / 'task') != meta['public_sha256']:
+            raise ValueError('Existing evaluator package changed')
+        return meta
+    if package.exists():
+        raise ValueError('Incomplete preparation requires inspection: ' + str(package))
+    started = time.monotonic()
+    source = ROOT / 'benchmarks/tasks/boundaries-core/lean'
+    raw = (source / 'BoundaryNative.lean').read_text()
+    native = lean_declarations(raw)
+    domains = lean_declarations((source / 'BoundaryDomain.lean').read_text())
+    goals = lean_declarations((source / 'BoundaryGoals.lean').read_text())
+    styles = re.findall(r'entry\s+3\s+(\d+)', goals[ctx['equivalence_goal']])
+    if styles not in (['0', '1'], ['0', '2']):
+        raise ValueError('Unexpected frozen evaluator pair')
+    record = raw.split('structure Result where', 1)[1].split('def missing', 1)[0]
+    prefix, tail = native['evaluator'].split('  let cache ←', 1)
+    _, suffix = tail.split('  let result :=', 1)
+    pair = []
+    for name, style in zip(('a', 'b'), styles):
+        expr = ('evalRec xs 64 (n-1) initial' if style == '0' else
+                'some ((List.range n).foldl (fun cache i => put cache i ((leaf xs i).getD (combine ' +
+                ('true' if style == '2' else 'false') + ' xs i cache))) initial)')
+        pair.append(prefix.replace('def evaluator (style : Nat)', 'def ' + name, 1) +
+                    '  let cache ← ' + expr + '\n  let result :=' + suffix)
+    pre, branches = domains['validB'].split(':=', 1)[1].split('match domain with', 1)
+    body = branches.split('  | 4 =>', 1)[1].split('  | 5 =>', 1)[0]
+    valid = 'def valid (xs : Words) : Prop := (' + pre + body + ') = true\n'
+    names = ('Words', 'getOr', 'iz', 'put', 'finish', 'Node')
+    public = 'import Lean\nnamespace Task\n' + '\n'.join(
+        [native[n] for n in names] + ['structure Result where' + record] +
+        [native[n] for n in ('missing', 'ok', 'failure', 'expr', 'leaf', 'quotient', 'combine', 'evalRec')] +
+        [domains['inRange'], valid, *pair]) + '''
+def equivalent : Prop := ∀ x, valid x → ∃ o, a x=some o ∧ b x=some o
+def refutationAt (x oa ob : Words) : Prop := valid x ∧ a x=some oa ∧ b x=some ob ∧ oa≠ob
+end Task
+'''
+    public = re.sub(r'\bmutant\b', 'modeFlag', public)
+    public = re.sub(r'\bpure\b', 'return', public)
+    task = package / 'task'; binding = package / 'binding'
+    task.mkdir(parents=True, mode=0o700); binding.mkdir(mode=0o700)
+    (task / 'Task.lean').write_text(public)
+    (task / 'Obligation.lean').write_text('import Task\nnamespace Obligation\ndef goal : Prop := Task.equivalent\nend Obligation\n')
+    original = ROOT / '_build/pilot-v1/boundary-lean-binding'
+    original.mkdir(parents=True, exist_ok=True)
+    def compile_at(folder, name):
+        return compile_lean(folder, name, [task, original])
+    logs = [compile_at(task, n) for n in ('Task', 'Obligation')]
+    for name in ('BoundaryNative', 'BoundaryDomain', 'BoundaryGoals'):
+        src = source / (name + '.lean'); dest = original / src.name
+        if not dest.exists() or dest.read_bytes() != src.read_bytes() or not (original / (name + '.olean')).exists():
+            dest.write_bytes(src.read_bytes()); logs.append(compile_at(original, name))
+    bridge = '''import Task
+import BoundaryGoals
+open SpecLessBenchBoundary
+set_option maxRecDepth 4096
+set_option maxHeartbeats 2000000
+def lift (r : Task.Result) : Result := ⟨r.code,r.error,r.value⟩
+def cacheLift := List.map lift
+set_option allowUnsafeReducibility true
+attribute [local reducible] Task.expr expr Task.iz iz Task.getOr getOr lift
+theorem map_if {α β : Type} (f : α → β) (p : Prop) [Decidable p] (a b : α) :
+ f (if p then a else b) = if p then f a else f b := by split <;> rfl
+theorem expr_binding : Task.expr = expr := rfl
+theorem get_lift (cache : List Task.Result) (i : Nat) :
+ lift (Task.getOr cache i Task.missing) = getOr (cacheLift cache) i missing := by
+ induction cache generalizing i with
+ | nil => rfl
+ | cons r rs ih => cases i with
+   | zero => rfl
+   | succ i => exact ih i
+theorem put_lift (cache : List Task.Result) (i : Nat) (r : Task.Result) :
+ cacheLift (Task.put cache i r) = put (cacheLift cache) i (lift r) := by
+ simp [Task.put, put, cacheLift, List.map_append, List.map_take, List.map_drop]
+theorem leaf_lift (xs : Task.Words) (i : Nat) :
+ Option.map lift (Task.leaf xs i) = leaf xs i := by
+ simp only [Task.leaf, leaf, expr_binding]
+ simp only [map_if (Option.map lift), map_if lift, Option.map_some, Option.map_none]
+ rfl
+theorem combine_lift (m : Bool) (xs : Task.Words) (i : Nat) (cache : List Task.Result) :
+ lift (Task.combine m xs i cache) = combine m xs i (cacheLift cache) := by
+ simp only [Task.combine, combine, expr_binding]
+ simp only [← get_lift]
+ simp only [map_if lift]
+ rfl
+theorem rec_lift (xs : Task.Words) (fuel i : Nat) (cache : List Task.Result) :
+ Option.map cacheLift (Task.evalRec xs fuel i cache) = evalRec xs fuel i (cacheLift cache) := by
+ induction fuel generalizing i cache with
+ | zero =>
+   simp only [Task.evalRec, evalRec, expr_binding]
+   rw [← get_lift]
+   simp only [lift]
+   split <;> rfl
+ | succ fuel ih =>
+   simp only [Task.evalRec, evalRec, expr_binding]
+   rw [← get_lift]
+   simp only [lift]
+   split
+   · rfl
+   · rw [← leaf_lift]
+     cases Task.leaf xs i with
+     | some r => simpa only [Option.map_some] using congrArg some (put_lift cache i r)
+     | none =>
+       simp only [Option.map_none]
+       rw [← ih]
+       cases Task.evalRec xs fuel (expr xs i).2.1.toNat cache with
+       | none => rfl
+       | some first =>
+         simp only [Option.map_some, Option.bind_eq_bind, Option.bind_some]
+         rw [← get_lift]
+         simp only [lift]
+         split
+         · simpa only [Option.pure_def, Option.bind_eq_bind, Option.bind_some, Option.map_some, ← combine_lift] using
+             congrArg some (put_lift first i (Task.combine false xs i first))
+         · rw [← ih]
+           cases Task.evalRec xs fuel (expr xs i).2.2.toNat first with
+           | none => rfl
+           | some second =>
+             simpa only [Option.pure_def, Option.map_some, Option.bind_eq_bind, Option.bind_some, ← combine_lift] using
+               congrArg some (put_lift second i (Task.combine false xs i second))
+theorem fold_lift (m : Bool) (xs : Task.Words) (is : List Nat) (cache : List Task.Result) :
+ cacheLift (is.foldl (fun c i => Task.put c i ((Task.leaf xs i).getD (Task.combine m xs i c))) cache) =
+ is.foldl (fun c i => put c i ((leaf xs i).getD (combine m xs i c))) (cacheLift cache) := by
+ induction is generalizing cache with
+ | nil => rfl
+ | cons i is ih =>
+   simp only [List.foldl_cons]
+   rw [← leaf_lift]
+   cases Task.leaf xs i with
+   | none => simpa only [Option.map_none, Option.getD_none, ← combine_lift, ← put_lift] using
+       (ih (Task.put cache i (Task.combine m xs i cache)))
+   | some r => simpa only [Option.map_some, Option.getD_some, ← put_lift] using
+       (ih (Task.put cache i r))
+theorem initial_lift (n : Nat) : cacheLift (List.replicate n Task.missing) = List.replicate n missing := by
+ simp [cacheLift, List.map_replicate, lift, Task.missing, missing]
+'''
+    for name, style in zip(('a', 'b'), styles):
+        mode = 'true' if style == '2' else 'false'
+        expr = ('Task.evalRec xs 64 (n-1) initial' if style == '0' else
+                'some ((List.range n).foldl (fun c i => Task.put c i ((Task.leaf xs i).getD (Task.combine ' + mode + ' xs i c))) initial)')
+        bridge += f'''theorem {name}_binding : Task.{name} = entry 3 {style} := by
+ funext xs
+ let n := (Task.iz xs 0).toNat
+ let initial := List.replicate n Task.missing
+ dsimp only [Task.{name}, entry, evaluator]
+ rw [← initial_lift]
+ {'rw [← rec_lift]' if style == '0' else 'rw [← fold_lift]'}
+ change (({expr}).bind (fun c => some (Task.finish
+   [(Task.getOr c (n-1) Task.missing).code,(Task.getOr c (n-1) Task.missing).error,(Task.getOr c (n-1) Task.missing).value]))) =
+   ((Option.map cacheLift ({expr})).bind (fun c => some (finish
+   [(getOr c (n-1) missing).code,(getOr c (n-1) missing).error,(getOr c (n-1) missing).value])))
+ cases {expr} with
+ | none => rfl
+ | some c => simp only [Option.bind_eq_bind, Option.bind_some, Option.map_some, ← get_lift]; rfl
+'''
+    bridge += f'''theorem domain_binding : Task.valid = valid 4 := by rfl
+theorem equivalent_binding : Task.equivalent = {ctx['equivalence_goal']} := by
+ unfold Task.equivalent {ctx['equivalence_goal']} Equivalent
+ rw [domain_binding, a_binding, b_binding]
+theorem refutation_binding (x oa ob : Task.Words) : Task.refutationAt x oa ob = {ctx['refutation_at_goal']} x oa ob := by
+ unfold Task.refutationAt {ctx['refutation_at_goal']} RefutationAt
+ rw [domain_binding, a_binding, b_binding]
+#print axioms equivalent_binding
+#print axioms refutation_binding
+'''
+    (binding / 'Binding.lean').write_text(bridge)
+    logs.append(compile_at(binding, 'Binding'))
+    (binding / 'compile.log').write_text('\n'.join(logs))
+    meta = {'pilot_id': row['pilot_id'], 'platform': 'lean', 'public_sha256': tree_digest(task),
+            'binding': 'lean-kernel-checked-result-cache-transport-and-exact-frozen-target',
+            'source_context': row['source_context_id'], 'source_goal': ctx['equivalence_goal'],
+            'frozen_source_sha256': {n: hashlib.sha256((source / (n + '.lean')).read_bytes()).hexdigest()
                                      for n in ('BoundaryNative', 'BoundaryDomain', 'BoundaryGoals')},
             'preparation_wall_seconds': time.monotonic() - started,
             'preparation_controller_peak_rss_bytes': resource.getrusage(resource.RUSAGE_SELF).ru_maxrss * 1024,
