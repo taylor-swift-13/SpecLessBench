@@ -25,18 +25,24 @@ ROCQ = Path.home()/'.opam/qcp-8.20'
 COMPCERT = Path.home()/'.opam/five'
 
 
-def run_compiler(folder, name, argv, env, timeout=180):
+def run_compiler(folder, name, argv, env, timeout=180, deadline=None):
     """Keep per-command wall time and GNU time's process maximum RSS."""
-    started = time.monotonic(); timed_out = False
+    started = time.monotonic(); timed_out = False; termination_seconds=0.0
     with tempfile.TemporaryDirectory(prefix='specless-compiler-cost-') as temp:
         metrics = Path(temp)/'rss.txt'; timer = Path('/usr/bin/time')
         command = [str(timer), '-f', '%M %U %S', '-o', str(metrics), '--', *argv] if timer.exists() else argv
+        if deadline is not None:
+            timeout=min(timeout,deadline-time.monotonic())
+            if timeout<=0:raise TimeoutError('Shared attempt time budget reached before compiler launch')
         proc = subprocess.Popen(command, cwd=folder, env=env,
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, start_new_session=True)
         try:
-            stdout, stderr = proc.communicate(timeout=timeout)
+            wait_seconds=timeout if deadline is None else max(0,min(timeout,deadline-time.monotonic()))
+            stdout, stderr = proc.communicate(timeout=wait_seconds)
         except subprocess.TimeoutExpired:
+            stopping=time.monotonic()
             timed_out = True; os.killpg(proc.pid, signal.SIGKILL); stdout, stderr = proc.communicate()
+            termination_seconds=time.monotonic()-stopping
         observed = metrics.read_text().splitlines()[-1].split() if metrics.exists() and metrics.read_text().strip() else []
         try:
             rss, user, system = int(observed[0])*1024, float(observed[1]), float(observed[2])
@@ -45,6 +51,8 @@ def run_compiler(folder, name, argv, env, timeout=180):
     row = {'ended_utc': dt.datetime.now(dt.timezone.utc).isoformat(), 'module': name, 'argv': argv,
            'status': 'timeout' if timed_out else 'exited', 'exit_code': proc.returncode,
            'wall_seconds': time.monotonic()-started, 'peak_rss_bytes': rss, 'user_seconds': user, 'system_seconds': system,
+           'deadline_monotonic':deadline, 'termination_wall_seconds':termination_seconds,
+           'deadline_overrun_seconds':max(0,time.monotonic()-deadline) if deadline is not None else None,
            'memory_scope': 'GNU time process maximum RSS, including waited-for children; not an aggregate cgroup peak or hosted-model memory',
            'model_tokens': None}
     with (folder.parent/'compile-costs.jsonl').open('a') as log:
@@ -55,17 +63,17 @@ def run_compiler(folder, name, argv, env, timeout=180):
     return stdout+stderr
 
 
-def compile_rocq(folder, name, paths, toolchain=ROCQ, timeout=180):
+def compile_rocq(folder, name, paths, toolchain=ROCQ, timeout=180, deadline=None):
     argv = [str(toolchain/'bin/coqc'), '-q', '-noglob']
     for path, logical in paths:
         argv += ['-Q', str(path), logical]
     return run_compiler(folder, name, argv+[str(folder/(name+'.v'))],
-                        dict(os.environ, OCAMLFIND_CONF=str(toolchain/'lib/findlib.conf'), OCAMLPATH=str(toolchain/'lib')), timeout=timeout)
+                        dict(os.environ, OCAMLFIND_CONF=str(toolchain/'lib/findlib.conf'), OCAMLPATH=str(toolchain/'lib')), timeout=timeout, deadline=deadline)
 
 
-def compile_lean(folder, name, paths, timeout=180):
+def compile_lean(folder, name, paths, timeout=180, deadline=None):
     return run_compiler(folder, name, [str(LEAN), '-j', '1', '-o', str(folder/(name+'.olean')), str(folder/(name+'.lean'))],
-                        dict(os.environ, LEAN_PATH=':'.join(map(str, paths))), timeout=timeout)
+                        dict(os.environ, LEAN_PATH=':'.join(map(str, paths))), timeout=timeout, deadline=deadline)
 
 
 def definition(source, name):

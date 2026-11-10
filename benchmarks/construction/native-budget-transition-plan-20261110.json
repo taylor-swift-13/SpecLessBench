@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "kind": "prospective-budget-revision-transition-plan",
+  "created_utc": "2026-11-10T10:41:23.551459+00:00",
+  "selection_rule": "Every incomplete pair with exactly one canonical completed condition under an older budget revision, independent of its outcome",
+  "target_budget_scope_revision": "attempt-entry-deadline-v1",
+  "canonical_completed_before": 217,
+  "canonical_completed_after_if_applied": 216,
+  "complete_pairs_retained": 108,
+  "selected_pairs": [
+    {
+      "task_id": "P-e69f7e9ea72f14cf",
+      "platform": "lean",
+      "completed_goal_mode": "off",
+      "previous_budget_scope_revision": null,
+      "original_report_sha256": "055751f9c27a0f61301c708d28919fc54206a1a398a239435d04be12c03d0380",
+      "original_result": {
+        "status": "rejected",
+        "stage": "audit",
+        "detail": "unapproved dependency or wrong goal",
+        "grading_policy": "lean-native-kernel-replay-v1"
+      },
+      "separate_original_costs": {
+        "tokens": {
+          "input_tokens": 35595,
+          "cached_input_tokens": 22016,
+          "output_tokens": 1509,
+          "reasoning_output_tokens": 1166,
+          "cache_write_input_tokens": 0,
+          "total_tokens": 37104
+        },
+        "token_usage_complete": true,
+        "agent_wall_seconds": 45.12635328900069,
+        "checker_wall_seconds": 51.13796135300072,
+        "total_wall_seconds": 155.5273300150293,
+        "agent_max_cgroup_memory_peak_bytes": 168300544,
+        "checker_max_cgroup_memory_peak_bytes": 2253627392,
+        "monetary_cost": null,
+        "hosted_inference_memory_bytes": null
+      },
+      "fresh_session_order": [
+        "off",
+        "on"
+      ]
+    }
+  ],
+  "apply_allowed_by_current_evidence": false,
+  "state_changes_committed": false,
+  "blocker": "Separate storage/requeue clearance not yet supplied; no model attempt scheduled by this plan",
+  "raw_reports_retained": true,
+  "original_attempts_or_submissions_modified": false,
+  "interrupted_costs_separate": true,
+  "completed_legacy_pairs_stratified": true,
+  "budget_revision_causal_effect_claimed": false,
+  "full_private_plan_sha256": "7e9904e8cb43725bfb38dc21cd63d1dba31a3109b9634fda1b13942c12fb9aa8"
+}

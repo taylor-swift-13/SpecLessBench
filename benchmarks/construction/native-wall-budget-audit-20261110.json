@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "captured_utc": "2026-11-10T10:00:05.801277+00:00",
+  "study": "native-luna-medium",
+  "scope": "Dated audit of canonical completed report pointers before prospective wall-budget correction; infrastructure-interrupted attempts are separate",
+  "canonical_report_count": 217,
+  "by_status": {
+    "accepted": {
+      "count": 135,
+      "reported_total_over_7200": 0,
+      "min_reported_total_wall_seconds": 38.230346044001635,
+      "max_reported_total_wall_seconds": 6887.80981847801,
+      "sum_reported_total_wall_seconds": 95350.07111992175,
+      "adjudicated": 11,
+      "sum_reported_overage_seconds": 0
+    },
+    "rejected": {
+      "count": 68,
+      "reported_total_over_7200": 0,
+      "min_reported_total_wall_seconds": 34.41389360802714,
+      "max_reported_total_wall_seconds": 1511.586657065025,
+      "sum_reported_total_wall_seconds": 7061.107954476087,
+      "adjudicated": 3,
+      "sum_reported_overage_seconds": 0
+    },
+    "timeout": {
+      "count": 14,
+      "reported_total_over_7200": 14,
+      "min_reported_total_wall_seconds": 7205.847321462003,
+      "max_reported_total_wall_seconds": 7217.177895237983,
+      "sum_reported_total_wall_seconds": 100939.81218411491,
+      "adjudicated": 0,
+      "sum_reported_overage_seconds": 139.81218411491136
+    }
+  },
+  "by_condition": {
+    "lean/off": {
+      "count": 52,
+      "statuses": {
+        "rejected": 34,
+        "accepted": 18
+      },
+      "reported_total_over_7200": 0
+    },
+    "lean/on": {
+      "count": 51,
+      "statuses": {
+        "accepted": 44,
+        "timeout": 6,
+        "rejected": 1
+      },
+      "reported_total_over_7200": 6
+    },
+    "rocq/off": {
+      "count": 57,
+      "statuses": {
+        "rejected": 31,
+        "accepted": 26
+      },
+      "reported_total_over_7200": 0
+    },
+    "rocq/on": {
+      "count": 57,
+      "statuses": {
+        "accepted": 47,
+        "timeout": 8,
+        "rejected": 2
+      },
+      "reported_total_over_7200": 8
+    }
+  },
+  "legacy_runner_report_counts": {
+    "96973b050be20d9302c0ef55197cadfbfa53293a3b25cf23f9f878c2edbcfee9": 210,
+    "58b1e0acf23f73c5b2705597a55a6f8ae36b735b465c9322ad5f0312c3535ad7": 7
+  },
+  "legacy_enforcement_scope": "7200 seconds shared by agent and checking after setup; run-entry prefix also absent from reported total wall time",
+  "preflight_seconds_range": [
+    2.924482705013361,
+    51.98319191503106
+  ],
+  "report_start_to_round_start_seconds_range": [
+    3.450736,
+    59.108129
+  ],
+  "supervisor_timeout_seconds_range": [
+    7199.999994840007,
+    7199.999999839987
+  ],
+  "timeout_agent_wall_seconds_range": [
+    7200.6841970660025,
+    7204.978718728991
+  ],
+  "prospective_budget_scope_revision": "attempt-entry-deadline-v1",
+  "prospective_scope": "One monotonic deadline from run entry through setup, model and checking; termination/finalization overhead separately observed; no late acceptance",
+  "initial_prompts_changed": false,
+  "original_reports_or_model_resources_changed": false,
+  "acceptance_regrading_performed": false,
+  "counterfactual_results_under_entry_deadline": null,
+  "strict_entry_deadline_conformance_of_legacy_runs": "not established by legacy recorded total_wall_seconds alone",
+  "posthoc_native_audit_checker_seconds_separate": 222.7256839890615,
+  "full_private_audit_sha256": "662d6e543449babd76f42600aa36b909fcc727918d6c8e3d25f6d66506176271"
+}

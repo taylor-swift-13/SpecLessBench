@@ -8,13 +8,19 @@ It is excluded from the native study's counts and costs.
 Operational checkpoint, 2026-11-10 09:35 UTC: Windows removed Ubuntu's virtual
 disk after a write failed with `STATUS_DISK_FULL`. WSL subsequently reported
 I/O errors and emergency read-only state. The last confirmed checkpoint had
-217 terminal runs (135 accepted, 68 rejected, 14 timeouts); the live Lean/on
-attempt requires inspection after storage recovery. It is not a completed model
-failure. Host diagnostic evidence and the last observed usage are retained
-separately; the original partial remains on the inaccessible virtual disk.
-No restart, filesystem repair, evaluation retry or package preparation has been
-performed in response. Controlled recovery awaits user authorization because
-restarting the distribution can interrupt unrelated workloads.
+217 terminal runs (135 accepted, 68 rejected, 14 timeouts). At 09:43 UTC a new
+WSL VM booted and re-exposed the disk; the initiator is unknown. The curator did
+not issue a termination or restart command. The interrupted Lean/on attempt was
+inspected after recovery: 432 files were archived and every file hash verified,
+with the original directory unchanged. It has no host grading report and is
+recorded separately as `interrupted-needs-review`, not a completed model failure.
+The last available native state is 10 turns started, 9 completed, Goal active;
+final-turn usage remains incomplete. All 217 canonical completed-report checksum
+lists and the preserved CompCert archive hash were also verified after recovery.
+The service remains stopped pending storage recovery preflight and the timing
+correction below. Host diagnostics, partial costs and verified backup evidence
+are separate from completed-run totals. Further distribution maintenance can
+interrupt unrelated workloads and requires authorization.
 
 The frozen evaluation selection contains 69 contexts (factorial excluded), each
 on Lean and Rocq. Each theorem/platform runs once with Goal off and once with
@@ -23,8 +29,30 @@ Rocq, off then on. The initial task prompt and platform interface are identical
 within each pair. Workspaces and sessions are fresh and isolated for every run;
 no proofs or outcomes are shared. Only native Goal mode differs.
 
-Each run has a shared 7200-second wall limit including model work and checking,
-a 3 GiB sandbox and no token budget. Goal-off starts one ordinary turn. Goal-on
+At the budget-revision boundary, every incomplete pair whose completed companion
+used the legacy clock is restarted in fresh off/on sessions, regardless of that
+companion's result. Its original report and costs remain separately visible as
+protocol-superseded evidence. Complete legacy pairs are retained and reported by
+budget revision. The reviewed [transition plan](../benchmarks/construction/native-budget-transition-plan-20261110.json)
+currently selects one Lean pair and retains 108 complete pairs; applying it would
+change the canonical completed count from 217 to 216 before fresh off/on runs.
+It has not been applied and requires separate storage/requeue clearance. This
+transition does not identify a causal effect of changing the budget policy.
+
+The requested protocol has a shared 7200-second wall limit including setup,
+model work and checking, a 3 GiB sandbox and no token budget. A dated timing
+audit found that the first 217 completed reports used a clock starting after
+setup; their reported total wall time also omits an earlier entry prefix.
+None of the 135 accepted or 68 rejected reports records total wall time above
+7200 seconds. The 14 timeout reports record 7205.85--7217.18 seconds, including
+termination/finalization overhead. These observations do not establish strict
+setup-inclusive conformance or counterfactual scores. Original reports, results
+and model costs remain unchanged; see the [timing audit](../benchmarks/construction/native-wall-budget-audit-20261110.json).
+Prospective revision `attempt-entry-deadline-v1` uses one deadline from run entry
+through agent and checking processes, disallows late acceptance, and reports
+termination/finalization overhead separately. Expiration before agent launch is
+infrastructure failure requiring inspection. The initial prompts remain unchanged.
+Goal-off starts one ordinary turn. Goal-on
 sets and verifies a real persisted Goal and permits its native automatic turns.
 The client issues exactly one `turn/start` in either condition. There is no
 external retry/resume loop or ten-round cap. After a native Goal stays idle for

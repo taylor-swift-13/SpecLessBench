@@ -39,7 +39,7 @@ def _result(status,stage,detail=None):return {'status':status,'stage':stage,'det
 def _valid_dir(path):
     path=Path(path)
     return path.is_dir() and not path.is_symlink() and not any(p.is_symlink()for p in path.rglob('*'))
-def grade_prepared(platform,package,submission,timeout=90,trace=None):
+def grade_prepared(platform,package,submission,timeout=90,trace=None,deadline=None):
     package=Path(package);submission=Path(submission)
     if platform not in ('rocq','compcert') or not _valid_dir(package) or not _valid_dir(submission):return _result('infrastructure-error','input','invalid platform or directory')
     if not (package/'Obligation.vo').is_file():return _result('infrastructure-error','input','incomplete trusted package')
@@ -52,7 +52,7 @@ def grade_prepared(platform,package,submission,timeout=90,trace=None):
         (trusted/'Gate.v').write_text('From Trusted Require Import Obligation.\nFrom Candidate Require Import Submission.\nDefinition pilot_checked : Obligation.goal := Submission.solve.\n')
         (trusted/'Audit.v').write_text('Set Printing Fully Qualified.\nFrom Trusted Require Import Gate.\nPrint Assumptions Gate.pilot_checked.\n')
         def run(args,**kwargs):
-            result=run_isolated(platform,trusted,submission,args,timeout=timeout,phase='evaluation-checker' if trace is not None else 'synthetic-prototype',**kwargs)
+            result=run_isolated(platform,trusted,submission,args,timeout=timeout,deadline=deadline,phase='evaluation-checker' if trace is not None else 'synthetic-prototype',**kwargs)
             if trace is not None:trace.append({k:result.get(k) for k in ('status','exit_code','stdout','stderr','output_truncated','resources')})
             return result
         common=[coqc,'-q','-noglob','-Q','/trusted','Trusted']

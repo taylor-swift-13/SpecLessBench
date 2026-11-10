@@ -4,7 +4,7 @@ This is a prototype, not a complete untrusted-agent security boundary: the
 shared host kernel and per-task solver packages need independent review.
 Never expose curator directories through the `trusted` argument.
 """
-import datetime,json,os,resource,signal,subprocess,tempfile,uuid
+import datetime,json,math,os,resource,signal,subprocess,tempfile,time,uuid
 from pathlib import Path
 
 TOOLCHAINS={
@@ -33,7 +33,7 @@ def _clean_dir(path):
 
 def run_isolated(platform, trusted, submission, argv, timeout=60, memory_bytes=16*1024**3,
                  artifacts=None, collect=None, cgroup_memory_bytes=3*1024**3, pids_limit=64,
-                 capture_limit_bytes=1000000, raw_output=False, require_artifacts=True, phase='synthetic-prototype'):
+                 capture_limit_bytes=1000000, raw_output=False, require_artifacts=True, phase='synthetic-prototype', deadline=None):
     if platform not in TOOLCHAINS:raise ValueError('Unknown toolchain')
     trusted=_clean_dir(trusted);submission=_clean_dir(submission)
     if trusted==submission or trusted in submission.parents or submission in trusted.parents:raise ValueError('Trusted and untrusted directories must not overlap')
@@ -59,8 +59,11 @@ def run_isolated(platform, trusted, submission, argv, timeout=60, memory_bytes=1
           '--setenv','HOME','/tmp','--setenv','LC_ALL','C','--setenv','LEAN_PATH','/trusted:/work',
           '--chdir','/work','--',*argv]
         report=Path(root)/'resource-report.json';config=Path(root)/'supervisor.json'
+        if deadline is not None:
+            timeout=min(timeout,deadline-time.monotonic())
+            if timeout<=0:raise TimeoutError('Shared attempt time budget reached before checker launch')
         config.write_text(json.dumps({'argv':cmd,'timeout':timeout,'memory_limit':cgroup_memory_bytes,
-          'pids_limit':pids_limit,'report':str(report)}))
+          'pids_limit':pids_limit,'report':str(report),'deadline_monotonic':deadline}))
         unit='specless-'+uuid.uuid4().hex+'.scope'
         supervisor=Path(__file__).resolve().parent/'resource_supervisor.py'
         launch=['/usr/bin/systemd-run','--user','--scope','--quiet','--unit',unit,
@@ -68,7 +71,8 @@ def run_isolated(platform, trusted, submission, argv, timeout=60, memory_bytes=1
           '/usr/bin/python3',str(supervisor),str(config)]
         def limits():
             resource.setrlimit(resource.RLIMIT_AS,(memory_bytes,memory_bytes))
-            resource.setrlimit(resource.RLIMIT_CPU,(timeout,timeout+1))
+            cpu_seconds=math.ceil(timeout)
+            resource.setrlimit(resource.RLIMIT_CPU,(cpu_seconds,cpu_seconds+1))
             resource.setrlimit(resource.RLIMIT_FSIZE,(128*1024**2,128*1024**2))
             resource.setrlimit(resource.RLIMIT_NOFILE,(128,128))
         with stdout.open('wb')as out,stderr.open('wb')as err:

@@ -8,6 +8,7 @@ import argparse
 import json
 import shutil
 import tempfile
+import time
 from pathlib import Path
 
 from single_task_runner import tree_digest
@@ -15,7 +16,7 @@ from lean_grader_core import grade_prepared as grade_lean
 from rocq_grader_core import grade_prepared as grade_rocq
 
 
-def grade(platform, package, expected_digest, proof, timeout=90, trace=None):
+def grade(platform, package, expected_digest, proof, timeout=90, trace=None, deadline=None):
     if platform not in ('lean', 'rocq', 'compcert'):
         return {'status': 'infrastructure-error', 'detail': 'unknown platform'}
     proof = Path(proof)
@@ -36,8 +37,16 @@ def grade(platform, package, expected_digest, proof, timeout=90, trace=None):
                 return {'status': 'rejected', 'detail': 'submission too large'}
             (submission / filename).write_bytes(data)
             if platform == 'lean':
-                return grade_lean(trusted, submission, timeout, trace)
-            return grade_rocq(platform, trusted, submission, timeout, trace)
+                result = grade_lean(trusted, submission, timeout, trace, deadline=deadline)
+            else:
+                result = grade_rocq(platform, trusted, submission, timeout, trace, deadline=deadline)
+            if deadline is not None and time.monotonic() >= deadline:
+                return {'status': 'timeout', 'detail': 'Shared attempt time budget reached before checker decision',
+                        'observed_result_after_deadline': result}
+            return result
+    except TimeoutError as error:
+        if deadline is not None and time.monotonic() >= deadline:raise
+        return {'status': 'infrastructure-error', 'detail': str(error)}
     except (OSError, ValueError) as error:
         return {'status': 'infrastructure-error', 'detail': str(error)}
 

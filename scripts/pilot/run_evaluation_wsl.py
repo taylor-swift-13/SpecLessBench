@@ -24,6 +24,28 @@ from selection import selection
 from single_task_runner import tree_digest
 
 BASE = Path.home()/'.local/share/speclessbench/runs/evaluation'
+BUDGET_SCOPE_REVISION = 'attempt-entry-deadline-v1'
+
+
+def remaining_seconds(deadline, cap=None):
+    remaining = deadline-time.monotonic()
+    if remaining <= 0:
+        raise TimeoutError('Shared attempt time budget reached')
+    return remaining if cap is None else min(cap, remaining)
+
+
+def model_attempt_observed(observation):
+    return bool(observation.get('client_turn_start_count') or observation.get('native_turn_count'))
+
+
+def deadline_result(model_observed, observed_result=None):
+    value = {'status': 'timeout' if model_observed else 'infrastructure-error',
+             'detail': 'Shared attempt time budget reached' if model_observed else 'Shared attempt time budget exhausted without an observed model turn request or start',
+             'budget_exhausted': True, 'model_attempt_observed': model_observed}
+    if observed_result is not None:value['observed_result_after_deadline'] = observed_result
+    return value
+
+
 def dump(path, value):
     tmp = path.with_name(path.name+'.tmp')
     tmp.write_text(json.dumps(value, indent=2, ensure_ascii=False)+'\n')
@@ -81,9 +103,11 @@ def report_markdown(report):
 
 
 def run(task_id, platform='compcert', timeout=None, on_run=None, prompt_variant='baseline', goal_mode='off'):
+    clock = time.monotonic(); started = now()
     timeout = timeout if timeout is not None else (14400 if platform == 'compcert' else 7200)
     if timeout <= 0:
         raise ValueError('Invalid time limit')
+    deadline = clock+timeout
     if goal_mode not in ('on','off'):
         raise ValueError('Invalid Goal mode')
     os.umask(0o077)
@@ -112,13 +136,17 @@ def run(task_id, platform='compcert', timeout=None, on_run=None, prompt_variant=
         folder.mkdir(parents=True, mode=0o700)
     shutil.copytree(source/'task', task)
     dump(run_dir/'package.json', meta)
-    started = now(); clock = time.monotonic(); trace = []; resources = None; usage = []
+    trace = []; resources = None; usage = []
     result = {'status': 'infrastructure-error', 'detail': 'Run did not reach finalization'}
     claim = None
     cfg = {'purpose': 'evaluation', 'task_id': task_id, 'platform': platform,
            'model': 'gpt-6-luna', 'model_reasoning_effort': 'medium',
            'agent_timeout_seconds': timeout, 'total_budget_seconds': timeout,
-           'budget_scope': 'Shared wall time across all agent rounds and checking',
+           'budget_scope': 'Shared wall time from run entry, including setup, model work and checking',
+           'budget_scope_revision': BUDGET_SCOPE_REVISION,
+           'deadline_overhead_scope': 'Termination and finalization may finish after the deadline; no additional model or checker budget',
+           'resource_wall_endpoint': 'Immediately before resources/report/checksum serialization',
+           'deadline_model_attempt_evidence': 'Sent turn/start request or received native turn/started event; process launch alone remains infrastructure/unknown',
            'policy': 'native-goal' if goal_mode=='on' else 'single-turn', 'goal_mode':goal_mode,
            'transport':'app-server', 'manual_resumes':False,
            'evaluation_protocol_revision':'native-goal-study-2026-11-07',
@@ -127,13 +155,13 @@ def run(task_id, platform='compcert', timeout=None, on_run=None, prompt_variant=
            'native_idle_grace_seconds':120,
            'checker_stage_timeout_seconds': 600,
            'memory_limit_bytes': 3*1024**3, 'pids_limit': 512,
-           'agent_version': subprocess.check_output([str(CODEX), '--version'], text=True).strip(),
+           'agent_version': None,
            'task_package_sha256': meta['public_sha256'], 'tools_network': False,
            'model_network': True, 'provider': 'ChatGPT account',
            'runner_sha256': sha(Path(__file__).read_bytes()),
            'codex_executable_sha256': sha(CODEX.read_bytes()),
            'codex_code_host_sha256': sha(CODE_HOST.read_bytes()),
-           'toolchain_version': subprocess.check_output([str(toolchain/('bin/lean' if platform == 'lean' else 'bin/coqc')), '--version'], text=True).strip(),
+           'toolchain_version': None,
            'prompt_sha256': sha(prompt.encode()), 'prompt_protocol': prompt_protocol}
     cfg['native_driver_sha256'] = sha((ROOT/'scripts/pilot/goal_client.py').read_bytes())
     dump(run_dir/'config.json', cfg)
@@ -158,23 +186,27 @@ enabled = false
     dump(run_dir/'prompt-components.json', prompt_components)
     for source_name in ('run_evaluation_wsl.py','goal_client.py','goal_observation.py','evaluation_prompts.py',
                         'TrustedLeanAudit.lean','lean_grader_core.py','grade_sealed.py',
-                        'rocq_grader_core.py','sandbox.py','resource_supervisor.py'):
+                        'rocq_grader_core.py','sandbox.py','resource_supervisor.py','prepare_evaluation.py'):
         destination=run_dir/'runner-sources'/source_name
         destination.parent.mkdir(exist_ok=True)
         shutil.copyfile(ROOT/'scripts/pilot'/source_name,destination)
     sources=run_dir/'runner-sources'
     (sources/'SHA256SUMS').write_text(''.join(sha(f.read_bytes())+'  '+f.name+'\n' for f in sorted(sources.iterdir()) if f.is_file()))
     cfg['grading_policy_sources_sha256']={name:sha((sources/name).read_bytes()) for name in
-        ('TrustedLeanAudit.lean','lean_grader_core.py','grade_sealed.py','rocq_grader_core.py','sandbox.py','resource_supervisor.py')}
+        ('TrustedLeanAudit.lean','lean_grader_core.py','grade_sealed.py','rocq_grader_core.py','sandbox.py','resource_supervisor.py','prepare_evaluation.py')}
     dump(run_dir/'config.json', cfg)
     unit = 'specless-eval-'+uuid.uuid4().hex+'.scope'
     agent_seconds = None; agent_clock = None; checker_seconds = None; complete = False; invalid = 0; event_count = 0
-    cgroup = None; session_id = None; round_index = 0; rounds = []; budget_clock = None
+    cgroup = None; session_id = None; round_index = 0; rounds = []; budget_clock = clock
+    decision_clock = None; agent_launched = False
     agent_total = 0.0; checker_total = 0.0; stop_reason = None; native_summary = None
     native_observed = initial_observation(goal_mode)
     try:
         preflight = time.monotonic()
-        catalog = subprocess.run([str(CODEX), 'debug', 'models'], capture_output=True, timeout=60)
+        cfg['agent_version'] = subprocess.check_output([str(CODEX), '--version'], text=True, timeout=remaining_seconds(deadline,60)).strip()
+        cfg['toolchain_version'] = subprocess.check_output([str(toolchain/('bin/lean' if platform == 'lean' else 'bin/coqc')), '--version'], text=True, timeout=remaining_seconds(deadline,60)).strip()
+        dump(run_dir/'config.json', cfg)
+        catalog = subprocess.run([str(CODEX), 'debug', 'models'], capture_output=True, timeout=remaining_seconds(deadline,60))
         data = json.loads(catalog.stdout); models = data.get('models', []) if isinstance(data, dict) else data
         selected = [m for m in models if m.get('slug') == cfg['model']]
         dump(run_dir/'model-catalog.json', {'captured_utc': now(), 'exit_code': catalog.returncode,
@@ -182,8 +214,8 @@ enabled = false
              'scope': 'CLI catalog observation; not independent server response attestation'})
         if catalog.returncode or len(selected) != 1 or not any(x.get('effort') == 'medium' for x in selected[0].get('supported_reasoning_levels', [])):
             raise RuntimeError('Luna medium absent from CLI catalog')
-        dump(run_dir/'environment.json', {'benchmark_commit': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
-             'git_status': subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT, text=True).splitlines(),
+        dump(run_dir/'environment.json', {'benchmark_commit': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True, timeout=remaining_seconds(deadline,30)).strip(),
+             'git_status': subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT, text=True, timeout=remaining_seconds(deadline,30)).splitlines(),
              'toolchain_tree': fingerprint_tree(toolchain), 'preflight_seconds': time.monotonic()-preflight,
              'runner_dependencies': {p: sha((ROOT/p).read_bytes()) for p in (
                  'scripts/pilot/run_evaluation_wsl.py', 'scripts/pilot/prepare_evaluation.py', 'scripts/pilot/prepare_clight_evaluation.py', 'scripts/pilot/prepare_classics_evaluation.py',
@@ -224,11 +256,8 @@ enabled = false
                 '--ro-bind',str(run_dir/'prompt.txt'),'/opt/prompt.txt']
         sandbox_prefix = cmd + ['--chdir','/work','--','/usr/bin/python3','/opt/goal_client.py',
                                 '--goal-mode',goal_mode,'--prompt','/opt/prompt.txt','--platform',platform]
-        budget_clock = time.monotonic()
         feedback = prompt
-        remaining = timeout-(time.monotonic()-budget_clock)
-        if remaining <= 0:
-            raise TimeoutError('Shared attempt time budget reached')
+        remaining = remaining_seconds(deadline)
         complete = False; resources = None; cgroup = None; trace = []; checker_seconds = 0.0
         cmd = sandbox_prefix
         unit = 'specless-eval-'+uuid.uuid4().hex+'.scope'
@@ -242,13 +271,14 @@ enabled = false
         event_start = event_count; usage_start = len(usage); round_started = now()
         stderr_start = (run_dir/'agent.stderr').stat().st_size if (run_dir/'agent.stderr').exists() else 0
         dump(private/'supervisor.json', {'argv': cmd, 'timeout': remaining, 'memory_limit': 3*1024**3,
-             'pids_limit': 512, 'report': str(private/'resources.json')})
+             'pids_limit': 512, 'report': str(private/'resources.json'), 'deadline_monotonic': deadline})
         shutil.copyfile(private/'supervisor.json', round_dir/'supervisor.json')
         launch = ['/usr/bin/systemd-run', '--user', '--scope', '--quiet', '--unit', unit, '-p', 'MemoryMax=3221225472',
                   '-p', 'MemorySwapMax=0', '-p', 'TasksMax=512', '/usr/bin/python3', str(SUPERVISOR), str(private/'supervisor.json')]
         agent_clock = time.monotonic()
         with (run_dir/'events.jsonl').open('ab') as out, (run_dir/'events.timestamps.jsonl').open('a') as stamps, (run_dir/'agent.stderr').open('ab') as err:
             proc = subprocess.Popen(launch, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=err, start_new_session=True)
+            agent_launched = True
             def capture():
                 nonlocal event_count, invalid, complete, session_id, session_mismatch, native_summary
                 for line in proc.stdout:
@@ -276,32 +306,41 @@ enabled = false
                     except (ValueError, AttributeError):
                         invalid += 1
             reader = threading.Thread(target=capture, daemon=True); reader.start()
-            while proc.poll() is None:
-                if cgroup is None:
-                    observed = subprocess.run(['systemctl', '--user', 'show', unit, '-p', 'ControlGroup', '--value'], capture_output=True, text=True, timeout=10)
-                    if observed.returncode == 0 and observed.stdout.strip():
-                        cgroup = Path('/sys/fs/cgroup')/observed.stdout.strip().lstrip('/')
-                memory = {}
-                if cgroup is not None:
-                    for key, filename in (('memory_current_bytes', 'memory.current'), ('memory_peak_bytes', 'memory.peak')):
+            try:
+                while proc.poll() is None:
+                    if time.monotonic() >= deadline:break
+                    if cgroup is None:
+                        observed = subprocess.run(['systemctl', '--user', 'show', unit, '-p', 'ControlGroup', '--value'], capture_output=True, text=True, timeout=remaining_seconds(deadline,10))
+                        if observed.returncode == 0 and observed.stdout.strip():
+                            cgroup = Path('/sys/fs/cgroup')/observed.stdout.strip().lstrip('/')
+                    memory = {}
+                    if cgroup is not None:
+                        for key, filename in (('memory_current_bytes', 'memory.current'), ('memory_peak_bytes', 'memory.peak')):
+                            try:
+                                memory[key] = int((cgroup/filename).read_text())
+                            except OSError:
+                                pass
+                    dump(run_dir/'live.json', {'phase': 'agent', 'updated_utc': now(), 'agent_seconds': time.monotonic()-agent_clock,
+                         'native_goal_session':native_observed.copy(),
+                         'session_id': session_id, 'round': round_index, 'remaining_seconds': max(0,deadline-time.monotonic()), 'cumulative_agent_seconds': agent_total+time.monotonic()-agent_clock, 'events': event_count, 'event_bytes': out.tell(), 'usage_events': usage, **memory})
+                    if time.monotonic() >= deadline or shutil.disk_usage(run_dir).free < 512*1024**2:break
+                    time.sleep(min(5,max(0,deadline-time.monotonic())))
+            finally:
+                try:
+                    if proc.poll() is None:
                         try:
-                            memory[key] = int((cgroup/filename).read_text())
-                        except OSError:
-                            pass
-                dump(run_dir/'live.json', {'phase': 'agent', 'updated_utc': now(), 'agent_seconds': time.monotonic()-agent_clock,
-                     'native_goal_session':native_observed.copy(),
-                     'session_id': session_id, 'round': round_index, 'remaining_seconds': max(0,timeout-(time.monotonic()-budget_clock)), 'cumulative_agent_seconds': agent_total+time.monotonic()-agent_clock, 'events': event_count, 'event_bytes': out.tell(), 'usage_events': usage, **memory})
-                if time.monotonic()-agent_clock > remaining+10 or shutil.disk_usage(run_dir).free < 512*1024**2:
-                    subprocess.run(['systemctl', '--user', 'stop', unit], capture_output=True, timeout=15)
-                    proc.kill(); proc.wait(); break
-                time.sleep(5)
-            reader.join(timeout=15)
+                            subprocess.run(['systemctl', '--user', 'stop', unit], capture_output=True, timeout=15)
+                        finally:
+                            proc.kill(); proc.wait(timeout=15)
+                finally:
+                    reader.join(timeout=15)
             if reader.is_alive():
                 raise RuntimeError('Agent event stream did not close')
         if session_mismatch: raise RuntimeError('Resume returned a different session ID')
         agent_seconds = time.monotonic()-agent_clock
         if (private/'resources.json').exists():
             resources = json.loads((private/'resources.json').read_text())
+            agent_launched = resources.get('child_launched',agent_launched)
         for name in (proof_name, 'claim.json'):
             (run_dir/name).unlink(missing_ok=True)
             candidate = work/name
@@ -311,7 +350,7 @@ enabled = false
         if not resources or resources.get('status') == 'limits-not-enforced':
             raise RuntimeError('Cgroup supervision failed')
         if resources['status'] == 'timeout':
-            result = {'status': 'timeout', 'detail': 'Shared attempt time budget reached'}
+            result = deadline_result(model_attempt_observed(native_observed))
         elif resources.get('status') != 'exited' or resources.get('exit_code') != 0 or not complete:
             result = {'status': 'agent-error', 'detail': 'Agent did not complete successfully'}
         elif not (run_dir/'claim.json').is_file() or not (run_dir/proof_name).is_file():
@@ -326,14 +365,17 @@ enabled = false
                 trusted = private/('grading-'+str(round_index)); shutil.copytree(task, trusted)
                 if platform == 'lean':
                     (trusted/'Obligation.lean').write_text('import Task\nnamespace Obligation\ndef goal : Prop := '+goal+'\nend Obligation\n')
-                    compile_lean(trusted, 'Obligation', [trusted], timeout=max(1,min(180,timeout-(time.monotonic()-budget_clock))))
+                    compile_lean(trusted, 'Obligation', [trusted], timeout=remaining_seconds(deadline,180), deadline=deadline)
                 else:
                     (trusted/'Obligation.v').write_text('From '+('Stdlib' if platform == 'compcert' else 'Coq')+' Require Import ZArith List.\nImport ListNotations.\nFrom Trusted Require Import Task.\nDefinition goal : Prop := '+goal+'.\n')
-                    compile_rocq(trusted, 'Obligation', [(trusted, 'Trusted')], toolchain=toolchain, timeout=max(1,min(180,timeout-(time.monotonic()-budget_clock))))
+                    compile_rocq(trusted, 'Obligation', [(trusted, 'Trusted')], toolchain=toolchain, timeout=remaining_seconds(deadline,180), deadline=deadline)
                 obligation = 'Obligation.lean' if platform == 'lean' else 'Obligation.v'
                 shutil.copyfile(trusted/obligation, run_dir/obligation)
-                result = grade(platform, trusted, tree_digest(trusted), run_dir/proof_name, timeout=max(1,min(600,int((timeout-(time.monotonic()-budget_clock))/(3 if platform == 'lean' else 4)))), trace=trace)
+                result = grade(platform, trusted, tree_digest(trusted), run_dir/proof_name, timeout=remaining_seconds(deadline,600), trace=trace, deadline=deadline)
             checker_seconds = time.monotonic()-check_clock
+        decision_clock = time.monotonic()
+        if decision_clock >= deadline:
+            result = deadline_result(model_attempt_observed(native_observed),result)
         agent_total += agent_seconds or 0
         checker_total += checker_seconds or 0
         dump(round_dir/'checker.log', trace)
@@ -353,6 +395,8 @@ enabled = false
         subprocess.run(['systemctl', '--user', 'stop', unit], capture_output=True, timeout=20)
         if result['status'] == 'timeout':
             stop_reason = 'time-budget'
+        elif result.get('budget_exhausted'):
+            stop_reason = 'setup-budget-exhausted'
         elif native_summary is None:
             result = {'status':'infrastructure-error','detail':'Native client did not report a final lifecycle state'}
             stop_reason = 'native-client-error'
@@ -360,8 +404,13 @@ enabled = false
             stop_reason = 'accepted' if result['status']=='accepted' else native_summary['stop_reason']
         agent_seconds = agent_total; checker_seconds = checker_total
     except (Exception, KeyboardInterrupt) as error:
-        result = {'status': 'timeout' if budget_clock is not None and time.monotonic()-budget_clock >= timeout else 'infrastructure-error', 'detail': type(error).__name__+': '+str(error)}
+        decision_clock = time.monotonic()
+        result = deadline_result(model_attempt_observed(native_observed)) if decision_clock >= deadline else {'status': 'infrastructure-error', 'detail': type(error).__name__+': '+str(error)}
+        if result.get('budget_exhausted'):
+            result['error'] = type(error).__name__+': '+str(error)
+            stop_reason = 'time-budget' if result['model_attempt_observed'] else 'setup-budget-exhausted'
     finally:
+        if decision_clock is None:decision_clock = time.monotonic()
         if native_observed['native_turn_count']:
             if native_summary is None:
                 native_summary={**native_observed,'thread_id':session_id,
@@ -377,6 +426,16 @@ enabled = false
                              'observed_utc': now(), 'memory_scope': 'Agent cgroup observed before interrupted-run cleanup; not hosted model memory'}
             except OSError:
                 pass
+        if resources is not None:
+            agent_launched = resources.get('child_launched',agent_launched)
+        if result.get('budget_exhausted'):
+            previous_result = dict(result)
+            result.update(deadline_result(model_attempt_observed({**native_observed,**(native_summary or {})})))
+            stop_reason = 'time-budget' if result['model_attempt_observed'] else 'setup-budget-exhausted'
+            if rounds and previous_result != result:
+                rounds[-1]['result'] = result
+                dump(round_dir/'report.json',rounds[-1])
+                (round_dir/'SHA256SUMS').write_text(''.join(sha(f.read_bytes())+'  '+f.name+'\n' for f in sorted(round_dir.iterdir()) if f.is_file() and f.name!='SHA256SUMS'))
         subprocess.run(['systemctl', '--user', 'stop', unit], capture_output=True, timeout=20)
         if budget_clock is not None and len(rounds) <= round_index and 'round_dir' in locals():
             current_agent = agent_seconds if agent_seconds is not None else (time.monotonic()-agent_clock if agent_clock else 0)
@@ -393,8 +452,15 @@ enabled = false
         dump(run_dir/'rounds.json',rounds)
         (home/'auth.json').unlink(missing_ok=True)
         dump(run_dir/'checker.log', trace)
+        resource_clock = time.monotonic()
         costs = {'agent_wall_seconds': agent_seconds, 'checker_wall_seconds': checker_seconds,
-                 'total_wall_seconds': time.monotonic()-clock, 'sandbox': resources, 'rounds': rounds, 'stop_reason': stop_reason,
+                 'total_wall_seconds': resource_clock-clock,
+                 'decision_wall_seconds': decision_clock-clock,
+                 'post_decision_wall_seconds': resource_clock-decision_clock,
+                 'deadline_overrun_seconds': max(0,resource_clock-deadline),
+                 'setup_wall_seconds_before_agent': agent_clock-clock if agent_clock is not None else None,
+                 'agent_process_launched': agent_launched,
+                 'sandbox': resources, 'rounds': rounds, 'stop_reason': stop_reason,
                  'session_id': session_id,
                  'agent_max_cgroup_memory_peak_bytes': max([((r.get('sandbox') or {}).get('memory_peak_bytes') or 0) for r in rounds]+[((resources or {}).get('memory_peak_bytes') or 0)]) or None,
                  'checker_max_cgroup_memory_peak_bytes': max([((row.get('resources') or {}).get('memory_peak_bytes') or 0) for row in trace]+[v for r in rounds for v in [r.get('checker_max_cgroup_memory_peak_bytes') or 0]], default=0) or None,

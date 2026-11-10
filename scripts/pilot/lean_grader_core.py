@@ -38,7 +38,7 @@ def audit_evidence(stdout):
 def _valid_dir(path):
     path=Path(path)
     return path.is_dir() and not path.is_symlink() and not any(p.is_symlink()for p in path.rglob('*'))
-def grade_prepared(package,submission,timeout=90,trace=None):
+def grade_prepared(package,submission,timeout=90,trace=None,deadline=None):
     package=Path(package);submission=Path(submission)
     if not _valid_dir(package) or not _valid_dir(submission):return _result('infrastructure-error','input','invalid directory')
     if not (package/'Obligation.olean').is_file():return _result('infrastructure-error','input','incomplete trusted package')
@@ -52,7 +52,7 @@ def grade_prepared(package,submission,timeout=90,trace=None):
         (trusted/'Gate.lean').write_text('import Obligation\nimport Submission\ntheorem pilot_checked : Obligation.goal := Submission.solve\n')
         shutil.copyfile(AUDITOR,trusted/'TrustedLeanAudit.lean')
         def run(args,**kwargs):
-            result=run_isolated('lean',trusted,submission,args,timeout=timeout,phase='evaluation-checker' if trace is not None else 'synthetic-prototype',**kwargs)
+            result=run_isolated('lean',trusted,submission,args,timeout=timeout,deadline=deadline,phase='evaluation-checker' if trace is not None else 'synthetic-prototype',**kwargs)
             if trace is not None:trace.append({k:result.get(k) for k in ('status','exit_code','stdout','stderr','output_truncated','resources')})
             return result
         compiled=run([LEAN,'-j','1','-t','0','-R','/submission','-o','/work/Submission.olean','/submission/Submission.lean'],collect=['Submission.olean'])
