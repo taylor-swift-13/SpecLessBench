@@ -31,6 +31,36 @@ Host diagnostics, partial costs and verified backup evidence are separate from
 completed-run totals. Further distribution maintenance can interrupt unrelated
 workloads and requires authorization.
 
+At 16:29:55 UTC, `logind` reported `System is powering down`; an orderly shutdown
+of the whole Ubuntu instance stopped the study, storage guard and agent. The
+guard had not triggered, and the curator issued no shutdown, restart or stop
+command. The initiator is not independently established; WSL session/instance
+lifetime is the leading infrastructure hypothesis. The fresh off attempt's
+completed result is retained, giving 217 canonical results (135 accepted,
+68 rejected, 14 timeouts). The new on attempt `20261110T162707Z-07997fc15d4d`
+has no host grade and is separately recorded as `interrupted-needs-review`,
+not a completed model failure. Its 325 files (11,723,922 source bytes) were
+archived to D: and every file hash verified; archive SHA-256 is
+`164e794811479ac6faa68f45c6fcd6312d7c5ddcf3bb16fb758995e6f080cd22`.
+The last observed native state was three turns started, two completed, one
+client start, zero manual resumes and Goal active. The latest cumulative
+provider snapshot records 252,693 input tokens (201,856 cached), 5,294 output
+tokens (3,111 reasoning), and 257,987 total tokens; it supersedes the stale
+232,736-token live snapshot. Final usage remains incomplete. The observed
+cgroup peak was 317,825,024 bytes. Phase is `blocked-infrastructure-lifecycle`.
+At the follow-up storage checkpoint C: had 7.18 GB free and Ubuntu's VHD occupied
+683.52 GB. No new model attempt is planned while headroom remains poor. A
+foreground WSL keeper passed seven isolated mocked tests and a 132.6-second
+hidden Windows-client readiness probe: its Linux PID and boot ID persisted
+without another curator WSL command during that interval. The probe started no
+models and controlled no services; only its identified helper was ended after
+verification. This mitigates the lifetime hypothesis without establishing the
+shutdown initiator or restoring storage headroom. No subsequent model attempt
+was started. Preserve the partial without repair or resumption; any eventual
+retry requires a fresh attempt and current storage clearance. After the readiness
+check the current phase is `blocked-infrastructure-storage`; no new on session
+was started, and its completed new-revision off companion remains canonical.
+
 The frozen evaluation selection contains 69 contexts (factorial excluded), each
 on Lean and Rocq. Each theorem/platform runs once with Goal off and once with
 Goal on: **276 independent runs**. Order is deterministic: context, Lean then
