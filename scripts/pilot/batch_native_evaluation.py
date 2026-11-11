@@ -47,8 +47,8 @@ def main():
             'platforms':['lean','rocq'],'goal_modes':['off','on'],'concurrency':1,
             'time_limit_seconds':7200,'manual_resumes':False,'jobs':jobs(selection()[0])}
 
-        def save(phase):
-            state.update(phase=phase,worker_pid=os.getpid(),updated_utc=now())
+        def save(phase, *, stopped=False):
+            state.update(phase=phase,worker_pid=None if stopped else os.getpid(),updated_utc=now())
             state['counts']=dict(collections.Counter(j['status'] for j in state['jobs']))
             state['ready_runs']=sum(j['status']=='pending-package' and (PACKAGES/j['task_id']/j['platform']/'registry.json').exists() for j in state['jobs'])
             state['unprepared_runs']=state['counts'].get('pending-package',0)-state['ready_runs']
@@ -59,18 +59,18 @@ def main():
             dump(status,state)
 
         if state.get('paused'):
-            save('paused');return
+            save('paused',stopped=True);return
         interrupted=[j for j in state['jobs'] if j['status']=='running']
         if interrupted:
             for j in interrupted:j['status']='interrupted-needs-review'
-            save('blocked-interrupted');return
+            save('blocked-interrupted',stopped=True);return
         if any(j['status'] in ('infrastructure-error','interrupted-needs-review') for j in state['jobs']):
-            save('blocked-needs-review');return
+            save('blocked-needs-review',stopped=True);return
         while True:
             ready=[j for j in state['jobs'] if j['status']=='pending-package' and (PACKAGES/j['task_id']/j['platform']/'registry.json').is_file()]
             if not ready:
                 if all(j['status']!='pending-package' for j in state['jobs']):
-                    save('finished');return
+                    save('finished',stopped=True);return
                 save('waiting-for-certified-packages');time.sleep(30);continue
             job=ready[0]
 
@@ -89,26 +89,36 @@ def main():
                         state['preflight_hold']=hold
                         state['prospective_runtime']={'revision':RUNTIME_SCOPE_REVISION,
                                                       'expected_config_sha256':RUNTIME_CONFIG_SHA256}
-                        save('blocked-infrastructure-storage' if hold['kind']=='storage' else 'blocked-runtime-revision')
-                        state['worker_pid']=None;dump(status,state)
+                        save('blocked-infrastructure-storage' if hold['kind']=='storage' else 'blocked-runtime-revision',stopped=True)
                         return
                     state.pop('preflight_hold',None)
                     job['status']='running';save('running')
                     directory,report=run(job['task_id'],job['platform'],timeout=7200,
                                          goal_mode=job['goal_mode'],on_run=started)
-                job['reports'].append(str(directory/'report.json'))
-                job['status']=report['result']['status'];job.pop('current_run',None)
+                report_path=str(directory/'report.json')
+                result_status=report['result']['status']
+                completed=result_status in ('accepted','rejected','timeout')
+                job.pop('current_run',None)
+                if completed:
+                    job['reports'].append(report_path)
+                    job['status']=result_status
+                else:
+                    job.setdefault('infrastructure_reports',[]).append(report_path)
+                    job['status']='infrastructure-error'
+                    job['detail']=report['result'].get('detail',result_status)
                 with (BASE/'history.jsonl').open('a') as history:
                     history.write(json.dumps({'ended_utc':now(),'task_id':job['task_id'],
                                   'platform':job['platform'],'goal_mode':job['goal_mode'],
-                                  'result':report['result'],'report':str(directory/'report.json')})+'\n')
+                                  'result':report['result'],'report':report_path,
+                                  'included_in_completed_totals':completed})+'\n')
                     history.flush();os.fsync(history.fileno())
-                if job['status'] in ('infrastructure-error','agent-error'):
-                    job['status']='infrastructure-error';save('blocked-infrastructure');return
+                if not completed:
+                    save('blocked-infrastructure',stopped=True);return
                 save('between-runs')
             except Exception as error:
-                job['status']='infrastructure-error';job['detail']=type(error).__name__+': '+str(error)
-                save('blocked-infrastructure');return
+                if job['status'] not in ('accepted','rejected','timeout'):
+                    job['status']='infrastructure-error';job['detail']=type(error).__name__+': '+str(error)
+                save('blocked-infrastructure',stopped=True);return
 
 
 if __name__=='__main__':

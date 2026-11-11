@@ -39,6 +39,11 @@ import shlex
 import subprocess
 import uuid
 
+from native_runtime_policy import (HOST_STORAGE_FLOOR_BYTES, LEGACY_RUNTIME_SCOPE_REVISION,
+                                  RETAINED_STORAGE_CEILING_BYTES, RUNTIME_CONFIG_SHA256,
+                                  RUNTIME_SCOPE_REVISION, retained_storage_hold, runtime_config,
+                                  storage_hold)
+
 TARGET_REVISION = 'attempt-entry-deadline-v1'
 COMPLETED = frozenset(('accepted', 'rejected', 'timeout'))
 DEFAULT_BATCH = Path.home()/'.local/share/speclessbench/batches/native-luna-medium'
@@ -145,8 +150,14 @@ def review_paths(state, supplied):
     return list(dict.fromkeys(paths))
 
 
-def interrupted_evidence(job, reviews, clearances, target):
+def interrupted_evidence(job, reviews, clearances, target, *, runtime_config_sha256=None,
+                         runtime_preflight=None):
     """Bind immutable interruption evidence to separate, explicit clearance."""
+    if runtime_config_sha256 is None:
+        target_fields = {'target_budget_scope_revision': target}
+    else:
+        target_fields = {'target_runtime_scope_revision': target,
+                         'target_runtime_config_sha256': runtime_config_sha256}
     blockers = []
     retained = []
     attempts = list(dict.fromkeys(job.get('attempts', []) +
@@ -185,7 +196,7 @@ def interrupted_evidence(job, reviews, clearances, target):
                 raise ValueError('Missing unique separate storage/requeue clearance')
             approval = approvals[0]
             if (approval.get('approved_to_requeue') is not True or
-                    approval.get('target_budget_scope_revision') != target or
+                    any(approval.get(key) != value for key, value in target_fields.items()) or
                     approval.get('interruption_review') != evidence['path'] or
                     approval.get('interruption_review_sha256') != evidence['sha256'] or
                     approval.get('archive_sha256') != archive['sha256']):
@@ -194,6 +205,16 @@ def interrupted_evidence(job, reviews, clearances, target):
             observed_storage = file_evidence(storage['path'])
             if observed_storage['sha256'] != storage['sha256']:
                 raise ValueError('Storage preflight evidence hash mismatch')
+            if runtime_preflight is not None:
+                preflight = read_json(observed_storage['path'])
+                expected = {**target_fields, **runtime_preflight}
+                host_bytes = preflight.get('host_c_available_bytes')
+                retained_bytes = preflight.get('retained_directory_bytes')
+                if (any(preflight.get(key) != value for key, value in expected.items()) or
+                        preflight.get('fsync_readback_linux_and_windows') is not True or
+                        type(host_bytes) is not int or host_bytes < HOST_STORAGE_FLOOR_BYTES or
+                        type(retained_bytes) is not int or not 0 <= retained_bytes < RETAINED_STORAGE_CEILING_BYTES):
+                    raise ValueError('Storage preflight does not establish current status, runtime and write readiness')
             row['clearance'] = copy.deepcopy(approval)
             row['storage_preflight_evidence'] = observed_storage
         except (KeyError, OSError, ValueError) as error:
@@ -214,15 +235,14 @@ def recompute(state, packages):
         for platform in state.get('platforms', ('lean', 'rocq')) for mode in ('off', 'on')}
 
 
-def revision_summaries(reports):
-    revisions = sorted({report['configuration'].get('budget_scope_revision') or 'legacy-unspecified'
-                        for report in reports})
+def revision_summaries(reports, key='budget_scope_revision', default='legacy-unspecified'):
+    revisions = sorted({report['configuration'].get(key) or default for report in reports})
     return {revision: summarize([report for report in reports if
-        (report['configuration'].get('budget_scope_revision') or 'legacy-unspecified') == revision])
+        (report['configuration'].get(key) or default) == revision])
         for revision in revisions}
 
 
-def projected_state(state, selected, packages):
+def projected_state(state, selected, packages, *, runtime=False):
     revised = copy.deepcopy(state)
     for pair in selected:
         completed = revised['jobs'][pair['completed_job_index']]
@@ -232,12 +252,17 @@ def projected_state(state, selected, packages):
         companion = revised['jobs'][pair['companion_job_index']]
         companion['reports'] = []
         companion['status'] = 'pending-package'
+        if runtime:
+            for job in (completed, companion):
+                prior = job.pop('current_run', None)
+                if prior and prior not in job.setdefault('attempts', []):
+                    job['attempts'].append(prior)
     recompute(revised, packages)
     return revised
 
 
 def build_plan(state, *, status_path, status_sha256, packages=DEFAULT_PACKAGES,
-               repo=DEFAULT_REPO, clearance_path=None, supplied_reviews=()):
+               repo=DEFAULT_REPO, clearance_path=None, supplied_reviews=(), runtime=False):
     packages = Path(packages)
     rows = canonical_reports(state)
     by_job = {row['job_index']: row for row in rows}
@@ -279,27 +304,49 @@ def build_plan(state, *, status_path, status_sha256, packages=DEFAULT_PACKAGES,
             continue
         index = completed[0]
         row = by_job[index]
-        if row['report']['configuration'].get('budget_scope_revision') == TARGET_REVISION:
+        configuration = row['report']['configuration']
+        previous_budget = configuration.get('budget_scope_revision')
+        previous_runtime = configuration.get('runtime_scope_revision', LEGACY_RUNTIME_SCOPE_REVISION)
+        previous_config = configuration.get('runtime_config_sha256')
+        if runtime:
+            if (previous_runtime, previous_config) == (RUNTIME_SCOPE_REVISION, RUNTIME_CONFIG_SHA256):
+                continue
+        elif previous_budget == TARGET_REVISION:
             continue
         other = indices['on' if state['jobs'][index]['goal_mode'] == 'off' else 'off']
         companion = state['jobs'][other]
-        evidence, blockers = interrupted_evidence(companion, reviews, clearances, TARGET_REVISION)
+        if runtime:
+            evidence, blockers = interrupted_evidence(
+                companion, reviews, clearances, RUNTIME_SCOPE_REVISION,
+                runtime_config_sha256=RUNTIME_CONFIG_SHA256,
+                runtime_preflight={'status_sha256': status_sha256,
+                                   'canonical_reports_verified': len(rows)})
+            if platform not in ('lean', 'rocq') or index != indices['off']:
+                blockers.append('Runtime migration requires a completed Lean/Rocq off and its unfinished on companion')
+            if previous_budget != TARGET_REVISION or previous_runtime != LEGACY_RUNTIME_SCOPE_REVISION:
+                blockers.append('Companion report is outside the reviewed legacy-runtime transition')
+        else:
+            evidence, blockers = interrupted_evidence(companion, reviews, clearances, TARGET_REVISION)
         if companion.get('reports'):
             blockers.append('Uncompleted companion has canonical report pointers; explicit review is required')
         if indices['off'] >= indices['on']:
             blockers.append('Controller job order does not schedule fresh off before on')
-        selected.append({'task_id': task_id, 'platform': platform,
+        pair = {'task_id': task_id, 'platform': platform,
                          'completed_job_index': index, 'companion_job_index': other,
                          'completed_goal_mode': state['jobs'][index]['goal_mode'],
                          'superseded_report': {key: row[key] for key in ('path', 'sha256')},
                          'superseded_result': row['report']['result'],
-                         'previous_budget_scope_revision': row['report']['configuration'].get('budget_scope_revision'),
+                         'previous_budget_scope_revision': previous_budget,
                          'superseded_resources': row['report']['resources'],
                          'interrupted_evidence': evidence,
                          'preserved_attempt_paths': {mode: copy.deepcopy(state['jobs'][job_index].get('attempts', []))
                                                      for mode, job_index in indices.items()},
-                         'fresh_session_order': ['off', 'on'], 'apply_blockers': blockers})
-    projected = projected_state(state, selected, packages)
+                         'fresh_session_order': ['off', 'on'], 'apply_blockers': blockers}
+        if runtime:
+            pair.update(previous_runtime_scope_revision=previous_runtime,
+                        previous_runtime_config_sha256=previous_config)
+        selected.append(pair)
+    projected = projected_state(state, selected, packages, runtime=runtime)
     source_paths = [Path(repo)/'scripts/pilot'/name for name in (
         'transition_native_wall_budget.py', 'batch_native_evaluation.py', 'run_evaluation_wsl.py')]
     blockers = [message for pair in selected for message in pair['apply_blockers']]
@@ -307,7 +354,19 @@ def build_plan(state, *, status_path, status_sha256, packages=DEFAULT_PACKAGES,
         blockers.append('Study state still contains running jobs')
     if installed_revision(repo) != TARGET_REVISION:
         blockers.append('Installed runner budget revision differs from transition target')
-    return {'schema_version': 1, 'kind': 'native-wall-budget-transition-plan', 'created_utc': now(),
+    if runtime:
+        source_paths.extend(Path(repo)/'scripts/pilot'/name for name in (
+            'transition_native_runtime.py', 'native_runtime_policy.py', 'native_proof_runtime_minimal.toml'))
+        _, effective_config_sha = runtime_config()
+        preset = source_paths[-1].read_bytes().replace(b'\r\n', b'\n')
+        if digest(preset) != effective_config_sha:
+            blockers.append('Repository preset differs from the reviewed effective runtime configuration')
+        if not selected:
+            blockers.append('No incomplete legacy-runtime pair requires transition')
+        hold = storage_hold() or retained_storage_hold()
+        if hold:
+            blockers.append(hold['reason'])
+    plan = {'schema_version': 1, 'kind': 'native-wall-budget-transition-plan', 'created_utc': now(),
             'target_budget_scope_revision': TARGET_REVISION,
             'selection_rule': 'Every incomplete pair with exactly one canonical completed condition under an older budget revision, independent of its outcome',
             'status_source': {'path': str(Path(status_path)), 'sha256': status_sha256},
@@ -332,6 +391,17 @@ def build_plan(state, *, status_path, status_sha256, packages=DEFAULT_PACKAGES,
             'runtime_guards_not_checked_in_plan': ['worker/activity LOCK_NB', 'no live controller/evaluator',
                                                    'status, report, runner, review, archive and clearance hashes unchanged'],
             'state_changes_committed': False}
+    if runtime:
+        plan.update(kind='native-runtime-transition-plan',
+                    target_runtime_scope_revision=RUNTIME_SCOPE_REVISION,
+                    target_runtime_config_sha256=effective_config_sha,
+                    selection_rule='Incomplete pairs with a completed legacy-runtime off under the current deadline, independent of outcome',
+                    canonical_by_runtime_scope_revision_before=revision_summaries(
+                        [row['report'] for row in rows], 'runtime_scope_revision', LEGACY_RUNTIME_SCOPE_REVISION),
+                    canonical_by_runtime_scope_revision_after=revision_summaries(
+                        [row['report'] for row in canonical_reports(projected)],
+                        'runtime_scope_revision', LEGACY_RUNTIME_SCOPE_REVISION))
+    return plan
 
 
 def assert_quiescent(state):
@@ -374,7 +444,7 @@ def verify_plan_sources(plan):
 
 def apply_transition(*, batch, packages, repo, expected_status_sha256,
                      reviewed_plan_path, expected_plan_sha256,
-                     clearance_path=None, supplied_reviews=()):
+                     clearance_path=None, supplied_reviews=(), runtime=False):
     import fcntl
     batch = Path(batch).resolve()
     packages = Path(packages).resolve()
@@ -391,11 +461,15 @@ def apply_transition(*, batch, packages, repo, expected_status_sha256,
         if digest(reviewed_bytes) != expected_plan_sha256:
             raise ValueError('Saved reviewed plan SHA does not match')
         reviewed_plan = json.loads(reviewed_bytes)
-        if (reviewed_plan.get('kind') != 'native-wall-budget-transition-plan' or
+        expected_kind = 'native-runtime-transition-plan' if runtime else 'native-wall-budget-transition-plan'
+        if (reviewed_plan.get('kind') != expected_kind or
                 reviewed_plan.get('target_budget_scope_revision') != TARGET_REVISION or
                 reviewed_plan.get('state_changes_committed') is not False or
                 reviewed_plan.get('status_source') != {'path': str(status), 'sha256': expected_status_sha256}):
             raise ValueError('Saved reviewed plan does not bind this status and target revision')
+        if runtime and (reviewed_plan.get('target_runtime_scope_revision') != RUNTIME_SCOPE_REVISION or
+                        reviewed_plan.get('target_runtime_config_sha256') != RUNTIME_CONFIG_SHA256):
+            raise ValueError('Saved reviewed plan does not bind the target runtime and configuration')
         if reviewed_plan['apply_blockers']:
             raise ValueError('Saved reviewed plan still has apply blockers: '+'; '.join(reviewed_plan['apply_blockers']))
         verify_plan_sources(reviewed_plan)
@@ -403,16 +477,20 @@ def apply_transition(*, batch, packages, repo, expected_status_sha256,
         assert_quiescent(state)
         plan = build_plan(state, status_path=status, status_sha256=digest(original),
                           packages=packages, repo=repo, clearance_path=clearance_path,
-                          supplied_reviews=supplied_reviews)
+                          supplied_reviews=supplied_reviews, runtime=runtime)
         if plan['apply_blockers']:
             raise ValueError('Transition blocked: '+'; '.join(plan['apply_blockers']))
-        for field in ('target_budget_scope_revision', 'runner_sources', 'canonical_report_sources',
-                      'packages_root', 'repo_root', 'apply_lock_paths',
-                      'clearance_source', 'selected_pairs', 'canonical_completed_before',
-                      'canonical_completed_after', 'projected_counts', 'projected_totals'):
+        reviewed_fields = ('target_budget_scope_revision', 'runner_sources', 'canonical_report_sources',
+                           'packages_root', 'repo_root', 'apply_lock_paths',
+                           'clearance_source', 'selected_pairs', 'canonical_completed_before',
+                           'canonical_completed_after', 'projected_counts', 'projected_totals')
+        if runtime:
+            reviewed_fields += ('target_runtime_scope_revision', 'target_runtime_config_sha256',
+                                'retained_complete_pairs', 'projected_by_condition')
+        for field in reviewed_fields:
             if plan[field] != reviewed_plan[field]:
                 raise ValueError(f'Current transition differs from saved reviewed plan: {field}')
-        revised = projected_state(state, plan['selected_pairs'], packages)
+        revised = projected_state(state, plan['selected_pairs'], packages, runtime=runtime)
         revision = dt.datetime.now(dt.timezone.utc).strftime('%Y%m%dT%H%M%SZ')+'-'+uuid.uuid4().hex[:12]
         output = batch/'protocol-transitions'/revision
         staged = output.with_name('.'+revision+'.prepared')
@@ -431,16 +509,30 @@ def apply_transition(*, batch, packages, repo, expected_status_sha256,
                   'interrupted_evidence': [row for pair in plan['selected_pairs'] for row in pair['interrupted_evidence']],
                   'original_attempts_reports_and_submissions_modified': False,
                   'new_model_sessions_started': 0}
+        if runtime:
+            review.update(kind='native-runtime-transition-review',
+                          target_runtime_scope_revision=RUNTIME_SCOPE_REVISION,
+                          target_runtime_config_sha256=RUNTIME_CONFIG_SHA256,
+                          canonical_by_runtime_scope_revision_before=plan['canonical_by_runtime_scope_revision_before'],
+                          canonical_by_runtime_scope_revision_after=plan['canonical_by_runtime_scope_revision_after'])
         review_data = encode(review)
         plan_data = encode(plan)
-        revised['future_attempt_budget_scope_revision'] = TARGET_REVISION
-        revised.setdefault('protocol_budget_transitions', []).append({
+        transition_record = {
             'revision': revision, 'target_budget_scope_revision': TARGET_REVISION,
             'review': str(output/'review.json'), 'review_sha256': digest(review_data),
             'plan': str(output/'plan.json'), 'plan_sha256': digest(plan_data),
             'original_status_sha256': digest(original),
             'canonical_completed_before': plan['canonical_completed_before'],
-            'canonical_completed_after': plan['canonical_completed_after']})
+            'canonical_completed_after': plan['canonical_completed_after']}
+        if runtime:
+            transition_record.update(target_runtime_scope_revision=RUNTIME_SCOPE_REVISION,
+                                     target_runtime_config_sha256=RUNTIME_CONFIG_SHA256)
+            revised['future_attempt_runtime_scope_revision'] = RUNTIME_SCOPE_REVISION
+            revised['future_attempt_runtime_config_sha256'] = RUNTIME_CONFIG_SHA256
+            revised.setdefault('protocol_runtime_transitions', []).append(transition_record)
+        else:
+            revised['future_attempt_budget_scope_revision'] = TARGET_REVISION
+            revised.setdefault('protocol_budget_transitions', []).append(transition_record)
         revised['updated_utc'] = now()
         revised['phase'] = 'paused' if revised.get('paused') else 'between-runs'
         after = encode(revised)
@@ -454,20 +546,28 @@ def apply_transition(*, batch, packages, repo, expected_status_sha256,
             atomic_bytes(staged/name, data)
         verify_plan_sources(plan)
         assert_quiescent(state)
+        if runtime:
+            hold = storage_hold() or retained_storage_hold()
+            if hold:
+                raise ValueError('Transition blocked: '+hold['reason'])
         if status.read_bytes() != original:
             raise ValueError('Study status changed during preparation; no transition committed')
         staged.rename(output)
         atomic_bytes(status, after)
         transaction.update(phase='committed', committed_utc=now())
         atomic_bytes(output/'commit.json', encode(transaction))
-        return {'revision': revision, 'directory': str(output), 'state_changes_committed': True,
+        result = {'revision': revision, 'directory': str(output), 'state_changes_committed': True,
                 'canonical_completed_before': plan['canonical_completed_before'],
                 'canonical_completed_after': plan['canonical_completed_after'],
-                'future_attempt_budget_scope_revision': TARGET_REVISION}
+                  'future_attempt_budget_scope_revision': TARGET_REVISION}
+        if runtime:
+            result.update(future_attempt_runtime_scope_revision=RUNTIME_SCOPE_REVISION,
+                          future_attempt_runtime_config_sha256=RUNTIME_CONFIG_SHA256)
+        return result
 
 
-def main():
-    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+def main(*, runtime=False, description=__doc__):
+    parser = argparse.ArgumentParser(description=description, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('--batch', type=Path, default=DEFAULT_BATCH)
     parser.add_argument('--packages', type=Path, default=DEFAULT_PACKAGES)
     parser.add_argument('--repo', type=Path, default=DEFAULT_REPO)
@@ -484,13 +584,14 @@ def main():
         result = apply_transition(batch=args.batch, packages=args.packages, repo=args.repo,
                                   expected_status_sha256=args.expected_status_sha256,
                                   reviewed_plan_path=args.reviewed_plan, expected_plan_sha256=args.expected_plan_sha256,
-                                  clearance_path=args.clearance, supplied_reviews=args.interruption_review)
+                                  clearance_path=args.clearance, supplied_reviews=args.interruption_review,
+                                  runtime=runtime)
     else:
         status = args.batch.resolve()/'status.json'
         original = status.read_bytes()
         result = build_plan(json.loads(original), status_path=status, status_sha256=digest(original),
                             packages=args.packages, repo=args.repo, clearance_path=args.clearance,
-                            supplied_reviews=args.interruption_review)
+                            supplied_reviews=args.interruption_review, runtime=runtime)
     print(json.dumps(result, indent=2, ensure_ascii=False))
 
 

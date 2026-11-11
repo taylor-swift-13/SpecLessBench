@@ -103,6 +103,34 @@ Forty-one isolated runtime-policy, protocol and deadline tests passed, including
 controller hold scenarios; no model or real grader was run. Actual model-startup
 storage savings remain unmeasured, and no new evaluation was started.
 
+On 2026-11-11 at 13:50 UTC, after the user's confirmation, the study resumed
+with the minimal runtime. C: had about 140 GB free, Linux and Windows scratch
+writes passed fsync/readback, and both interruption archives matched their
+recorded hashes. The reviewed runtime transition `20261111T135002Z-3be8ee2319f0`
+requeued just `P-e69f7e9ea72f14cf/lean` in off/on order. It retained 108 complete
+pairs and recorded the previously completed off report and its costs as
+superseded evidence, moving the canonical count from 217 to 216. The first
+fresh off turn started with the minimal preset, GPT-6 Luna medium, and the
+existing 7200-second and 3 GiB limits. The WSL keeper and storage guard were
+active at verification. The user requested checks every two hours until
+completion. One subsequent Lean lease package passed preparation and independent
+source-binding review and awaits publication after the first pair completes.
+
+Both fresh turns subsequently ended with the provider's `401` workspace routing
+authentication error. No assistant output or proof tool execution was observed.
+The initial missing-submission reports were moved out of the canonical set after
+both attempt archives were verified file by file. The canonical count is 216 at
+this authentication hold. The runner now identifies failed native turns before
+grading, and the controller records infrastructure reports outside completed
+results and stops the queue. The two-hour monitor remains active. Requeue the
+same off/on pair after the WSL login is renewed and the provider accepts an
+authenticated request.
+
+`scripts/pilot/transition_native_runtime.py` uses the shared transition
+transaction to bind the plan to the current status, configuration hash,
+interruption evidence and storage preflight. Its apply step takes both locks,
+rechecks storage and evidence, then commits the revised queue atomically.
+
 The frozen evaluation selection contains 69 contexts (factorial excluded), each
 on Lean and Rocq. Each theorem/platform runs once with Goal off and once with
 Goal on: **276 independent runs**. Order is deterministic: context, Lean then

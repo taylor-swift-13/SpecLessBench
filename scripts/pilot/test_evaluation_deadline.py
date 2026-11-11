@@ -20,6 +20,15 @@ from prepare_evaluation import run_compiler
 from single_task_runner import tree_digest
 
 
+PROVIDER_ERROR = {'message': 'workspace routing discovery unauthorized (401)',
+                  'codexErrorInfo': 'other', 'additionalDetails': None, 'misalignment': None}
+
+
+def rpc_notification(method, **params):
+    return {'type': 'rpc.event', 'direction': 'receive',
+            'message': {'method': method, 'params': {'threadId': 'fake-session', **params}}}
+
+
 class Clock:
     def __init__(self):self.value=0.0
     def monotonic(self):return self.value
@@ -27,7 +36,10 @@ class Clock:
 
 
 class DeadlineTests(unittest.TestCase):
-    def attempt(self, *, setup=5, agent=1, compiler=1, checker=1, cleanup=0, observation_error=False, model_requested=True, child_launched=True):
+    def attempt(self, *, setup=5, agent=1, compiler=1, checker=1, cleanup=0,
+                observation_error=False, model_requested=True, child_launched=True,
+                native_events=(), final_summary=True, submission=True, goal_mode='off',
+                after_events=0):
         clock=Clock()
         with tempfile.TemporaryDirectory(prefix='deadline-test-') as temp, ExitStack() as stack:
             root=Path(temp);package=root/'packages'/'fake'/'lean';(package/'task').mkdir(parents=True)
@@ -61,18 +73,23 @@ class DeadlineTests(unittest.TestCase):
                     config=json.loads(Path(argv[-1]).read_text());observed['agent_config']=config
                     clock.advance(agent)
                     private=Path(config['report']).parent
-                    (private/'work'/'claim.json').write_text('{"claim":"equivalence"}')
-                    (private/'work'/'Submission.lean').write_text('-- retained synthetic submission\n')
+                    if submission:
+                        (private/'work'/'claim.json').write_text('{"claim":"equivalence"}')
+                        (private/'work'/'Submission.lean').write_text('-- retained synthetic submission\n')
                     Path(config['report']).write_text(json.dumps({'status':'exited','exit_code':0,'wall_seconds':agent,'child_launched':child_launched}))
                     events=[{'type':'thread.started','thread_id':'fake-session'}]
                     if model_requested:
                         events += [{'type':'rpc.event','direction':'send','message':{'method':'turn/start','params':{'threadId':'fake-session'}}},
-                                   {'type':'rpc.event','direction':'receive','message':{'method':'turn/started','params':{'threadId':'fake-session'}}}]
-                    events += [{'type':'turn.completed'},
-                            {'type':'native.run.completed','summary':{'stop_reason':'single-turn-completed'}}]
+                                   rpc_notification('turn/started', turn={'id': 'turn-1'})]
+                    events.extend(native_events)
+                    if final_summary:
+                        reason = 'goal-blocked' if goal_mode == 'on' else 'single-turn-completed'
+                        events.extend([{'type':'native.run.completed','summary':{'stop_reason':reason}},
+                                       {'type':'turn.completed'}])
                     stream=io.BytesIO(b''.join((json.dumps(event)+'\n').encode() for event in events))
                     def lines():
                         yield from stream
+                        clock.advance(after_events)
                         if observation_error:
                             self.stopped.wait(timeout=2)
                             observed['reader_finished_after_stop']=self.stopped.is_set()
@@ -88,9 +105,12 @@ class DeadlineTests(unittest.TestCase):
                 observed['checker_timeout']=kwargs['timeout'];observed['checker_deadline']=kwargs['deadline'];clock.advance(checker)
                 return {'status':'accepted','stage':'synthetic-checker'}
             grade_mock=stack.enter_context(patch.object(runner,'grade',side_effect=grade_fake))
-            directory,report=runner.run('fake','lean',timeout=10,goal_mode='off')
+            directory,report=runner.run('fake','lean',timeout=10,goal_mode=goal_mode)
+            events_path = directory/'events.jsonl'
+            events = [json.loads(line) for line in events_path.read_bytes().splitlines()] if events_path.exists() else []
             observed.update(compiler_calls=compile_mock.call_count,checker_calls=grade_mock.call_count,
                             prompt=(directory/'prompt.txt').read_bytes(),
+                            events=events,
                             proof_retained=(directory/'Submission.lean').is_file())
             return report,observed
 
@@ -128,6 +148,58 @@ class DeadlineTests(unittest.TestCase):
         self.assertEqual(report['resources']['decision_wall_seconds'],11)
         self.assertEqual(report['result']['observed_result_after_deadline']['status'],'accepted')
         self.assertTrue(seen['proof_retained'])
+
+    def test_failed_native_turn_stops_before_grading_for_both_goal_modes(self):
+        terminal = rpc_notification('error', turnId='turn-1', willRetry=False, error=PROVIDER_ERROR)
+        failure = rpc_notification('turn/completed', turn={'id': 'turn-1', 'status': 'failed',
+                                                            'error': PROVIDER_ERROR})
+        for mode, submission in (('off', False), ('on', True)):
+            with self.subTest(mode=mode):
+                report, seen = self.attempt(goal_mode=mode, submission=submission,
+                                            native_events=[terminal, failure])
+                self.assertEqual(report['result']['status'], 'infrastructure-error')
+                self.assertEqual(report['stop_reason'], 'native-turn-failed')
+                self.assertEqual(report['result']['native_turn_failure']['turn_id'], 'turn-1')
+                self.assertFalse(report['resources']['token_usage_complete'])
+                self.assertEqual(seen['compiler_calls'], 0)
+                self.assertEqual(seen['checker_calls'], 0)
+                self.assertEqual(seen['proof_retained'], submission)
+                self.assertIn(terminal, seen['events'])
+                self.assertIn(failure, seen['events'])
+
+    def test_terminal_provider_error_is_preserved_without_final_summary(self):
+        terminal = rpc_notification('error', turnId='turn-1', willRetry=False, error=PROVIDER_ERROR)
+        report, seen = self.attempt(native_events=[terminal], final_summary=False, after_events=5)
+        self.assertEqual(report['result']['status'], 'infrastructure-error')
+        self.assertEqual(report['stop_reason'], 'native-provider-error')
+        self.assertEqual(seen['checker_calls'], 0)
+
+    def test_failure_only_seen_at_deadline_keeps_timeout(self):
+        failure = rpc_notification('turn/completed', turn={'id': 'turn-1', 'status': 'failed',
+                                                            'error': PROVIDER_ERROR})
+        report, seen = self.attempt(agent=5, native_events=[failure])
+        self.assertEqual(report['result']['status'], 'timeout')
+        self.assertEqual(report['stop_reason'], 'time-budget')
+        self.assertEqual(seen['checker_calls'], 0)
+
+    def test_retries_and_unrelated_failures_do_not_replace_a_completed_outcome(self):
+        events = [rpc_notification('error', turnId='turn-1', willRetry=True, error=PROVIDER_ERROR),
+                  rpc_notification('error', turnId='foreign-turn', willRetry=False, error=PROVIDER_ERROR),
+                  rpc_notification('turn/completed', threadId='other-thread',
+                                   turn={'id': 'turn-1', 'status': 'failed'}),
+                  rpc_notification('turn/completed', turn={'id': 'turn-1', 'status': 'completed'})]
+        report, seen = self.attempt(native_events=events, submission=False)
+        self.assertEqual(report['result'], {'status': 'rejected', 'detail': 'Missing claim or proof'})
+        self.assertEqual(seen['checker_calls'], 0)
+
+    def test_successful_native_continuation_after_failed_turn_can_be_graded(self):
+        events = [rpc_notification('turn/completed', turn={'id': 'turn-1', 'status': 'failed',
+                                                           'error': PROVIDER_ERROR}),
+                  rpc_notification('turn/started', turn={'id': 'turn-2'}),
+                  rpc_notification('turn/completed', turn={'id': 'turn-2', 'status': 'completed'})]
+        report, seen = self.attempt(goal_mode='on', native_events=events)
+        self.assertEqual(report['result']['status'], 'accepted')
+        self.assertEqual(seen['checker_calls'], 1)
 
     def test_agent_using_last_second_leaves_no_checker_budget(self):
         report,seen=self.attempt(agent=5)

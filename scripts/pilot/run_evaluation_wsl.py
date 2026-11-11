@@ -47,6 +47,13 @@ def deadline_result(model_observed, observed_result=None):
     return value
 
 
+def native_failure_result(failure):
+    detail = ('Native app-server reported a failed turn' if failure['kind'] == 'native-turn-failed'
+              else 'Native app-server reported a provider error without retry')
+    return {'status': 'infrastructure-error', 'detail': detail + '. See events.jsonl.',
+            'native_turn_failure': failure}
+
+
 def dump(path, value):
     tmp = path.with_name(path.name+'.tmp')
     tmp.write_text(json.dumps(value, indent=2, ensure_ascii=False)+'\n')
@@ -209,6 +216,7 @@ enabled = false
     decision_clock = None; agent_launched = False
     agent_total = 0.0; checker_total = 0.0; stop_reason = None; native_summary = None
     native_observed = initial_observation(goal_mode)
+    native_failure_before_deadline = None
     try:
         preflight = time.monotonic()
         cfg['agent_version'] = subprocess.check_output([str(CODEX), '--version'], text=True, timeout=remaining_seconds(deadline,60)).strip()
@@ -289,12 +297,17 @@ enabled = false
             agent_launched = True
             def capture():
                 nonlocal event_count, invalid, complete, session_id, session_mismatch, native_summary
+                nonlocal native_failure_before_deadline
                 for line in proc.stdout:
+                    received = time.monotonic()
                     out.write(line); out.flush(); event_count += 1
                     stamps.write(json.dumps({'line': event_count, 'round': round_index, 'received_utc': now()})+'\n'); stamps.flush()
                     try:
                         event = json.loads(line)
                         observe(native_observed,event)
+                        # A terminal event captured only during deadline cleanup cannot change a timeout.
+                        if received < deadline:
+                            native_failure_before_deadline = native_observed.get('native_turn_failure')
                         if event.get('type') == 'thread.started':
                             observed_id = event['thread_id']
                             if session_id is not None and observed_id != session_id:
@@ -355,9 +368,11 @@ enabled = false
             if candidate.is_file() and not candidate.is_symlink() and candidate.stat().st_size <= 1024*1024:
                 shutil.copyfile(candidate, run_dir/name)
         dump(run_dir/'live.json', {'phase': 'checker', 'round': round_index, 'session_id':session_id, 'updated_utc': now(), 'agent_seconds': agent_seconds, 'events': event_count})
-        if not resources or resources.get('status') == 'limits-not-enforced':
+        if native_failure_before_deadline is not None:
+            result = native_failure_result(native_failure_before_deadline)
+        elif not resources or resources.get('status') == 'limits-not-enforced':
             raise RuntimeError('Cgroup supervision failed')
-        if resources['status'] == 'timeout':
+        elif resources['status'] == 'timeout':
             result = deadline_result(model_attempt_observed(native_observed))
         elif resources.get('status') != 'exited' or resources.get('exit_code') != 0 or not complete:
             result = {'status': 'agent-error', 'detail': 'Agent did not complete successfully'}
@@ -382,7 +397,7 @@ enabled = false
                 result = grade(platform, trusted, tree_digest(trusted), run_dir/proof_name, timeout=remaining_seconds(deadline,600), trace=trace, deadline=deadline)
             checker_seconds = time.monotonic()-check_clock
         decision_clock = time.monotonic()
-        if decision_clock >= deadline:
+        if decision_clock >= deadline and native_failure_before_deadline is None:
             result = deadline_result(model_attempt_observed(native_observed),result)
         agent_total += agent_seconds or 0
         checker_total += checker_seconds or 0
@@ -405,6 +420,8 @@ enabled = false
             stop_reason = 'time-budget'
         elif result.get('budget_exhausted'):
             stop_reason = 'setup-budget-exhausted'
+        elif result.get('native_turn_failure'):
+            stop_reason = result['native_turn_failure']['kind']
         elif native_summary is None:
             result = {'status':'infrastructure-error','detail':'Native client did not report a final lifecycle state'}
             stop_reason = 'native-client-error'
@@ -413,7 +430,11 @@ enabled = false
         agent_seconds = agent_total; checker_seconds = checker_total
     except (Exception, KeyboardInterrupt) as error:
         decision_clock = time.monotonic()
-        result = deadline_result(model_attempt_observed(native_observed)) if decision_clock >= deadline else {'status': 'infrastructure-error', 'detail': type(error).__name__+': '+str(error)}
+        if native_failure_before_deadline is not None:
+            result = native_failure_result(native_failure_before_deadline)
+            stop_reason = native_failure_before_deadline['kind']
+        else:
+            result = deadline_result(model_attempt_observed(native_observed)) if decision_clock >= deadline else {'status': 'infrastructure-error', 'detail': type(error).__name__+': '+str(error)}
         if result.get('budget_exhausted'):
             result['error'] = type(error).__name__+': '+str(error)
             stop_reason = 'time-budget' if result['model_attempt_observed'] else 'setup-budget-exhausted'

@@ -1,4 +1,4 @@
-"""Check prospective runtime holds without starting an agent or a grader."""
+"""Check native admission and failure accounting without running an agent."""
 import configparser
 import copy
 import hashlib
@@ -286,6 +286,88 @@ class NativeRuntimePolicyTests(unittest.TestCase):
         state = self.controller_hold(low_storage=False, retained_hold=hold)
         self.assertEqual(state['phase'], 'blocked-infrastructure-storage')
         self.assertEqual(state['preflight_hold']['retained_bytes'], policy.RETAINED_STORAGE_CEILING_BYTES)
+
+    @unittest.skipUnless(sys.platform.startswith('linux'), 'Native controller uses Linux flock')
+    def test_controller_preserves_infrastructure_reports_and_stops_the_queue(self):
+        import batch_native_evaluation as batch
+
+        for outcome in ('infrastructure-error', 'agent-error'):
+            with self.subTest(outcome=outcome), tempfile.TemporaryDirectory(prefix='runtime-failure-test-') as directory:
+                root = Path(directory)
+                base = root / 'batches' / 'native'
+                base.mkdir(parents=True)
+                packages = root / 'packages'
+                first = self.job(mode='off')
+                next_job = self.job(mode='on')
+                package = packages / first['task_id'] / first['platform']
+                package.mkdir(parents=True)
+                (package / 'registry.json').write_text('{}')
+
+                canonical_path = root / 'completed.json'
+                completed = self.job(task='P-0000000000000002', mode='off', reports=[str(canonical_path)])
+                completed['status'] = 'accepted'
+                completed_report = self.report(completed)
+                completed_report['resources'] = {
+                    'tokens': {'input_tokens': 10, 'cached_input_tokens': 2, 'output_tokens': 3},
+                    'token_usage_complete': True,
+                    'total_wall_seconds': 7,
+                }
+                completed_bytes = json.dumps(completed_report).encode()
+                canonical_path.write_bytes(completed_bytes)
+                (base / 'status.json').write_text(json.dumps({'jobs': [completed, first, next_job]}))
+
+                attempt = root / 'failed-attempt'
+                attempt.mkdir()
+                failure = self.report(first)
+                failure['result'] = {'status': outcome, 'detail': 'Synthetic provider HTTP 401'}
+                failure['resources'] = {
+                    'tokens': {'input_tokens': 99, 'cached_input_tokens': 88, 'output_tokens': 4},
+                    'total_wall_seconds': 31,
+                }
+                failure_path = attempt / 'report.json'
+                failure_bytes = json.dumps(failure).encode()
+
+                def fake_run(task_id, platform, *, timeout, goal_mode, on_run):
+                    self.assertEqual((task_id, platform, goal_mode), (first['task_id'], 'lean', 'off'))
+                    on_run(attempt)
+                    failure_path.write_bytes(failure_bytes)
+                    return attempt, failure
+
+                with (
+                    patch.object(batch, 'BASE', base),
+                    patch.object(batch, 'PACKAGES', packages),
+                    patch.object(batch, 'verify_freeze'),
+                    patch.object(batch, 'storage_hold', return_value=None),
+                    patch.object(batch, 'retained_storage_hold', return_value=None),
+                    patch.object(batch, 'run', side_effect=fake_run) as run,
+                ):
+                    batch.main()
+
+                run.assert_called_once()
+                state = json.loads((base / 'status.json').read_text())
+                self.assertEqual(state['phase'], 'blocked-infrastructure')
+                self.assertIsNone(state['worker_pid'])
+                self.assertEqual(state['jobs'][0], completed)
+                self.assertEqual(state['jobs'][2], next_job)
+                failed = state['jobs'][1]
+                self.assertEqual(failed['status'], 'infrastructure-error')
+                self.assertEqual(failed['reports'], [])
+                self.assertEqual(failed['infrastructure_reports'], [str(failure_path)])
+                self.assertEqual(failed['attempts'], [str(attempt)])
+                self.assertNotIn('current_run', failed)
+                self.assertEqual(state['totals']['completed'], 1)
+                self.assertEqual(state['totals']['accepted'], 1)
+                self.assertEqual(state['totals']['tokens'], completed_report['resources']['tokens'])
+                self.assertEqual(state['totals']['wall_seconds'], 7)
+                self.assertEqual(state['by_condition']['lean/off']['completed'], 1)
+                self.assertEqual(state['by_condition']['lean/on']['completed'], 0)
+                history = [json.loads(line) for line in (base / 'history.jsonl').read_text().splitlines()]
+                self.assertEqual(len(history), 1)
+                self.assertEqual(history[0]['report'], str(failure_path))
+                self.assertEqual(history[0]['result'], failure['result'])
+                self.assertFalse(history[0]['included_in_completed_totals'])
+                self.assertEqual(canonical_path.read_bytes(), completed_bytes)
+                self.assertEqual(failure_path.read_bytes(), failure_bytes)
 
 
 if __name__ == '__main__':
