@@ -126,6 +126,30 @@ results and stops the queue. The two-hour monitor remains active. Requeue the
 same off/on pair after the WSL login is renewed and the provider accepts an
 authenticated request.
 
+The WSL CLI login was restored on 2026-11-11, and the provider accepted the
+rate-limit query before the recovery transaction requeued the pair. Fresh off attempt
+`20261111T150730Z-cac94ad4a76e` was rejected when its submitted Lean proof
+failed to compile. Fresh on attempt `20261111T150851Z-8bd416096c3f` reached
+the shared deadline with four native turns started, three completed, and
+Goal last observed active. Its final usage is incomplete. Both reports are
+canonical and their checksum lists passed. The checkpoint after this pair
+contains 218 completed runs (135 accepted, 68 rejected, 15 timeouts). The
+existing controller entered its package-wait phase, with 58 runs awaiting
+the 29 remaining native packages.
+
+On 2026-11-12, all 29 packages passed review and were published in queue order
+under the activity lock. The additions comprise three previously staged Lean
+lease/SCC packages, two Lean LRU packages and 24 Lean/Rocq QCIP packages.
+For QCIP, the literal input is the image of the frozen typed encoder before
+its outer padding. Both implementations still receive the original padded
+input. The package checks bind both branch propositions to the frozen targets
+and validate both branches through the existing claim renderer. Public QCIP
+definitions were checked against the private frozen environment, with a neutral
+local binder in AVL. Rocq also passed independent `coqchk` on the public
+obligation and private binding in every QCIP package. Frozen source bytes and
+the scoring protocol remain unchanged. The existing controller picked up
+`P-07903e74308414da/lean/off` from the new packages and received model output.
+
 `scripts/pilot/transition_native_runtime.py` uses the shared transition
 transaction to bind the plan to the current status, configuration hash,
 interruption evidence and storage preflight. Its apply step takes both locks,
@@ -194,9 +218,8 @@ State and artifacts on the private WSL filesystem:
 ```
 
 The status contains separate `by_condition` counts and costs for `lean/off`,
-`lean/on`, `rocq/off`, `rocq/on`. No prior results are reused. Currently 109 of
-138 native platform packages are certified (52 Lean,57 Rocq), supporting218runs;
-29 packages/58runs await preparation. Unprepared items are pending, not failures.
+`lean/on`, `rocq/off`, `rocq/on`. No prior results are reused. The 138 certified
+native packages (69 Lean, 69 Rocq) support all 276 planned runs.
 Prepare only native packages while no evaluation or checker is running, retain
 frozen implementations/domains/observations/targets and certify source binding
 before making them eligible. Do not start CompCert or expose other tasks/labels.
