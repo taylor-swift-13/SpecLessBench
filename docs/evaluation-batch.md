@@ -1,6 +1,10 @@
 # Native Lean/Rocq Goal study
 
-The current study runs `gpt-6-luna`, medium reasoning, over Lean and Rocq only.
+The Lean and Rocq study with `gpt-6-luna` and medium reasoning completed all
+276 runs on 2026-11-13 at 17:02 UTC. The host accepted 163 runs, rejected 94,
+and recorded 19 timeouts. See the [final results](native-study-results.md) and
+[machine-readable totals](native-study-progress.json).
+
 CompCert evaluation is suspended. Its four-hour failed probe is preserved in its
 original directory and a separately verified full archive; see [the result](goal-probe.md).
 It is excluded from the native study's counts and costs.
@@ -253,4 +257,5 @@ reported as construction-only/per-family cost.
 Inspect the status and `journalctl --user -u specless-native-study`; do not launch
 another controller to inspect progress. The monitor checks live processes first,
 stays quiet on ordinary progress, and reports milestones, actionable failures or
-completion. When all276runs are terminal, summarize results/costs and stop monitoring.
+completion. The monitor ends after all 276 runs are terminal and their results
+and costs have been reported.
